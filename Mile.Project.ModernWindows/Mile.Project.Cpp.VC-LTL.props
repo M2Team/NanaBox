@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <!--
    PROJECT:   Mouri Internal Library Essentials
-   FILE:      Mile.Project.Runtime.VC-LTL.props
+   FILE:      Mile.Project.Cpp.VC-LTL.props
    PURPOSE:   Definition for Visual Studio C++ Project
 
    LICENSE:   The MIT License
