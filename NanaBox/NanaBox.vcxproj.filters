@@ -8,5 +8,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Mile.Project.Properties.h" />
+    <ClInclude Include="MsTscAx.h" />
   </ItemGroup>
 </Project>
