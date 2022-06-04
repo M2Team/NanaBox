@@ -2,12 +2,25 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="NanaBox.cpp" />
+    <ClCompile Include="RdpClient.cpp">
+      <Filter>RdpClient</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="NanaBox.manifest" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Mile.Project.Properties.h" />
-    <ClInclude Include="MsTscAx.h" />
+    <ClInclude Include="MsTscAx.h">
+      <Filter>RdpClient</Filter>
+    </ClInclude>
+    <ClInclude Include="RdpClient.h">
+      <Filter>RdpClient</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="RdpClient">
+      <UniqueIdentifier>{f8be7eb0-4f2f-46ec-bd97-4b1cf3c26ed7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

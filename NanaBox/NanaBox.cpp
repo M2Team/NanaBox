@@ -10,9 +10,7 @@
 
 #include <Windows.h>
 
-#include "MsTscAx.h"
-
-#include <winrt/Windows.Foundation.h>
+#include "RdpClient.h"
 
 #include <cwchar>
 
@@ -172,86 +170,9 @@ namespace
         }
     };
 
-    struct MsTscAxEvents : public winrt::implements<
-        MsTscAxEvents,
-        IMsTscAxEvents>
-    {
-    public:
-
-        MsTscAxEvents() = default;
-
-        HRESULT STDMETHODCALLTYPE GetTypeInfoCount(
-            _Out_ UINT* pctinfo)
-        {
-            *pctinfo = 0;
-            return S_OK;
-        }
-
-        HRESULT STDMETHODCALLTYPE GetTypeInfo(
-            _In_ UINT iTInfo,
-            _In_ LCID lcid,
-            _Out_ ITypeInfo** ppTInfo)
-        {
-            UNREFERENCED_PARAMETER(iTInfo);
-            UNREFERENCED_PARAMETER(lcid);
-            *ppTInfo = NULL;
-            return E_NOTIMPL;
-        }
-
-        HRESULT STDMETHODCALLTYPE GetIDsOfNames(
-            _In_ REFIID riid,
-            _In_ LPOLESTR* rgszNames,
-            _In_ UINT cNames,
-            _In_ LCID lcid,
-            _Out_ DISPID* rgDispId)
-        {
-            UNREFERENCED_PARAMETER(riid);
-            UNREFERENCED_PARAMETER(rgszNames);
-            UNREFERENCED_PARAMETER(cNames);
-            UNREFERENCED_PARAMETER(lcid);
-            UNREFERENCED_PARAMETER(rgDispId);
-            return E_NOTIMPL;
-        }
-
-        HRESULT STDMETHODCALLTYPE Invoke(
-            _In_ DISPID dispIdMember,
-            _In_ REFIID riid,
-            _In_ LCID lcid,
-            _In_ WORD wFlags,
-            _In_ DISPPARAMS* pDispParams,
-            _Out_opt_ VARIANT* pVarResult,
-            _Out_opt_ EXCEPINFO* pExcepInfo,
-            _Out_opt_ UINT* puArgErr)
-        {
-            UNREFERENCED_PARAMETER(dispIdMember);
-            UNREFERENCED_PARAMETER(riid);
-            UNREFERENCED_PARAMETER(lcid);
-            UNREFERENCED_PARAMETER(wFlags);
-            UNREFERENCED_PARAMETER(pDispParams);
-            UNREFERENCED_PARAMETER(pVarResult);
-            UNREFERENCED_PARAMETER(pExcepInfo);
-            UNREFERENCED_PARAMETER(puArgErr);
-            
-            HRESULT hr = E_NOTIMPL;
-
-            /*switch (dispIdMember)
-            {
-            default:
-                break;
-            }*/
-
-            return hr;
-        }
-    };
-
-    static winrt::com_ptr<IMsRdpClient8> g_RdpClient;
+    winrt::com_ptr<NanaBox::RdpClient> g_RdpClient;
 
     winrt::com_ptr<IOleClientSite> g_OleClientSite; 
-
-    winrt::com_ptr<IMsTscAxEvents> g_MsTscAxEvents =
-        winrt::make<MsTscAxEvents>();
-
-    DWORD g_Cookie = 0;
 
     static LRESULT CALLBACK NanaBoxMainWindowCallback(
         _In_ HWND   hWnd,
@@ -310,37 +231,19 @@ namespace
                 return -1;
             }*/
 
-            winrt::check_hresult(::CoCreateInstance(
-                CLSID_MsRdpClient8NotSafeForScripting,
-                nullptr,
-                CLSCTX_INPROC_SERVER,
-                IID_IMsRdpClient8,
-                g_RdpClient.put_void()));
+            g_RdpClient = winrt::make_self<NanaBox::RdpClient>();
 
             RECT ClientRect;
             winrt::check_bool(::GetClientRect(hWnd, &ClientRect));
 
-            winrt::com_ptr<IConnectionPointContainer> ConnectionPointContainer =
-                g_RdpClient.as<IConnectionPointContainer>();
-
-            winrt::com_ptr<IConnectionPoint> ConnectionPoint;
-
-            winrt::check_hresult(ConnectionPointContainer->FindConnectionPoint(
-                DIID_IMsTscAxEvents,
-                ConnectionPoint.put()));
-
-            winrt::check_hresult(ConnectionPoint->Advise(
-                g_MsTscAxEvents.get(),
-                &g_Cookie));
-
             winrt::com_ptr<IOleObject> OleObject =
-                g_RdpClient.as<IOleObject>();
+                g_RdpClient->RawClient().as<IOleObject>();
 
             winrt::com_ptr<IOleInPlaceActiveObject> OleInPlaceActiveObject =
-                g_RdpClient.as<IOleInPlaceActiveObject>();
+                g_RdpClient->RawClient().as<IOleInPlaceActiveObject>();
 
             winrt::com_ptr<IOleInPlaceObject> OleInPlaceObject =
-                g_RdpClient.as<IOleInPlaceObject>();
+                g_RdpClient->RawClient().as<IOleInPlaceObject>();
 
             g_OleClientSite =
                 winrt::make<OleClientSite>(hWnd);
@@ -356,52 +259,21 @@ namespace
                 hWnd,
                 &ClientRect));
 
-            winrt::check_hresult(g_RdpClient->put_Server(
-                ::SysAllocString(L"localhost")));
+            g_RdpClient->Server(L"localhost");
+            g_RdpClient->RDPPort(2179);
+            g_RdpClient->AuthenticationServiceClass(L"Microsoft Virtual Console Service");
+            g_RdpClient->AuthenticationLevel(0);
+            g_RdpClient->EnableCredSspSupport(true);
+            g_RdpClient->NegotiateSecurityLayer(false);
 
-            winrt::com_ptr<IMsRdpClientAdvancedSettings> RdpClientAdvancedSettings;
+            VARIANT Value;
+            Value.vt = VT_BOOL;
+            Value.boolVal = VARIANT_TRUE;
+            g_RdpClient->Property(L"DisableCredentialsDelegation", Value);
 
-            winrt::check_hresult(g_RdpClient->get_AdvancedSettings2(
-                RdpClientAdvancedSettings.put()));
+            g_RdpClient->PCB(L"48781dff-90cc-4650-89c3-fe12e6210b19");
 
-            winrt::com_ptr<IMsRdpClientAdvancedSettings7> RdpClientAdvancedSettings7 =
-                RdpClientAdvancedSettings.as<IMsRdpClientAdvancedSettings7>();
-
-            winrt::check_hresult(RdpClientAdvancedSettings7->put_RDPPort(
-                2179));
-
-            winrt::check_hresult(RdpClientAdvancedSettings7->put_AuthenticationServiceClass(
-                ::SysAllocString(L"Microsoft Virtual Console Service")));
-
-            winrt::check_hresult(RdpClientAdvancedSettings7->put_AuthenticationLevel(
-                0));
-
-            winrt::com_ptr<IMsRdpClientNonScriptable3> RdpClientNonScriptable3 =
-                g_RdpClient.as<IMsRdpClientNonScriptable3>();
-
-            winrt::check_hresult(RdpClientNonScriptable3->put_EnableCredSspSupport(
-                VARIANT_TRUE));
-
-            winrt::check_hresult(RdpClientNonScriptable3->put_NegotiateSecurityLayer(
-                VARIANT_FALSE));
-
-            {
-                winrt::com_ptr<IMsRdpExtendedSettings> RdpExtendedSettings =
-                    g_RdpClient.as<IMsRdpExtendedSettings>();
-
-                VARIANT Value;
-                Value.vt = VT_BOOL;
-                Value.boolVal = VARIANT_TRUE;
-
-                winrt::check_hresult(RdpExtendedSettings->put_Property(
-                    ::SysAllocString(L"DisableCredentialsDelegation"),
-                    &Value));
-            }
-
-            winrt::check_hresult(RdpClientAdvancedSettings7->put_PCB(
-                ::SysAllocString(L"48781dff-90cc-4650-89c3-fe12e6210b19")));
-
-            winrt::check_hresult(g_RdpClient->Connect());
+            g_RdpClient->Connect();
 
             return 0;
         }
@@ -451,20 +323,8 @@ namespace
         }
         case WM_DESTROY:
         {
-            winrt::com_ptr<IConnectionPointContainer> ConnectionPointContainer =
-                g_RdpClient.as<IConnectionPointContainer>();
-
-            winrt::com_ptr<IConnectionPoint> ConnectionPoint;
-
-            winrt::check_hresult(ConnectionPointContainer->FindConnectionPoint(
-                DIID_IMsTscAxEvents,
-                ConnectionPoint.put()));
-
-            winrt::check_hresult(ConnectionPoint->Unadvise(
-                g_Cookie));
-
             winrt::com_ptr<IOleObject> OleObject =
-                g_RdpClient.as<IOleObject>();
+                g_RdpClient->RawClient().as<IOleObject>();
 
             OleObject->Close(OLECLOSE_NOSAVE);
             OleObject->SetClientSite(nullptr);

@@ -152,47 +152,62 @@ enum SnapshotFormatType
     SnapshotFormatBmp = 2
 };
 
+const int MSTSCAXEVENTS_DISPID_CONNECTING = 0x1;
+const int MSTSCAXEVENTS_DISPID_CONNECTED = 0x2;
+const int MSTSCAXEVENTS_DISPID_LOGINCOMPLETE = 0x3;
+const int MSTSCAXEVENTS_DISPID_DISCONNECTED = 0x4;
+const int MSTSCAXEVENTS_DISPID_ENTERFULLSCREENMODE = 0x5;
+const int MSTSCAXEVENTS_DISPID_LEAVEFULLSCREENMODE = 0x6;
+const int MSTSCAXEVENTS_DISPID_CHANNELRECEIVEDDATA = 0x7;
+const int MSTSCAXEVENTS_DISPID_REQUESTGOFULLSCREEN = 0x8;
+const int MSTSCAXEVENTS_DISPID_REQUESTLEAVEFULLSCREEN = 0x9;
+const int MSTSCAXEVENTS_DISPID_FATALERROR = 0xa;
+const int MSTSCAXEVENTS_DISPID_WARNING = 0xb;
+const int MSTSCAXEVENTS_DISPID_REMOTEDESKTOPSIZECHANGE = 0xc;
+const int MSTSCAXEVENTS_DISPID_IDLETIMEOUTNOTIFICATION = 0xd;
+const int MSTSCAXEVENTS_DISPID_REQUESTCONTAINERMINIMIZE = 0xe;
+const int MSTSCAXEVENTS_DISPID_CONFIRMCLOSE = 0xf;
+const int MSTSCAXEVENTS_DISPID_RECEIVEDTSPUBLICKEY = 0x10;
+const int MSTSCAXEVENTS_DISPID_AUTORECONNECTING = 0x11;
+const int MSTSCAXEVENTS_DISPID_AUTHENTICATIONWARNINGDISPLAYED = 0x12;
+const int MSTSCAXEVENTS_DISPID_AUTHENTICATIONWARNINGDISMISSED = 0x13;
+const int MSTSCAXEVENTS_DISPID_REMOTEPROGRAMRESULT = 0x14;
+const int MSTSCAXEVENTS_DISPID_REMOTEPROGRAMDISPLAYED = 0x15;
+const int MSTSCAXEVENTS_DISPID_REMOTEWINDOWDISPLAYED = 0x1d;
+const int MSTSCAXEVENTS_DISPID_LOGONERROR = 0x16;
+const int MSTSCAXEVENTS_DISPID_FOCUSRELEASED = 0x17;
+const int MSTSCAXEVENTS_DISPID_USERNAMEACQUIRED = 0x18;
+const int MSTSCAXEVENTS_DISPID_MOUSEINPUTMODECHANGED = 0x1a;
+const int MSTSCAXEVENTS_DISPID_SERVICEMESSAGERECEIVED = 0x1c;
+const int MSTSCAXEVENTS_DISPID_CONNECTIONBARPULLDOWN = 0x1e;
+const int MSTSCAXEVENTS_DISPID_NETWORKSTATUSCHANGED = 0x20;
+const int MSTSCAXEVENTS_DISPID_DEVICESBUTTONPRESSED = 0x23;
+const int MSTSCAXEVENTS_DISPID_AUTORECONNECTED = 0x21;
+const int MSTSCAXEVENTS_DISPID_AUTORECONNECTING2 = 0x22;
+
+const int REMOTEDESKTOPCLIENTEVENTS_DISPID_CONNECTING = 0x2ee;
+const int REMOTEDESKTOPCLIENTEVENTS_DISPID_CONNECTED = 0x2ef;
+const int REMOTEDESKTOPCLIENTEVENTS_DISPID_LOGINCOMPLETED = 0x2f0;
+const int REMOTEDESKTOPCLIENTEVENTS_DISPID_DISCONNECTED = 0x2f1;
+const int REMOTEDESKTOPCLIENTEVENTS_DISPID_STATUSCHANGED = 0x2f2;
+const int REMOTEDESKTOPCLIENTEVENTS_DISPID_AUTORECONNECTING = 0x2f3;
+const int REMOTEDESKTOPCLIENTEVENTS_DISPID_AUTORECONNECTED = 0x2f4;
+const int REMOTEDESKTOPCLIENTEVENTS_DISPID_DIALOGDISPLAYING = 0x2f5;
+const int REMOTEDESKTOPCLIENTEVENTS_DISPID_DIALOGDISMISSED = 0x2f6;
+const int REMOTEDESKTOPCLIENTEVENTS_DISPID_NETWORKSTATUSCHANGED = 0x2f7;
+const int REMOTEDESKTOPCLIENTEVENTS_DISPID_ADMINMESSAGERECEIVED = 0x2f8;
+const int REMOTEDESKTOPCLIENTEVENTS_DISPID_KEYCOMBINATIONPRESSED = 0x2f9;
+const int REMOTEDESKTOPCLIENTEVENTS_DISPID_REMOTEDESKTOPSIZECHANGED = 0x2fa;
+const int REMOTEDESKTOPCLIENTEVENTS_DISPID_TOUCHPOINTERCURSORMOVED = 0x320;
+
 MIDL_INTERFACE("336d5562-efa8-482e-8cb3-c5c0fc7a7db6")
 IMsTscAxEvents : IDispatch
 {
-    const int DISPID_CONNECTING = 0x1;
-    const int DISPID_CONNECTED = 0x2;
-    const int DISPID_LOGINCOMPLETE = 0x3;
-    const int DISPID_DISCONNECTED = 0x4;
-    const int DISPID_ENTERFULLSCREENMODE = 0x5;
-    const int DISPID_LEAVEFULLSCREENMODE = 0x6;
-    const int DISPID_CHANNELRECEIVEDDATA = 0x7;
-    const int DISPID_REQUESTGOFULLSCREEN = 0x8;
-    const int DISPID_REQUESTLEAVEFULLSCREEN = 0x9;
-    const int DISPID_FATALERROR = 0xa;
-    const int DISPID_WARNING = 0xb;
-    const int DISPID_REMOTEDESKTOPSIZECHANGE = 0xc;
-    const int DISPID_IDLETIMEOUTNOTIFICATION = 0xd;
-    const int DISPID_REQUESTCONTAINERMINIMIZE = 0xe;
-    const int DISPID_CONFIRMCLOSE = 0xf;
-    const int DISPID_RECEIVEDTSPUBLICKEY = 0x10;
-    const int DISPID_AUTORECONNECTING = 0x11;
-    const int DISPID_AUTHENTICATIONWARNINGDISPLAYED = 0x12;
-    const int DISPID_AUTHENTICATIONWARNINGDISMISSED = 0x13;
-    const int DISPID_REMOTEPROGRAMRESULT = 0x14;
-    const int DISPID_REMOTEPROGRAMDISPLAYED = 0x15;
-    const int DISPID_REMOTEWINDOWDISPLAYED = 0x1d;
-    const int DISPID_LOGONERROR = 0x16;
-    const int DISPID_FOCUSRELEASED = 0x17;
-    const int DISPID_USERNAMEACQUIRED = 0x18;
-    const int DISPID_MOUSEINPUTMODECHANGED = 0x1a;
-    const int DISPID_SERVICEMESSAGERECEIVED = 0x1c;
-    const int DISPID_CONNECTIONBARPULLDOWN = 0x1e;
-    const int DISPID_NETWORKSTATUSCHANGED = 0x20;
-    const int DISPID_DEVICESBUTTONPRESSED = 0x23;
-    const int DISPID_AUTORECONNECTED = 0x21;
-    const int DISPID_AUTORECONNECTING2 = 0x22;
-
     // void OnConnecting();
     // void OnConnected();
     // void OnLoginComplete();
     // void OnDisconnected(
-    //     _In_ long discReason);
+    //     _In_ LONG discReason);
     // void OnEnterFullScreenMode();
     // void OnLeaveFullScreenMode();
     // void OnChannelReceivedData(
@@ -201,12 +216,12 @@ IMsTscAxEvents : IDispatch
     // void OnRequestGoFullScreen();
     // void OnRequestLeaveFullScreen();
     // void OnFatalError(
-    //     _In_ long errorCode);
+    //     _In_ LONG errorCode);
     // void OnWarning(
-    //     _In_ long warningCode);
+    //     _In_ LONG warningCode);
     // void OnRemoteDesktopSizeChange(
-    //     _In_ long width,
-    //     _In_ long height);
+    //     _In_ LONG width,
+    //     _In_ LONG height);
     // void OnIdleTimeoutNotification();
     // void OnRequestContainerMinimize();
     // void OnConfirmClose(
@@ -267,26 +282,26 @@ IMsTscSecuredSettings : IDispatch
     virtual HRESULT STDMETHODCALLTYPE get_WorkDir(
         _Out_ BSTR* pWorkDir) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_FullScreen(
-        _In_ long pfFullScreen) = 0;
+        _In_ LONG pfFullScreen) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_FullScreen(
-        _Out_ long* pfFullScreen) = 0;
+        _Out_ LONG* pfFullScreen) = 0;
 };
 
 MIDL_INTERFACE("809945cc-4b3b-4a92-a6b0-dbf9b5f2ef2d")
 IMsTscAdvancedSettings : IDispatch
 {
     virtual HRESULT STDMETHODCALLTYPE put_Compress(
-        _In_ long pcompress) = 0;
+        _In_ LONG pcompress) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_Compress(
-        _Out_ long* pcompress) = 0;
+        _Out_ LONG* pcompress) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_BitmapPeristence(
-        _In_ long pbitmapPeristence) = 0;
+        _In_ LONG pbitmapPeristence) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_BitmapPeristence(
-        _Out_ long* pbitmapPeristence) = 0;
+        _Out_ LONG* pbitmapPeristence) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_allowBackgroundInput(
-        _In_ long pallowBackgroundInput) = 0;
+        _In_ LONG pallowBackgroundInput) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_allowBackgroundInput(
-        _Out_ long* pallowBackgroundInput) = 0;
+        _Out_ LONG* pallowBackgroundInput) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_KeyBoardLayoutStr(
         _In_ BSTR _arg1) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_PluginDlls(
@@ -294,56 +309,56 @@ IMsTscAdvancedSettings : IDispatch
     virtual HRESULT STDMETHODCALLTYPE put_IconFile(
         _In_ BSTR _arg1) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_IconIndex(
-        _In_ long _arg1) = 0;
+        _In_ LONG _arg1) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_ContainerHandledFullScreen(
-        _In_ long pContainerHandledFullScreen) = 0;
+        _In_ LONG pContainerHandledFullScreen) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_ContainerHandledFullScreen(
-        _Out_ long* pContainerHandledFullScreen) = 0;
+        _Out_ LONG* pContainerHandledFullScreen) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_DisableRdpdr(
-        _In_ long pDisableRdpdr) = 0;
+        _In_ LONG pDisableRdpdr) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_DisableRdpdr(
-        _Out_ long* pDisableRdpdr) = 0;
+        _Out_ LONG* pDisableRdpdr) = 0;
 };
 
 MIDL_INTERFACE("209d0eb9-6254-47b1-9033-a98dae55bb27")
 IMsTscDebug : IDispatch
 {
     virtual HRESULT STDMETHODCALLTYPE put_HatchBitmapPDU(
-        _In_ long phatchBitmapPDU) = 0;
+        _In_ LONG phatchBitmapPDU) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_HatchBitmapPDU(
-        _Out_ long* phatchBitmapPDU) = 0;
+        _Out_ LONG* phatchBitmapPDU) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_HatchSSBOrder(
-        _In_ long phatchSSBOrder) = 0;
+        _In_ LONG phatchSSBOrder) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_HatchSSBOrder(
-        _Out_ long* phatchSSBOrder) = 0;
+        _Out_ LONG* phatchSSBOrder) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_HatchMembltOrder(
-        _In_ long phatchMembltOrder) = 0;
+        _In_ LONG phatchMembltOrder) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_HatchMembltOrder(
-        _Out_ long* phatchMembltOrder) = 0;
+        _Out_ LONG* phatchMembltOrder) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_HatchIndexPDU(
-        _In_ long phatchIndexPDU) = 0;
+        _In_ LONG phatchIndexPDU) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_HatchIndexPDU(
-        _Out_ long* phatchIndexPDU) = 0;
+        _Out_ LONG* phatchIndexPDU) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_LabelMemblt(
-        _In_ long plabelMemblt) = 0;
+        _In_ LONG plabelMemblt) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_LabelMemblt(
-        _Out_ long* plabelMemblt) = 0;
+        _Out_ LONG* plabelMemblt) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_BitmapCacheMonitor(
-        _In_ long pbitmapCacheMonitor) = 0;
+        _In_ LONG pbitmapCacheMonitor) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_BitmapCacheMonitor(
-        _Out_ long* pbitmapCacheMonitor) = 0;
+        _Out_ LONG* pbitmapCacheMonitor) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_MallocFailuresPercent(
-        _In_ long pmallocFailuresPercent) = 0;
+        _In_ LONG pmallocFailuresPercent) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_MallocFailuresPercent(
-        _Out_ long* pmallocFailuresPercent) = 0;
+        _Out_ LONG* pmallocFailuresPercent) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_MallocHugeFailuresPercent(
-        _In_ long pmallocHugeFailuresPercent) = 0;
+        _In_ LONG pmallocHugeFailuresPercent) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_MallocHugeFailuresPercent(
-        _Out_ long* pmallocHugeFailuresPercent) = 0;
+        _Out_ LONG* pmallocHugeFailuresPercent) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_NetThroughput(
-        _In_ long NetThroughput) = 0;
+        _In_ LONG NetThroughput) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_NetThroughput(
-        _Out_ long* NetThroughput) = 0;
+        _Out_ LONG* NetThroughput) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_CLXCmdLine(
         _In_ BSTR pCLXCmdLine) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_CLXCmdLine(
@@ -353,27 +368,27 @@ IMsTscDebug : IDispatch
     virtual HRESULT STDMETHODCALLTYPE get_CLXDll(
         _Out_ BSTR* pCLXDll) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_RemoteProgramsHatchVisibleRegion(
-        _In_ long pcbHatch) = 0;
+        _In_ LONG pcbHatch) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_RemoteProgramsHatchVisibleRegion(
-        _Out_ long* pcbHatch) = 0;
+        _Out_ LONG* pcbHatch) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_RemoteProgramsHatchVisibleNoDataRegion(
-        _In_ long pcbHatch) = 0;
+        _In_ LONG pcbHatch) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_RemoteProgramsHatchVisibleNoDataRegion(
-        _Out_ long* pcbHatch) = 0;
+        _Out_ LONG* pcbHatch) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_RemoteProgramsHatchNonVisibleRegion(
-        _In_ long pcbHatch) = 0;
+        _In_ LONG pcbHatch) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_RemoteProgramsHatchNonVisibleRegion(
-        _Out_ long* pcbHatch) = 0;
+        _Out_ LONG* pcbHatch) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_RemoteProgramsHatchWindow(
-        _In_ long pcbHatch) = 0;
+        _In_ LONG pcbHatch) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_RemoteProgramsHatchWindow(
-        _Out_ long* pcbHatch) = 0;
+        _Out_ LONG* pcbHatch) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_RemoteProgramsStayConnectOnBadCaps(
-        _In_ long pcbStayConnected) = 0;
+        _In_ LONG pcbStayConnected) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_RemoteProgramsStayConnectOnBadCaps(
-        _Out_ long* pcbStayConnected) = 0;
+        _Out_ LONG* pcbStayConnected) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_ControlType(
-        _Out_ unsigned int* pControlType) = 0;
+        _Out_ UINT* pControlType) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_DecodeGfx(
         _In_ VARIANT_BOOL _arg1) = 0;
 };
@@ -404,29 +419,29 @@ IMsTscAx : IDispatch
     virtual HRESULT STDMETHODCALLTYPE get_Connected(
         _Out_ short* pIsConnected) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_DesktopWidth(
-        _In_ long pVal) = 0;
+        _In_ LONG pVal) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_DesktopWidth(
-        _Out_ long* pVal) = 0;
+        _Out_ LONG* pVal) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_DesktopHeight(
-        _In_ long pVal) = 0;
+        _In_ LONG pVal) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_DesktopHeight(
-        _Out_ long* pVal) = 0;
+        _Out_ LONG* pVal) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_StartConnected(
-        _In_ long pfStartConnected) = 0;
+        _In_ LONG pfStartConnected) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_StartConnected(
-        _Out_ long* pfStartConnected) = 0;
+        _Out_ LONG* pfStartConnected) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_HorizontalScrollBarVisible(
-        _Out_ long* pfHScrollVisible) = 0;
+        _Out_ LONG* pfHScrollVisible) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_VerticalScrollBarVisible(
-        _Out_ long* pfVScrollVisible) = 0;
+        _Out_ LONG* pfVScrollVisible) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_FullScreenTitle(
         _In_ BSTR _arg1) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_CipherStrength(
-        _Out_ long* pCipherStrength) = 0;
+        _Out_ LONG* pCipherStrength) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_Version(
         _Out_ BSTR* pVersion) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_SecuredSettingsEnabled(
-        _Out_ long* pSecuredSettingsEnabled) = 0;
+        _Out_ LONG* pSecuredSettingsEnabled) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_SecuredSettings(
         _Out_ struct IMsTscSecuredSettings** ppSecuredSettings) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_AdvancedSettings(
@@ -446,171 +461,171 @@ MIDL_INTERFACE("3c65b4ab-12b3-465b-acd4-b8dad3bff9e2")
 IMsRdpClientAdvancedSettings : IMsTscAdvancedSettings
 {
     virtual HRESULT STDMETHODCALLTYPE put_SmoothScroll(
-        _In_ long psmoothScroll) = 0;
+        _In_ LONG psmoothScroll) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_SmoothScroll(
-        _Out_ long* psmoothScroll) = 0;
+        _Out_ LONG* psmoothScroll) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_AcceleratorPassthrough(
-        _In_ long pacceleratorPassthrough) = 0;
+        _In_ LONG pacceleratorPassthrough) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_AcceleratorPassthrough(
-        _Out_ long* pacceleratorPassthrough) = 0;
+        _Out_ LONG* pacceleratorPassthrough) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_ShadowBitmap(
-        _In_ long pshadowBitmap) = 0;
+        _In_ LONG pshadowBitmap) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_ShadowBitmap(
-        _Out_ long* pshadowBitmap) = 0;
+        _Out_ LONG* pshadowBitmap) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_TransportType(
-        _In_ long ptransportType) = 0;
+        _In_ LONG ptransportType) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_TransportType(
-        _Out_ long* ptransportType) = 0;
+        _Out_ LONG* ptransportType) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_SasSequence(
-        _In_ long psasSequence) = 0;
+        _In_ LONG psasSequence) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_SasSequence(
-        _Out_ long* psasSequence) = 0;
+        _Out_ LONG* psasSequence) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_EncryptionEnabled(
-        _In_ long pencryptionEnabled) = 0;
+        _In_ LONG pencryptionEnabled) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_EncryptionEnabled(
-        _Out_ long* pencryptionEnabled) = 0;
+        _Out_ LONG* pencryptionEnabled) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_DedicatedTerminal(
-        _In_ long pdedicatedTerminal) = 0;
+        _In_ LONG pdedicatedTerminal) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_DedicatedTerminal(
-        _Out_ long* pdedicatedTerminal) = 0;
+        _Out_ LONG* pdedicatedTerminal) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_RDPPort(
-        _In_ long prdpPort) = 0;
+        _In_ LONG prdpPort) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_RDPPort(
-        _Out_ long* prdpPort) = 0;
+        _Out_ LONG* prdpPort) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_EnableMouse(
-        _In_ long penableMouse) = 0;
+        _In_ LONG penableMouse) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_EnableMouse(
-        _Out_ long* penableMouse) = 0;
+        _Out_ LONG* penableMouse) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_DisableCtrlAltDel(
-        _In_ long pdisableCtrlAltDel) = 0;
+        _In_ LONG pdisableCtrlAltDel) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_DisableCtrlAltDel(
-        _Out_ long* pdisableCtrlAltDel) = 0;
+        _Out_ LONG* pdisableCtrlAltDel) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_EnableWindowsKey(
-        _In_ long penableWindowsKey) = 0;
+        _In_ LONG penableWindowsKey) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_EnableWindowsKey(
-        _Out_ long* penableWindowsKey) = 0;
+        _Out_ LONG* penableWindowsKey) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_DoubleClickDetect(
-        _In_ long pdoubleClickDetect) = 0;
+        _In_ LONG pdoubleClickDetect) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_DoubleClickDetect(
-        _Out_ long* pdoubleClickDetect) = 0;
+        _Out_ LONG* pdoubleClickDetect) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_MaximizeShell(
-        _In_ long pmaximizeShell) = 0;
+        _In_ LONG pmaximizeShell) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_MaximizeShell(
-        _Out_ long* pmaximizeShell) = 0;
+        _Out_ LONG* pmaximizeShell) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_HotKeyFullScreen(
-        _In_ long photKeyFullScreen) = 0;
+        _In_ LONG photKeyFullScreen) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_HotKeyFullScreen(
-        _Out_ long* photKeyFullScreen) = 0;
+        _Out_ LONG* photKeyFullScreen) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_HotKeyCtrlEsc(
-        _In_ long photKeyCtrlEsc) = 0;
+        _In_ LONG photKeyCtrlEsc) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_HotKeyCtrlEsc(
-        _Out_ long* photKeyCtrlEsc) = 0;
+        _Out_ LONG* photKeyCtrlEsc) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_HotKeyAltEsc(
-        _In_ long photKeyAltEsc) = 0;
+        _In_ LONG photKeyAltEsc) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_HotKeyAltEsc(
-        _Out_ long* photKeyAltEsc) = 0;
+        _Out_ LONG* photKeyAltEsc) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_HotKeyAltTab(
-        _In_ long photKeyAltTab) = 0;
+        _In_ LONG photKeyAltTab) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_HotKeyAltTab(
-        _Out_ long* photKeyAltTab) = 0;
+        _Out_ LONG* photKeyAltTab) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_HotKeyAltShiftTab(
-        _In_ long photKeyAltShiftTab) = 0;
+        _In_ LONG photKeyAltShiftTab) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_HotKeyAltShiftTab(
-        _Out_ long* photKeyAltShiftTab) = 0;
+        _Out_ LONG* photKeyAltShiftTab) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_HotKeyAltSpace(
-        _In_ long photKeyAltSpace) = 0;
+        _In_ LONG photKeyAltSpace) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_HotKeyAltSpace(
-        _Out_ long* photKeyAltSpace) = 0;
+        _Out_ LONG* photKeyAltSpace) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_HotKeyCtrlAltDel(
-        _In_ long photKeyCtrlAltDel) = 0;
+        _In_ LONG photKeyCtrlAltDel) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_HotKeyCtrlAltDel(
-        _Out_ long* photKeyCtrlAltDel) = 0;
+        _Out_ LONG* photKeyCtrlAltDel) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_orderDrawThreshold(
-        _In_ long porderDrawThreshold) = 0;
+        _In_ LONG porderDrawThreshold) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_orderDrawThreshold(
-        _Out_ long* porderDrawThreshold) = 0;
+        _Out_ LONG* porderDrawThreshold) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_BitmapCacheSize(
-        _In_ long pbitmapCacheSize) = 0;
+        _In_ LONG pbitmapCacheSize) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_BitmapCacheSize(
-        _Out_ long* pbitmapCacheSize) = 0;
+        _Out_ LONG* pbitmapCacheSize) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_BitmapVirtualCacheSize(
-        _In_ long pbitmapVirtualCacheSize) = 0;
+        _In_ LONG pbitmapVirtualCacheSize) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_BitmapVirtualCacheSize(
-        _Out_ long* pbitmapVirtualCacheSize) = 0;
+        _Out_ LONG* pbitmapVirtualCacheSize) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_ScaleBitmapCachesByBPP(
-        _In_ long pbScale) = 0;
+        _In_ LONG pbScale) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_ScaleBitmapCachesByBPP(
-        _Out_ long* pbScale) = 0;
+        _Out_ LONG* pbScale) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_NumBitmapCaches(
-        _In_ long pnumBitmapCaches) = 0;
+        _In_ LONG pnumBitmapCaches) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_NumBitmapCaches(
-        _Out_ long* pnumBitmapCaches) = 0;
+        _Out_ LONG* pnumBitmapCaches) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_CachePersistenceActive(
-        _In_ long pcachePersistenceActive) = 0;
+        _In_ LONG pcachePersistenceActive) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_CachePersistenceActive(
-        _Out_ long* pcachePersistenceActive) = 0;
+        _Out_ LONG* pcachePersistenceActive) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_PersistCacheDirectory(
         _In_ BSTR _arg1) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_brushSupportLevel(
-        _In_ long pbrushSupportLevel) = 0;
+        _In_ LONG pbrushSupportLevel) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_brushSupportLevel(
-        _Out_ long* pbrushSupportLevel) = 0;
+        _Out_ LONG* pbrushSupportLevel) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_minInputSendInterval(
-        _In_ long pminInputSendInterval) = 0;
+        _In_ LONG pminInputSendInterval) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_minInputSendInterval(
-        _Out_ long* pminInputSendInterval) = 0;
+        _Out_ LONG* pminInputSendInterval) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_InputEventsAtOnce(
-        _In_ long pinputEventsAtOnce) = 0;
+        _In_ LONG pinputEventsAtOnce) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_InputEventsAtOnce(
-        _Out_ long* pinputEventsAtOnce) = 0;
+        _Out_ LONG* pinputEventsAtOnce) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_maxEventCount(
-        _In_ long pmaxEventCount) = 0;
+        _In_ LONG pmaxEventCount) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_maxEventCount(
-        _Out_ long* pmaxEventCount) = 0;
+        _Out_ LONG* pmaxEventCount) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_keepAliveInterval(
-        _In_ long pkeepAliveInterval) = 0;
+        _In_ LONG pkeepAliveInterval) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_keepAliveInterval(
-        _Out_ long* pkeepAliveInterval) = 0;
+        _Out_ LONG* pkeepAliveInterval) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_shutdownTimeout(
-        _In_ long pshutdownTimeout) = 0;
+        _In_ LONG pshutdownTimeout) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_shutdownTimeout(
-        _Out_ long* pshutdownTimeout) = 0;
+        _Out_ LONG* pshutdownTimeout) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_overallConnectionTimeout(
-        _In_ long poverallConnectionTimeout) = 0;
+        _In_ LONG poverallConnectionTimeout) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_overallConnectionTimeout(
-        _Out_ long* poverallConnectionTimeout) = 0;
+        _Out_ LONG* poverallConnectionTimeout) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_singleConnectionTimeout(
-        _In_ long psingleConnectionTimeout) = 0;
+        _In_ LONG psingleConnectionTimeout) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_singleConnectionTimeout(
-        _Out_ long* psingleConnectionTimeout) = 0;
+        _Out_ LONG* psingleConnectionTimeout) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_KeyboardType(
-        _In_ long pkeyboardType) = 0;
+        _In_ LONG pkeyboardType) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_KeyboardType(
-        _Out_ long* pkeyboardType) = 0;
+        _Out_ LONG* pkeyboardType) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_KeyboardSubType(
-        _In_ long pkeyboardSubType) = 0;
+        _In_ LONG pkeyboardSubType) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_KeyboardSubType(
-        _Out_ long* pkeyboardSubType) = 0;
+        _Out_ LONG* pkeyboardSubType) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_KeyboardFunctionKey(
-        _In_ long pkeyboardFunctionKey) = 0;
+        _In_ LONG pkeyboardFunctionKey) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_KeyboardFunctionKey(
-        _Out_ long* pkeyboardFunctionKey) = 0;
+        _Out_ LONG* pkeyboardFunctionKey) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_WinceFixedPalette(
-        _In_ long pwinceFixedPalette) = 0;
+        _In_ LONG pwinceFixedPalette) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_WinceFixedPalette(
-        _Out_ long* pwinceFixedPalette) = 0;
+        _Out_ LONG* pwinceFixedPalette) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_ConnectToServerConsole(
         _In_ VARIANT_BOOL pConnectToConsole) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_ConnectToServerConsole(
         _Out_ VARIANT_BOOL* pConnectToConsole) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_BitmapPersistence(
-        _In_ long pbitmapPersistence) = 0;
+        _In_ LONG pbitmapPersistence) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_BitmapPersistence(
-        _Out_ long* pbitmapPersistence) = 0;
+        _Out_ LONG* pbitmapPersistence) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_MinutesToIdleTimeout(
-        _In_ long pminutesToIdleTimeout) = 0;
+        _In_ LONG pminutesToIdleTimeout) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_MinutesToIdleTimeout(
-        _Out_ long* pminutesToIdleTimeout) = 0;
+        _Out_ LONG* pminutesToIdleTimeout) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_SmartSizing(
         _In_ VARIANT_BOOL pfSmartSizing) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_SmartSizing(
@@ -662,17 +677,17 @@ IMsRdpClientAdvancedSettings : IMsTscAdvancedSettings
     virtual HRESULT STDMETHODCALLTYPE get_RedirectSmartCards(
         _Out_ VARIANT_BOOL* pRedirectSmartCards) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_BitmapVirtualCache16BppSize(
-        _In_ long pBitmapVirtualCache16BppSize) = 0;
+        _In_ LONG pBitmapVirtualCache16BppSize) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_BitmapVirtualCache16BppSize(
-        _Out_ long* pBitmapVirtualCache16BppSize) = 0;
+        _Out_ LONG* pBitmapVirtualCache16BppSize) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_BitmapVirtualCache24BppSize(
-        _In_ long pBitmapVirtualCache24BppSize) = 0;
+        _In_ LONG pBitmapVirtualCache24BppSize) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_BitmapVirtualCache24BppSize(
-        _Out_ long* pBitmapVirtualCache24BppSize) = 0;
+        _Out_ LONG* pBitmapVirtualCache24BppSize) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_PerformanceFlags(
-        _In_ long pDisableList) = 0;
+        _In_ LONG pDisableList) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_PerformanceFlags(
-        _Out_ long* pDisableList) = 0;
+        _Out_ LONG* pDisableList) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_ConnectWithEndpoint(
         _In_ VARIANT* _arg1) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_NotifyTSPublicKey(
@@ -685,22 +700,22 @@ MIDL_INTERFACE("605befcf-39c1-45cc-a811-068fb7be346d")
 IMsRdpClientSecuredSettings : IMsTscSecuredSettings
 {
     virtual HRESULT STDMETHODCALLTYPE put_KeyboardHookMode(
-        _In_ long pkeyboardHookMode) = 0;
+        _In_ LONG pkeyboardHookMode) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_KeyboardHookMode(
-        _Out_ long* pkeyboardHookMode) = 0;
+        _Out_ LONG* pkeyboardHookMode) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_AudioRedirectionMode(
-        _In_ long pAudioRedirectionMode) = 0;
+        _In_ LONG pAudioRedirectionMode) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_AudioRedirectionMode(
-        _Out_ long* pAudioRedirectionMode) = 0;
+        _Out_ LONG* pAudioRedirectionMode) = 0;
 };
 
 MIDL_INTERFACE("92b4a539-7115-4b7c-a5a9-e5d9efc2780a")
 IMsRdpClient : IMsTscAx
 {
     virtual HRESULT STDMETHODCALLTYPE put_ColorDepth(
-        _In_ long pcolorDepth) = 0;
+        _In_ LONG pcolorDepth) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_ColorDepth(
-        _Out_ long* pcolorDepth) = 0;
+        _Out_ LONG* pcolorDepth) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_AdvancedSettings2(
         _Out_ struct IMsRdpClientAdvancedSettings** ppAdvSettings) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_SecuredSettings2(
@@ -713,10 +728,10 @@ IMsRdpClient : IMsTscAx
         _Out_ VARIANT_BOOL* pfFullScreen) = 0;
     virtual HRESULT STDMETHODCALLTYPE SetVirtualChannelOptions(
         _In_ BSTR chanName,
-        _In_ long chanOptions) = 0;
+        _In_ LONG chanOptions) = 0;
     virtual HRESULT STDMETHODCALLTYPE GetVirtualChannelOptions(
         _In_ BSTR chanName,
-        _Out_ long* pChanOptions) = 0;
+        _Out_ LONG* pChanOptions) = 0;
     virtual HRESULT STDMETHODCALLTYPE RequestClose(
         _Out_ ControlCloseStatus* pCloseStatus) = 0;
 };
@@ -752,9 +767,9 @@ IMsRdpClientNonScriptable : IMsTscNonScriptable
         _In_ UINT_PTR wParam,
         _In_ LONG_PTR lParam) = 0;
     virtual HRESULT STDMETHODCALLTYPE SendKeys(
-        _In_ long numKeys,
+        _In_ LONG numKeys,
         _In_ VARIANT_BOOL* pbArrayKeyUp,
-        _In_ long* plKeyData) = 0;
+        _In_ LONG* plKeyData) = 0;
 };
 
 MIDL_INTERFACE("9ac42117-2b76-4320-aa44-0e616ab8437b")
@@ -767,9 +782,9 @@ IMsRdpClientAdvancedSettings2 : IMsRdpClientAdvancedSettings
     virtual HRESULT STDMETHODCALLTYPE get_EnableAutoReconnect(
         _Out_ VARIANT_BOOL* pfEnableAutoReconnect) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_MaxReconnectAttempts(
-        _In_ long pMaxReconnectAttempts) = 0;
+        _In_ LONG pMaxReconnectAttempts) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_MaxReconnectAttempts(
-        _Out_ long* pMaxReconnectAttempts) = 0;
+        _Out_ LONG* pMaxReconnectAttempts) = 0;
 };
 
 MIDL_INTERFACE("e7e17dc4-3b71-4ba7-a8e6-281ffadca28f")
@@ -807,9 +822,9 @@ MIDL_INTERFACE("fba7f64e-7345-4405-ae50-fa4a763dc0de")
 IMsRdpClientAdvancedSettings4 : IMsRdpClientAdvancedSettings3
 {
     virtual HRESULT STDMETHODCALLTYPE put_AuthenticationLevel(
-        _In_ unsigned int puiAuthLevel) = 0;
+        _In_ UINT puiAuthLevel) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_AuthenticationLevel(
-        _Out_ unsigned int* puiAuthLevel) = 0;
+        _Out_ UINT* puiAuthLevel) = 0;
 };
 
 MIDL_INTERFACE("095e0738-d97d-488b-b9f6-dd0e8d66c0de")
@@ -823,9 +838,9 @@ MIDL_INTERFACE("17a5e535-4072-4fa4-af32-c8d0d47345e9")
 IMsRdpClientNonScriptable2 : IMsRdpClientNonScriptable
 {
     virtual HRESULT STDMETHODCALLTYPE put_UIParentWindowHandle(
-        _In_ wireHWND phwndUIParentWindowHandle) = 0;
+        _In_ HWND phwndUIParentWindowHandle) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_UIParentWindowHandle(
-        _Out_ wireHWND* phwndUIParentWindowHandle) = 0;
+        _Out_ HWND* phwndUIParentWindowHandle) = 0;
 };
 
 MIDL_INTERFACE("720298c0-a099-46f5-9f82-96921bae4701")
@@ -836,25 +851,25 @@ IMsRdpClientTransportSettings : IDispatch
     virtual HRESULT STDMETHODCALLTYPE get_GatewayHostname(
         _Out_ BSTR* pProxyHostname) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_GatewayUsageMethod(
-        _In_ unsigned long pulProxyUsageMethod) = 0;
+        _In_ ULONG pulProxyUsageMethod) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_GatewayUsageMethod(
-        _Out_ unsigned long* pulProxyUsageMethod) = 0;
+        _Out_ ULONG* pulProxyUsageMethod) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_GatewayProfileUsageMethod(
-        _In_ unsigned long pulProxyProfileUsageMethod) = 0;
+        _In_ ULONG pulProxyProfileUsageMethod) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_GatewayProfileUsageMethod(
-        _Out_ unsigned long* pulProxyProfileUsageMethod) = 0;
+        _Out_ ULONG* pulProxyProfileUsageMethod) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_GatewayCredsSource(
-        _In_ unsigned long pulProxyCredsSource) = 0;
+        _In_ ULONG pulProxyCredsSource) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_GatewayCredsSource(
-        _Out_ unsigned long* pulProxyCredsSource) = 0;
+        _Out_ ULONG* pulProxyCredsSource) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_GatewayUserSelectedCredsSource(
-        _In_ unsigned long pulProxyCredsSource) = 0;
+        _In_ ULONG pulProxyCredsSource) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_GatewayUserSelectedCredsSource(
-        _Out_ unsigned long* pulProxyCredsSource) = 0;
+        _Out_ ULONG* pulProxyCredsSource) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_GatewayIsSupported(
-        _Out_ long* pfProxyIsSupported) = 0;
+        _Out_ LONG* pfProxyIsSupported) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_GatewayDefaultUsageMethod(
-        _Out_ unsigned long* pulProxyDefaultUsageMethod) = 0;
+        _Out_ ULONG* pulProxyDefaultUsageMethod) = 0;
 };
 
 MIDL_INTERFACE("fba7f64e-6783-4405-da45-fa4a763dabd0")
@@ -865,9 +880,9 @@ IMsRdpClientAdvancedSettings5 : IMsRdpClientAdvancedSettings4
     virtual HRESULT STDMETHODCALLTYPE get_RedirectClipboard(
         _Out_ VARIANT_BOOL* pfRedirectClipboard) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_AudioRedirectionMode(
-        _In_ unsigned int puiAudioRedirectionMode) = 0;
+        _In_ UINT puiAudioRedirectionMode) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_AudioRedirectionMode(
-        _Out_ unsigned int* puiAudioRedirectionMode) = 0;
+        _Out_ UINT* puiAudioRedirectionMode) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_ConnectionBarShowPinButton(
         _In_ VARIANT_BOOL pfShowPin) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_ConnectionBarShowPinButton(
@@ -885,9 +900,9 @@ IMsRdpClientAdvancedSettings5 : IMsRdpClientAdvancedSettings4
     virtual HRESULT STDMETHODCALLTYPE get_RedirectPOSDevices(
         _Out_ VARIANT_BOOL* pfRedirectPOSDevices) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_BitmapVirtualCache32BppSize(
-        _In_ long pBitmapVirtualCache32BppSize) = 0;
+        _In_ LONG pBitmapVirtualCache32BppSize) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_BitmapVirtualCache32BppSize(
-        _Out_ long* pBitmapVirtualCache32BppSize) = 0;
+        _Out_ LONG* pBitmapVirtualCache32BppSize) = 0;
 };
 
 MIDL_INTERFACE("fdd029f9-467a-4c49-8529-64b521dbd1b4")
@@ -937,8 +952,8 @@ IMsRdpClient5 : IMsRdpClient4
     virtual HRESULT STDMETHODCALLTYPE get_AdvancedSettings6(
         _Out_ struct IMsRdpClientAdvancedSettings5** ppAdvSettings) = 0;
     virtual HRESULT STDMETHODCALLTYPE GetErrorDescription(
-        _In_ unsigned int disconnectReason,
-        _In_ unsigned int ExtendedDisconnectReason,
+        _In_ UINT disconnectReason,
+        _In_ UINT ExtendedDisconnectReason,
         _Out_ BSTR* pBstrErrorMsg) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_RemoteProgram(
         _Out_ struct ITSRemoteProgram** ppRemoteProgram) = 0;
@@ -967,13 +982,13 @@ IMsRdpDeviceCollection : IUnknown
     virtual HRESULT STDMETHODCALLTYPE RescanDevices(
         _In_ VARIANT_BOOL vboolDynRedir) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_DeviceByIndex(
-        _In_ unsigned long index,
+        _In_ ULONG index,
         _Out_ struct IMsRdpDevice** ppDevice) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_DeviceById(
         _In_ BSTR devInstanceId,
         _Out_ struct IMsRdpDevice** ppDevice) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_DeviceCount(
-        _Out_ unsigned long* pDeviceCount) = 0;
+        _Out_ ULONG* pDeviceCount) = 0;
 };
 
 MIDL_INTERFACE("d28b5458-f694-47a8-8e61-40356a767e46")
@@ -993,10 +1008,10 @@ IMsRdpDriveCollection : IUnknown
     virtual HRESULT STDMETHODCALLTYPE RescanDrives(
         VARIANT_BOOL vboolDynRedir) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_DriveByIndex(
-        _In_ unsigned long index,
+        _In_ ULONG index,
         _Out_ struct IMsRdpDrive** ppDevice) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_DriveCount(
-        _Out_ unsigned long* pDriveCount) = 0;
+        _Out_ ULONG* pDriveCount) = 0;
 };
 
 MIDL_INTERFACE("b3378d90-0728-45c7-8ed7-b6159fb92219")
@@ -1060,19 +1075,19 @@ IMsRdpClientAdvancedSettings6 : IMsRdpClientAdvancedSettings5
     virtual HRESULT STDMETHODCALLTYPE put_PCB(
         _In_ BSTR bstrPCB) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_HotKeyFocusReleaseLeft(
-        _In_ long HotKeyFocusReleaseLeft) = 0;
+        _In_ LONG HotKeyFocusReleaseLeft) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_HotKeyFocusReleaseLeft(
-        _Out_ long* HotKeyFocusReleaseLeft) = 0;
+        _Out_ LONG* HotKeyFocusReleaseLeft) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_HotKeyFocusReleaseRight(
-        _In_ long HotKeyFocusReleaseRight) = 0;
+        _In_ LONG HotKeyFocusReleaseRight) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_HotKeyFocusReleaseRight(
-        _Out_ long* HotKeyFocusReleaseRight) = 0;
+        _Out_ LONG* HotKeyFocusReleaseRight) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_EnableCredSspSupport(
         _In_ VARIANT_BOOL pfEnableSupport) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_EnableCredSspSupport(
         _Out_ VARIANT_BOOL* pfEnableSupport) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_AuthenticationType(
-        _Out_ unsigned int* puiAuthType) = 0;
+        _Out_ UINT* puiAuthType) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_ConnectToAdministerServer(
         _In_ VARIANT_BOOL pConnectToAdministerServer) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_ConnectToAdministerServer(
@@ -1083,13 +1098,13 @@ MIDL_INTERFACE("67341688-d606-4c73-a5d2-2e0489009319")
 IMsRdpClientTransportSettings2 : IMsRdpClientTransportSettings
 {
     virtual HRESULT STDMETHODCALLTYPE put_GatewayCredSharing(
-        _In_ unsigned long pulProxyCredSharing) = 0;
+        _In_ ULONG pulProxyCredSharing) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_GatewayCredSharing(
-        _Out_ unsigned long* pulProxyCredSharing) = 0;
+        _Out_ ULONG* pulProxyCredSharing) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_GatewayPreAuthRequirement(
-        _In_ unsigned long pulProxyPreAuthRequirement) = 0;
+        _In_ ULONG pulProxyPreAuthRequirement) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_GatewayPreAuthRequirement(
-        _Out_ unsigned long* pulProxyPreAuthRequirement) = 0;
+        _Out_ ULONG* pulProxyPreAuthRequirement) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_GatewayPreAuthServerAddr(
         _In_ BSTR pbstrProxyPreAuthServerAddr) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_GatewayPreAuthServerAddr(
@@ -1103,9 +1118,9 @@ IMsRdpClientTransportSettings2 : IMsRdpClientTransportSettings
     virtual HRESULT STDMETHODCALLTYPE get_GatewayEncryptedOtpCookie(
         _Out_ BSTR* pbstrEncryptedOtpCookie) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_GatewayEncryptedOtpCookieSize(
-        _In_ unsigned long pulEncryptedOtpCookieSize) = 0;
+        _In_ ULONG pulEncryptedOtpCookieSize) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_GatewayEncryptedOtpCookieSize(
-        _Out_ unsigned long* pulEncryptedOtpCookieSize) = 0;
+        _Out_ ULONG* pulEncryptedOtpCookieSize) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_GatewayUsername(
         _In_ BSTR pProxyUsername) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_GatewayUsername(
@@ -1172,42 +1187,42 @@ IMsRdpClientAdvancedSettings7 : IMsRdpClientAdvancedSettings6
     virtual HRESULT STDMETHODCALLTYPE get_AudioCaptureRedirectionMode(
         _Out_ VARIANT_BOOL* pfRedir) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_VideoPlaybackMode(
-        _In_ unsigned int pVideoPlaybackMode) = 0;
+        _In_ UINT pVideoPlaybackMode) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_VideoPlaybackMode(
-        _Out_ unsigned int* pVideoPlaybackMode) = 0;
+        _Out_ UINT* pVideoPlaybackMode) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_EnableSuperPan(
         _In_ VARIANT_BOOL pfEnableSuperPan) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_EnableSuperPan(
         _Out_ VARIANT_BOOL* pfEnableSuperPan) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_SuperPanAccelerationFactor(
-        _In_ unsigned long puAccelFactor) = 0;
+        _In_ ULONG puAccelFactor) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_SuperPanAccelerationFactor(
-        _Out_ unsigned long* puAccelFactor) = 0;
+        _Out_ ULONG* puAccelFactor) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_NegotiateSecurityLayer(
         _In_ VARIANT_BOOL pfNegotiate) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_NegotiateSecurityLayer(
         _Out_ VARIANT_BOOL* pfNegotiate) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_AudioQualityMode(
-        _In_ unsigned int pAudioQualityMode) = 0;
+        _In_ UINT pAudioQualityMode) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_AudioQualityMode(
-        _Out_ unsigned int* pAudioQualityMode) = 0;
+        _Out_ UINT* pAudioQualityMode) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_RedirectDirectX(
         _In_ VARIANT_BOOL pfRedirectDirectX) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_RedirectDirectX(
         _Out_ VARIANT_BOOL* pfRedirectDirectX) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_NetworkConnectionType(
-        _In_ unsigned int pConnectionType) = 0;
+        _In_ UINT pConnectionType) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_NetworkConnectionType(
-        _Out_ unsigned int* pConnectionType) = 0;
+        _Out_ UINT* pConnectionType) = 0;
 };
 
 MIDL_INTERFACE("3d5b21ac-748d-41de-8f30-e15169586bd4")
 IMsRdpClientTransportSettings3 : IMsRdpClientTransportSettings2
 {
     virtual HRESULT STDMETHODCALLTYPE put_GatewayCredSourceCookie(
-        _In_ unsigned long pulProxyCredSourceCookie) = 0;
+        _In_ ULONG pulProxyCredSourceCookie) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_GatewayCredSourceCookie(
-        _Out_ unsigned long* pulProxyCredSourceCookie) = 0;
+        _Out_ ULONG* pulProxyCredSourceCookie) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_GatewayAuthCookieServerAddr(
         _In_ BSTR pbstrProxyAuthCookieServerAddr) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_GatewayAuthCookieServerAddr(
@@ -1217,9 +1232,9 @@ IMsRdpClientTransportSettings3 : IMsRdpClientTransportSettings2
     virtual HRESULT STDMETHODCALLTYPE get_GatewayEncryptedAuthCookie(
         _Out_ BSTR* pbstrEncryptedAuthCookie) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_GatewayEncryptedAuthCookieSize(
-        _In_ unsigned long pulEncryptedAuthCookieSize) = 0;
+        _In_ ULONG pulEncryptedAuthCookieSize) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_GatewayEncryptedAuthCookieSize(
-        _Out_ unsigned long* pulEncryptedAuthCookieSize) = 0;
+        _Out_ ULONG* pulEncryptedAuthCookieSize) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_GatewayAuthLoginPage(
         _In_ BSTR pbstrProxyAuthLoginPage) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_GatewayAuthLoginPage(
@@ -1254,7 +1269,7 @@ IMsRdpClient7 : IMsRdpClient6
     virtual HRESULT STDMETHODCALLTYPE get_TransportSettings3(
         _Out_ struct IMsRdpClientTransportSettings3** ppXportSet3) = 0;
     virtual HRESULT STDMETHODCALLTYPE GetStatusText(
-        _In_ unsigned int statusCode,
+        _In_ UINT statusCode,
         _Out_ BSTR* pBstrStatusText) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_SecuredSettings3(
         _Out_ struct IMsRdpClientSecuredSettings2** ppSecuredSettings) = 0;
@@ -1270,12 +1285,12 @@ IMsRdpClientNonScriptable5 : IMsRdpClientNonScriptable4
     virtual HRESULT STDMETHODCALLTYPE get_UseMultimon(
         _Out_ VARIANT_BOOL* pfUseMultimon) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_RemoteMonitorCount(
-        _Out_ unsigned long* pcRemoteMonitors) = 0;
+        _Out_ ULONG* pcRemoteMonitors) = 0;
     virtual HRESULT STDMETHODCALLTYPE GetRemoteMonitorsBoundingBox(
-        _Out_ long* pLeft,
-        _Out_ long* pTop,
-        _Out_ long* pRight,
-        _Out_ long* pBottom) = 0;
+        _Out_ LONG* pLeft,
+        _Out_ LONG* pTop,
+        _Out_ LONG* pRight,
+        _Out_ LONG* pBottom) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_RemoteMonitorLayoutMatchesLocal(
         _Out_ VARIANT_BOOL* pfRemoteMatchesLocal) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_DisableConnectionBar(
@@ -1335,8 +1350,8 @@ IMsRdpClient8 : IMsRdpClient7
     virtual HRESULT STDMETHODCALLTYPE get_AdvancedSettings9(
         _Out_ struct IMsRdpClientAdvancedSettings8** ppAdvSettings) = 0;
     virtual HRESULT STDMETHODCALLTYPE Reconnect(
-        _In_ unsigned long ulWidth,
-        _In_ unsigned long ulHeight,
+        _In_ ULONG ulWidth,
+        _In_ ULONG ulHeight,
         _Out_ ControlReconnectStatus* pReconnectStatus) = 0;
 };
 
@@ -1344,7 +1359,7 @@ MIDL_INTERFACE("011c3236-4d81-4515-9143-067ab630d299")
 IMsRdpClientTransportSettings4 : IMsRdpClientTransportSettings3
 {
     virtual HRESULT STDMETHODCALLTYPE put_GatewayBrokeringType(
-        _In_ unsigned long _arg1) = 0;
+        _In_ ULONG _arg1) = 0;
 };
 
 MIDL_INTERFACE("28904001-04b6-436c-a55b-0af1a0883dc9")
@@ -1354,13 +1369,13 @@ IMsRdpClient9 : IMsRdpClient8
         _Out_ struct IMsRdpClientTransportSettings4** ppXportSet4) = 0;
     virtual HRESULT STDMETHODCALLTYPE SyncSessionDisplaySettings() = 0;
     virtual HRESULT STDMETHODCALLTYPE UpdateSessionDisplaySettings(
-        _In_ unsigned long ulDesktopWidth,
-        _In_ unsigned long ulDesktopHeight,
-        _In_ unsigned long ulPhysicalWidth,
-        _In_ unsigned long ulPhysicalHeight,
-        _In_ unsigned long ulOrientation,
-        _In_ unsigned long ulDesktopScaleFactor,
-        _In_ unsigned long ulDeviceScaleFactor) = 0;
+        _In_ ULONG ulDesktopWidth,
+        _In_ ULONG ulDesktopHeight,
+        _In_ ULONG ulPhysicalWidth,
+        _In_ ULONG ulPhysicalHeight,
+        _In_ ULONG ulOrientation,
+        _In_ ULONG ulDesktopScaleFactor,
+        _In_ ULONG ulDeviceScaleFactor) = 0;
     virtual HRESULT STDMETHODCALLTYPE attachEvent(
         _In_ BSTR eventName,
         _In_ IDispatch* callback) = 0;
@@ -1390,10 +1405,10 @@ IMsRdpClientNonScriptable6 : IMsRdpClientNonScriptable5
 {
     virtual HRESULT STDMETHODCALLTYPE SendLocation2D(
         _In_ double latitude,
-        _In_ double longitude) = 0;
+        _In_ double LONGitude) = 0;
     virtual HRESULT STDMETHODCALLTYPE SendLocation3D(
         _In_ double latitude,
-        _In_ double longitude,
+        _In_ double LONGitude,
         _In_ int altitude) = 0;
 };
 
@@ -1421,9 +1436,9 @@ IMsRdpCameraRedirConfigCollection : IUnknown
 {
     virtual HRESULT STDMETHODCALLTYPE Rescan() = 0;
     virtual HRESULT STDMETHODCALLTYPE get_Count(
-        _Out_ unsigned long* pCount) = 0;
+        _Out_ ULONG* pCount) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_ByIndex(
-        _In_ unsigned long index,
+        _In_ ULONG index,
         _Out_ struct IMsRdpCameraRedirConfig** ppConfig) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_BySymbolicLink(
         _In_ BSTR SymbolicLink,
@@ -1472,55 +1487,40 @@ IMsRdpClientNonScriptable7 : IMsRdpClientNonScriptable6
 MIDL_INTERFACE("079863b7-6d47-4105-8bfe-0cdcb360e67d")
 IRemoteDesktopClientEvents : IDispatch
 {
-    const int DISPID_CONNECTING = 0x2ee;
-    const int DISPID_CONNECTED = 0x2ef;
-    const int DISPID_LOGINCOMPLETED = 0x2f0;
-    const int DISPID_DISCONNECTED = 0x2f1;
-    const int DISPID_STATUSCHANGED = 0x2f2;
-    const int DISPID_AUTORECONNECTING = 0x2f3;
-    const int DISPID_AUTORECONNECTED = 0x2f4;
-    const int DISPID_DIALOGDISPLAYING = 0x2f5;
-    const int DISPID_DIALOGDISMISSED = 0x2f6;
-    const int DISPID_NETWORKSTATUSCHANGED = 0x2f7;
-    const int DISPID_ADMINMESSAGERECEIVED = 0x2f8;
-    const int DISPID_KEYCOMBINATIONPRESSED = 0x2f9;
-    const int DISPID_REMOTEDESKTOPSIZECHANGED = 0x2fa;
-    const int DISPID_TOUCHPOINTERCURSORMOVED = 0x320;
-
     // void OnConnecting();
     // void OnConnected();
     // void OnLoginCompleted();
     // void OnDisconnected(
-    //     _In_ long disconnectReason,
-    //     _In_ long ExtendedDisconnectReason,
+    //     _In_ LONG disconnectReason,
+    //     _In_ LONG ExtendedDisconnectReason,
     //     _In_ BSTR disconnectErrorMessage);
     // void OnStatusChanged(
-    //     _In_ long statusCode,
+    //     _In_ LONG statusCode,
     //     _In_ BSTR statusMessage);
     // void OnAutoReconnecting(
-    //     _In_ long disconnectReason,
-    //     _In_ long ExtendedDisconnectReason,
+    //     _In_ LONG disconnectReason,
+    //     _In_ LONG ExtendedDisconnectReason,
     //     _In_ BSTR disconnectErrorMessage,
     //     _In_ VARIANT_BOOL networkAvailable,
-    //     _In_ long attemptCount,
-    //     _In_ long maxAttemptCount);
+    //     _In_ LONG attemptCount,
+    //     _In_ LONG maxAttemptCount);
     // void OnAutoReconnected();
     // void OnDialogDisplaying();
     // void OnDialogDismissed();
     // void OnNetworkStatusChanged(
-    //     _In_ unsigned long qualityLevel,
-    //     _In_ long bandwidth,
-    //     _In_ long rtt);
+    //     _In_ ULONG qualityLevel,
+    //     _In_ LONG bandwidth,
+    //     _In_ LONG rtt);
     // void OnAdminMessageReceived(
     //     _In_ BSTR adminMessage);
     // void OnKeyCombinationPressed(
-    //     _In_ long keyCombination);
+    //     _In_ LONG keyCombination);
     // void OnRemoteDesktopSizeChanged(
-    //     _In_ long width,
-    //     _In_ long height);
+    //     _In_ LONG width,
+    //     _In_ LONG height);
     // void OnTouchPointerCursorMoved(
-    //     _In_ long x,
-    //     _In_ long y);
+    //     _In_ LONG x,
+    //     _In_ LONG y);
 };
 
 MIDL_INTERFACE("48a0f2a7-2713-431f-bbac-6f4558e7d64d")
@@ -1548,8 +1548,8 @@ IRemoteDesktopClientActions : IDispatch
     virtual HRESULT STDMETHODCALLTYPE GetSnapshot(
         _In_ SnapshotEncodingType snapshotEncoding,
         _In_ SnapshotFormatType snapshotFormat,
-        _In_ unsigned long snapshotWidth,
-        _In_ unsigned long snapshotHeight,
+        _In_ ULONG snapshotWidth,
+        _In_ ULONG snapshotHeight,
         _Out_ BSTR* snapshotData) = 0;
 };
 
@@ -1565,9 +1565,9 @@ IRemoteDesktopClientTouchPointer : IDispatch
     virtual HRESULT STDMETHODCALLTYPE get_EventsEnabled(
         _Out_ VARIANT_BOOL* EventsEnabled) = 0;
     virtual HRESULT STDMETHODCALLTYPE put_PointerSpeed(
-        _In_ unsigned long PointerSpeed) = 0;
+        _In_ ULONG PointerSpeed) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_PointerSpeed(
-        _Out_ unsigned long* PointerSpeed) = 0;
+        _Out_ ULONG* PointerSpeed) = 0;
 };
 
 MIDL_INTERFACE("57d25668-625a-4905-be4e-304caa13f89c")
@@ -1576,8 +1576,8 @@ IRemoteDesktopClient : IDispatch
     virtual HRESULT STDMETHODCALLTYPE Connect() = 0;
     virtual HRESULT STDMETHODCALLTYPE Disconnect() = 0;
     virtual HRESULT STDMETHODCALLTYPE Reconnect(
-        _In_ unsigned long width,
-        _In_ unsigned long height) = 0;
+        _In_ ULONG width,
+        _In_ ULONG height) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_Settings(
         _Out_ struct IRemoteDesktopClientSettings** Settings) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_Actions(
@@ -1587,8 +1587,8 @@ IRemoteDesktopClient : IDispatch
     virtual HRESULT STDMETHODCALLTYPE DeleteSavedCredentials(
         _In_ BSTR serverName) = 0;
     virtual HRESULT STDMETHODCALLTYPE UpdateSessionDisplaySettings(
-        _In_ unsigned long width,
-        _In_ unsigned long height) = 0;
+        _In_ ULONG width,
+        _In_ ULONG height) = 0;
     virtual HRESULT STDMETHODCALLTYPE attachEvent(
         _In_ BSTR eventName,
         _In_ IDispatch* callback) = 0;

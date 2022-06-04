@@ -14,6 +14,7 @@
   <Import Project="..\Mile.Project.Windows\Mile.Project.Cpp.props" />
   <ItemGroup>
     <ClCompile Include="NanaBox.cpp" />
+    <ClCompile Include="RdpClient.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="NanaBox.manifest" />
@@ -21,6 +22,7 @@
   <ItemGroup>
     <ClInclude Include="Mile.Project.Properties.h" />
     <ClInclude Include="MsTscAx.h" />
+    <ClInclude Include="RdpClient.h" />
   </ItemGroup>
   <Import Project="..\Mile.Project.Windows\Mile.Project.Cpp.targets" />
 </Project>
