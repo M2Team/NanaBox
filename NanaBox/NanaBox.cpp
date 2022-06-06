@@ -237,13 +237,13 @@ namespace
             winrt::check_bool(::GetClientRect(hWnd, &ClientRect));
 
             winrt::com_ptr<IOleObject> OleObject =
-                g_RdpClient->RawClient().as<IOleObject>();
+                g_RdpClient->RawControl().as<IOleObject>();
 
             winrt::com_ptr<IOleInPlaceActiveObject> OleInPlaceActiveObject =
-                g_RdpClient->RawClient().as<IOleInPlaceActiveObject>();
+                g_RdpClient->RawControl().as<IOleInPlaceActiveObject>();
 
             winrt::com_ptr<IOleInPlaceObject> OleInPlaceObject =
-                g_RdpClient->RawClient().as<IOleInPlaceObject>();
+                g_RdpClient->RawControl().as<IOleInPlaceObject>();
 
             g_OleClientSite =
                 winrt::make<OleClientSite>(hWnd);
@@ -271,7 +271,7 @@ namespace
             Value.boolVal = VARIANT_TRUE;
             g_RdpClient->Property(L"DisableCredentialsDelegation", Value);
 
-            g_RdpClient->PCB(L"48781dff-90cc-4650-89c3-fe12e6210b19");
+            g_RdpClient->PCB(L"48781dff-90cc-4650-89c3-fe12e6210b19" L";" L"EnhancedMode=1");
 
             g_RdpClient->Connect();
 
@@ -324,10 +324,10 @@ namespace
         case WM_DESTROY:
         {
             winrt::com_ptr<IOleObject> OleObject =
-                g_RdpClient->RawClient().as<IOleObject>();
+                g_RdpClient->RawControl().as<IOleObject>();
 
-            OleObject->Close(OLECLOSE_NOSAVE);
-            OleObject->SetClientSite(nullptr);
+            winrt::check_hresult(OleObject->Close(OLECLOSE_NOSAVE));
+            winrt::check_hresult(OleObject->SetClientSite(nullptr));
 
             ::PostQuitMessage(0);
 

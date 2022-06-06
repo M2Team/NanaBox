@@ -62,6 +62,46 @@ namespace NanaBox
     using OnAutoReconnecting2Type =
         winrt::delegate<void(LONG, bool, LONG, LONG)>;
 
+    struct RdpDevice
+    {
+    public:
+
+        RdpDevice(
+            winrt::com_ptr<IMsRdpDevice> const& Instance);
+
+        winrt::hstring DeviceInstanceId();
+
+        winrt::hstring FriendlyName();
+
+        winrt::hstring DeviceDescription();
+
+        bool RedirectionState();
+        void RedirectionState(
+            bool const& Value);
+
+    private:
+
+        winrt::com_ptr<IMsRdpDevice> m_Instance;
+    };
+
+    struct RdpDrive
+    {
+    public:
+
+        RdpDrive(
+            winrt::com_ptr<IMsRdpDrive> const& Instance);
+
+        winrt::hstring Name();
+
+        bool RedirectionState();
+        void RedirectionState(
+            bool const& Value);
+
+    private:
+
+        winrt::com_ptr<IMsRdpDrive> m_Instance;
+    };
+
     struct RdpClient : public winrt::implements<
         RdpClient,
         IMsTscAxEvents>
@@ -72,7 +112,7 @@ namespace NanaBox
 
         ~RdpClient();
 
-        winrt::com_ptr<IMsRdpClient8> RawClient();
+        winrt::com_ptr<IMsRdpClient9> RawControl();
 
 #pragma region RdpClient
 
@@ -170,6 +210,25 @@ namespace NanaBox
         ControlReconnectStatus Reconnect(
             ULONG Width,
             ULONG Height);
+
+        void SyncSessionDisplaySettings();
+
+        void UpdateSessionDisplaySettings(
+            ULONG DesktopWidth,
+            ULONG DesktopHeight,
+            ULONG PhysicalWidth,
+            ULONG PhysicalHeight,
+            ULONG Orientation,
+            ULONG DesktopScaleFactor,
+            ULONG DeviceScaleFactor);
+
+        void AttachEvent(
+            winrt::hstring const& Name,
+            winrt::com_ptr<IDispatch> const& Callback);
+
+        void DetachEvent(
+            winrt::hstring const& Name,
+            winrt::com_ptr<IDispatch> const& Callback);
 
 #pragma endregion
 
@@ -562,6 +621,9 @@ namespace NanaBox
         void GatewayAuthLoginPage(
             winrt::hstring const& Value);
 
+        void GatewayBrokeringType(
+            ULONG const& Value);
+
 #pragma endregion
 
 #pragma region RemoteProgram
@@ -671,9 +733,24 @@ namespace NanaBox
         void RedirectDynamicDevices(
             bool const& Value);
 
-        winrt::com_ptr<IMsRdpDeviceCollection> DeviceCollection();
+        void RescanDevices(
+            bool const& DynRedir);
 
-        winrt::com_ptr<IMsRdpDriveCollection> DriveCollection();
+        RdpDevice DeviceByIndex(
+            ULONG Index);
+
+        RdpDevice DeviceById(
+            winrt::hstring const& DevInstanceId);
+        
+        ULONG DeviceCount();
+
+        void RescanDrives(
+            bool const& DynRedir);
+
+        RdpDrive DriveByIndex(
+            ULONG Index);
+
+        ULONG DriveCount();
 
         bool WarnAboutSendingCredentials();
         void WarnAboutSendingCredentials(
@@ -937,15 +1014,17 @@ namespace NanaBox
 
     private:
 
-        winrt::com_ptr<IMsRdpClient8> m_RdpClient;
+        winrt::com_ptr<IMsRdpClient9> m_RdpClient;
         winrt::com_ptr<IMsRdpClientSecuredSettings2> m_SecuredSettings;
         winrt::com_ptr<IMsRdpClientAdvancedSettings8> m_AdvancedSettings;
-        winrt::com_ptr<IMsRdpClientTransportSettings3> m_TransportSettings;
+        winrt::com_ptr<IMsRdpClientTransportSettings4> m_TransportSettings;
         winrt::com_ptr<ITSRemoteProgram2> m_RemoteProgram;
         winrt::com_ptr<IMsRdpClientShell> m_Shell;
         winrt::com_ptr<IMsRdpPreferredRedirectionInfo> m_RedirectionInfo;
         winrt::com_ptr<IMsRdpExtendedSettings> m_ExtendedSettings;
         winrt::com_ptr<IMsRdpClientNonScriptable5> m_NonScriptable;
+        winrt::com_ptr<IMsRdpDeviceCollection> m_DeviceCollection;
+        winrt::com_ptr<IMsRdpDriveCollection> m_DriveCollection;
         winrt::com_ptr<IConnectionPoint> m_ConnectionPoint;
         DWORD m_Cookie = 0;
         winrt::event<OnCallbackType> m_OnConnecting;

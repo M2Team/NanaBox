@@ -30,14 +30,94 @@ namespace winrt
     using bstr = handle_type<bstr_traits>;
 }
 
+NanaBox::RdpDevice::RdpDevice(
+    winrt::com_ptr<IMsRdpDevice> const& Instance)
+    : m_Instance(Instance)
+{
+
+}
+
+winrt::hstring NanaBox::RdpDevice::DeviceInstanceId()
+{
+    winrt::bstr RawValue;
+    winrt::check_hresult(
+        this->m_Instance->get_DeviceInstanceId(
+            RawValue.put()));
+    return winrt::hstring(RawValue.get());
+}
+
+winrt::hstring NanaBox::RdpDevice::FriendlyName()
+{
+    winrt::bstr RawValue;
+    winrt::check_hresult(
+        this->m_Instance->get_FriendlyName(
+            RawValue.put()));
+    return winrt::hstring(RawValue.get());
+}
+
+winrt::hstring NanaBox::RdpDevice::DeviceDescription()
+{
+    winrt::bstr RawValue;
+    winrt::check_hresult(
+        this->m_Instance->get_DeviceDescription(
+            RawValue.put()));
+    return winrt::hstring(RawValue.get());
+}
+
+bool NanaBox::RdpDevice::RedirectionState()
+{
+    VARIANT_BOOL RawValue;
+    winrt::check_hresult(
+        this->m_Instance->get_RedirectionState(
+            &RawValue));
+    return RawValue;
+}
+
+void NanaBox::RdpDevice::RedirectionState(
+    bool const& Value)
+{
+    winrt::check_hresult(
+        this->m_Instance->put_RedirectionState(
+            Value ? VARIANT_TRUE : VARIANT_FALSE));
+}
+
+NanaBox::RdpDrive::RdpDrive(
+    winrt::com_ptr<IMsRdpDrive> const& Instance)
+    : m_Instance(Instance)
+{
+
+}
+
+winrt::hstring NanaBox::RdpDrive::Name()
+{
+    winrt::bstr RawValue;
+    winrt::check_hresult(
+        this->m_Instance->get_Name(
+            RawValue.put()));
+    return winrt::hstring(RawValue.get());
+}
+
+bool NanaBox::RdpDrive::RedirectionState()
+{
+    VARIANT_BOOL RawValue;
+    winrt::check_hresult(
+        this->m_Instance->get_RedirectionState(
+            &RawValue));
+    return RawValue;
+}
+
+void NanaBox::RdpDrive::RedirectionState(
+    bool const& Value)
+{
+    winrt::check_hresult(
+        this->m_Instance->put_RedirectionState(
+            Value ? VARIANT_TRUE : VARIANT_FALSE));
+}
+
 NanaBox::RdpClient::RdpClient()
 {
-    winrt::check_hresult(::CoCreateInstance(
-        CLSID_MsRdpClient8NotSafeForScripting,
-        nullptr,
-        CLSCTX_INPROC_SERVER,
-        IID_IMsRdpClient8,
-        this->m_RdpClient.put_void()));
+    this->m_RdpClient = winrt::create_instance<IMsRdpClient9>(
+        CLSID_MsRdpClient9NotSafeForScripting);
 
     winrt::check_hresult(this->m_RdpClient->get_SecuredSettings3(
         this->m_SecuredSettings.put()));
@@ -45,7 +125,7 @@ NanaBox::RdpClient::RdpClient()
     winrt::check_hresult(this->m_RdpClient->get_AdvancedSettings9(
         this->m_AdvancedSettings.put()));
 
-    winrt::check_hresult(this->m_RdpClient->get_TransportSettings3(
+    winrt::check_hresult(this->m_RdpClient->get_TransportSettings4(
         this->m_TransportSettings.put()));
 
     winrt::check_hresult(this->m_RdpClient->get_RemoteProgram2(
@@ -62,6 +142,14 @@ NanaBox::RdpClient::RdpClient()
 
     this->m_NonScriptable =
         this->m_RdpClient.as<IMsRdpClientNonScriptable5>();
+
+    winrt::check_hresult(
+        this->m_NonScriptable->get_DeviceCollection(
+            this->m_DeviceCollection.put()));
+
+    winrt::check_hresult(
+        this->m_NonScriptable->get_DriveCollection(
+            this->m_DriveCollection.put()));
 
     winrt::com_ptr<IConnectionPointContainer> ConnectionPointContainer =
         this->m_RdpClient.as<IConnectionPointContainer>();
@@ -80,7 +168,7 @@ NanaBox::RdpClient::~RdpClient()
         this->m_Cookie));
 }
 
-winrt::com_ptr<IMsRdpClient8> NanaBox::RdpClient::RawClient()
+winrt::com_ptr<IMsRdpClient9> NanaBox::RdpClient::RawControl()
 {
     return this->m_RdpClient;
 }
@@ -472,6 +560,56 @@ ControlReconnectStatus NanaBox::RdpClient::Reconnect(
             Height,
             &RawValue));
     return RawValue;
+}
+
+void NanaBox::RdpClient::SyncSessionDisplaySettings()
+{
+    winrt::check_hresult(
+        this->m_RdpClient->SyncSessionDisplaySettings());
+}
+
+void NanaBox::RdpClient::UpdateSessionDisplaySettings(
+    ULONG DesktopWidth,
+    ULONG DesktopHeight,
+    ULONG PhysicalWidth,
+    ULONG PhysicalHeight,
+    ULONG Orientation,
+    ULONG DesktopScaleFactor,
+    ULONG DeviceScaleFactor)
+{
+    winrt::check_hresult(
+        this->m_RdpClient->UpdateSessionDisplaySettings(
+            DesktopWidth,
+            DesktopHeight,
+            PhysicalWidth,
+            PhysicalHeight,
+            Orientation,
+            DesktopScaleFactor,
+            DeviceScaleFactor));
+}
+
+void NanaBox::RdpClient::AttachEvent(
+    winrt::hstring const& Name,
+    winrt::com_ptr<IDispatch> const& Callback)
+{
+    winrt::bstr RawName;
+    RawName.attach(::SysAllocString(Name.c_str()));
+    winrt::check_hresult(
+        this->m_RdpClient->attachEvent(
+            RawName.get(),
+            Callback.get()));
+}
+
+void NanaBox::RdpClient::DetachEvent(
+    winrt::hstring const& Name,
+    winrt::com_ptr<IDispatch> const& Callback)
+{
+    winrt::bstr RawName;
+    RawName.attach(::SysAllocString(Name.c_str()));
+    winrt::check_hresult(
+        this->m_RdpClient->detachEvent(
+            RawName.get(),
+            Callback.get()));
 }
 
 #pragma endregion
@@ -2111,6 +2249,14 @@ void NanaBox::RdpClient::GatewayAuthLoginPage(
             RawValue.get()));
 }
 
+void NanaBox::RdpClient::GatewayBrokeringType(
+    ULONG const& Value)
+{
+    winrt::check_hresult(
+        this->m_TransportSettings->put_GatewayBrokeringType(
+            Value));
+}
+
 #pragma endregion
 
 #pragma region RemoteProgram
@@ -2472,22 +2618,73 @@ void NanaBox::RdpClient::RedirectDynamicDevices(
             Value ? VARIANT_TRUE : VARIANT_FALSE));
 }
 
-winrt::com_ptr<IMsRdpDeviceCollection> NanaBox::RdpClient::DeviceCollection()
+void NanaBox::RdpClient::RescanDevices(
+    bool const& DynRedir)
 {
-    winrt::com_ptr<IMsRdpDeviceCollection> Value;
     winrt::check_hresult(
-        this->m_NonScriptable->get_DeviceCollection(
-            Value.put()));
-    return Value;
+        this->m_DeviceCollection->RescanDevices(
+            DynRedir ? VARIANT_TRUE : VARIANT_FALSE));
 }
 
-winrt::com_ptr<IMsRdpDriveCollection> NanaBox::RdpClient::DriveCollection()
+NanaBox::RdpDevice NanaBox::RdpClient::DeviceByIndex(
+    ULONG Index)
 {
-    winrt::com_ptr<IMsRdpDriveCollection> Value;
+    winrt::com_ptr<IMsRdpDevice> Value;
     winrt::check_hresult(
-        this->m_NonScriptable->get_DriveCollection(
+        this->m_DeviceCollection->get_DeviceByIndex(
+            Index,
             Value.put()));
-    return Value;
+    return NanaBox::RdpDevice(Value);
+}
+
+NanaBox::RdpDevice NanaBox::RdpClient::DeviceById(
+    winrt::hstring const& DevInstanceId)
+{
+    winrt::bstr RawDevInstanceId;
+    RawDevInstanceId.attach(::SysAllocString(DevInstanceId.c_str()));
+    winrt::com_ptr<IMsRdpDevice> Value;
+    winrt::check_hresult(
+        this->m_DeviceCollection->get_DeviceById(
+            RawDevInstanceId.get(),
+            Value.put()));
+    return NanaBox::RdpDevice(Value);
+}
+
+ULONG NanaBox::RdpClient::DeviceCount()
+{
+    ULONG RawValue;
+    winrt::check_hresult(
+        this->m_DeviceCollection->get_DeviceCount(
+            &RawValue));
+    return RawValue;
+}
+
+void NanaBox::RdpClient::RescanDrives(
+    bool const& DynRedir)
+{
+    winrt::check_hresult(
+        this->m_DriveCollection->RescanDrives(
+            DynRedir ? VARIANT_TRUE : VARIANT_FALSE));
+}
+
+NanaBox::RdpDrive NanaBox::RdpClient::DriveByIndex(
+    ULONG Index)
+{
+    winrt::com_ptr<IMsRdpDrive> Value;
+    winrt::check_hresult(
+        this->m_DriveCollection->get_DriveByIndex(
+            Index,
+            Value.put()));
+    return NanaBox::RdpDrive(Value);
+}
+
+ULONG NanaBox::RdpClient::DriveCount()
+{
+    ULONG RawValue;
+    winrt::check_hresult(
+        this->m_DriveCollection->get_DriveCount(
+            &RawValue));
+    return RawValue;
 }
 
 bool NanaBox::RdpClient::WarnAboutSendingCredentials()
