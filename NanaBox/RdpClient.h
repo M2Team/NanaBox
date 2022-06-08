@@ -79,9 +79,17 @@ namespace NanaBox
         void RedirectionState(
             bool const& Value);
 
+        winrt::hstring DeviceText();
+
+        bool IsUSBDevice();
+
+        bool IsCompositeDevice();
+
+        ULONG DriveLetterBitmap();
+
     private:
 
-        winrt::com_ptr<IMsRdpDevice> m_Instance;
+        winrt::com_ptr<IMsRdpDeviceV2> m_Instance;
     };
 
     struct RdpDrive
@@ -97,9 +105,11 @@ namespace NanaBox
         void RedirectionState(
             bool const& Value);
 
+        ULONG DriveLetterIndex();
+
     private:
 
-        winrt::com_ptr<IMsRdpDrive> m_Instance;
+        winrt::com_ptr<IMsRdpDriveV2> m_Instance;
     };
 
     struct RdpClient : public winrt::implements<

@@ -976,6 +976,19 @@ IMsRdpDevice : IUnknown
         _Out_ VARIANT_BOOL* pvboolRedirState) = 0;
 };
 
+MIDL_INTERFACE("5fb94466-7661-42a8-98b7-01904c11668f")
+IMsRdpDeviceV2 : IMsRdpDevice
+{
+    virtual HRESULT STDMETHODCALLTYPE get_DeviceText(
+        _Out_ BSTR* pDeviceText) = 0;
+    virtual HRESULT STDMETHODCALLTYPE get_IsUSBDevice(
+        _Out_ VARIANT_BOOL* pvboolUSBDevice) = 0;
+    virtual HRESULT STDMETHODCALLTYPE get_IsCompositeDevice(
+        _Out_ VARIANT_BOOL* pvboolCompositeDevice) = 0;
+    virtual HRESULT STDMETHODCALLTYPE get_DriveLetterBitmap(
+        _Out_ ULONG* pDriveLetterBitmap) = 0;
+};
+
 MIDL_INTERFACE("56540617-d281-488c-8738-6a8fdf64a118")
 IMsRdpDeviceCollection : IUnknown
 {
@@ -1000,6 +1013,13 @@ IMsRdpDrive : IUnknown
         _In_ VARIANT_BOOL pvboolRedirState) = 0;
     virtual HRESULT STDMETHODCALLTYPE get_RedirectionState(
         _Out_ VARIANT_BOOL* pvboolRedirState) = 0;
+};
+
+MIDL_INTERFACE("3e05417c-2721-4008-9d80-4edf1539c817")
+IMsRdpDriveV2 : IMsRdpDrive
+{
+    virtual HRESULT STDMETHODCALLTYPE get_DriveLetterIndex(
+        _Out_ ULONG* pDriveLetterIndex) = 0;
 };
 
 MIDL_INTERFACE("7ff17599-da2c-4677-ad35-f60c04fe1585")

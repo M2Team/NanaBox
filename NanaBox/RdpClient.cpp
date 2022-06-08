@@ -32,7 +32,7 @@ namespace winrt
 
 NanaBox::RdpDevice::RdpDevice(
     winrt::com_ptr<IMsRdpDevice> const& Instance)
-    : m_Instance(Instance)
+    : m_Instance(Instance.as<IMsRdpDeviceV2>())
 {
 
 }
@@ -81,9 +81,45 @@ void NanaBox::RdpDevice::RedirectionState(
             Value ? VARIANT_TRUE : VARIANT_FALSE));
 }
 
+winrt::hstring NanaBox::RdpDevice::DeviceText()
+{
+    winrt::bstr RawValue;
+    winrt::check_hresult(
+        this->m_Instance->get_DeviceText(
+            RawValue.put()));
+    return winrt::hstring(RawValue.get());
+}
+
+bool NanaBox::RdpDevice::IsUSBDevice()
+{
+    VARIANT_BOOL RawValue;
+    winrt::check_hresult(
+        this->m_Instance->get_IsUSBDevice(
+            &RawValue));
+    return RawValue;
+}
+
+bool NanaBox::RdpDevice::IsCompositeDevice()
+{
+    VARIANT_BOOL RawValue;
+    winrt::check_hresult(
+        this->m_Instance->get_IsCompositeDevice(
+            &RawValue));
+    return RawValue;
+}
+
+ULONG NanaBox::RdpDevice::DriveLetterBitmap()
+{
+    ULONG RawValue;
+    winrt::check_hresult(
+        this->m_Instance->get_DriveLetterBitmap(
+            &RawValue));
+    return RawValue;
+}
+
 NanaBox::RdpDrive::RdpDrive(
     winrt::com_ptr<IMsRdpDrive> const& Instance)
-    : m_Instance(Instance)
+    : m_Instance(Instance.as<IMsRdpDriveV2>())
 {
 
 }
@@ -112,6 +148,15 @@ void NanaBox::RdpDrive::RedirectionState(
     winrt::check_hresult(
         this->m_Instance->put_RedirectionState(
             Value ? VARIANT_TRUE : VARIANT_FALSE));
+}
+
+ULONG NanaBox::RdpDrive::DriveLetterIndex()
+{
+    ULONG RawValue;
+    winrt::check_hresult(
+        this->m_Instance->get_DriveLetterIndex(
+            &RawValue));
+    return RawValue;
 }
 
 NanaBox::RdpClient::RdpClient()
