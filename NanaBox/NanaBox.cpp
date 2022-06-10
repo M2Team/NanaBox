@@ -17,6 +17,228 @@
 //#include <atlbase.h>
 //#include <atlhost.h>
 
+#include <computecore.h>
+#include <computenetwork.h>
+
+#pragma comment(lib, "computecore.lib")
+#pragma comment(lib, "computenetwork.lib")
+
+namespace winrt
+{
+    using Windows::Foundation::IAsyncAction;
+    using Windows::Foundation::IAsyncOperation;
+}
+
+namespace NanaBox
+{
+    struct HcsOperationTraits
+    {
+        using type = HCS_OPERATION;
+
+        static void close(type value) noexcept
+        {
+            ::HcsCloseOperation(value);
+        }
+
+        static constexpr type invalid() noexcept
+        {
+            return nullptr;
+        }
+    };
+
+    using HcsOperation = winrt::handle_type<HcsOperationTraits>;
+
+    struct HcsSystemTraits
+    {
+        using type = HCS_SYSTEM;
+
+        static void close(type value) noexcept
+        {
+            ::HcsCloseComputeSystem(value);
+        }
+
+        static constexpr type invalid() noexcept
+        {
+            return nullptr;
+        }
+    };
+
+    using HcsSystem = winrt::handle_type<HcsSystemTraits>;
+
+    winrt::IAsyncOperation<winrt::hstring> WaitForOperationResult(
+        HcsOperation const& Operation)
+    {
+        co_await winrt::resume_background();
+
+        winrt::hstring Result;
+
+        PWSTR RawResult = nullptr;
+        HRESULT hr = ::HcsWaitForOperationResult(
+            Operation.get(),
+            INFINITE,
+            &RawResult);
+        if (RawResult)
+        {
+            Result = winrt::hstring(RawResult);
+            ::LocalFree(RawResult);
+        }
+        if (FAILED(hr))
+        {
+            throw winrt::hresult_error(hr, Result);
+        }
+
+        co_return Result;
+    }
+
+    struct ComputeSystem
+    {
+    public:
+
+        ComputeSystem(
+            winrt::hstring const& Id,
+            winrt::hstring const& Configuration)
+        {
+            this->m_Operation.attach(::HcsCreateOperation(
+                nullptr,
+                nullptr));
+            winrt::check_pointer(
+                this->m_Operation.get());
+
+            winrt::check_hresult(::HcsCreateComputeSystem(
+                Id.c_str(),
+                Configuration.c_str(),
+                this->m_Operation.get(),
+                nullptr,
+                this->m_ComputeSystem.put()));
+        }
+
+        ComputeSystem(
+            winrt::hstring const& Id)
+        {
+            this->m_Operation.attach(::HcsCreateOperation(
+                nullptr,
+                nullptr));
+            winrt::check_pointer(
+                this->m_Operation.get());
+
+            winrt::check_hresult(::HcsOpenComputeSystem(
+                Id.c_str(),
+                GENERIC_ALL,
+                this->m_ComputeSystem.put()));
+        }
+
+        winrt::IAsyncAction Start()
+        {
+            winrt::check_hresult(::HcsStartComputeSystem(
+                this->m_ComputeSystem.get(),
+                this->m_Operation.get(),
+                nullptr));
+
+            co_await NanaBox::WaitForOperationResult(
+                this->m_Operation);
+        }
+
+        winrt::IAsyncAction Shutdown()
+        {
+            winrt::check_hresult(::HcsShutDownComputeSystem(
+                this->m_ComputeSystem.get(),
+                this->m_Operation.get(),
+                nullptr));
+
+            co_await NanaBox::WaitForOperationResult(
+                this->m_Operation);
+        }
+
+        winrt::IAsyncAction Terminate()
+        {
+            winrt::check_hresult(::HcsTerminateComputeSystem(
+                this->m_ComputeSystem.get(),
+                this->m_Operation.get(),
+                nullptr));
+
+            co_await NanaBox::WaitForOperationResult(
+                this->m_Operation);
+        }
+
+        winrt::IAsyncAction Crash(
+            winrt::hstring const& Options)
+        {
+            winrt::check_hresult(::HcsCrashComputeSystem(
+                this->m_ComputeSystem.get(),
+                this->m_Operation.get(),
+                Options.empty() ? nullptr : Options.c_str()));
+
+            co_await NanaBox::WaitForOperationResult(
+                this->m_Operation);
+        }
+
+        winrt::IAsyncAction Pause(
+            winrt::hstring const& Options)
+        {
+            winrt::check_hresult(::HcsPauseComputeSystem(
+                this->m_ComputeSystem.get(),
+                this->m_Operation.get(),
+                Options.empty() ? nullptr : Options.c_str()));
+
+            co_await NanaBox::WaitForOperationResult(
+                this->m_Operation);
+        }
+
+        winrt::IAsyncAction Resume()
+        {
+            winrt::check_hresult(::HcsResumeComputeSystem(
+                this->m_ComputeSystem.get(),
+                this->m_Operation.get(),
+                nullptr));
+
+            co_await NanaBox::WaitForOperationResult(
+                this->m_Operation);
+        }
+
+        winrt::IAsyncAction Save(
+            winrt::hstring const& Options)
+        {
+            winrt::check_hresult(::HcsSaveComputeSystem(
+                this->m_ComputeSystem.get(),
+                this->m_Operation.get(),
+                Options.empty() ? nullptr : Options.c_str()));
+
+            co_await NanaBox::WaitForOperationResult(
+                this->m_Operation);
+        }
+
+        winrt::IAsyncOperation<winrt::hstring> GetProperties(
+            winrt::hstring const& PropertyQuery)
+        {
+            winrt::check_hresult(::HcsSaveComputeSystem(
+                this->m_ComputeSystem.get(),
+                this->m_Operation.get(),
+                PropertyQuery.empty() ? nullptr : PropertyQuery.c_str()));
+
+            co_return co_await NanaBox::WaitForOperationResult(
+                this->m_Operation);
+        }
+
+        winrt::IAsyncAction Modify(
+            winrt::hstring const& Configuration)
+        {
+            winrt::check_hresult(::HcsModifyComputeSystem(
+                this->m_ComputeSystem.get(),
+                this->m_Operation.get(),
+                Configuration.c_str(),
+                nullptr));
+
+            co_await NanaBox::WaitForOperationResult(
+                this->m_Operation);
+        }
+
+    private:
+
+        HcsOperation m_Operation;
+        HcsSystem m_ComputeSystem;
+    };
+}
+
 namespace
 {
     struct OleClientSite : public winrt::implements<
