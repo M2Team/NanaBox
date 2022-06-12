@@ -11,232 +11,18 @@
 #include <Windows.h>
 
 #include "RdpClient.h"
+#include "HostCompute.h"
 
 #include <cwchar>
 
 //#include <atlbase.h>
 //#include <atlhost.h>
 
-#include <computecore.h>
-#include <computenetwork.h>
-
-#pragma comment(lib, "computecore.lib")
-#pragma comment(lib, "computenetwork.lib")
+#include <winrt/Windows.Data.Json.h>
 
 namespace winrt
 {
-    using Windows::Foundation::IAsyncAction;
-    using Windows::Foundation::IAsyncOperation;
-}
-
-namespace NanaBox
-{
-    struct HcsOperationTraits
-    {
-        using type = HCS_OPERATION;
-
-        static void close(type value) noexcept
-        {
-            ::HcsCloseOperation(value);
-        }
-
-        static constexpr type invalid() noexcept
-        {
-            return nullptr;
-        }
-    };
-
-    using HcsOperation = winrt::handle_type<HcsOperationTraits>;
-
-    struct HcsSystemTraits
-    {
-        using type = HCS_SYSTEM;
-
-        static void close(type value) noexcept
-        {
-            ::HcsCloseComputeSystem(value);
-        }
-
-        static constexpr type invalid() noexcept
-        {
-            return nullptr;
-        }
-    };
-
-    using HcsSystem = winrt::handle_type<HcsSystemTraits>;
-
-    winrt::IAsyncOperation<winrt::hstring> WaitForOperationResult(
-        HcsOperation const& Operation)
-    {
-        co_await winrt::resume_background();
-
-        winrt::hstring Result;
-
-        PWSTR RawResult = nullptr;
-        HRESULT hr = ::HcsWaitForOperationResult(
-            Operation.get(),
-            INFINITE,
-            &RawResult);
-        if (RawResult)
-        {
-            Result = winrt::hstring(RawResult);
-            ::LocalFree(RawResult);
-        }
-        if (FAILED(hr))
-        {
-            throw winrt::hresult_error(hr, Result);
-        }
-
-        co_return Result;
-    }
-
-    struct ComputeSystem
-    {
-    public:
-
-        ComputeSystem(
-            winrt::hstring const& Id,
-            winrt::hstring const& Configuration)
-        {
-            this->m_Operation.attach(::HcsCreateOperation(
-                nullptr,
-                nullptr));
-            winrt::check_pointer(
-                this->m_Operation.get());
-
-            winrt::check_hresult(::HcsCreateComputeSystem(
-                Id.c_str(),
-                Configuration.c_str(),
-                this->m_Operation.get(),
-                nullptr,
-                this->m_ComputeSystem.put()));
-        }
-
-        ComputeSystem(
-            winrt::hstring const& Id)
-        {
-            this->m_Operation.attach(::HcsCreateOperation(
-                nullptr,
-                nullptr));
-            winrt::check_pointer(
-                this->m_Operation.get());
-
-            winrt::check_hresult(::HcsOpenComputeSystem(
-                Id.c_str(),
-                GENERIC_ALL,
-                this->m_ComputeSystem.put()));
-        }
-
-        winrt::IAsyncAction Start()
-        {
-            winrt::check_hresult(::HcsStartComputeSystem(
-                this->m_ComputeSystem.get(),
-                this->m_Operation.get(),
-                nullptr));
-
-            co_await NanaBox::WaitForOperationResult(
-                this->m_Operation);
-        }
-
-        winrt::IAsyncAction Shutdown()
-        {
-            winrt::check_hresult(::HcsShutDownComputeSystem(
-                this->m_ComputeSystem.get(),
-                this->m_Operation.get(),
-                nullptr));
-
-            co_await NanaBox::WaitForOperationResult(
-                this->m_Operation);
-        }
-
-        winrt::IAsyncAction Terminate()
-        {
-            winrt::check_hresult(::HcsTerminateComputeSystem(
-                this->m_ComputeSystem.get(),
-                this->m_Operation.get(),
-                nullptr));
-
-            co_await NanaBox::WaitForOperationResult(
-                this->m_Operation);
-        }
-
-        winrt::IAsyncAction Crash(
-            winrt::hstring const& Options)
-        {
-            winrt::check_hresult(::HcsCrashComputeSystem(
-                this->m_ComputeSystem.get(),
-                this->m_Operation.get(),
-                Options.empty() ? nullptr : Options.c_str()));
-
-            co_await NanaBox::WaitForOperationResult(
-                this->m_Operation);
-        }
-
-        winrt::IAsyncAction Pause(
-            winrt::hstring const& Options)
-        {
-            winrt::check_hresult(::HcsPauseComputeSystem(
-                this->m_ComputeSystem.get(),
-                this->m_Operation.get(),
-                Options.empty() ? nullptr : Options.c_str()));
-
-            co_await NanaBox::WaitForOperationResult(
-                this->m_Operation);
-        }
-
-        winrt::IAsyncAction Resume()
-        {
-            winrt::check_hresult(::HcsResumeComputeSystem(
-                this->m_ComputeSystem.get(),
-                this->m_Operation.get(),
-                nullptr));
-
-            co_await NanaBox::WaitForOperationResult(
-                this->m_Operation);
-        }
-
-        winrt::IAsyncAction Save(
-            winrt::hstring const& Options)
-        {
-            winrt::check_hresult(::HcsSaveComputeSystem(
-                this->m_ComputeSystem.get(),
-                this->m_Operation.get(),
-                Options.empty() ? nullptr : Options.c_str()));
-
-            co_await NanaBox::WaitForOperationResult(
-                this->m_Operation);
-        }
-
-        winrt::IAsyncOperation<winrt::hstring> GetProperties(
-            winrt::hstring const& PropertyQuery)
-        {
-            winrt::check_hresult(::HcsSaveComputeSystem(
-                this->m_ComputeSystem.get(),
-                this->m_Operation.get(),
-                PropertyQuery.empty() ? nullptr : PropertyQuery.c_str()));
-
-            co_return co_await NanaBox::WaitForOperationResult(
-                this->m_Operation);
-        }
-
-        winrt::IAsyncAction Modify(
-            winrt::hstring const& Configuration)
-        {
-            winrt::check_hresult(::HcsModifyComputeSystem(
-                this->m_ComputeSystem.get(),
-                this->m_Operation.get(),
-                Configuration.c_str(),
-                nullptr));
-
-            co_await NanaBox::WaitForOperationResult(
-                this->m_Operation);
-        }
-
-    private:
-
-        HcsOperation m_Operation;
-        HcsSystem m_ComputeSystem;
-    };
+    using Windows::Data::Json::JsonObject;
 }
 
 namespace
@@ -394,7 +180,9 @@ namespace
 
     winrt::com_ptr<NanaBox::RdpClient> g_RdpClient;
 
-    winrt::com_ptr<IOleClientSite> g_OleClientSite; 
+    winrt::com_ptr<IOleClientSite> g_OleClientSite;
+
+    winrt::hstring g_VMID = L"48781dff-90cc-4650-89c3-fe12e6210b19";
 
     static LRESULT CALLBACK NanaBoxMainWindowCallback(
         _In_ HWND   hWnd,
@@ -493,9 +281,14 @@ namespace
             Value.boolVal = VARIANT_TRUE;
             g_RdpClient->Property(L"DisableCredentialsDelegation", Value);
 
-            g_RdpClient->PCB(L"48781dff-90cc-4650-89c3-fe12e6210b19" L";" L"EnhancedMode=1");
+            g_RdpClient->PCB(g_VMID.c_str() + winrt::hstring(L";" L"EnhancedMode=1"));
 
             g_RdpClient->Connect();
+
+            g_RdpClient->OnDisconnected([](LONG)
+            {
+                g_RdpClient->Connect();
+            });
 
             return 0;
         }
@@ -573,6 +366,75 @@ int WINAPI wWinMain(
     UNREFERENCED_PARAMETER(lpCmdLine);
 
     winrt::init_apartment(winrt::apartment_type::single_threaded);
+
+    static constexpr wchar_t c_VmConfiguration[] = LR"(
+    {
+        "SchemaVersion": {
+            "Major": 2,
+            "Minor": 1
+        },
+        "Owner": "Sample",
+        "ShouldTerminateOnLastHandleClosed": true,
+        "VirtualMachine": {
+            "Chipset": {
+                "Uefi": {
+                    "ApplySecureBootTemplate": "Apply",
+                    "SecureBootTemplateId": "1734c6e8-3154-4dda-ba5f-a874cc483422"
+                }
+            },
+            "ComputeTopology": {
+                "Memory": {
+                    "Backing": "Virtual",
+                    "SizeInMB": 2048
+                },
+                "Processor": {
+                    "Count": 2,
+                    "ExposeVirtualizationExtensions": true
+                }
+            },
+            "Devices": {
+                "VideoMonitor": {
+                    "HorizontalResolution" : 1024,
+                    "VerticalResolution": 768
+                },
+                "EnhancedModeVideo": {},
+                "Keyboard": {},
+                "Mouse": {},
+                "Scsi": {
+                    "Primary disk": {
+                        "Attachments": {
+                            "0": {
+                                "Type": "Iso",
+                                "Path": "D:\\Projects\\MouriNaruto\\AluImageWorkspace\\Assets\\WindowsImages\\22000.493\\en-us_windows_11_consumer_editions_updated_feb_2022_x64_dvd_aa300219.iso"
+                            },
+                            "1": {
+                                "Type": "VirtualDisk",
+                                "Path": "D:\\Hyper-V\\DemoVM\\Virtual Hard Disks\\DemoVM.vhdx"
+                            }
+                        }
+                    }
+                }
+            },
+            "GuestState": {
+                "GuestStateFilePath": "D:\\Hyper-V\\DemoVM\\Virtual Machines\\48781DFF-90CC-4650-89C3-FE12E6210B19.vmgs",
+                "RuntimeStateFilePath": "D:\\Hyper-V\\DemoVM\\Virtual Machines\\48781DFF-90CC-4650-89C3-FE12E6210B19.vmrs"
+            },
+            "SecuritySettings": {
+                "EnableTpm": false
+            }
+        }
+    })";
+
+    NanaBox::ComputeSystem test(L"Sample", c_VmConfiguration);
+
+    test.Start();
+
+    auto fuck = test.GetProperties();
+
+    winrt::JsonObject testobj = winrt::JsonObject::Parse(fuck);
+    g_VMID = testobj.GetNamedString(L"RuntimeId");
+
+    //::MessageBoxW(nullptr, fuck.c_str(), L"NanaBox", 0);
 
     WNDCLASSEXW WindowClass;
     WindowClass.cbSize = sizeof(WNDCLASSEXW);

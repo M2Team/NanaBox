@@ -5,6 +5,9 @@
     <ClCompile Include="RdpClient.cpp">
       <Filter>RdpClient</Filter>
     </ClCompile>
+    <ClCompile Include="HostCompute.cpp">
+      <Filter>HostCompute</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="NanaBox.manifest" />
@@ -17,10 +20,16 @@
     <ClInclude Include="RdpClient.h">
       <Filter>RdpClient</Filter>
     </ClInclude>
+    <ClInclude Include="HostCompute.h">
+      <Filter>HostCompute</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="RdpClient">
       <UniqueIdentifier>{f8be7eb0-4f2f-46ec-bd97-4b1cf3c26ed7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HostCompute">
+      <UniqueIdentifier>{e489b7f6-6f4d-47c2-b821-915b5528c4e8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
