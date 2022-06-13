@@ -63,7 +63,7 @@ NanaBox::ComputeSystem::ComputeSystem(
         this->m_ComputeSystem.get(),
         HcsEventOptionNone,
         this,
-        ComputeSystem::ComputeSystemCallback));
+        NanaBox::ComputeSystem::ComputeSystemCallback));
 }
 
 NanaBox::ComputeSystem::ComputeSystem(
@@ -87,7 +87,7 @@ NanaBox::ComputeSystem::ComputeSystem(
         this->m_ComputeSystem.get(),
         HcsEventOptionNone,
         this,
-        ComputeSystem::ComputeSystemCallback));
+        NanaBox::ComputeSystem::ComputeSystemCallback));
 }
 
 void NanaBox::ComputeSystem::Start()

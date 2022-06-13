@@ -126,18 +126,13 @@ namespace
         {
             *ppFrame = nullptr;
             *ppDoc = nullptr;
-
-            RECT ClientRect;
-            if (::GetClientRect(this->m_WindowHandle, &ClientRect))
-            {
-                int Width = ClientRect.right - ClientRect.left;
-                int Height = ClientRect.bottom - ClientRect.top;       
-                ::SetRect(lprcPosRect, 0, 0, Width, Height);
-                ::SetRect(lprcClipRect, 0, 0, Width, Height);
-            }
-
+            ::GetClientRect(this->m_WindowHandle, lprcPosRect);
+            ::GetClientRect(this->m_WindowHandle, lprcClipRect);
+            lprcPosRect->top += 100;
+            lprcPosRect->bottom -= 50;
+            lprcClipRect->top += 100;
+            lprcClipRect->bottom -= 50;
             lpFrameInfo->haccel = nullptr;
-
             return S_OK;
         }
 
@@ -245,6 +240,8 @@ namespace
 
             RECT ClientRect;
             winrt::check_bool(::GetClientRect(hWnd, &ClientRect));
+            ClientRect.top += 100;
+            ClientRect.bottom -= 50;
 
             winrt::com_ptr<IOleObject> OleObject =
                 g_RdpClient->RawControl().as<IOleObject>();
@@ -262,7 +259,7 @@ namespace
                 g_OleClientSite.get()));
 
             winrt::check_hresult(OleObject->DoVerb(
-                OLEIVERB_PRIMARY,
+                OLEIVERB_INPLACEACTIVATE,
                 nullptr,
                 g_OleClientSite.get(),
                 0,
@@ -275,15 +272,40 @@ namespace
             g_RdpClient->AuthenticationLevel(0);
             g_RdpClient->EnableCredSspSupport(true);
             g_RdpClient->NegotiateSecurityLayer(false);
+            g_RdpClient->MinInputSendInterval(20);
 
             VARIANT Value;
             Value.vt = VT_BOOL;
             Value.boolVal = VARIANT_TRUE;
             g_RdpClient->Property(L"DisableCredentialsDelegation", Value);
 
-            g_RdpClient->PCB(g_VMID.c_str() + winrt::hstring(L";" L"EnhancedMode=1"));
+            g_RdpClient->PCB(g_VMID.c_str()/* + winrt::hstring(L";" L"EnhancedMode=1")*/);
 
             g_RdpClient->Connect();
+
+            /*g_RdpClient->OnLoginComplete([hWnd]()
+            {
+                ::Sleep(200);
+
+                RECT ClientRect;
+                winrt::check_bool(::GetClientRect(hWnd, &ClientRect));
+                ClientRect.top += 100;
+                ClientRect.bottom -= 50;
+
+                ULONG RawWidth = ClientRect.right - ClientRect.left;
+                ULONG RawHeight = ClientRect.bottom - ClientRect.top;
+
+                UINT WindowDpi = ::GetDpiForWindow(hWnd);
+
+                g_RdpClient->UpdateSessionDisplaySettings(
+                    RawWidth,
+                    RawHeight,
+                    (ULONG)(RawWidth * 100 * 25.4),
+                    (ULONG)(RawHeight * 100 * 25.4),
+                    0,
+                    (ULONG)(WindowDpi * 100.0 / 96.0),
+                    100);
+            });*/
 
             g_RdpClient->OnDisconnected([](LONG)
             {
@@ -298,6 +320,33 @@ namespace
         }
         case WM_SIZE:
         {
+            RECT ClientRect;
+            winrt::check_bool(::GetClientRect(hWnd, &ClientRect));
+            ClientRect.top += 100;
+            ClientRect.bottom -= 50;
+
+            winrt::com_ptr<IOleInPlaceObject> OleInPlaceObject =
+                g_RdpClient->RawControl().as<IOleInPlaceObject>();
+            winrt::check_hresult(OleInPlaceObject->SetObjectRects(
+                &ClientRect, &ClientRect));
+
+            if (g_RdpClient->Connected() == 1)
+            {
+                ULONG RawWidth = ClientRect.right - ClientRect.left;
+                ULONG RawHeight = ClientRect.bottom - ClientRect.top;
+
+                UINT WindowDpi = ::GetDpiForWindow(hWnd);
+
+                g_RdpClient->UpdateSessionDisplaySettings(
+                    RawWidth,
+                    RawHeight,
+                    (ULONG)(RawWidth * 100 * 25.4),
+                    (ULONG)(RawHeight * 100 * 25.4),
+                    0,
+                    (ULONG)(WindowDpi * 100.0 / 96.0),
+                    100);
+            }
+
             break;
         }
         case WM_DPICHANGED:
@@ -393,10 +442,7 @@ int WINAPI wWinMain(
                 }
             },
             "Devices": {
-                "VideoMonitor": {
-                    "HorizontalResolution" : 1024,
-                    "VerticalResolution": 768
-                },
+                "VideoMonitor": {},
                 "EnhancedModeVideo": {},
                 "Keyboard": {},
                 "Mouse": {},
@@ -424,6 +470,13 @@ int WINAPI wWinMain(
             }
         }
     })";
+
+    /*winrt::check_hresult(::HcsGrantVmAccess(
+        L"Sample",
+        L"D:\\Hyper-V\\DemoVM\\Virtual Machines\\48781DFF-90CC-4650-89C3-FE12E6210B19.vmgs"));
+    winrt::check_hresult(::HcsGrantVmAccess(
+        L"Sample",
+        L"D:\\Hyper-V\\DemoVM\\Virtual Machines\\48781DFF-90CC-4650-89C3-FE12E6210B19.vmrs"));*/
 
     NanaBox::ComputeSystem test(L"Sample", c_VmConfiguration);
 
