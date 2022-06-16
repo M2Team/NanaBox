@@ -201,21 +201,24 @@ NanaBox::RdpClient::RdpClient()
     winrt::check_hresult(ConnectionPointContainer->FindConnectionPoint(
         DIID_IMsTscAxEvents,
         this->m_ConnectionPoint.put()));
-
-    winrt::check_hresult(this->m_ConnectionPoint->Advise(
-        this,
-        &this->m_Cookie));
-}
-
-NanaBox::RdpClient::~RdpClient()
-{
-    winrt::check_hresult(this->m_ConnectionPoint->Unadvise(
-        this->m_Cookie));
 }
 
 winrt::com_ptr<IMsRdpClient9> NanaBox::RdpClient::RawControl()
 {
     return this->m_RdpClient;
+}
+
+void NanaBox::RdpClient::EnableEventsDispatcher()
+{
+    winrt::check_hresult(this->m_ConnectionPoint->Advise(
+        this,
+        &this->m_Cookie));
+}
+
+void NanaBox::RdpClient::DisableEventsDispatcher()
+{
+    winrt::check_hresult(this->m_ConnectionPoint->Unadvise(
+        this->m_Cookie));
 }
 
 #pragma region RdpClient

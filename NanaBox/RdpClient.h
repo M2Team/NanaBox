@@ -120,9 +120,11 @@ namespace NanaBox
 
         RdpClient();
 
-        ~RdpClient();
-
         winrt::com_ptr<IMsRdpClient9> RawControl();
+
+        void EnableEventsDispatcher();
+
+        void DisableEventsDispatcher();
 
 #pragma region RdpClient
 
