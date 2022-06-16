@@ -40,6 +40,8 @@
 #include <dwmapi.h>
 #pragma comment(lib, "dwmapi.lib")
 
+#include "NanaBoxResources.h"
+
 HRESULT DwmWindowSetUseImmersiveDarkModeAttribute(
     _In_ HWND WindowHandle,
     _In_ BOOL Value)
@@ -175,6 +177,7 @@ namespace NanaBox
 
     private:
 
+        WTL::CIcon m_ApplicationIcon;
         winrt::com_ptr<NanaBox::RdpClient> m_RdpClient;
         ATL::CAxWindow m_RdpClientWindow;
         winrt::DesktopWindowXamlSource m_XamlSource;
@@ -187,6 +190,15 @@ int NanaBox::MainWindow::OnCreate(
     LPCREATESTRUCT lpCreateStruct)
 {
     UNREFERENCED_PARAMETER(lpCreateStruct);
+
+    this->m_ApplicationIcon.LoadIconW(
+        MAKEINTRESOURCE(IDI_NANABOX),
+        256,
+        256,
+        LR_SHARED);
+
+    this->SetIcon(this->m_ApplicationIcon, TRUE);
+    this->SetIcon(this->m_ApplicationIcon, FALSE);
 
     this->m_RdpClient = winrt::make_self<NanaBox::RdpClient>();
 

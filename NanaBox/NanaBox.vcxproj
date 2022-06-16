@@ -86,6 +86,7 @@
     <ClInclude Include="App.h">
       <DependentUpon>App.xaml</DependentUpon>
     </ClInclude>
+    <ClInclude Include="NanaBoxResources.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mile.Xaml\Mile.Xaml.vcxproj">
@@ -96,6 +97,12 @@
     <Page Include="MainWindowControl.xaml">
       <SubType>Designer</SubType>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="NanaBoxResources.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Assets\NanaBoxPreview.ico" />
   </ItemGroup>
   <Import Project="..\Mile.Project.Windows\Mile.Project.Cpp.targets" />
   <Import Project="..\Mile.Xaml\MrtCore.PriGen.targets" />

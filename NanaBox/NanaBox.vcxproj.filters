@@ -26,6 +26,7 @@
       <Filter>HostCompute</Filter>
     </ClInclude>
     <ClInclude Include="..\..\NanaGet\NanaGet\pch.h" />
+    <ClInclude Include="NanaBoxResources.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="RdpClient">
@@ -43,5 +44,11 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="MainWindowControl.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="NanaBoxResources.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Assets\NanaBoxPreview.ico" />
   </ItemGroup>
 </Project>
