@@ -15,10 +15,17 @@
 
 #include <cwchar>
 
-//#include <atlbase.h>
-//#include <atlhost.h>
+#define _ATL_NO_AUTOMATIC_NAMESPACE
+#include <atlbase.h>
+#include <atlhost.h>
+
+#define _WTL_NO_AUTOMATIC_NAMESPACE
+#include <atlapp.h>
+#include <atlcrack.h>
+#include <atltypes.h>
 
 #include <winrt/Windows.Data.Json.h>
+
 
 namespace winrt
 {
@@ -27,382 +34,249 @@ namespace winrt
 
 namespace
 {
-    struct OleClientSite : public winrt::implements<
-        OleClientSite,
-        IOleClientSite,
-        IOleInPlaceSite>
+    winrt::hstring g_VMID = L"48781dff-90cc-4650-89c3-fe12e6210b19";
+}
+
+namespace NanaBox
+{
+    class MainWindow : public ATL::CWindowImpl<MainWindow>
     {
+    public:
+
+        DECLARE_WND_CLASS(L"NanaBoxMainWindow")
+
+        BEGIN_MSG_MAP(MainWindow)
+            MSG_WM_CREATE(OnCreate)
+            MSG_WM_SIZE(OnSize)
+            MSG_WM_DPICHANGED(OnDpiChanged)
+            MSG_WM_MENUCHAR(OnMenuChar)
+            MSG_WM_SETTINGCHANGE(OnSettingChange)
+            MSG_WM_DESTROY(OnDestroy)
+        END_MSG_MAP()
+
+        int OnCreate(
+            LPCREATESTRUCT lpCreateStruct);
+
+        void OnSize(
+            UINT nType,
+            CSize size);
+
+        void OnDpiChanged(
+            UINT nDpiX,
+            UINT nDpiY,
+            PRECT pRect);
+
+        LRESULT OnMenuChar(
+            UINT nChar,
+            UINT nFlags,
+            WTL::CMenuHandle menu);
+
+        void OnSettingChange(
+            UINT uFlags,
+            LPCTSTR lpszSection);
+
+        void OnDestroy();
+
     private:
 
-        HWND m_WindowHandle;
-
-    public:
-
-        OleClientSite(_In_ HWND WindowHandle = nullptr)
-            : m_WindowHandle(WindowHandle)
-        {
-
-        }
-
-        HRESULT STDMETHODCALLTYPE SaveObject()
-        {
-            return S_OK;
-        }
-
-        HRESULT STDMETHODCALLTYPE GetMoniker(
-            _In_ DWORD dwAssign,
-            _In_ DWORD dwWhichMoniker,
-            _Out_ IMoniker** ppmk)
-        {
-            UNREFERENCED_PARAMETER(dwAssign);
-            UNREFERENCED_PARAMETER(dwWhichMoniker);
-            *ppmk = nullptr;
-            return E_NOTIMPL;
-        }
-
-        HRESULT STDMETHODCALLTYPE GetContainer(
-            _Out_ IOleContainer** ppContainer)
-        {
-            *ppContainer = nullptr;
-            return E_NOTIMPL;
-        }
-
-        HRESULT STDMETHODCALLTYPE ShowObject()
-        {
-            return S_OK;
-        }
-
-        HRESULT STDMETHODCALLTYPE OnShowWindow(
-            _In_ BOOL fShow)
-        {
-            UNREFERENCED_PARAMETER(fShow);
-            return S_OK;
-        }
-
-        HRESULT STDMETHODCALLTYPE RequestNewObjectLayout()
-        {
-            return E_NOTIMPL;
-        }
-
-    public:
-
-        HRESULT STDMETHODCALLTYPE GetWindow(
-            _Out_ HWND* phwnd)
-        {
-            *phwnd = this->m_WindowHandle;
-            return S_OK;
-        }
-
-        HRESULT STDMETHODCALLTYPE ContextSensitiveHelp(
-            _In_ BOOL fEnterMode)
-        {
-            UNREFERENCED_PARAMETER(fEnterMode);
-            return S_OK;
-        }
-
-    public:
-
-        HRESULT STDMETHODCALLTYPE CanInPlaceActivate()
-        {
-            return S_OK;
-        }
-
-        HRESULT STDMETHODCALLTYPE OnInPlaceActivate()
-        {
-            return S_OK;
-        }
-
-        HRESULT STDMETHODCALLTYPE OnUIActivate()
-        {
-            return S_OK;
-        }
-
-        HRESULT STDMETHODCALLTYPE GetWindowContext(
-            _Out_ IOleInPlaceFrame** ppFrame,
-            _Out_ IOleInPlaceUIWindow** ppDoc,
-            _Out_ LPRECT lprcPosRect,
-            _Out_ LPRECT lprcClipRect,
-            _Inout_ LPOLEINPLACEFRAMEINFO lpFrameInfo)
-        {
-            *ppFrame = nullptr;
-            *ppDoc = nullptr;
-            ::GetClientRect(this->m_WindowHandle, lprcPosRect);
-            ::GetClientRect(this->m_WindowHandle, lprcClipRect);
-            lprcPosRect->top += 100;
-            lprcPosRect->bottom -= 50;
-            lprcClipRect->top += 100;
-            lprcClipRect->bottom -= 50;
-            lpFrameInfo->haccel = nullptr;
-            return S_OK;
-        }
-
-        HRESULT STDMETHODCALLTYPE Scroll(
-            _In_ SIZE scrollExtant)
-        {
-            UNREFERENCED_PARAMETER(scrollExtant);
-            return S_OK;
-        }
-
-        HRESULT STDMETHODCALLTYPE OnUIDeactivate(
-            _In_ BOOL fUndoable)
-        {
-            UNREFERENCED_PARAMETER(fUndoable);
-            return S_OK;
-        }
-
-        HRESULT STDMETHODCALLTYPE OnInPlaceDeactivate()
-        {
-            return S_OK;
-        }
-
-        HRESULT STDMETHODCALLTYPE DiscardUndoState()
-        {
-            return S_OK;
-        }
-
-        HRESULT STDMETHODCALLTYPE DeactivateAndUndo()
-        {
-            return S_OK;
-        }
-
-        HRESULT STDMETHODCALLTYPE OnPosRectChange(
-            _In_ LPCRECT lprcPosRect)
-        {
-            UNREFERENCED_PARAMETER(lprcPosRect);
-            return S_OK;
-        }
+        winrt::com_ptr<NanaBox::RdpClient> m_RdpClient;
+        ATL::CAxWindow m_RdpClientWindow;
     };
 
-    winrt::com_ptr<NanaBox::RdpClient> g_RdpClient;
+}
 
-    winrt::com_ptr<IOleClientSite> g_OleClientSite;
+int NanaBox::MainWindow::OnCreate(
+    LPCREATESTRUCT lpCreateStruct)
+{
+    UNREFERENCED_PARAMETER(lpCreateStruct);
 
-    winrt::hstring g_VMID = L"48781dff-90cc-4650-89c3-fe12e6210b19";
+    this->m_RdpClient = winrt::make_self<NanaBox::RdpClient>();
 
-    static LRESULT CALLBACK NanaBoxMainWindowCallback(
-        _In_ HWND   hWnd,
-        _In_ UINT   uMsg,
-        _In_ WPARAM wParam,
-        _In_ LPARAM lParam)
+    this->m_RdpClient->EnableEventsDispatcher();
+
+    RECT ClientRect;
+    winrt::check_bool(this->GetClientRect(&ClientRect));
+    ClientRect.top += 100;
+
+    if (!this->m_RdpClientWindow.Create(
+        this->m_hWnd,
+        ClientRect,
+        nullptr,
+        WS_CHILD | WS_VISIBLE))
     {
-        switch (uMsg)
-        {
-        case WM_CREATE:
-        {
-            // Note: Return -1 directly because WM_DESTROY message will be sent
-            // when destroy the window automatically. We free the resource when
-            // processing the WM_DESTROY message of this window.
-
-            /*LPCREATESTRUCT CreateStruct =
-                reinterpret_cast<LPCREATESTRUCT>(lParam);*/
-
-            /*WNDCLASSEXW WindowClass;
-            WindowClass.cbSize = sizeof(WNDCLASSEXW);
-            WindowClass.style = 0;
-            WindowClass.lpfnWndProc = ::DefWindowProcW;
-            WindowClass.cbClsExtra = 0;
-            WindowClass.cbWndExtra = 0;
-            WindowClass.hInstance = ::GetModuleHandleW(nullptr);
-            WindowClass.hIcon = nullptr;
-            WindowClass.hCursor = ::LoadCursorW(nullptr, IDC_ARROW);
-            WindowClass.hbrBackground = reinterpret_cast<HBRUSH>(
-                ::GetStockObject(BLACK_BRUSH));
-            WindowClass.lpszMenuName = nullptr;
-            WindowClass.lpszClassName = L"NanaBoxHostWindow";
-            WindowClass.hIconSm = nullptr;
-            if (!::RegisterClassExW(&WindowClass))
-            {
-                return -1;
-            }
-
-            RECT ParentClientRect;
-            winrt::check_bool(::GetClientRect(hWnd, &ParentClientRect));
-
-            HWND WindowHandle = ::CreateWindowExW(
-                0,
-                WindowClass.lpszClassName,
-                L"NanaBoxHost",
-                WS_CHILD | WS_VISIBLE,
-                0,
-                0,
-                ParentClientRect.right - ParentClientRect.left,
-                ParentClientRect.bottom - ParentClientRect.top,
-                hWnd,
-                nullptr,
-                WindowClass.hInstance,
-                nullptr);
-            if (!WindowHandle)
-            {
-                return -1;
-            }*/
-
-            g_RdpClient = winrt::make_self<NanaBox::RdpClient>();
-
-            RECT ClientRect;
-            winrt::check_bool(::GetClientRect(hWnd, &ClientRect));
-            ClientRect.top += 100;
-            ClientRect.bottom -= 50;
-
-            winrt::com_ptr<IOleObject> OleObject =
-                g_RdpClient->RawControl().as<IOleObject>();
-
-            winrt::com_ptr<IOleInPlaceActiveObject> OleInPlaceActiveObject =
-                g_RdpClient->RawControl().as<IOleInPlaceActiveObject>();
-
-            winrt::com_ptr<IOleInPlaceObject> OleInPlaceObject =
-                g_RdpClient->RawControl().as<IOleInPlaceObject>();
-
-            g_OleClientSite =
-                winrt::make<OleClientSite>(hWnd);
-
-            winrt::check_hresult(OleObject->SetClientSite(
-                g_OleClientSite.get()));
-
-            winrt::check_hresult(OleObject->DoVerb(
-                OLEIVERB_INPLACEACTIVATE,
-                nullptr,
-                g_OleClientSite.get(),
-                0,
-                hWnd,
-                &ClientRect));
-
-            g_RdpClient->Server(L"localhost");
-            g_RdpClient->RDPPort(2179);
-            g_RdpClient->AuthenticationServiceClass(L"Microsoft Virtual Console Service");
-            g_RdpClient->AuthenticationLevel(0);
-            g_RdpClient->EnableCredSspSupport(true);
-            g_RdpClient->NegotiateSecurityLayer(false);
-            g_RdpClient->MinInputSendInterval(20);
-
-            VARIANT Value;
-            Value.vt = VT_BOOL;
-            Value.boolVal = VARIANT_TRUE;
-            g_RdpClient->Property(L"DisableCredentialsDelegation", Value);
-
-            g_RdpClient->PCB(g_VMID.c_str()/* + winrt::hstring(L";" L"EnhancedMode=1")*/);
-
-            g_RdpClient->Connect();
-
-            /*g_RdpClient->OnLoginComplete([hWnd]()
-            {
-                ::Sleep(200);
-
-                RECT ClientRect;
-                winrt::check_bool(::GetClientRect(hWnd, &ClientRect));
-                ClientRect.top += 100;
-                ClientRect.bottom -= 50;
-
-                ULONG RawWidth = ClientRect.right - ClientRect.left;
-                ULONG RawHeight = ClientRect.bottom - ClientRect.top;
-
-                UINT WindowDpi = ::GetDpiForWindow(hWnd);
-
-                g_RdpClient->UpdateSessionDisplaySettings(
-                    RawWidth,
-                    RawHeight,
-                    (ULONG)(RawWidth * 100 * 25.4),
-                    (ULONG)(RawHeight * 100 * 25.4),
-                    0,
-                    (ULONG)(WindowDpi * 100.0 / 96.0),
-                    100);
-            });*/
-
-            g_RdpClient->OnDisconnected([](LONG)
-            {
-                g_RdpClient->Connect();
-            });
-
-            return 0;
-        }
-        case WM_SETFOCUS:
-        {
-            break;
-        }
-        case WM_SIZE:
-        {
-            RECT ClientRect;
-            winrt::check_bool(::GetClientRect(hWnd, &ClientRect));
-            ClientRect.top += 100;
-            ClientRect.bottom -= 50;
-
-            winrt::com_ptr<IOleInPlaceObject> OleInPlaceObject =
-                g_RdpClient->RawControl().as<IOleInPlaceObject>();
-            winrt::check_hresult(OleInPlaceObject->SetObjectRects(
-                &ClientRect, &ClientRect));
-
-            if (g_RdpClient->Connected() == 1)
-            {
-                ULONG RawWidth = ClientRect.right - ClientRect.left;
-                ULONG RawHeight = ClientRect.bottom - ClientRect.top;
-
-                UINT WindowDpi = ::GetDpiForWindow(hWnd);
-
-                g_RdpClient->UpdateSessionDisplaySettings(
-                    RawWidth,
-                    RawHeight,
-                    (ULONG)(RawWidth * 100 * 25.4),
-                    (ULONG)(RawHeight * 100 * 25.4),
-                    0,
-                    (ULONG)(WindowDpi * 100.0 / 96.0),
-                    100);
-            }
-
-            break;
-        }
-        case WM_DPICHANGED:
-        {
-            LPRECT NewWindowRectangle = reinterpret_cast<LPRECT>(lParam);
-
-            ::SetWindowPos(
-                hWnd,
-                nullptr,
-                NewWindowRectangle->left,
-                NewWindowRectangle->top,
-                NewWindowRectangle->right - NewWindowRectangle->left,
-                NewWindowRectangle->bottom - NewWindowRectangle->top,
-                SWP_NOZORDER | SWP_NOACTIVATE);
-        }
-        case WM_MENUCHAR:
-        {
-            // Reference: https://github.com/microsoft/terminal
-            //            /blob/756fd444b1d443320cf2ed6887d4b65aa67a9a03
-            //            /scratch/ScratchIslandApp
-            //            /WindowExe/SampleIslandWindow.cpp#L155
-            // Return this LRESULT here to prevent the app from making a bell
-            // when alt+key is pressed. A menu is active and the user presses a
-            // key that does not correspond to any mnemonic or accelerator key.
-
-            return MAKELRESULT(0, MNC_CLOSE);
-        }
-        case WM_SETTINGCHANGE:
-        {
-            if (lParam && 0 == std::wcscmp(
-                reinterpret_cast<LPWSTR>(lParam),
-                L"ImmersiveColorSet"))
-            {
-                
-            }
-
-            break;
-        }
-        case WM_DESTROY:
-        {
-            winrt::com_ptr<IOleObject> OleObject =
-                g_RdpClient->RawControl().as<IOleObject>();
-
-            winrt::check_hresult(OleObject->Close(OLECLOSE_NOSAVE));
-            winrt::check_hresult(OleObject->SetClientSite(nullptr));
-
-            ::PostQuitMessage(0);
-
-            break;
-        }
-        default:
-            return ::DefWindowProcW(hWnd, uMsg, wParam, lParam);
-        }
-
-        return 0;
+        return -1;
     }
+
+    winrt::check_hresult(this->m_RdpClientWindow.AttachControl(
+        this->m_RdpClient->RawControl().get(),
+        nullptr));
+
+    this->m_RdpClient->EnableAutoReconnect(false);
+    this->m_RdpClient->RelativeMouseMode(true);
+    this->m_RdpClient->AuthenticationServiceClass(L"Microsoft Virtual Console Service");
+
+    this->m_RdpClient->AuthenticationLevel(0);
+    this->m_RdpClient->EnableCredSspSupport(true);
+    this->m_RdpClient->NegotiateSecurityLayer(false);
+    try
+    {
+        VARIANT Value;
+        Value.vt = VT_BOOL;
+        Value.boolVal = VARIANT_TRUE;
+        this->m_RdpClient->Property(L"DisableCredentialsDelegation", Value);
+    }
+    catch (...)
+    {
+
+    }
+
+    this->m_RdpClient->GrabFocusOnConnect(false);
+
+
+
+
+    this->m_RdpClient->Server(L"localhost");
+    this->m_RdpClient->RDPPort(2179);
+    this->m_RdpClient->MinInputSendInterval(20);
+
+
+
+    this->m_RdpClient->PCB(g_VMID.c_str()/* + winrt::hstring(L";" L"EnhancedMode=1")*/);
+
+    this->m_RdpClient->Connect();
+
+    /*g_RdpClient->OnLoginComplete([hWnd]()
+    {
+        ::Sleep(200);
+
+        RECT ClientRect;
+        winrt::check_bool(::GetClientRect(hWnd, &ClientRect));
+        ClientRect.top += 100;
+        ClientRect.bottom -= 50;
+
+        ULONG RawWidth = ClientRect.right - ClientRect.left;
+        ULONG RawHeight = ClientRect.bottom - ClientRect.top;
+
+        UINT WindowDpi = ::GetDpiForWindow(hWnd);
+
+        this->m_RdpClient->UpdateSessionDisplaySettings(
+            RawWidth,
+            RawHeight,
+            (ULONG)(RawWidth * 100 * 25.4),
+            (ULONG)(RawHeight * 100 * 25.4),
+            0,
+            (ULONG)(WindowDpi * 100.0 / 96.0),
+            100);
+    });*/
+
+    this->m_RdpClient->OnDisconnected([this](
+        _In_ LONG DisconnectReason)
+    {
+        UNREFERENCED_PARAMETER(DisconnectReason);
+
+        DisconnectReason = DisconnectReason;
+
+        //this->m_RdpClient->Connect();  
+    });
+
+    return 0;
+}
+
+void NanaBox::MainWindow::OnSize(
+    UINT nType,
+    CSize size)
+{
+    UNREFERENCED_PARAMETER(nType);
+    UNREFERENCED_PARAMETER(size);
+
+    RECT ClientRect;
+    winrt::check_bool(this->GetClientRect(&ClientRect));
+    ClientRect.top += 100;
+
+    this->m_RdpClientWindow.SetWindowPos(
+        nullptr,
+        &ClientRect,
+        SWP_NOZORDER | SWP_NOACTIVATE);
+
+    //g_RdpClient->SyncSessionDisplaySettings();
+
+    //if (g_RdpClient->Connected() == 1)
+    //{
+    //    ULONG Width = ClientRect.right - ClientRect.left;
+    //    ULONG Height = ClientRect.bottom - ClientRect.top;
+
+    //    //UINT WindowDpi = ::GetDpiForWindow(hWnd);
+
+    //    g_RdpClient->UpdateSessionDisplaySettings(
+    //        Width,
+    //        Height,
+    //        Width,
+    //        Height,
+    //        0,
+    //        150, //(ULONG)(WindowDpi * 100.0 / 96.0),
+    //        100);
+    //}
+}
+
+void NanaBox::MainWindow::OnDpiChanged(
+    UINT nDpiX,
+    UINT nDpiY,
+    PRECT pRect)
+{
+    UNREFERENCED_PARAMETER(nDpiX);
+    UNREFERENCED_PARAMETER(nDpiY);
+
+    this->SetWindowPos(
+        nullptr,
+        pRect,
+        SWP_NOZORDER | SWP_NOACTIVATE);
+}
+
+LRESULT NanaBox::MainWindow::OnMenuChar(
+    UINT nChar,
+    UINT nFlags,
+    WTL::CMenuHandle menu)
+{
+    UNREFERENCED_PARAMETER(nChar);
+    UNREFERENCED_PARAMETER(nFlags);
+    UNREFERENCED_PARAMETER(menu);
+
+    // Reference: https://github.com/microsoft/terminal
+    //            /blob/756fd444b1d443320cf2ed6887d4b65aa67a9a03
+    //            /scratch/ScratchIslandApp
+    //            /WindowExe/SampleIslandWindow.cpp#L155
+    // Return this LRESULT here to prevent the app from making a bell
+    // when alt+key is pressed. A menu is active and the user presses a
+    // key that does not correspond to any mnemonic or accelerator key.
+
+    return MAKELRESULT(0, MNC_CLOSE);
+}
+
+void NanaBox::MainWindow::OnSettingChange(
+    UINT uFlags,
+    LPCTSTR lpszSection)
+{
+    UNREFERENCED_PARAMETER(uFlags);
+
+    if (lpszSection && 0 == std::wcscmp(
+        lpszSection,
+        L"ImmersiveColorSet"))
+    {
+
+    }
+}
+
+void NanaBox::MainWindow::OnDestroy()
+{
+    this->m_RdpClient->DisableEventsDispatcher();
+    this->m_RdpClientWindow.DestroyWindow();
+    this->m_RdpClient = nullptr;
+    ::PostQuitMessage(0);
+}
+
+namespace
+{
+    WTL::CAppModule g_Module;
 }
 
 int WINAPI wWinMain(
@@ -416,7 +290,7 @@ int WINAPI wWinMain(
 
     winrt::init_apartment(winrt::apartment_type::single_threaded);
 
-    static constexpr wchar_t c_VmConfiguration[] = LR"(
+    /*static constexpr wchar_t c_VmConfigurationNew[] = LR"(
     {
         "SchemaVersion": {
             "Major": 2,
@@ -466,10 +340,62 @@ int WINAPI wWinMain(
                 "RuntimeStateFilePath": "D:\\Hyper-V\\DemoVM\\Virtual Machines\\48781DFF-90CC-4650-89C3-FE12E6210B19.vmrs"
             },
             "SecuritySettings": {
-                "EnableTpm": false
+                "EnableTpm": true
+            }
+        }
+    })";*/
+
+    static constexpr wchar_t c_VmConfiguration[] = LR"(
+    {
+        "SchemaVersion": {
+            "Major": 2,
+            "Minor": 1
+        },
+        "Owner": "Sample",
+        "ShouldTerminateOnLastHandleClosed": true,
+        "VirtualMachine": {
+            "Chipset": {
+                "Uefi": {
+                    "SecureBootTemplateId": "1734c6e8-3154-4dda-ba5f-a874cc483422"
+                }
+            },
+            "ComputeTopology": {
+                "Memory": {
+                    "Backing": "Virtual",
+                    "SizeInMB": 2048
+                },
+                "Processor": {
+                    "Count": 2,
+                    "ExposeVirtualizationExtensions": true
+                }
+            },
+            "Devices": {
+                "VideoMonitor": {
+                    "HorizontalResolution" : 1024,
+                    "VerticalResolution": 768
+                },
+                "EnhancedModeVideo": {},
+                "Keyboard": {},
+                "Mouse": {},
+                "Scsi": {
+                    "Primary disk": {
+                        "Attachments": {
+                            "0": {
+                                "Type": "VirtualDisk",
+                                "Path": "D:\\Hyper-V\\DemoVM\\Virtual Hard Disks\\DemoVM.vhdx"
+                            }
+                        }
+                    }
+                }
+            },
+            "GuestState": {
+                "GuestStateFilePath": "D:\\Hyper-V\\DemoVM\\Virtual Machines\\48781DFF-90CC-4650-89C3-FE12E6210B19.vmgs",
+                "RuntimeStateFilePath": "D:\\Hyper-V\\DemoVM\\Virtual Machines\\48781DFF-90CC-4650-89C3-FE12E6210B19.vmrs"
             }
         }
     })";
+
+    //ATL::AtlAxAttachControl
 
     /*winrt::check_hresult(::HcsGrantVmAccess(
         L"Sample",
@@ -480,6 +406,119 @@ int WINAPI wWinMain(
 
     NanaBox::ComputeSystem test(L"Sample", c_VmConfiguration);
 
+    test.SystemExited([](
+        winrt::hstring const& EventData)
+    {
+        UNREFERENCED_PARAMETER(EventData);
+
+        //g_RdpClient->OnDisconnected(g_OnDisconnectedToken);
+        //g_RdpClient->Disconnect();
+    });
+
+    test.SystemRdpEnhancedModeStateChanged([]()
+    {
+        ::MessageBoxW(nullptr, L"fuck", L"NanaZip", 0);
+        /*try
+        {
+            g_RdpClient->Disconnect();
+            while (g_RdpClient->Connected());
+
+            winrt::com_ptr<IOleInPlaceObject> OleInPlaceObject =
+                g_RdpClient->RawControl().as<IOleInPlaceObject>();
+
+            winrt::check_hresult(OleInPlaceObject->InPlaceDeactivate());
+
+            winrt::com_ptr<IOleObject> OleObject =
+                g_RdpClient->RawControl().as<IOleObject>();
+
+            winrt::check_hresult(OleObject->Close(OLECLOSE_NOSAVE));
+            winrt::check_hresult(OleObject->SetClientSite(nullptr));
+
+            g_RdpClient = nullptr;
+        }
+        catch (...)
+        {
+
+        }
+
+        for (size_t i = 0; i < 5; ++i)
+        {
+            try
+            {
+                ::Sleep(50);
+
+                HWND hWnd = g_WindowHandle;
+
+                g_RdpClient = winrt::make_self<NanaBox::RdpClient>();
+
+                RECT ClientRect;
+                winrt::check_bool(::GetClientRect(hWnd, &ClientRect));
+                ClientRect.top += 100;
+                ClientRect.bottom -= 50;
+
+                winrt::com_ptr<IOleObject> OleObject =
+                    g_RdpClient->RawControl().as<IOleObject>();
+
+                winrt::com_ptr<IOleInPlaceActiveObject> OleInPlaceActiveObject =
+                    g_RdpClient->RawControl().as<IOleInPlaceActiveObject>();
+
+                winrt::com_ptr<IOleInPlaceObject> OleInPlaceObject =
+                    g_RdpClient->RawControl().as<IOleInPlaceObject>();
+
+                winrt::check_hresult(OleObject->SetClientSite(
+                    g_OleClientSite.get()));
+
+                winrt::check_hresult(OleObject->DoVerb(
+                    OLEIVERB_INPLACEACTIVATE,
+                    nullptr,
+                    g_OleClientSite.get(),
+                    0,
+                    hWnd,
+                    &ClientRect));
+
+                g_RdpClient->EnableAutoReconnect(false);
+                g_RdpClient->RelativeMouseMode(true);
+                g_RdpClient->AuthenticationServiceClass(L"Microsoft Virtual Console Service");
+
+                g_RdpClient->AuthenticationLevel(0);
+                g_RdpClient->EnableCredSspSupport(true);
+                g_RdpClient->NegotiateSecurityLayer(false);
+                try
+                {
+                    VARIANT Value;
+                    Value.vt = VT_BOOL;
+                    Value.boolVal = VARIANT_TRUE;
+                    g_RdpClient->Property(L"DisableCredentialsDelegation", Value);
+                }
+                catch (...)
+                {
+
+                }
+
+                g_RdpClient->GrabFocusOnConnect(false);
+
+
+
+
+                g_RdpClient->Server(L"localhost");
+                g_RdpClient->RDPPort(2179);
+                g_RdpClient->MinInputSendInterval(20);
+
+                g_RdpClient->PCB(g_VMID.c_str() + winrt::hstring(L";" L"EnhancedMode=1"));
+
+                g_RdpClient->Connect();
+            }
+            catch (...)
+            {
+
+            }
+        }*/
+
+        
+
+        
+    });
+
     test.Start();
 
     auto fuck = test.GetProperties();
@@ -489,52 +528,30 @@ int WINAPI wWinMain(
 
     //::MessageBoxW(nullptr, fuck.c_str(), L"NanaBox", 0);
 
-    WNDCLASSEXW WindowClass;
-    WindowClass.cbSize = sizeof(WNDCLASSEXW);
-    WindowClass.style = 0;
-    WindowClass.lpfnWndProc = ::NanaBoxMainWindowCallback;
-    WindowClass.cbClsExtra = 0;
-    WindowClass.cbWndExtra = 0;
-    WindowClass.hInstance = hInstance;
-    WindowClass.hIcon = nullptr;
-    WindowClass.hCursor = ::LoadCursorW(nullptr, IDC_ARROW);
-    WindowClass.hbrBackground = reinterpret_cast<HBRUSH>(
-        ::GetStockObject(BLACK_BRUSH));
-    WindowClass.lpszMenuName = nullptr;
-    WindowClass.lpszClassName = L"NanaBoxMainWindow";
-    WindowClass.hIconSm = nullptr;
-    if (!::RegisterClassExW(&WindowClass))
-    {
-        return -1;
-    }
 
-    HWND WindowHandle = ::CreateWindowExW(
-        0,
-        WindowClass.lpszClassName,
+    WTL::CMessageLoop MessageLoop;
+
+    ATL::AtlAxWinInit();
+
+    g_Module.Init(nullptr, hInstance);
+    g_Module.AddMessageLoop(&MessageLoop);
+
+    NanaBox::MainWindow Window;
+    if (!Window.Create(
+        nullptr,
+        Window.rcDefault,
         L"NanaBox",
-        WS_OVERLAPPEDWINDOW,
-        CW_USEDEFAULT,
-        0,
-        CW_USEDEFAULT,
-        0,
-        nullptr,
-        nullptr,
-        hInstance,
-        nullptr);
-    if (!WindowHandle)
+        WS_OVERLAPPEDWINDOW))
     {
         return -1;
     }
+    Window.ShowWindow(nShowCmd);
+    Window.UpdateWindow();
 
-    ::ShowWindow(WindowHandle, nShowCmd);
-    ::UpdateWindow(WindowHandle);
+    int Result = MessageLoop.Run();
 
-    MSG Message;
-    while (::GetMessageW(&Message, nullptr, 0, 0))
-    {
-        ::TranslateMessage(&Message);
-        ::DispatchMessageW(&Message);
-    }
+    g_Module.RemoveMessageLoop();
+    g_Module.Term();
 
-    return static_cast<int>(Message.wParam);
+    return Result;
 }
