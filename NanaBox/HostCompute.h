@@ -76,8 +76,8 @@ namespace NanaBox
 
         void Terminate();
 
-        void Crash(
-            winrt::hstring const& Options);
+        /*void Crash(
+            winrt::hstring const& Options);*/
 
         void Pause(
             winrt::hstring const& Options);
@@ -93,10 +93,16 @@ namespace NanaBox
         void Modify(
             winrt::hstring const& Configuration);
 
-        winrt::event_token RdpEnhancedModeStateChanged(
+        winrt::event_token SystemExited(
+            winrt::delegate<winrt::hstring> const& Handler);
+
+        void SystemExited(
+            winrt::event_token const& Token);
+
+        winrt::event_token SystemRdpEnhancedModeStateChanged(
             winrt::delegate<> const& Handler);
 
-        void RdpEnhancedModeStateChanged(
+        void SystemRdpEnhancedModeStateChanged(
             winrt::event_token const& Token);
 
     private:
@@ -108,7 +114,8 @@ namespace NanaBox
             HCS_EVENT* Event,
             void* Context);
 
-        winrt::event<winrt::delegate<>> m_RdpEnhancedModeStateChanged;
+        winrt::event<winrt::delegate<winrt::hstring>> m_SystemExited;
+        winrt::event<winrt::delegate<>> m_SystemRdpEnhancedModeStateChanged;
     };
 }
 

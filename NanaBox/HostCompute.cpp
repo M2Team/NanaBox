@@ -123,17 +123,17 @@ void NanaBox::ComputeSystem::Terminate()
         this->m_Operation);
 }
 
-void NanaBox::ComputeSystem::Crash(
-    winrt::hstring const& Options)
-{
-    winrt::check_hresult(::HcsCrashComputeSystem(
-        this->m_ComputeSystem.get(),
-        this->m_Operation.get(),
-        Options.empty() ? nullptr : Options.c_str()));
-
-    ::WaitForOperationResult(
-        this->m_Operation);
-}
+//void NanaBox::ComputeSystem::Crash(
+//    winrt::hstring const& Options)
+//{
+//    winrt::check_hresult(::HcsCrashComputeSystem(
+//        this->m_ComputeSystem.get(),
+//        this->m_Operation.get(),
+//        Options.empty() ? nullptr : Options.c_str()));
+//
+//    ::WaitForOperationResult(
+//        this->m_Operation);
+//}
 
 void NanaBox::ComputeSystem::Pause(
     winrt::hstring const& Options)
@@ -195,16 +195,28 @@ void NanaBox::ComputeSystem::Modify(
         this->m_Operation);
 }
 
-winrt::event_token NanaBox::ComputeSystem::RdpEnhancedModeStateChanged(
-    winrt::delegate<> const& Handler)
+winrt::event_token NanaBox::ComputeSystem::SystemExited(
+    winrt::delegate<winrt::hstring> const& Handler)
 {
-    return this->m_RdpEnhancedModeStateChanged.add(Handler);
+    return this->m_SystemExited.add(Handler);
 }
 
-void NanaBox::ComputeSystem::RdpEnhancedModeStateChanged(
+void NanaBox::ComputeSystem::SystemExited(
     winrt::event_token const& Token)
 {
-    this->m_RdpEnhancedModeStateChanged.remove(Token);
+    this->m_SystemExited.remove(Token);
+}
+
+winrt::event_token NanaBox::ComputeSystem::SystemRdpEnhancedModeStateChanged(
+    winrt::delegate<> const& Handler)
+{
+    return this->m_SystemRdpEnhancedModeStateChanged.add(Handler);
+}
+
+void NanaBox::ComputeSystem::SystemRdpEnhancedModeStateChanged(
+    winrt::event_token const& Token)
+{
+    this->m_SystemRdpEnhancedModeStateChanged.remove(Token);
 }
 
 void CALLBACK NanaBox::ComputeSystem::ComputeSystemCallback(
@@ -217,13 +229,14 @@ void CALLBACK NanaBox::ComputeSystem::ComputeSystemCallback(
     switch (Event->Type)
     {
     case HcsEventSystemExited:
+        Object->m_SystemExited(winrt::hstring(Event->EventData));
         break;
     case HcsEventSystemCrashInitiated:
         break;
     case HcsEventSystemCrashReport:
         break;
     case HcsEventSystemRdpEnhancedModeStateChanged:
-        Object->m_RdpEnhancedModeStateChanged();
+        Object->m_SystemRdpEnhancedModeStateChanged();
         break;
     case HcsEventSystemGuestConnectionClosed:
         break;
