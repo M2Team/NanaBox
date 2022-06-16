@@ -1,0 +1,28 @@
+﻿/*
+ * PROJECT:   Mouri Internal Library Essentials
+ * FILE:      Application.idl
+ * PURPOSE:   Definition for the Mile.Xaml.Application
+ *
+ * LICENSE:   The MIT License
+ *
+ * DEVELOPER: Mouri_Naruto (Mouri_Naruto AT Outlook.com)
+ */
+
+namespace Mile.Xaml
+{
+    interface IXamlMetadataContainer
+    {
+        Windows.Foundation.Collections.IVector<Windows.UI.Xaml.Markup.IXamlMetadataProvider> MetadataProviders { get; };
+    };
+
+    [default_interface]
+    unsealed runtimeclass Application :
+        Windows.UI.Xaml.Application,
+        IXamlMetadataContainer,
+        Windows.Foundation.IClosable
+    {
+        Application(Windows.Foundation.Collections.IVector<Windows.UI.Xaml.Markup.IXamlMetadataProvider> providers);
+        protected Application();
+        protected void Initialize();
+    }
+}
