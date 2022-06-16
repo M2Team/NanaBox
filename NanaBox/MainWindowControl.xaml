@@ -1,0 +1,57 @@
+﻿<Page
+  x:Class="NanaBox.MainWindowControl"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:local="using:NanaBox"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  mc:Ignorable="d">
+  <Grid>
+    <CommandBar
+      HorizontalAlignment="Left"
+      HorizontalContentAlignment="Stretch"
+      VerticalContentAlignment="Center"
+      Background="Transparent"
+      DefaultLabelPosition="Collapsed"
+      IsDynamicOverflowEnabled="False"
+      IsOpen="False">
+      <AppBarButton
+        Width="40"
+        AutomationProperties.Name="[Menu Button]"
+        Icon="GlobalNavigationButton"
+        LabelPosition="Collapsed"
+        ToolTipService.ToolTip="[Menu]">
+        <AppBarButton.Flyout>
+          <MenuFlyout Placement="BottomEdgeAlignedLeft">
+            <MenuFlyoutItem Icon="Cancel" Text="Terminate" />
+          </MenuFlyout>
+        </AppBarButton.Flyout>
+      </AppBarButton>
+      <AppBarButton
+        Width="40"
+        AutomationProperties.Name="[Pause Button]"
+        Icon="Pause"
+        LabelPosition="Collapsed"
+        ToolTipService.ToolTip="[Pause]" />
+      <AppBarButton
+        Width="40"
+        AutomationProperties.Name="[Shutdown Button]"
+        Icon="Stop"
+        LabelPosition="Collapsed"
+        ToolTipService.ToolTip="[Shutdown]" />
+      <AppBarButton
+        Width="40"
+        AutomationProperties.Name="[Restart Button]"
+        Icon="Refresh"
+        LabelPosition="Collapsed"
+        ToolTipService.ToolTip="[Restart]" />
+    </CommandBar>
+
+    <StackPanel
+      HorizontalAlignment="Center"
+      VerticalAlignment="Center"
+      Orientation="Horizontal">
+      <Button x:Name="Button" Click="ClickHandler">Click Me</Button>
+    </StackPanel>
+  </Grid>
+</Page>

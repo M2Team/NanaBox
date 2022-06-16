@@ -24,12 +24,108 @@
 #include <atlcrack.h>
 #include <atltypes.h>
 
+
+#include "pch.h"
+
+#include "App.h"
+#include "MainWindowControl.h"
+
+#include <winrt/Windows.UI.Xaml.h>
+#include <winrt/Windows.UI.Xaml.Media.h>
+#include <winrt/Windows.UI.Xaml.Hosting.h>
+#include <windows.ui.xaml.hosting.desktopwindowxamlsource.h>
+
 #include <winrt/Windows.Data.Json.h>
 
+#include <dwmapi.h>
+#pragma comment(lib, "dwmapi.lib")
+
+HRESULT DwmWindowSetUseImmersiveDarkModeAttribute(
+    _In_ HWND WindowHandle,
+    _In_ BOOL Value)
+{
+    static bool IsWindows10Version20H1OrLater = ([]() -> bool
+    {
+        OSVERSIONINFOEXW OSVersionInfoEx = { 0 };
+        OSVersionInfoEx.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEXW);
+        OSVersionInfoEx.dwMajorVersion = 10;
+        OSVersionInfoEx.dwMinorVersion = 0;
+        OSVersionInfoEx.dwBuildNumber = 19041;
+        return ::VerifyVersionInfoW(
+            &OSVersionInfoEx,
+            VER_BUILDNUMBER,
+            ::VerSetConditionMask(
+                ::VerSetConditionMask(
+                    ::VerSetConditionMask(
+                        0,
+                        VER_MAJORVERSION,
+                        VER_GREATER_EQUAL),
+                    VER_MINORVERSION,
+                    VER_GREATER_EQUAL),
+                VER_BUILDNUMBER,
+                VER_GREATER_EQUAL));
+    }());
+
+    const DWORD DwmWindowUseImmersiveDarkModeBefore20H1Attribute = 19;
+    const DWORD DwmWindowUseImmersiveDarkModeAttribute = 20;
+    return ::DwmSetWindowAttribute(
+        WindowHandle,
+        (IsWindows10Version20H1OrLater
+            ? DwmWindowUseImmersiveDarkModeAttribute
+            : DwmWindowUseImmersiveDarkModeBefore20H1Attribute),
+        &Value,
+        sizeof(BOOL));
+}
+
+HRESULT DwmWindowSetCaptionColorAttribute(
+    _In_ HWND WindowHandle,
+    _In_ COLORREF Value)
+{
+    const DWORD DwmWindowCaptionColorAttribute = 35;
+    return ::DwmSetWindowAttribute(
+        WindowHandle,
+        DwmWindowCaptionColorAttribute,
+        &Value,
+        sizeof(COLORREF));
+}
+
+HRESULT DwmWindowDisableSystemBackdrop(
+    _In_ HWND WindowHandle)
+{
+    const DWORD DwmWindowSystemBackdropTypeAttribute = 38;
+    const DWORD DwmWindowSystemBackdropTypeNone = 1;
+    DWORD Value = DwmWindowSystemBackdropTypeNone;
+    return ::DwmSetWindowAttribute(
+        WindowHandle,
+        DwmWindowSystemBackdropTypeAttribute,
+        &Value,
+        sizeof(DWORD));
+}
+
+bool ShouldAppsUseImmersiveDarkMode()
+{
+    DWORD Type = REG_DWORD;
+    DWORD Value = 0;
+    DWORD ValueLength = sizeof(DWORD);
+    ::RegGetValueW(
+        HKEY_CURRENT_USER,
+        L"Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize",
+        L"AppsUseLightTheme",
+        RRF_RT_REG_DWORD | RRF_SUBKEY_WOW6464KEY,
+        &Type,
+        &Value,
+        &ValueLength);
+    return (Type == REG_DWORD && ValueLength == sizeof(DWORD) && Value == 0);
+}
 
 namespace winrt
 {
     using Windows::Data::Json::JsonObject;
+    using winrt::Windows::UI::Xaml::ElementTheme;
+    using winrt::Windows::UI::Xaml::FrameworkElement;
+    using winrt::Windows::UI::Xaml::UIElement;
+    using winrt::Windows::UI::Xaml::Hosting::DesktopWindowXamlSource;
+    using winrt::Windows::UI::Xaml::Media::VisualTreeHelper;
 }
 
 namespace
@@ -81,6 +177,8 @@ namespace NanaBox
 
         winrt::com_ptr<NanaBox::RdpClient> m_RdpClient;
         ATL::CAxWindow m_RdpClientWindow;
+        winrt::DesktopWindowXamlSource m_XamlSource;
+        winrt::NanaBox::MainWindowControl m_MainWindowControl;
     };
 
 }
@@ -94,9 +192,14 @@ int NanaBox::MainWindow::OnCreate(
 
     this->m_RdpClient->EnableEventsDispatcher();
 
+    UINT DpiValue = ::GetDpiForWindow(this->m_hWnd);
+
+    int MainWindowControlHeight =
+        ::MulDiv(40, DpiValue, USER_DEFAULT_SCREEN_DPI);
+
     RECT ClientRect;
     winrt::check_bool(this->GetClientRect(&ClientRect));
-    ClientRect.top += 100;
+    ClientRect.top += MainWindowControlHeight;
 
     if (!this->m_RdpClientWindow.Create(
         this->m_hWnd,
@@ -110,6 +213,48 @@ int NanaBox::MainWindow::OnCreate(
     winrt::check_hresult(this->m_RdpClientWindow.AttachControl(
         this->m_RdpClient->RawControl().get(),
         nullptr));
+
+    this->m_MainWindowControl =
+        winrt::make<winrt::NanaBox::implementation::MainWindowControl>();
+    winrt::com_ptr<IDesktopWindowXamlSourceNative> XamlSourceNative =
+        this->m_XamlSource.as<IDesktopWindowXamlSourceNative>();
+    winrt::check_hresult(
+        XamlSourceNative->AttachToWindow(this->m_hWnd));
+    this->m_XamlSource.Content(this->m_MainWindowControl);
+
+    HWND XamlWindowHandle = nullptr;
+    winrt::check_hresult(
+        XamlSourceNative->get_WindowHandle(&XamlWindowHandle));
+    ::SetWindowPos(
+        XamlWindowHandle,
+        nullptr,
+        0,
+        0,
+        ClientRect.right - ClientRect.left,
+        MainWindowControlHeight,
+        SWP_SHOWWINDOW);
+
+    // Focus on XAML Island host window for Acrylic brush support.
+    ::SetFocus(XamlWindowHandle);
+
+    ::DwmWindowDisableSystemBackdrop(this->m_hWnd);
+
+    winrt::FrameworkElement Content =
+        this->m_XamlSource.Content().try_as<winrt::FrameworkElement>();
+
+    ::DwmWindowSetUseImmersiveDarkModeAttribute(
+        this->m_hWnd,
+        (Content.ActualTheme() == winrt::ElementTheme::Dark
+            ? TRUE
+            : FALSE));
+
+    ::DwmWindowSetCaptionColorAttribute(
+        this->m_hWnd,
+        (Content.ActualTheme() == winrt::ElementTheme::Dark
+            ? RGB(0, 0, 0)
+            : RGB(255, 255, 255)));
+
+
 
     this->m_RdpClient->EnableAutoReconnect(false);
     this->m_RdpClient->RelativeMouseMode(true);
@@ -189,14 +334,35 @@ void NanaBox::MainWindow::OnSize(
     UNREFERENCED_PARAMETER(nType);
     UNREFERENCED_PARAMETER(size);
 
+    UINT DpiValue = ::GetDpiForWindow(this->m_hWnd);
+
+    int MainWindowControlHeight =
+        ::MulDiv(40, DpiValue, USER_DEFAULT_SCREEN_DPI);
+
     RECT ClientRect;
     winrt::check_bool(this->GetClientRect(&ClientRect));
-    ClientRect.top += 100;
+    ClientRect.top += MainWindowControlHeight;
 
     this->m_RdpClientWindow.SetWindowPos(
         nullptr,
         &ClientRect,
         SWP_NOZORDER | SWP_NOACTIVATE);
+
+    winrt::com_ptr<IDesktopWindowXamlSourceNative> XamlSourceNative =
+        this->m_XamlSource.as<IDesktopWindowXamlSourceNative>();
+
+    HWND XamlWindowHandle = nullptr;
+    winrt::check_hresult(
+        XamlSourceNative->get_WindowHandle(&XamlWindowHandle));
+    ::SetWindowPos(
+        XamlWindowHandle,
+        nullptr,
+        0,
+        0,
+        ClientRect.right - ClientRect.left,
+        MainWindowControlHeight,
+        SWP_SHOWWINDOW);
+
 
     //g_RdpClient->SyncSessionDisplaySettings();
 
@@ -262,7 +428,25 @@ void NanaBox::MainWindow::OnSettingChange(
         lpszSection,
         L"ImmersiveColorSet"))
     {
+        winrt::FrameworkElement Content =
+            this->m_XamlSource.Content().try_as<winrt::FrameworkElement>();
+        if (Content &&
+            winrt::VisualTreeHelper::GetParent(Content))
+        {
+            Content.RequestedTheme(winrt::ElementTheme::Default);
 
+            ::DwmWindowSetUseImmersiveDarkModeAttribute(
+                this->m_hWnd,
+                (Content.ActualTheme() == winrt::ElementTheme::Dark
+                    ? TRUE
+                    : FALSE));
+
+            ::DwmWindowSetCaptionColorAttribute(
+                this->m_hWnd,
+                (Content.ActualTheme() == winrt::ElementTheme::Dark
+                    ? RGB(0, 0, 0)
+                    : RGB(255, 255, 255)));
+        }
     }
 }
 
@@ -271,6 +455,9 @@ void NanaBox::MainWindow::OnDestroy()
     this->m_RdpClient->DisableEventsDispatcher();
     this->m_RdpClientWindow.DestroyWindow();
     this->m_RdpClient = nullptr;
+
+    this->m_XamlSource.Close();
+
     ::PostQuitMessage(0);
 }
 
@@ -289,6 +476,9 @@ int WINAPI wWinMain(
     UNREFERENCED_PARAMETER(lpCmdLine);
 
     winrt::init_apartment(winrt::apartment_type::single_threaded);
+
+    winrt::NanaBox::App app =
+        winrt::make<winrt::NanaBox::implementation::App>();
 
     /*static constexpr wchar_t c_VmConfigurationNew[] = LR"(
     {
@@ -552,6 +742,8 @@ int WINAPI wWinMain(
 
     g_Module.RemoveMessageLoop();
     g_Module.Term();
+
+    app.Close();
 
     return Result;
 }

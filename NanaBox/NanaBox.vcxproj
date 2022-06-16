@@ -4,28 +4,99 @@
   <Import Project="..\Mile.Project.Windows\Mile.Project.Platform.ARM64.props" />
   <PropertyGroup Label="Globals">
     <ProjectGuid>{BF54E51D-D562-4F07-8FE0-EF538B0A1628}</ProjectGuid>
+    <ProjectName>NanaBox</ProjectName>
     <RootNamespace>NanaBox</RootNamespace>
     <MileProjectType>WindowsApplication</MileProjectType>
     <MileProjectManifestFile>NanaBox.manifest</MileProjectManifestFile>
+    <MinimalCoreWin>false</MinimalCoreWin>
+    <DefaultLanguage>en</DefaultLanguage>
+    <AppContainerApplication>false</AppContainerApplication>
+    <AppxPackage>false</AppxPackage>
+    <ApplicationType>Windows Store</ApplicationType>
+    <ApplicationTypeRevision>10.0</ApplicationTypeRevision>
     <WindowsTargetPlatformMinVersion>10.0.17763.0</WindowsTargetPlatformMinVersion>
     <MileProjectEnableVCLTLSupport>true</MileProjectEnableVCLTLSupport>
     <MileProjectEnableCppWinRTSupport>true</MileProjectEnableCppWinRTSupport>
   </PropertyGroup>
+  <PropertyGroup Label="Globals">
+    <!--
+      This is an override that, puzzlingly, _forces XBF (XAML binary) embedding_.
+      We have to do this to overcome a layout issue in the WAP packaging project.
+      When we do this, the XBF ends up in resources.pri.
+    -->
+    <DisableEmbeddedXbf>false</DisableEmbeddedXbf>
+    <_SupportXbfAsEmbedFileResources>true</_SupportXbfAsEmbedFileResources>
+  </PropertyGroup>
   <Import Project="..\Mile.Project.Windows\Mile.Project.Cpp.props" />
   <Import Project="..\ThirdParty\ThirdParty.props" />
+  <ImportGroup Label="PropertySheets">
+    <Import Project="PropertySheet.props" />
+  </ImportGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <PreprocessorDefinitions>DISABLE_XAML_GENERATED_MAIN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="HostCompute.cpp" />
+    <ClCompile Include="MainWindowControl.cpp">
+      <DependentUpon>MainWindowControl.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
     <ClCompile Include="NanaBox.cpp" />
     <ClCompile Include="RdpClient.cpp" />
+    <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
+    <ClCompile Include="pch.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="App.cpp">
+      <DependentUpon>App.xaml</DependentUpon>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+  </ItemGroup>
+  <ItemGroup>
+    <Midl Include="App.idl">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Midl>
+    <Midl Include="MainWindowControl.idl">
+      <DependentUpon>MainWindowControl.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Midl>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="PropertySheet.props" />
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="NanaBox.manifest" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\NanaGet\NanaGet\pch.h" />
     <ClInclude Include="HostCompute.h" />
+    <ClInclude Include="MainWindowControl.h">
+      <DependentUpon>MainWindowControl.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="Mile.Project.Properties.h" />
     <ClInclude Include="MsTscAx.h" />
     <ClInclude Include="RdpClient.h" />
+    <ClInclude Include="App.h">
+      <DependentUpon>App.xaml</DependentUpon>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Mile.Xaml\Mile.Xaml.vcxproj">
+      <Project>{4c5da281-1fdd-41b7-9d3f-94132227ca0e}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="MainWindowControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <Import Project="..\Mile.Project.Windows\Mile.Project.Cpp.targets" />
+  <Import Project="..\Mile.Xaml\MrtCore.PriGen.targets" />
 </Project>
