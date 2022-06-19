@@ -18,11 +18,11 @@
 #define _ATL_NO_AUTOMATIC_NAMESPACE
 #include <atlbase.h>
 #include <atlhost.h>
+#include <atltypes.h>
 
 #define _WTL_NO_AUTOMATIC_NAMESPACE
 #include <atlapp.h>
 #include <atlcrack.h>
-#include <atltypes.h>
 
 
 #include "pch.h"
@@ -217,7 +217,7 @@ int NanaBox::MainWindow::OnCreate(
         this->m_hWnd,
         ClientRect,
         nullptr,
-        WS_CHILD | WS_VISIBLE))
+        WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN))
     {
         return -1;
     }
