@@ -204,18 +204,9 @@ int NanaBox::MainWindow::OnCreate(
 
     this->m_RdpClient->EnableEventsDispatcher();
 
-    UINT DpiValue = ::GetDpiForWindow(this->m_hWnd);
-
-    int MainWindowControlHeight =
-        ::MulDiv(40, DpiValue, USER_DEFAULT_SCREEN_DPI);
-
-    RECT ClientRect;
-    winrt::check_bool(this->GetClientRect(&ClientRect));
-    ClientRect.top += MainWindowControlHeight;
-
     if (!this->m_RdpClientWindow.Create(
         this->m_hWnd,
-        ClientRect,
+        this->m_RdpClientWindow.rcDefault,
         nullptr,
         WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN))
     {
@@ -237,14 +228,6 @@ int NanaBox::MainWindow::OnCreate(
     HWND XamlWindowHandle = nullptr;
     winrt::check_hresult(
         XamlSourceNative->get_WindowHandle(&XamlWindowHandle));
-    ::SetWindowPos(
-        XamlWindowHandle,
-        nullptr,
-        0,
-        0,
-        ClientRect.right - ClientRect.left,
-        MainWindowControlHeight,
-        SWP_SHOWWINDOW);
 
     // Focus on XAML Island host window for Acrylic brush support.
     ::SetFocus(XamlWindowHandle);
