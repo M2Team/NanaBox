@@ -547,7 +547,12 @@ int WINAPI wWinMain(
         }
     })";*/
 
-    static constexpr wchar_t c_VmConfiguration[] = LR"(
+    winrt::check_hresult(::HcsCreateEmptyGuestStateFile(L"D:\\Test\\Test.vmgs"));
+    winrt::check_hresult(::HcsCreateEmptyRuntimeStateFile(L"D:\\Test\\Test.vmrs"));
+    winrt::check_hresult(::HcsGrantVmAccess(L"Sample", L"D:\\Test\\Test.vmgs"));
+    winrt::check_hresult(::HcsGrantVmAccess(L"Sample", L"D:\\Test\\Test.vmrs"));
+
+    /*static constexpr wchar_t c_VmConfiguration[] = LR"(
     {
         "SchemaVersion": {
             "Major": 2,
@@ -558,6 +563,7 @@ int WINAPI wWinMain(
         "VirtualMachine": {
             "Chipset": {
                 "Uefi": {
+                    "ApplySecureBootTemplate": "Apply",
                     "SecureBootTemplateId": "1734c6e8-3154-4dda-ba5f-a874cc483422"
                 }
             },
@@ -585,6 +591,57 @@ int WINAPI wWinMain(
                             "0": {
                                 "Type": "VirtualDisk",
                                 "Path": "D:\\Hyper-V\\DemoVM\\Virtual Hard Disks\\DemoVM.vhdx"
+                            }
+                        }
+                    }
+                }
+            },
+            "GuestState": {
+                "GuestStateFilePath": "D:\\Test\\Test.vmgs",
+                "RuntimeStateFilePath": "D:\\Test\\Test.vmrs"
+            },
+            "SecuritySettings": {
+                "EnableTpm": true
+            }
+        }
+    })";*/
+
+    static constexpr wchar_t c_VmConfiguration[] = LR"(
+    {
+        "SchemaVersion": {
+            "Major": 2,
+            "Minor": 1
+        },
+        "Owner": "Sample",
+        "ShouldTerminateOnLastHandleClosed": true,
+        "VirtualMachine": {
+            "Chipset": {
+                "Uefi": {}
+            },
+            "ComputeTopology": {
+                "Memory": {
+                    "Backing": "Virtual",
+                    "SizeInMB": 2048
+                },
+                "Processor": {
+                    "Count": 2,
+                    "ExposeVirtualizationExtensions": true
+                }
+            },
+            "Devices": {
+                "VideoMonitor": {
+                    "HorizontalResolution" : 1024,
+                    "VerticalResolution": 768
+                },
+                "EnhancedModeVideo": {},
+                "Keyboard": {},
+                "Mouse": {},
+                "Scsi": {
+                    "Primary disk": {
+                        "Attachments": {
+                            "0": {
+                                "Type": "VirtualDisk",
+                                "Path": "D:\\NanaBox VM\\UEFIDebugDisk.vhdx"
                             }
                         }
                     }
