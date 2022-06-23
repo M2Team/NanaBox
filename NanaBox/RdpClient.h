@@ -1074,4 +1074,9 @@ namespace NanaBox
     };
 }
 
+namespace winrt::NanaBox
+{
+    using namespace ::NanaBox;
+}
+
 #endif // !NANABOX_RDPCLIENT
