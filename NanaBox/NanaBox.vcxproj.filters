@@ -25,8 +25,8 @@
     <ClInclude Include="HostCompute.h">
       <Filter>HostCompute</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\NanaGet\NanaGet\pch.h" />
     <ClInclude Include="NanaBoxResources.h" />
+    <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="RdpClient">
