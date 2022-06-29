@@ -123,16 +123,18 @@ bool ShouldAppsUseImmersiveDarkMode()
 namespace winrt
 {
     using Windows::Data::Json::JsonObject;
-    using winrt::Windows::UI::Xaml::ElementTheme;
-    using winrt::Windows::UI::Xaml::FrameworkElement;
-    using winrt::Windows::UI::Xaml::UIElement;
-    using winrt::Windows::UI::Xaml::Hosting::DesktopWindowXamlSource;
-    using winrt::Windows::UI::Xaml::Media::VisualTreeHelper;
+    using Windows::UI::Xaml::ElementTheme;
+    using Windows::UI::Xaml::FrameworkElement;
+    using Windows::UI::Xaml::UIElement;
+    using Windows::UI::Xaml::Hosting::DesktopWindowXamlSource;
+    using Windows::UI::Xaml::Media::VisualTreeHelper;
 }
 
 namespace
 {
     winrt::hstring g_VMID = L"48781dff-90cc-4650-89c3-fe12e6210b19";
+    bool volatile g_VirtualMachineRunning = false;
+    bool volatile g_RdpClientEnhancedMode = false;
 }
 
 namespace NanaBox
@@ -281,7 +283,7 @@ int NanaBox::MainWindow::OnCreate(
 
 
 
-    this->m_RdpClient->PCB(g_VMID.c_str()/* + winrt::hstring(L";" L"EnhancedMode=1")*/);
+    this->m_RdpClient->PCB(g_VMID.c_str() + winrt::hstring(L";" L"EnhancedMode=1"));
 
     this->m_RdpClient->Connect();
 
@@ -314,9 +316,10 @@ int NanaBox::MainWindow::OnCreate(
     {
         UNREFERENCED_PARAMETER(DisconnectReason);
 
-        DisconnectReason = DisconnectReason;
-
-        //this->m_RdpClient->Connect();  
+        if (g_VirtualMachineRunning)
+        {
+            this->m_RdpClient->Connect();
+        }
     });
 
     return 0;
@@ -361,22 +364,22 @@ void NanaBox::MainWindow::OnSize(
 
     //g_RdpClient->SyncSessionDisplaySettings();
 
-    //if (g_RdpClient->Connected() == 1)
-    //{
-    //    ULONG Width = ClientRect.right - ClientRect.left;
-    //    ULONG Height = ClientRect.bottom - ClientRect.top;
+    if (this->m_RdpClient->Connected() == 1)
+    {
+        ULONG Width = ClientRect.right - ClientRect.left;
+        ULONG Height = ClientRect.bottom - ClientRect.top;
 
-    //    //UINT WindowDpi = ::GetDpiForWindow(hWnd);
+        UINT WindowDpi = ::GetDpiForWindow(this->m_hWnd);
 
-    //    g_RdpClient->UpdateSessionDisplaySettings(
-    //        Width,
-    //        Height,
-    //        Width,
-    //        Height,
-    //        0,
-    //        150, //(ULONG)(WindowDpi * 100.0 / 96.0),
-    //        100);
-    //}
+        this->m_RdpClient->UpdateSessionDisplaySettings(
+            Width,
+            Height,
+            Width,
+            Height,
+            0,
+            static_cast<ULONG>(WindowDpi * 100.0 / 96.0),
+            100);
+    }
 }
 
 void NanaBox::MainWindow::OnDpiChanged(
@@ -530,10 +533,10 @@ int WINAPI wWinMain(
         }
     })";*/
 
-    winrt::check_hresult(::HcsCreateEmptyGuestStateFile(L"D:\\Test\\Test.vmgs"));
+    /*winrt::check_hresult(::HcsCreateEmptyGuestStateFile(L"D:\\Test\\Test.vmgs"));
     winrt::check_hresult(::HcsCreateEmptyRuntimeStateFile(L"D:\\Test\\Test.vmrs"));
     winrt::check_hresult(::HcsGrantVmAccess(L"Sample", L"D:\\Test\\Test.vmgs"));
-    winrt::check_hresult(::HcsGrantVmAccess(L"Sample", L"D:\\Test\\Test.vmrs"));
+    winrt::check_hresult(::HcsGrantVmAccess(L"Sample", L"D:\\Test\\Test.vmrs"));*/
 
     /*static constexpr wchar_t c_VmConfiguration[] = LR"(
     {
@@ -580,8 +583,8 @@ int WINAPI wWinMain(
                 }
             },
             "GuestState": {
-                "GuestStateFilePath": "D:\\Test\\Test.vmgs",
-                "RuntimeStateFilePath": "D:\\Test\\Test.vmrs"
+                "GuestStateFilePath": "D:\\Hyper-V\\DemoVM\\Virtual Machines\\48781DFF-90CC-4650-89C3-FE12E6210B19.vmgs",
+                "RuntimeStateFilePath": "D:\\Hyper-V\\DemoVM\\Virtual Machines\\48781DFF-90CC-4650-89C3-FE12E6210B19.vmrs"
             },
             "SecuritySettings": {
                 "EnableTpm": true
@@ -599,7 +602,13 @@ int WINAPI wWinMain(
         "ShouldTerminateOnLastHandleClosed": true,
         "VirtualMachine": {
             "Chipset": {
-                "Uefi": {}
+                "Uefi": {
+                    "BootThis": {
+                        "DevicePath": "Primary disk",
+                        "DiskNumber": 0,
+                        "DeviceType": "ScsiDrive"
+                    }
+                }
             },
             "ComputeTopology": {
                 "Memory": {
@@ -624,15 +633,11 @@ int WINAPI wWinMain(
                         "Attachments": {
                             "0": {
                                 "Type": "VirtualDisk",
-                                "Path": "D:\\NanaBox VM\\UEFIDebugDisk.vhdx"
+                                "Path": "D:\\Hyper-V\\DemoVM\\Virtual Hard Disks\\DemoVM.vhdx"
                             }
                         }
                     }
                 }
-            },
-            "GuestState": {
-                "GuestStateFilePath": "D:\\Hyper-V\\DemoVM\\Virtual Machines\\48781DFF-90CC-4650-89C3-FE12E6210B19.vmgs",
-                "RuntimeStateFilePath": "D:\\Hyper-V\\DemoVM\\Virtual Machines\\48781DFF-90CC-4650-89C3-FE12E6210B19.vmrs"
             }
         }
     })";
@@ -653,115 +658,17 @@ int WINAPI wWinMain(
     {
         UNREFERENCED_PARAMETER(EventData);
 
-        //g_RdpClient->OnDisconnected(g_OnDisconnectedToken);
-        //g_RdpClient->Disconnect();
+        g_VirtualMachineRunning = false;
     });
 
     test.SystemRdpEnhancedModeStateChanged([]()
     {
-        ::MessageBoxW(nullptr, L"fuck", L"NanaZip", 0);
-        /*try
-        {
-            g_RdpClient->Disconnect();
-            while (g_RdpClient->Connected());
-
-            winrt::com_ptr<IOleInPlaceObject> OleInPlaceObject =
-                g_RdpClient->RawControl().as<IOleInPlaceObject>();
-
-            winrt::check_hresult(OleInPlaceObject->InPlaceDeactivate());
-
-            winrt::com_ptr<IOleObject> OleObject =
-                g_RdpClient->RawControl().as<IOleObject>();
-
-            winrt::check_hresult(OleObject->Close(OLECLOSE_NOSAVE));
-            winrt::check_hresult(OleObject->SetClientSite(nullptr));
-
-            g_RdpClient = nullptr;
-        }
-        catch (...)
-        {
-
-        }
-
-        for (size_t i = 0; i < 5; ++i)
-        {
-            try
-            {
-                ::Sleep(50);
-
-                HWND hWnd = g_WindowHandle;
-
-                g_RdpClient = winrt::make_self<NanaBox::RdpClient>();
-
-                RECT ClientRect;
-                winrt::check_bool(::GetClientRect(hWnd, &ClientRect));
-                ClientRect.top += 100;
-                ClientRect.bottom -= 50;
-
-                winrt::com_ptr<IOleObject> OleObject =
-                    g_RdpClient->RawControl().as<IOleObject>();
-
-                winrt::com_ptr<IOleInPlaceActiveObject> OleInPlaceActiveObject =
-                    g_RdpClient->RawControl().as<IOleInPlaceActiveObject>();
-
-                winrt::com_ptr<IOleInPlaceObject> OleInPlaceObject =
-                    g_RdpClient->RawControl().as<IOleInPlaceObject>();
-
-                winrt::check_hresult(OleObject->SetClientSite(
-                    g_OleClientSite.get()));
-
-                winrt::check_hresult(OleObject->DoVerb(
-                    OLEIVERB_INPLACEACTIVATE,
-                    nullptr,
-                    g_OleClientSite.get(),
-                    0,
-                    hWnd,
-                    &ClientRect));
-
-                g_RdpClient->EnableAutoReconnect(false);
-                g_RdpClient->RelativeMouseMode(true);
-                g_RdpClient->AuthenticationServiceClass(L"Microsoft Virtual Console Service");
-
-                g_RdpClient->AuthenticationLevel(0);
-                g_RdpClient->EnableCredSspSupport(true);
-                g_RdpClient->NegotiateSecurityLayer(false);
-                try
-                {
-                    VARIANT Value;
-                    Value.vt = VT_BOOL;
-                    Value.boolVal = VARIANT_TRUE;
-                    g_RdpClient->Property(L"DisableCredentialsDelegation", Value);
-                }
-                catch (...)
-                {
-
-                }
-
-                g_RdpClient->GrabFocusOnConnect(false);
-
-
-
-
-                g_RdpClient->Server(L"localhost");
-                g_RdpClient->RDPPort(2179);
-                g_RdpClient->MinInputSendInterval(20);
-
-                g_RdpClient->PCB(g_VMID.c_str() + winrt::hstring(L";" L"EnhancedMode=1"));
-
-                g_RdpClient->Connect();
-            }
-            catch (...)
-            {
-
-            }
-        }*/
-
-        
-
-        
+        g_RdpClientEnhancedMode = !g_RdpClientEnhancedMode;
     });
 
     test.Start();
+
+    g_VirtualMachineRunning = true;
 
     auto fuck = test.GetProperties();
 
