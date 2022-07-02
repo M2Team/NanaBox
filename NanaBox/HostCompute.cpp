@@ -123,18 +123,6 @@ void NanaBox::ComputeSystem::Terminate()
         this->m_Operation);
 }
 
-//void NanaBox::ComputeSystem::Crash(
-//    winrt::hstring const& Options)
-//{
-//    winrt::check_hresult(::HcsCrashComputeSystem(
-//        this->m_ComputeSystem.get(),
-//        this->m_Operation.get(),
-//        Options.empty() ? nullptr : Options.c_str()));
-//
-//    ::WaitForOperationResult(
-//        this->m_Operation);
-//}
-
 void NanaBox::ComputeSystem::Pause(
     winrt::hstring const& Options)
 {
