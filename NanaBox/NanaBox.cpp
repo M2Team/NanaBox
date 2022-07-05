@@ -592,6 +592,65 @@ int WINAPI wWinMain(
         }
     })";*/
 
+    /*static constexpr wchar_t c_VmConfiguration[] = LR"(
+    {
+        "SchemaVersion": {
+            "Major": 2,
+            "Minor": 1
+        },
+        "Owner": "Sample",
+        "ShouldTerminateOnLastHandleClosed": true,
+        "VirtualMachine": {
+            "Chipset": {
+                "Uefi": {
+                    "BootThis": {
+                        "DevicePath": "Primary disk",
+                        "DiskNumber": 0,
+                        "DeviceType": "ScsiDrive"
+                    }
+                }
+            },
+            "ComputeTopology": {
+                "Memory": {
+                    "Backing": "Virtual",
+                    "SizeInMB": 2048
+                },
+                "Processor": {
+                    "Count": 2,
+                    "ExposeVirtualizationExtensions": true
+                }
+            },
+            "Devices": {
+                "VideoMonitor": {
+                    "HorizontalResolution" : 1024,
+                    "VerticalResolution": 768
+                },
+                "EnhancedModeVideo": {},
+                "Keyboard": {},
+                "Mouse": {},
+                "Scsi": {
+                    "Primary disk": {
+                        "Attachments": {
+                            "0": {
+                                "Type": "VirtualDisk",
+                                "Path": "D:\\Hyper-V\\DemoVM\\Virtual Hard Disks\\DemoVM.vhdx"
+                            }
+                        }
+                    }
+                }
+            },
+            "GuestState": {
+                "GuestStateFilePath": "D:\\NanaBox VM\\B5BAB8AD-5A00-4EB7-BD48-966E3D382307.vmgs",
+                "GuestStateFileType": "FileMode",
+			    "ForceTransientState": true,
+                "RuntimeStateFilePath": "D:\\NanaBox VM\\B5BAB8AD-5A00-4EB7-BD48-966E3D382307.vmrs"
+            },
+            "SecuritySettings": {
+                "EnableTpm": true
+            }
+        }
+    })";*/
+
     static constexpr wchar_t c_VmConfiguration[] = LR"(
     {
         "SchemaVersion": {
@@ -634,6 +693,9 @@ int WINAPI wWinMain(
                             "0": {
                                 "Type": "VirtualDisk",
                                 "Path": "D:\\Hyper-V\\DemoVM\\Virtual Hard Disks\\DemoVM.vhdx"
+                            },
+                            "1": {
+                                "Type": "Iso"
                             }
                         }
                     }
