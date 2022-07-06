@@ -13,19 +13,4 @@ namespace winrt::NanaBox::implementation
     {
         InitializeComponent();
     }
-
-    int32_t MainWindowControl::MyProperty()
-    {
-        throw hresult_not_implemented();
-    }
-
-    void MainWindowControl::MyProperty(int32_t /* value */)
-    {
-        throw hresult_not_implemented();
-    }
-
-    void MainWindowControl::ClickHandler(IInspectable const&, RoutedEventArgs const&)
-    {
-        Button().Content(box_value(L"Clicked"));
-    }
 }

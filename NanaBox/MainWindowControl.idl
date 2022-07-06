@@ -1,9 +1,8 @@
-namespace NanaBox
+﻿namespace NanaBox
 {
     [default_interface]
     runtimeclass MainWindowControl : Windows.UI.Xaml.Controls.Page
     {
         MainWindowControl();
-        Int32 MyProperty;
     }
 }
