@@ -18,6 +18,8 @@
 #endif
 
 #include <cstdint>
+#include <string>
+#include <vector>
 
 namespace NanaBox
 {
@@ -41,6 +43,52 @@ namespace NanaBox
         VirtualDisk = 0,
         VirtualImage = 1,
         PhysicalDevice = 2,
+    };
+
+    struct GpuConfiguration
+    {
+        GpuAssignmentMode AssignmentMode;
+        std::vector<std::string> SelectedDevices;
+    };
+
+    struct ScsiDeviceConfiguration
+    {
+        bool Enabled;
+        ScsiDeviceType Type;
+        std::string Path;
+    };
+
+    struct NetworkAdapterConfiguration
+    {
+        bool Enabled;
+        bool Connected;
+        std::string MacAddress;
+    };
+
+    struct SharedFolderConfiguration
+    {
+        bool Enabled;
+        bool ReadOnly;
+        std::string HostPath;
+        std::string GuestName;
+    };
+
+    struct VirtualMachineConfiguration
+    {
+        std::uint32_t Version;
+        GuestType GuestType;
+        std::string Name;
+        std::uint32_t ProcessorCount;
+        std::uint64_t MemorySize;
+        std::vector<std::string> ComPorts;
+        GpuConfiguration Gpu;
+        std::vector<NetworkAdapterConfiguration> NetworkAdapters;
+        std::vector<ScsiDeviceConfiguration> ScsiDevices;
+        std::vector<SharedFolderConfiguration> SharedFolders;
+        bool SecureBoot;
+        bool Tpm;
+        std::string GuestStateFile;
+        std::string RuntimeStateFile;
     };
 }
 
