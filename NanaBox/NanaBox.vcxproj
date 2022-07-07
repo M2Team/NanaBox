@@ -28,7 +28,7 @@
     <_SupportXbfAsEmbedFileResources>true</_SupportXbfAsEmbedFileResources>
   </PropertyGroup>
   <Import Project="..\Mile.Project.Windows\Mile.Project.Cpp.props" />
-  <Import Project="..\ThirdParty\ThirdParty.props" />
+  <Import Project="..\ThirdParty\WindowsTemplateLibrary.props" />
   <Import Project="..\ThirdParty\JsonForModernC++.props" />
   <ImportGroup Label="PropertySheets">
     <Import Project="PropertySheet.props" />
