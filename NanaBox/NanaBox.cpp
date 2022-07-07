@@ -12,6 +12,7 @@
 
 #include "RdpClient.h"
 #include "HostCompute.h"
+#include "VirtualMachineConfiguration.h"
 
 #include <cwchar>
 
@@ -193,32 +194,10 @@ namespace NanaBox
 
 namespace NanaBox
 {
-    enum class GuestType : std::int32_t
-    {
-        Unknown = 0,
-        Windows = 1,
-        Linux = 2,
-    };
-
-    enum class GpuAssignmentMode : std::int32_t
-    {
-        Disabled = 0,
-        Default = 1,
-        List = 2,
-        Mirror = 3,
-    };
-
     struct GpuConfiguration
     {
         GpuAssignmentMode AssignmentMode;
         std::vector<winrt::hstring> SelectedDevices;
-    };
-
-    enum class ScsiDeviceType : std::int32_t
-    {
-        VirtualDisk = 0,
-        VirtualImage = 1,
-        PhysicalDevice = 2,
     };
 
     struct ScsiDeviceConfiguration

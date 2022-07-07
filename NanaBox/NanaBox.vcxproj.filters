@@ -10,6 +10,9 @@
     </ClCompile>
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
     <ClCompile Include="pch.cpp" />
+    <ClCompile Include="VirtualMachineConfiguration.cpp">
+      <Filter>VirtualMachineConfiguration</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="NanaBox.manifest" />
@@ -27,6 +30,9 @@
     </ClInclude>
     <ClInclude Include="NanaBoxResources.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="VirtualMachineConfiguration.h">
+      <Filter>VirtualMachineConfiguration</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="RdpClient">
@@ -34,6 +40,9 @@
     </Filter>
     <Filter Include="HostCompute">
       <UniqueIdentifier>{e489b7f6-6f4d-47c2-b821-915b5528c4e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VirtualMachineConfiguration">
+      <UniqueIdentifier>{80460fc0-e997-49cc-848e-d24bb72e5521}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

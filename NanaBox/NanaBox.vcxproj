@@ -52,6 +52,7 @@
     <ClCompile Include="App.cpp">
       <DependentUpon>App.xaml</DependentUpon>
     </ClCompile>
+    <ClCompile Include="VirtualMachineConfiguration.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -87,6 +88,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </ClInclude>
     <ClInclude Include="NanaBoxResources.h" />
+    <ClInclude Include="VirtualMachineConfiguration.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mile.Xaml\Mile.Xaml.vcxproj">
