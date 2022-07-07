@@ -349,3 +349,86 @@ NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
 
     return Result;
 }
+
+std::string NanaBox::SerializeConfiguration(
+    NanaBox::VirtualMachineConfiguration const& Configuration)
+{
+    nlohmann::json RootJson;
+    RootJson["Type"] = "VirtualMachine";
+    RootJson["Version"] = Configuration.Version;
+    RootJson["GuestType"] = Configuration.GuestType;
+    RootJson["Name"] = Configuration.Name;
+    RootJson["ProcessorCount"] = Configuration.ProcessorCount;
+    RootJson["MemorySize"] = Configuration.MemorySize;
+    {
+        nlohmann::json ComPorts;
+        for (std::string const& ComPort
+            : Configuration.ComPorts)
+        {
+            ComPorts.push_back(ComPort);
+        }
+        RootJson["ComPorts"] = ComPorts;
+    }
+    {
+        nlohmann::json Gpu;
+        Gpu["AssignmentMode"] = Configuration.Gpu.AssignmentMode;
+        {
+            nlohmann::json SelectedDevices;
+            for (std::string const& SelectedDevice
+                : Configuration.Gpu.SelectedDevices)
+            {
+                SelectedDevices.push_back(SelectedDevice);
+            }
+            Gpu["SelectedDevices"] = SelectedDevices;
+        }
+        RootJson["Gpu"] = Gpu;
+    }
+    {
+        nlohmann::json NetworkAdapters;
+        for (NanaBox::NetworkAdapterConfiguration const& NetworkAdapter
+            : Configuration.NetworkAdapters)
+        {
+            nlohmann::json Current;
+            Current["Enabled"] = NetworkAdapter.Enabled;
+            Current["Connected"] = NetworkAdapter.Connected;
+            Current["MacAddress"] = NetworkAdapter.MacAddress;
+            NetworkAdapters.push_back(Current);
+        }
+        RootJson["NetworkAdapters"] = NetworkAdapters;
+    }
+    {
+        nlohmann::json ScsiDevices;
+        for (NanaBox::ScsiDeviceConfiguration const& ScsiDevice
+            : Configuration.ScsiDevices)
+        {
+            nlohmann::json Current;
+            Current["Enabled"] = ScsiDevice.Enabled;
+            Current["Type"] = ScsiDevice.Type;
+            Current["Path"] = ScsiDevice.Path;
+            ScsiDevices.push_back(Current);
+        }
+        RootJson["ScsiDevices"] = ScsiDevices;
+    }
+    {
+        nlohmann::json SharedFolders;
+        for (NanaBox::SharedFolderConfiguration const& SharedFolder
+            : Configuration.SharedFolders)
+        {
+            nlohmann::json Current;
+            Current["Enabled"] = SharedFolder.Enabled;
+            Current["ReadOnly"] = SharedFolder.ReadOnly;
+            Current["HostPath"] = SharedFolder.HostPath;
+            Current["GuestName"] = SharedFolder.GuestName;
+            SharedFolders.push_back(Current);
+        }
+        RootJson["SharedFolders"] = SharedFolders;
+    }
+    RootJson["SecureBoot"] = Configuration.SecureBoot;
+    RootJson["Tpm"] = Configuration.Tpm;
+    RootJson["GuestStateFile"] = Configuration.GuestStateFile;
+    RootJson["RuntimeStateFile"] = Configuration.RuntimeStateFile;
+
+    nlohmann::json Result;
+    Result["NanaBox"] = RootJson;
+    return Result.dump(2);
+}

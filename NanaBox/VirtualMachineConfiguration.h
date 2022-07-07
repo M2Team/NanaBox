@@ -51,18 +51,18 @@ namespace NanaBox
         std::vector<std::string> SelectedDevices;
     };
 
-    struct ScsiDeviceConfiguration
-    {
-        bool Enabled;
-        ScsiDeviceType Type;
-        std::string Path;
-    };
-
     struct NetworkAdapterConfiguration
     {
         bool Enabled;
         bool Connected;
         std::string MacAddress;
+    };
+
+    struct ScsiDeviceConfiguration
+    {
+        bool Enabled;
+        ScsiDeviceType Type;
+        std::string Path;
     };
 
     struct SharedFolderConfiguration
@@ -93,6 +93,9 @@ namespace NanaBox
 
     VirtualMachineConfiguration DeserializeConfiguration(
         std::string const& Configuration);
+
+    std::string SerializeConfiguration(
+        VirtualMachineConfiguration const& Configuration);
 }
 
 #endif // !NANABOX_VIRTUALMACHINECONFIGURATION
