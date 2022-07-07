@@ -90,6 +90,9 @@ namespace NanaBox
         std::string GuestStateFile;
         std::string RuntimeStateFile;
     };
+
+    VirtualMachineConfiguration DeserializeConfiguration(
+        std::string const& Configuration);
 }
 
 #endif // !NANABOX_VIRTUALMACHINECONFIGURATION
