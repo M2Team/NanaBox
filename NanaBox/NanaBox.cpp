@@ -36,6 +36,8 @@
 #include <winrt/Windows.UI.Xaml.Hosting.h>
 #include <windows.ui.xaml.hosting.desktopwindowxamlsource.h>
 
+#include <json.hpp>
+
 #include <winrt/Windows.Data.Json.h>
 
 #include "NanaBoxResources.h"
@@ -115,330 +117,8 @@ namespace NanaBox
 
 namespace NanaBox
 {
-    struct GpuConfiguration
-    {
-        GpuAssignmentMode AssignmentMode;
-        std::vector<winrt::hstring> SelectedDevices;
-    };
-
-    struct ScsiDeviceConfiguration
-    {
-        bool Enabled;
-        ScsiDeviceType Type;
-        winrt::hstring Path;
-    };
-
-    struct NetworkAdapterConfiguration
-    {
-        bool Enabled;
-        bool Connected;
-        winrt::hstring MacAddress;
-    };
-
-    struct SharedFolderConfiguration
-    {
-        bool Enabled;
-        bool ReadOnly;
-        winrt::hstring HostPath;
-        winrt::hstring GuestName;
-    };
-
-    struct VirtualMachineConfiguration
-    {      
-        std::uint32_t Version;
-        GuestType GuestType;
-        winrt::hstring Name;
-        std::uint32_t ProcessorCount;
-        std::uint64_t MemorySize;
-        std::vector<winrt::hstring> ComPorts;
-        GpuConfiguration Gpu;  
-        std::vector<NetworkAdapterConfiguration> NetworkAdapters;
-        std::vector<ScsiDeviceConfiguration> ScsiDevices;
-        std::vector<SharedFolderConfiguration> SharedFolders;
-    };
-
-    VirtualMachineConfiguration ParseVirtualMachineConfiguration(
-        winrt::hstring const& Configuration);
-
     winrt::hstring GenerateComputeSystemConfiguration(
         VirtualMachineConfiguration const& Configuration);
-}
-
-NanaBox::VirtualMachineConfiguration NanaBox::ParseVirtualMachineConfiguration(
-    winrt::hstring const& Configuration)
-{
-    winrt::JsonObject ParsedJsonObject = nullptr;
-    if (!winrt::JsonObject::TryParse(
-        Configuration,
-        ParsedJsonObject))
-    {
-        throw winrt::hresult_invalid_argument(
-            L"Invalid JSON");
-    }
-
-    winrt::JsonObject RootJsonObject =
-        ParsedJsonObject.GetNamedObject(
-            L"NanaBox",
-            nullptr);
-    if (!RootJsonObject)
-    {
-        throw winrt::hresult_invalid_argument(
-            L"Invalid Configuration");
-    }
-
-    if (L"VirtualMachine" != RootJsonObject.GetNamedString(
-        L"Type",
-        winrt::hstring()))
-    {
-        throw winrt::hresult_invalid_argument(
-            L"Invalid Virtual Machine Configuration");
-    }
-
-    NanaBox::VirtualMachineConfiguration Result;
-
-    Result.Version = static_cast<std::uint32_t>(
-        RootJsonObject.GetNamedNumber(
-            L"Version",
-            static_cast<double>(1)));
-    if (Result.Version < 1 || Result.Version > 1)
-    {
-        throw winrt::hresult_invalid_argument(
-            L"Invalid Version");
-    }
-
-    winrt::hstring GuestType = RootJsonObject.GetNamedString(
-        L"GuestType",
-        winrt::hstring());
-    if (0 == std::wcscmp(GuestType.c_str(), L"Windows"))
-    {
-        Result.GuestType = NanaBox::GuestType::Windows;
-    }
-    else if (0 == std::wcscmp(GuestType.c_str(), L"Linux"))
-    {
-        Result.GuestType = NanaBox::GuestType::Linux;
-    }
-    else
-    {
-        Result.GuestType = NanaBox::GuestType::Unknown;
-    }
-
-    Result.Name = RootJsonObject.GetNamedString(
-        L"Name",
-        winrt::hstring());
-
-    Result.ProcessorCount = static_cast<std::uint32_t>(
-        RootJsonObject.GetNamedNumber(
-            L"ProcessorCount",
-            0.0));
-    if (!Result.ProcessorCount)
-    {
-        throw winrt::hresult_out_of_bounds(
-            L"Invalid Processor Count");
-    }
-
-    Result.MemorySize = static_cast<std::uint32_t>(
-        RootJsonObject.GetNamedNumber(
-            L"MemorySize",
-            0.0));
-    if (!Result.MemorySize)
-    {
-        throw winrt::hresult_out_of_bounds(
-            L"Invalid Memory Size");
-    }
-
-    winrt::JsonArray ComPorts = RootJsonObject.GetNamedArray(
-        L"ComPorts",
-        nullptr);
-    if (ComPorts)
-    {
-        for (winrt::IJsonValue const& RawComPort : ComPorts)
-        {
-            winrt::hstring Current = RawComPort.GetString();
-            if (Current.empty())
-            {
-                continue;
-            }
-
-            Result.ComPorts.push_back(Current);
-        }
-    }
-    
-    winrt::JsonObject Gpu = RootJsonObject.GetNamedObject(
-        L"Gpu",
-        nullptr);
-    if (Gpu)
-    {
-        winrt::hstring AssignmentMode = Gpu.GetNamedString(
-            L"AssignmentMode",
-            winrt::hstring());
-        if (0 == std::wcscmp(AssignmentMode.c_str(), L"Default"))
-        {
-            Result.Gpu.AssignmentMode = NanaBox::GpuAssignmentMode::Default;
-        }
-        else if (0 == std::wcscmp(AssignmentMode.c_str(), L"List"))
-        {
-            Result.Gpu.AssignmentMode = NanaBox::GpuAssignmentMode::List;
-        }
-        else if (0 == std::wcscmp(AssignmentMode.c_str(), L"Mirror"))
-        {
-            Result.Gpu.AssignmentMode = NanaBox::GpuAssignmentMode::Mirror;
-        }
-        else
-        {
-            Result.Gpu.AssignmentMode = NanaBox::GpuAssignmentMode::Disabled;
-        }
-
-        winrt::JsonArray SelectedDevices = RootJsonObject.GetNamedArray(
-            L"SelectedDevices",
-            nullptr);
-        if (SelectedDevices)
-        {
-            for (winrt::IJsonValue const& RawSelectedDevice : SelectedDevices)
-            {
-                winrt::hstring Current = RawSelectedDevice.GetString();
-                if (Current.empty())
-                {
-                    continue;
-                }
-
-                Result.Gpu.SelectedDevices.push_back(Current);
-            }
-        }
-        
-        if (Result.Gpu.SelectedDevices.empty() &&
-            Result.Gpu.AssignmentMode == NanaBox::GpuAssignmentMode::List)
-        {
-            Result.Gpu.AssignmentMode = NanaBox::GpuAssignmentMode::Disabled;
-        }
-
-        if (Result.Gpu.AssignmentMode != NanaBox::GpuAssignmentMode::List)
-        {
-            Result.Gpu.SelectedDevices.clear();
-        }
-    }
-
-    winrt::JsonArray NetworkAdapters = RootJsonObject.GetNamedArray(
-        L"NetworkAdapters",
-        nullptr);
-    if (NetworkAdapters)
-    {
-        for (winrt::IJsonValue const& RawNetworkAdapter : NetworkAdapters)
-        {
-            winrt::JsonObject NetworkAdapter =
-                RawNetworkAdapter.GetObject();
-
-            NanaBox::NetworkAdapterConfiguration Current;
-
-            Current.Enabled = NetworkAdapter.GetNamedBoolean(
-                L"Enabled",
-                true);
-
-            Current.Connected = NetworkAdapter.GetNamedBoolean(
-                L"Connected",
-                true);
-
-            Current.MacAddress = NetworkAdapter.GetNamedString(
-                L"MacAddress",
-                winrt::hstring());
-            if (Current.MacAddress.empty())
-            {
-                continue;
-            }
-
-            Result.NetworkAdapters.push_back(Current);
-        }
-    }
-
-    winrt::JsonArray ScsiDevices = RootJsonObject.GetNamedArray(
-        L"ScsiDevices",
-        nullptr);
-    if (ScsiDevices)
-    {
-        for (winrt::IJsonValue const& RawScsiDevice : ScsiDevices)
-        {
-            winrt::JsonObject ScsiDevice =
-                RawScsiDevice.GetObject();
-
-            NanaBox::ScsiDeviceConfiguration Current;
-
-            Current.Enabled = ScsiDevice.GetNamedBoolean(
-                L"Enabled",
-                true);
-
-            winrt::hstring Type = ScsiDevice.GetNamedString(
-                L"Type",
-                winrt::hstring());
-            if (0 == std::wcscmp(Type.c_str(), L"VirtualDisk"))
-            {
-                Current.Type = NanaBox::ScsiDeviceType::VirtualDisk;
-            }
-            else if (0 == std::wcscmp(Type.c_str(), L"VirtualImage"))
-            {
-                Current.Type = NanaBox::ScsiDeviceType::VirtualImage;
-            }
-            else if (0 == std::wcscmp(Type.c_str(), L"PhysicalDevice"))
-            {
-                Current.Type = NanaBox::ScsiDeviceType::PhysicalDevice;
-            }
-            else
-            {
-                continue;
-            }
-
-            Current.Path = ScsiDevice.GetNamedString(
-                L"Path",
-                winrt::hstring());
-            if (Current.Path.empty() &&
-                Current.Type != NanaBox::ScsiDeviceType::VirtualImage)
-            {
-                continue;
-            }
-
-            Result.ScsiDevices.push_back(Current);
-        }
-    }
-
-    winrt::JsonArray SharedFolders = RootJsonObject.GetNamedArray(
-        L"SharedFolders",
-        nullptr);
-    if (SharedFolders)
-    {
-        for (winrt::IJsonValue const& RawSharedFolder : SharedFolders)
-        {
-            winrt::JsonObject SharedFolder =
-                RawSharedFolder.GetObject();
-
-            NanaBox::SharedFolderConfiguration Current;
-
-            Current.Enabled = SharedFolder.GetNamedBoolean(
-                L"Enabled",
-                true);
-
-            Current.ReadOnly = SharedFolder.GetNamedBoolean(
-                L"ReadOnly",
-                true);
-
-            Current.HostPath = SharedFolder.GetNamedString(
-                L"HostPath",
-                winrt::hstring());
-            if (Current.HostPath.empty())
-            {
-                continue;
-            }
-
-            Current.GuestName = SharedFolder.GetNamedString(
-                L"GuestName",
-                winrt::hstring());
-            if (Current.GuestName.empty())
-            {
-                continue;
-            }
-
-            Result.SharedFolders.push_back(Current);
-        }
-    }
-
-    return Result;
 }
 
 namespace
@@ -525,17 +205,17 @@ namespace
     }
 
     winrt::JsonObject MakeComPorts(
-        std::vector<winrt::hstring> const& ComPorts)
+        std::vector<std::string> const& ComPorts)
     {
         winrt::JsonObject Result;
         std::uint32_t Count = 0;
-        for (winrt::hstring const& ComPort : ComPorts)
+        for (std::string const& ComPort : ComPorts)
         {
             winrt::JsonObject Current;
 
             Current.Insert(
                 L"NamedPipe",
-                winrt::JsonValue::CreateStringValue(ComPort));
+                winrt::JsonValue::CreateStringValue(winrt::to_hstring(ComPort)));
 
             Result.Insert(
                 winrt::to_hstring(Count++),
@@ -588,7 +268,7 @@ namespace
 
             Current.Insert(
                 L"Path",
-                winrt::JsonValue::CreateStringValue(Device.Path));
+                winrt::JsonValue::CreateStringValue(winrt::to_hstring(Device.Path)));
 
             Attachments.Insert(
                 winrt::to_hstring(Count++),
@@ -622,7 +302,7 @@ winrt::hstring NanaBox::GenerateComputeSystemConfiguration(
     Result.Insert(
         L"Owner",
         winrt::JsonValue::CreateStringValue(
-            Configuration.Name));
+            winrt::to_hstring(Configuration.Name)));
 
     Result.Insert(
         L"ShouldTerminateOnLastHandleClosed",
@@ -1016,26 +696,26 @@ int WINAPI wWinMain(
 
     Configuration.Version = 1;
     Configuration.GuestType = NanaBox::GuestType::Windows;
-    Configuration.Name = L"DemoVM";
+    Configuration.Name = "DemoVM";
     Configuration.ProcessorCount = 2;
     Configuration.MemorySize = 2048;
     {
         NanaBox::ScsiDeviceConfiguration Device;
         Device.Enabled = true;
         Device.Type = NanaBox::ScsiDeviceType::VirtualDisk;
-        Device.Path = L"D:\\Hyper-V\\DemoVM\\Virtual Hard Disks\\DemoVM.vhdx";
+        Device.Path = "D:\\Hyper-V\\DemoVM\\Virtual Hard Disks\\DemoVM.vhdx";
         Configuration.ScsiDevices.push_back(Device);
     }
     {
         NanaBox::ScsiDeviceConfiguration Device;
         Device.Enabled = true;
         Device.Type = NanaBox::ScsiDeviceType::VirtualImage;
-        Device.Path = L"";
+        Device.Path = "";
         Configuration.ScsiDevices.push_back(Device);
     }
 
     NanaBox::ComputeSystem test(
-        Configuration.Name,
+        winrt::to_hstring(Configuration.Name),
         NanaBox::GenerateComputeSystemConfiguration(Configuration));
 
     test.SystemExited([](
