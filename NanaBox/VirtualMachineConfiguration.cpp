@@ -12,24 +12,27 @@
 
 #include <json.hpp>
 
-NLOHMANN_JSON_SERIALIZE_ENUM(NanaBox::GuestType, {
-    { NanaBox::GuestType::Unknown, nullptr },
-    { NanaBox::GuestType::Windows, "Windows" },
-    { NanaBox::GuestType::Linux, "Linux" }
-})
+namespace NanaBox
+{
+    NLOHMANN_JSON_SERIALIZE_ENUM(NanaBox::GuestType, {
+        { NanaBox::GuestType::Unknown, "Unknown" },
+        { NanaBox::GuestType::Windows, "Windows" },
+        { NanaBox::GuestType::Linux, "Linux" }
+    })
 
-NLOHMANN_JSON_SERIALIZE_ENUM(NanaBox::GpuAssignmentMode, {
-    { NanaBox::GpuAssignmentMode::Disabled, nullptr },
-    { NanaBox::GpuAssignmentMode::Default, "Default" },
-    { NanaBox::GpuAssignmentMode::List, "List" },
-    { NanaBox::GpuAssignmentMode::Mirror, "Mirror" }
-})
+    NLOHMANN_JSON_SERIALIZE_ENUM(NanaBox::GpuAssignmentMode, {
+        { NanaBox::GpuAssignmentMode::Disabled, "Disabled" },
+        { NanaBox::GpuAssignmentMode::Default, "Default" },
+        { NanaBox::GpuAssignmentMode::List, "List" },
+        { NanaBox::GpuAssignmentMode::Mirror, "Mirror" }
+    })
 
-NLOHMANN_JSON_SERIALIZE_ENUM(NanaBox::ScsiDeviceType, {
-    { NanaBox::ScsiDeviceType::VirtualDisk, "VirtualDisk" },
-    { NanaBox::ScsiDeviceType::VirtualImage, "VirtualImage" },
-    { NanaBox::ScsiDeviceType::PhysicalDevice, "PhysicalDevice" }
-})
+    NLOHMANN_JSON_SERIALIZE_ENUM(NanaBox::ScsiDeviceType, {
+        { NanaBox::ScsiDeviceType::VirtualDisk, "VirtualDisk" },
+        { NanaBox::ScsiDeviceType::VirtualImage, "VirtualImage" },
+        { NanaBox::ScsiDeviceType::PhysicalDevice, "PhysicalDevice" }
+    })
+}
 
 NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
     std::string const& Configuration)
@@ -54,7 +57,7 @@ NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
     }
     catch (...)
     {
-        Result.Version = 1;
+
     }
     if (Result.Version < 1 || Result.Version > 1)
     {
@@ -169,25 +172,25 @@ NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
                 try
                 {
                     Current.Enabled =
-                        NetworkAdapter["Enabled"].get<bool>();
+                        NetworkAdapter.at("Enabled").get<bool>();
                 }
                 catch (...)
                 {
-                    Current.Enabled = false;
+
                 }
 
                 try
                 {
                     Current.Connected =
-                        NetworkAdapter["Connected"].get<bool>();
+                        NetworkAdapter.at("Connected").get<bool>();
                 }
                 catch (...)
                 {
-                    Current.Connected = false;
+
                 }
 
                 Current.MacAddress =
-                    NetworkAdapter["MacAddress"].get<std::string>();
+                    NetworkAdapter.at("MacAddress").get<std::string>();
                 if (Current.MacAddress.empty())
                 {
                     continue;
@@ -217,25 +220,31 @@ NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
             try
             {
                 Current.Enabled =
-                    ScsiDevice["Enabled"].get<bool>();
+                    ScsiDevice.at("Enabled").get<bool>();
             }
             catch (...)
             {
-                Current.Enabled = false;
+
             }
 
             try
             {
                 Current.Type =
-                    ScsiDevice["Type"].get<NanaBox::ScsiDeviceType>();
+                    ScsiDevice.at("Type").get<NanaBox::ScsiDeviceType>();
             }
             catch (...)
             {
                 continue;
             }
 
-            Current.Path =
-                ScsiDevice["Path"].get<std::string>();
+            try
+            {
+                Current.Path = ScsiDevice.at("Path").get<std::string>();
+            }
+            catch (...)
+            {
+
+            }
             if (Current.Path.empty() &&
                 Current.Type != NanaBox::ScsiDeviceType::VirtualImage)
             {
@@ -263,32 +272,32 @@ NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
                 try
                 {
                     Current.Enabled =
-                        SharedFolder["Enabled"].get<bool>();
+                        SharedFolder.at("Enabled").get<bool>();
                 }
                 catch (...)
                 {
-                    Current.Enabled = false;
+
                 }
 
                 try
                 {
                     Current.ReadOnly =
-                        SharedFolder["ReadOnly"].get<bool>();
+                        SharedFolder.at("ReadOnly").get<bool>();
                 }
                 catch (...)
                 {
-                    Current.ReadOnly = true;
+
                 }
 
                 Current.HostPath =
-                    SharedFolder["HostPath"].get<std::string>();
+                    SharedFolder.at("HostPath").get<std::string>();
                 if (Current.HostPath.empty())
                 {
                     continue;
                 }
 
                 Current.GuestName =
-                    SharedFolder["GuestName"].get<std::string>();
+                    SharedFolder.at("GuestName").get<std::string>();
                 if (Current.GuestName.empty())
                 {
                     continue;
@@ -314,7 +323,7 @@ NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
     }
     catch (...)
     {
-        Result.SecureBoot = false;
+
     }
 
     try
@@ -324,7 +333,7 @@ NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
     }
     catch (...)
     {
-        Result.Tpm = false;
+
     }
 
     try
@@ -360,6 +369,7 @@ std::string NanaBox::SerializeConfiguration(
     RootJson["Name"] = Configuration.Name;
     RootJson["ProcessorCount"] = Configuration.ProcessorCount;
     RootJson["MemorySize"] = Configuration.MemorySize;
+    if (!Configuration.ComPorts.empty())
     {
         nlohmann::json ComPorts;
         for (std::string const& ComPort
@@ -372,6 +382,7 @@ std::string NanaBox::SerializeConfiguration(
     {
         nlohmann::json Gpu;
         Gpu["AssignmentMode"] = Configuration.Gpu.AssignmentMode;
+        if (!Configuration.Gpu.SelectedDevices.empty())
         {
             nlohmann::json SelectedDevices;
             for (std::string const& SelectedDevice
@@ -383,6 +394,7 @@ std::string NanaBox::SerializeConfiguration(
         }
         RootJson["Gpu"] = Gpu;
     }
+    if (!Configuration.NetworkAdapters.empty())
     {
         nlohmann::json NetworkAdapters;
         for (NanaBox::NetworkAdapterConfiguration const& NetworkAdapter
@@ -396,6 +408,7 @@ std::string NanaBox::SerializeConfiguration(
         }
         RootJson["NetworkAdapters"] = NetworkAdapters;
     }
+    if (!Configuration.ScsiDevices.empty())
     {
         nlohmann::json ScsiDevices;
         for (NanaBox::ScsiDeviceConfiguration const& ScsiDevice
@@ -404,11 +417,15 @@ std::string NanaBox::SerializeConfiguration(
             nlohmann::json Current;
             Current["Enabled"] = ScsiDevice.Enabled;
             Current["Type"] = ScsiDevice.Type;
-            Current["Path"] = ScsiDevice.Path;
+            if (!ScsiDevice.Path.empty())
+            {
+                Current["Path"] = ScsiDevice.Path;
+            }
             ScsiDevices.push_back(Current);
         }
         RootJson["ScsiDevices"] = ScsiDevices;
     }
+    if (!Configuration.SharedFolders.empty())
     {
         nlohmann::json SharedFolders;
         for (NanaBox::SharedFolderConfiguration const& SharedFolder
@@ -423,10 +440,22 @@ std::string NanaBox::SerializeConfiguration(
         }
         RootJson["SharedFolders"] = SharedFolders;
     }
-    RootJson["SecureBoot"] = Configuration.SecureBoot;
-    RootJson["Tpm"] = Configuration.Tpm;
-    RootJson["GuestStateFile"] = Configuration.GuestStateFile;
-    RootJson["RuntimeStateFile"] = Configuration.RuntimeStateFile;
+    if (Configuration.SecureBoot)
+    {
+        RootJson["SecureBoot"] = Configuration.SecureBoot;
+    }
+    if (Configuration.Tpm)
+    {
+        RootJson["Tpm"] = Configuration.Tpm;
+    }    
+    if (!Configuration.GuestStateFile.empty())
+    {
+        RootJson["GuestStateFile"] = Configuration.GuestStateFile;
+    }   
+    if (!Configuration.RuntimeStateFile.empty())
+    {
+        RootJson["RuntimeStateFile"] = Configuration.RuntimeStateFile;
+    }   
 
     nlohmann::json Result;
     Result["NanaBox"] = RootJson;

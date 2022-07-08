@@ -47,46 +47,46 @@ namespace NanaBox
 
     struct GpuConfiguration
     {
-        GpuAssignmentMode AssignmentMode;
+        GpuAssignmentMode AssignmentMode = GpuAssignmentMode::Disabled;
         std::vector<std::string> SelectedDevices;
     };
 
     struct NetworkAdapterConfiguration
     {
-        bool Enabled;
-        bool Connected;
+        bool Enabled = false;
+        bool Connected = false;
         std::string MacAddress;
     };
 
     struct ScsiDeviceConfiguration
     {
-        bool Enabled;
+        bool Enabled = false;
         ScsiDeviceType Type;
         std::string Path;
     };
 
     struct SharedFolderConfiguration
     {
-        bool Enabled;
-        bool ReadOnly;
+        bool Enabled = false;
+        bool ReadOnly = true;
         std::string HostPath;
         std::string GuestName;
     };
 
     struct VirtualMachineConfiguration
     {
-        std::uint32_t Version;
-        GuestType GuestType;
+        std::uint32_t Version = 1;
+        GuestType GuestType = GuestType::Unknown;
         std::string Name;
-        std::uint32_t ProcessorCount;
-        std::uint64_t MemorySize;
+        std::uint32_t ProcessorCount = 0;
+        std::uint64_t MemorySize = 0;
         std::vector<std::string> ComPorts;
         GpuConfiguration Gpu;
         std::vector<NetworkAdapterConfiguration> NetworkAdapters;
         std::vector<ScsiDeviceConfiguration> ScsiDevices;
         std::vector<SharedFolderConfiguration> SharedFolders;
-        bool SecureBoot;
-        bool Tpm;
+        bool SecureBoot = false;
+        bool Tpm = false;
         std::string GuestStateFile;
         std::string RuntimeStateFile;
     };
