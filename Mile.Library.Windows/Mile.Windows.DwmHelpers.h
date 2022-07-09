@@ -25,7 +25,7 @@
  * @return If the function succeeds, it returns S_OK. Otherwise, it returns an
  *         HRESULT error code.
 */
-HRESULT MileSetUseImmersiveDarkModeAttribute(
+EXTERN_C HRESULT WINAPI MileSetUseImmersiveDarkModeAttribute(
     _In_ HWND WindowHandle,
     _In_ BOOL Value);
 
@@ -37,7 +37,7 @@ HRESULT MileSetUseImmersiveDarkModeAttribute(
  * @return If the function succeeds, it returns S_OK. Otherwise, it returns an
  *         HRESULT error code.
 */
-HRESULT MileSetCaptionColorAttribute(
+EXTERN_C HRESULT WINAPI MileSetCaptionColorAttribute(
     _In_ HWND WindowHandle,
     _In_ COLORREF Value);
 
@@ -49,7 +49,7 @@ HRESULT MileSetCaptionColorAttribute(
  * @return If the function succeeds, it returns S_OK. Otherwise, it returns an
  *         HRESULT error code.
 */
-HRESULT MileDisableSystemBackdrop(
+EXTERN_C HRESULT WINAPI MileDisableSystemBackdrop(
     _In_ HWND WindowHandle);
 
 /**
@@ -57,6 +57,6 @@ HRESULT MileDisableSystemBackdrop(
  * @return True if the dark mode system setting is enabled. Otherwise, this
  *         function returns false.
 */
-bool MileShouldAppsUseImmersiveDarkMode();
+EXTERN_C BOOL WINAPI MileShouldAppsUseImmersiveDarkMode();
 
 #endif // !MILE_WINDOWS_DWMHELPERS

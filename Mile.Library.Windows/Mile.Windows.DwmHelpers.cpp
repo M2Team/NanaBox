@@ -43,7 +43,7 @@ namespace
     }
 }
 
-HRESULT MileSetUseImmersiveDarkModeAttribute(
+EXTERN_C HRESULT WINAPI MileSetUseImmersiveDarkModeAttribute(
     _In_ HWND WindowHandle,
     _In_ BOOL Value)
 {
@@ -58,7 +58,7 @@ HRESULT MileSetUseImmersiveDarkModeAttribute(
         sizeof(BOOL));
 }
 
-HRESULT MileSetCaptionColorAttribute(
+EXTERN_C HRESULT WINAPI MileSetCaptionColorAttribute(
     _In_ HWND WindowHandle,
     _In_ COLORREF Value)
 {
@@ -70,7 +70,7 @@ HRESULT MileSetCaptionColorAttribute(
         sizeof(COLORREF));
 }
 
-HRESULT MileDisableSystemBackdrop(
+EXTERN_C HRESULT WINAPI MileDisableSystemBackdrop(
     _In_ HWND WindowHandle)
 {
     const DWORD DwmWindowSystemBackdropTypeAttribute = 38;
@@ -83,7 +83,7 @@ HRESULT MileDisableSystemBackdrop(
         sizeof(DWORD));
 }
 
-bool MileShouldAppsUseImmersiveDarkMode()
+EXTERN_C BOOL WINAPI MileShouldAppsUseImmersiveDarkMode()
 {
     DWORD Type = REG_DWORD;
     DWORD Value = 0;
@@ -100,8 +100,8 @@ bool MileShouldAppsUseImmersiveDarkMode()
     {
         if (Type == REG_DWORD && ValueLength == sizeof(DWORD))
         {
-            return (Value == 0);
+            return (Value == 0) ? TRUE : FALSE;
         }
     }
-    return false;
+    return FALSE;
 }
