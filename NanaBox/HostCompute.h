@@ -77,7 +77,7 @@ namespace NanaBox
         void Terminate();
 
         void Pause(
-            winrt::hstring const& Options);
+            winrt::hstring const& Options = winrt::hstring());
 
         void Resume();
 
