@@ -115,267 +115,6 @@ namespace NanaBox
 
 }
 
-namespace NanaBox
-{
-    winrt::hstring GenerateComputeSystemConfiguration(
-        VirtualMachineConfiguration const& Configuration);
-}
-
-namespace
-{
-    winrt::JsonObject MakeSchemaVersion(
-        std::uint32_t const& Major,
-        std::uint32_t const& Minor)
-    {
-        winrt::JsonObject Result;
-        Result.Insert(
-            L"Major",
-            winrt::JsonValue::CreateNumberValue(
-                static_cast<double>(Major)));
-        Result.Insert(
-            L"Minor",
-            winrt::JsonValue::CreateNumberValue(
-                static_cast<double>(Minor)));
-        return Result; 
-    }
-
-    winrt::JsonObject MakeUefiBootEntry(
-        std::uint32_t const& DiskNumber)
-    {
-        winrt::JsonObject Result;
-        Result.Insert(
-            L"DeviceType",
-            winrt::JsonValue::CreateStringValue(
-                L"ScsiDrive"));
-        Result.Insert(
-            L"DevicePath",
-            winrt::JsonValue::CreateStringValue(
-                L"NanaBox Scsi Controller"));
-        Result.Insert(
-            L"DiskNumber",
-            winrt::JsonValue::CreateNumberValue(
-                static_cast<double>(DiskNumber)));
-        return Result;
-    }
-
-    winrt::JsonObject MakeComputeTopology(
-        std::uint32_t ProcessorCount,
-        std::uint64_t MemorySize)
-    {
-        winrt::JsonObject Result;
-        {
-            winrt::JsonObject Memory;
-            Memory.Insert(
-                L"SizeInMB",
-                winrt::JsonValue::CreateNumberValue(
-                    static_cast<double>(MemorySize)));
-            Result.Insert(
-                L"Memory",
-                Memory);
-
-            winrt::JsonObject Processor;
-            Processor.Insert(
-                L"Count",
-                winrt::JsonValue::CreateNumberValue(
-                    static_cast<double>(ProcessorCount)));
-            Processor.Insert(
-                L"ExposeVirtualizationExtensions",
-                winrt::JsonValue::CreateBooleanValue(true));
-            Result.Insert(
-                L"Processor",
-                Processor);
-        }
-        return Result;
-    }
-
-    winrt::JsonObject MakeVideoMonitor(
-        std::uint16_t const& HorizontalResolution,
-        std::uint16_t const& VerticalResolution)
-    {
-        winrt::JsonObject Result;
-        Result.Insert(
-            L"HorizontalResolution",
-            winrt::JsonValue::CreateNumberValue(
-                static_cast<double>(HorizontalResolution)));
-        Result.Insert(
-            L"VerticalResolution",
-            winrt::JsonValue::CreateNumberValue(
-                static_cast<double>(VerticalResolution)));
-        return Result;
-    }
-
-    winrt::JsonObject MakeComPorts(
-        std::vector<std::string> const& ComPorts)
-    {
-        winrt::JsonObject Result;
-        std::uint32_t Count = 0;
-        for (std::string const& ComPort : ComPorts)
-        {
-            winrt::JsonObject Current;
-
-            Current.Insert(
-                L"NamedPipe",
-                winrt::JsonValue::CreateStringValue(winrt::to_hstring(ComPort)));
-
-            Result.Insert(
-                winrt::to_hstring(Count++),
-                Current);
-        }
-        return Result;
-    }
-
-    winrt::JsonObject MakeScsi(
-        std::vector<NanaBox::ScsiDeviceConfiguration> const& Devices)
-    {
-        winrt::JsonObject Attachments;
-        std::uint32_t Count = 0;
-        for (NanaBox::ScsiDeviceConfiguration const& Device : Devices)
-        {
-            if (!Device.Enabled)
-            {
-                continue;
-            }
-
-            winrt::JsonObject Current;
-
-            switch (Device.Type)
-            {
-            case NanaBox::ScsiDeviceType::VirtualDisk:
-            {
-                Current.Insert(
-                    L"Type",
-                    winrt::JsonValue::CreateStringValue(L"VirtualDisk"));
-                break;
-            }
-            case NanaBox::ScsiDeviceType::VirtualImage:
-            {
-                Current.Insert(
-                    L"Type",
-                    winrt::JsonValue::CreateStringValue(L"Iso"));
-                break;
-            }
-            case NanaBox::ScsiDeviceType::PhysicalDevice:
-            {
-                Current.Insert(
-                    L"Type",
-                    winrt::JsonValue::CreateStringValue(L"PassThru"));
-                break;
-            }
-            default:
-                throw winrt::hresult_invalid_argument(
-                    L"Invalid Scsi Device Type");
-            }
-
-            Current.Insert(
-                L"Path",
-                winrt::JsonValue::CreateStringValue(winrt::to_hstring(Device.Path)));
-
-            Attachments.Insert(
-                winrt::to_hstring(Count++),
-                Current);
-        }
-
-        winrt::JsonObject ScsiController;
-        ScsiController.Insert(
-            L"Attachments",
-            Attachments);
-
-        winrt::JsonObject Result;
-        Result.Insert(
-            L"NanaBox Scsi Controller",
-            ScsiController);
-        return Result;
-    }
-}
-
-winrt::hstring NanaBox::GenerateComputeSystemConfiguration(
-    NanaBox::VirtualMachineConfiguration const& Configuration)
-{
-    winrt::JsonObject Result;
-
-    Result.Insert(
-        L"SchemaVersion",
-        ::MakeSchemaVersion(
-            2,
-            1));
-
-    Result.Insert(
-        L"Owner",
-        winrt::JsonValue::CreateStringValue(
-            winrt::to_hstring(Configuration.Name)));
-
-    Result.Insert(
-        L"ShouldTerminateOnLastHandleClosed",
-        winrt::JsonValue::CreateBooleanValue(true));
-    
-    winrt::JsonObject VirtualMachine;
-    {
-        winrt::JsonObject Chipset;
-        {
-            winrt::JsonObject Uefi;
-            {
-                Uefi.Insert(
-                    L"BootThis",
-                    ::MakeUefiBootEntry(
-                        0));
-            }
-            Chipset.Insert(
-                L"Uefi",
-                Uefi);
-        }
-        VirtualMachine.Insert(
-            L"Chipset",
-            Chipset);
-
-        VirtualMachine.Insert(
-            L"ComputeTopology",
-            ::MakeComputeTopology(
-                Configuration.ProcessorCount,
-                Configuration.MemorySize));
-
-        winrt::JsonObject Devices;
-        {
-            Devices.Insert(
-                L"VideoMonitor",
-                ::MakeVideoMonitor(
-                    1024,
-                    768));
-
-            Devices.Insert(
-                L"EnhancedModeVideo",
-                winrt::JsonObject());
-
-            Devices.Insert(
-                L"Keyboard",
-                winrt::JsonObject());
-
-            Devices.Insert(
-                L"Mouse",
-                winrt::JsonObject());
-
-            Devices.Insert(
-                L"ComPorts",
-                ::MakeComPorts(
-                    Configuration.ComPorts));
-            
-            //std::vector<NetworkAdapterConfiguration> NetworkAdapters;
-
-            Devices.Insert(
-                L"Scsi",
-                ::MakeScsi(
-                    Configuration.ScsiDevices));
-        }
-        VirtualMachine.Insert(
-            L"Devices",
-            Devices);
-    }
-    Result.Insert(
-        L"VirtualMachine",
-        VirtualMachine);
-
-    return Result.Stringify();
-}
-
 int NanaBox::MainWindow::OnCreate(
     LPCREATESTRUCT lpCreateStruct)
 {
@@ -692,6 +431,102 @@ int WINAPI wWinMain(
         }
     })";*/
 
+    NanaBox::HcnNetwork NetworkHandle = NanaBox::HcnOpenNetwork(
+        NanaBox::DefaultSwitchId);
+
+    /*GUID EndpointId;
+    winrt::check_hresult(::CoCreateGuid(&EndpointId));*/
+
+    /*static constexpr wchar_t c_EndpointConfiguration[] = LR"(
+    {
+      "ID": "b628ccf8-cb1f-405c-9c1a-3ca76526e4e0",
+      "Name": "Ethernet",
+      "Version": 64424509440,
+      "AdditionalParams": {},
+      "Resources": {
+        "AdditionalParams": {},
+        "AllocationOrder": 0,
+        "CompartmentOperationTime": 0,
+        "Flags": 0,
+        "Health": {
+          "LastErrorCode": 0,
+          "LastUpdateTime": 133019448371526766
+        },
+        "ID": "E9A1B213-E312-4033-9ED3-8292DFB20E62",
+        "PortOperationTime": 0,
+        "State": 1,
+        "SwitchOperationTime": 0,
+        "VfpOperationTime": 0,
+        "parentId": "BD080206-CABC-4D72-8AEC-DEA141D519EB"
+      },
+      "State": 1,
+      "VirtualNetwork": "c08cb7b8-9b3c-408e-8e30-5e16a3aeb444",
+      "VirtualNetworkName": "Default Switch",
+      "MacAddress": "00-15-5D-64-2F-8B",
+      "Flags": 32,
+      "SharedContainers": []
+    })";*/
+
+    winrt::guid EndpointId = winrt::guid(
+        "B628CCF8-CB1F-405C-9C1A-3CA76526E4E0");
+
+    nlohmann::json Settings; 
+    Settings["VirtualNetwork"] = "C08CB7B8-9B3C-408E-8E30-5E16A3AEB444";
+    //Settings["ID"] = "B628CCF8-CB1F-405C-9C1A-3CA76526E4E0";
+    Settings["MacAddress"] = "00-15-5D-64-2F-AB";
+
+    //Settings["SchemaVersion"]["Major"] = 2;
+    //Settings["SchemaVersion"]["Minor"] = 0;
+    //Settings["ID"] = "B628CCF8-CB1F-405C-9C1A-3CA76526E4E0"; //
+    //Settings["Name"] = "B628CCF8-CB1F-405C-9C1A-3CA76526E4E0"; //
+    //Settings["HostComputeNetwork"] = "B628CCF8-CB1F-405C-9C1A-3CA76526E4E0"; //
+    //Settings["HostComputeNamespace"] =  "";
+    /*Settings["Policies"] = nullptr;
+    Settings["IpConfigurations"] = nullptr;
+    Settings["Dns"] = nullptr;
+    Settings["Routes"] = nullptr;
+    Settings["MacAddress"] = "00-15-5D-64-2F-8B";
+    Settings["Flags"] = 0;
+    Settings["Health"] = nullptr;*/
+    
+    
+    //
+    // // winrt::to_string(winrt::to_hstring(EndpointId));
+    //
+    //Settings["Flags"] = 0;
+
+    try
+    {
+        NanaBox::HcnDeleteEndpoint(EndpointId);
+    }
+    catch (...)
+    {
+
+    }
+
+    NanaBox::HcnEndpoint EndpointHandle = NanaBox::HcnCreateEndpoint(
+        NetworkHandle,
+        EndpointId,
+        winrt::to_hstring(Settings.dump()));
+
+    winrt::hstring EndpointProperties = NanaBox::HcnQueryEndpointProperties(
+        EndpointHandle);
+
+    /*::MessageBoxW(
+        nullptr,
+        EndpointProperties.c_str(),
+        L"NanaBox",
+        MB_ICONINFORMATION);
+
+    try
+    {
+        NanaBox::HcnDeleteEndpoint(EndpointId);
+    }
+    catch (...)
+    {
+
+    }*/
+
     NanaBox::VirtualMachineConfiguration Configuration;
 
     Configuration.Version = 1;
@@ -713,10 +548,27 @@ int WINAPI wWinMain(
         Device.Path = "";
         Configuration.ScsiDevices.push_back(Device);
     }
+    {
+        NanaBox::NetworkAdapterConfiguration Device;
+        Device.Enabled = true;
+        Device.Connected = true;
+        Device.MacAddress = "00-15-5D-64-2F-AB";
+        Device.EndpointId = "b628ccf8-cb1f-405c-9c1a-3ca76526e4e0";
+        Configuration.NetworkAdapters.push_back(Device);
+    }
+
+    std::string Test = NanaBox::SerializeConfiguration(Configuration);
+
+    Test = Test;
+
+    auto Fuck = NanaBox::DeserializeConfiguration(Test);
+
+    Fuck = Fuck;
 
     NanaBox::ComputeSystem test(
         winrt::to_hstring(Configuration.Name),
-        NanaBox::GenerateComputeSystemConfiguration(Configuration));
+        winrt::to_hstring(
+            NanaBox::HcsGenerateConfiguration(Configuration)));
 
     test.SystemExited([](
         winrt::hstring const& EventData)
@@ -732,6 +584,56 @@ int WINAPI wWinMain(
     });
 
     test.Start();
+
+    //test.Pause();
+
+    //nlohmann::json Gpu;
+    //switch (Configuration.Gpu.AssignmentMode)
+    //{
+    //case NanaBox::GpuAssignmentMode::Default:
+    //    Gpu["AssignmentMode"] = "Default";
+    //    break;
+    //case NanaBox::GpuAssignmentMode::Mirror:
+    //    Gpu["AssignmentMode"] = "Mirror";
+    //    break;
+    //case NanaBox::GpuAssignmentMode::List:
+    //    if (!Configuration.Gpu.SelectedDevices.empty())
+    //    {
+    //        Gpu["AssignmentMode"] = "List";
+    //        nlohmann::json SelectedDevices;
+    //        for (std::string const& SelectedDevice
+    //            : Configuration.Gpu.SelectedDevices)
+    //        {
+    //            SelectedDevices[SelectedDevice] = 0xffff;
+    //        }
+    //        Gpu["SelectedDevices"] = SelectedDevices;
+    //        break;
+    //    }
+    //    // Note: Fallthrough.
+    //default:
+    //    Gpu["AssignmentMode"] = "Disabled";
+    //}
+    //Gpu["AllowVendorExtension"] = true;
+    //Result["VirtualMachine"]["ComputeTopology"]["Gpu"] = Gpu;
+
+    /*{
+        nlohmann::json Request;
+        Request["ResourcePath"] = "VirtualMachine/Devices/NetworkAdapters/B628CCF8";
+        Request["RequestType"] = "Add";
+        Request["Settings"]["EndpointId"] = "b628ccf8-cb1f-405c-9c1a-3ca76526e4e0";
+        Request["Settings"]["MacAddress"] = "00-15-5D-64-2F-AB";
+        test.Modify(winrt::to_hstring(Request.dump()));
+    }
+
+    {
+        nlohmann::json Request;
+        Request["ResourcePath"] = "VirtualMachine/ComputeTopology/Gpu";
+        Request["RequestType"] = "Update";
+        Request["Settings"]["AssignmentMode"] = "Mirror";
+        test.Modify(winrt::to_hstring(Request.dump()));
+    }*/
+
+    //test.Resume();
 
     g_VirtualMachineRunning = true;
 
