@@ -105,9 +105,6 @@
   <ItemGroup>
     <ResourceCompile Include="NanaBoxResources.rc" />
   </ItemGroup>
-  <ItemGroup>
-    <Image Include="..\Assets\NanaBoxPreview.ico" />
-  </ItemGroup>
   <Import Project="..\Mile.Project.Windows\Mile.Project.Cpp.targets" />
   <Import Project="..\Mile.Xaml\MrtCore.PriGen.targets" />
 </Project>

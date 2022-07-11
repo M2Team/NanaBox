@@ -57,7 +57,4 @@
   <ItemGroup>
     <ResourceCompile Include="NanaBoxResources.rc" />
   </ItemGroup>
-  <ItemGroup>
-    <Image Include="..\Assets\NanaBoxPreview.ico" />
-  </ItemGroup>
 </Project>
