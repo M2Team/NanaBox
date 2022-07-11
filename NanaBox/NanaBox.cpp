@@ -25,7 +25,6 @@
 #include <atlapp.h>
 #include <atlcrack.h>
 
-
 #include "pch.h"
 
 #include "App.h"
@@ -38,18 +37,12 @@
 
 #include <json.hpp>
 
-#include <winrt/Windows.Data.Json.h>
-
 #include "NanaBoxResources.h"
 
 #include <Mile.Windows.DwmHelpers.h>
 
 namespace winrt
 {
-    using Windows::Data::Json::IJsonValue;
-    using Windows::Data::Json::JsonArray;
-    using Windows::Data::Json::JsonObject;
-    using Windows::Data::Json::JsonValue;
     using Windows::UI::Xaml::ElementTheme;
     using Windows::UI::Xaml::FrameworkElement;
     using Windows::UI::Xaml::UIElement;
@@ -565,12 +558,12 @@ int WINAPI wWinMain(
 
     Fuck = Fuck;
 
-    NanaBox::ComputeSystem test(
+    NanaBox::ComputeSystem VirtualMachine(
         winrt::to_hstring(Configuration.Name),
         winrt::to_hstring(
             NanaBox::HcsGenerateConfiguration(Configuration)));
 
-    test.SystemExited([](
+    VirtualMachine.SystemExited([](
         winrt::hstring const& EventData)
     {
         UNREFERENCED_PARAMETER(EventData);
@@ -578,12 +571,12 @@ int WINAPI wWinMain(
         g_VirtualMachineRunning = false;
     });
 
-    test.SystemRdpEnhancedModeStateChanged([]()
+    VirtualMachine.SystemRdpEnhancedModeStateChanged([]()
     {
         g_RdpClientEnhancedMode = !g_RdpClientEnhancedMode;
     });
 
-    test.Start();
+    VirtualMachine.Start();
 
     //test.Pause();
 
@@ -622,7 +615,7 @@ int WINAPI wWinMain(
         Request["RequestType"] = "Add";
         Request["Settings"]["EndpointId"] = "b628ccf8-cb1f-405c-9c1a-3ca76526e4e0";
         Request["Settings"]["MacAddress"] = "00-15-5D-64-2F-AB";
-        test.Modify(winrt::to_hstring(Request.dump()));
+        VirtualMachine.Modify(winrt::to_hstring(Request.dump()));
     }
 
     {
@@ -630,19 +623,23 @@ int WINAPI wWinMain(
         Request["ResourcePath"] = "VirtualMachine/ComputeTopology/Gpu";
         Request["RequestType"] = "Update";
         Request["Settings"]["AssignmentMode"] = "Mirror";
-        test.Modify(winrt::to_hstring(Request.dump()));
+        VirtualMachine.Modify(winrt::to_hstring(Request.dump()));
     }*/
 
-    //test.Resume();
+    //VirtualMachine.Resume();
 
     g_VirtualMachineRunning = true;
 
-    auto fuck = test.GetProperties();
+    nlohmann::json Properties = nlohmann::json::parse(
+        winrt::to_string(VirtualMachine.GetProperties()));
 
-    winrt::JsonObject testobj = winrt::JsonObject::Parse(fuck);
-    g_VMID = testobj.GetNamedString(L"RuntimeId");
+    g_VMID = winrt::to_hstring(Properties["RuntimeId"]);
 
-    //::MessageBoxW(nullptr, fuck.c_str(), L"NanaBox", 0);
+    /*::MessageBoxW(
+        nullptr,
+        winrt::to_hstring(Properties.dump(2)).c_str(),
+        L"NanaBox",
+        0);*/
 
 
     WTL::CMessageLoop MessageLoop;
