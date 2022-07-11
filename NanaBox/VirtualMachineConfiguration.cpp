@@ -493,7 +493,7 @@ std::string NanaBox::MakeHcsUpdateGpuRequest(
     return Result.dump(2);
 }
 
-std::string NanaBox::HcsGenerateConfiguration(
+std::string NanaBox::MakeHcsConfiguration(
     NanaBox::VirtualMachineConfiguration const& Configuration)
 {
     nlohmann::json Result;

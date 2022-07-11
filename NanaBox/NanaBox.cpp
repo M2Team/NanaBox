@@ -561,8 +561,7 @@ int WINAPI wWinMain(
 
     NanaBox::ComputeSystem VirtualMachine(
         winrt::to_hstring(Configuration.Name),
-        winrt::to_hstring(
-            NanaBox::HcsGenerateConfiguration(Configuration)));
+        winrt::to_hstring(NanaBox::MakeHcsConfiguration(Configuration)));
 
     VirtualMachine.SystemExited([](
         winrt::hstring const& EventData)
