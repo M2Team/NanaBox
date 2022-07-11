@@ -191,10 +191,6 @@ NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
 
                 Current.MacAddress =
                     NetworkAdapter.at("MacAddress").get<std::string>();
-                if (Current.MacAddress.empty())
-                {
-                    continue;
-                }
 
                 Result.NetworkAdapters.push_back(Current);
             }
