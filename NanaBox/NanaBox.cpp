@@ -527,6 +527,7 @@ int WINAPI wWinMain(
     Configuration.Name = "DemoVM";
     Configuration.ProcessorCount = 2;
     Configuration.MemorySize = 2048;
+    Configuration.Gpu.AssignmentMode = NanaBox::GpuAssignmentMode::Mirror;
     {
         NanaBox::ScsiDeviceConfiguration Device;
         Device.Enabled = true;
@@ -580,35 +581,6 @@ int WINAPI wWinMain(
 
     //test.Pause();
 
-    //nlohmann::json Gpu;
-    //switch (Configuration.Gpu.AssignmentMode)
-    //{
-    //case NanaBox::GpuAssignmentMode::Default:
-    //    Gpu["AssignmentMode"] = "Default";
-    //    break;
-    //case NanaBox::GpuAssignmentMode::Mirror:
-    //    Gpu["AssignmentMode"] = "Mirror";
-    //    break;
-    //case NanaBox::GpuAssignmentMode::List:
-    //    if (!Configuration.Gpu.SelectedDevices.empty())
-    //    {
-    //        Gpu["AssignmentMode"] = "List";
-    //        nlohmann::json SelectedDevices;
-    //        for (std::string const& SelectedDevice
-    //            : Configuration.Gpu.SelectedDevices)
-    //        {
-    //            SelectedDevices[SelectedDevice] = 0xffff;
-    //        }
-    //        Gpu["SelectedDevices"] = SelectedDevices;
-    //        break;
-    //    }
-    //    // Note: Fallthrough.
-    //default:
-    //    Gpu["AssignmentMode"] = "Disabled";
-    //}
-    //Gpu["AllowVendorExtension"] = true;
-    //Result["VirtualMachine"]["ComputeTopology"]["Gpu"] = Gpu;
-
     /*{
         nlohmann::json Request;
         Request["ResourcePath"] = "VirtualMachine/Devices/NetworkAdapters/B628CCF8";
@@ -616,15 +588,10 @@ int WINAPI wWinMain(
         Request["Settings"]["EndpointId"] = "b628ccf8-cb1f-405c-9c1a-3ca76526e4e0";
         Request["Settings"]["MacAddress"] = "00-15-5D-64-2F-AB";
         VirtualMachine.Modify(winrt::to_hstring(Request.dump()));
-    }
-
-    {
-        nlohmann::json Request;
-        Request["ResourcePath"] = "VirtualMachine/ComputeTopology/Gpu";
-        Request["RequestType"] = "Update";
-        Request["Settings"]["AssignmentMode"] = "Mirror";
-        VirtualMachine.Modify(winrt::to_hstring(Request.dump()));
     }*/
+
+    VirtualMachine.Modify(winrt::to_hstring(
+        NanaBox::MakeHcsUpdateGpuRequest(Configuration.Gpu)));
 
     //VirtualMachine.Resume();
 
