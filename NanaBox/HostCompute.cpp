@@ -234,3 +234,106 @@ void CALLBACK NanaBox::ComputeSystem::ComputeSystemCallback(
         break;
     }
 }
+
+NanaBox::HcnNetwork NanaBox::HcnOpenNetwork(
+    winrt::guid const& NetworkId)
+{
+    NanaBox::HcnNetwork Result;
+
+    winrt::hstring ErrorRecord;
+    PWSTR RawErrorRecord = nullptr;
+    HRESULT hr = ::HcnOpenNetwork(
+        NetworkId,
+        Result.put(),
+        &RawErrorRecord);
+    if (RawErrorRecord)
+    {
+        ErrorRecord = winrt::hstring(RawErrorRecord);
+        ::CoTaskMemFree(RawErrorRecord);
+    }
+    if (FAILED(hr))
+    {
+        throw winrt::hresult_error(hr, ErrorRecord);
+    }
+
+    return Result;
+}
+
+NanaBox::HcnEndpoint NanaBox::HcnCreateEndpoint(
+    NanaBox::HcnNetwork const& NetworkHandle,
+    winrt::guid const& EndpointId,
+    winrt::hstring const& Settings)
+{
+    NanaBox::HcnEndpoint Result;
+
+    winrt::hstring ErrorRecord;
+    PWSTR RawErrorRecord = nullptr;
+    HRESULT hr = ::HcnCreateEndpoint(
+        NetworkHandle.get(),
+        EndpointId,
+        Settings.c_str(),
+        Result.put(),
+        &RawErrorRecord);
+    if (RawErrorRecord)
+    {
+        ErrorRecord = winrt::hstring(RawErrorRecord);
+        ::CoTaskMemFree(RawErrorRecord);
+    }
+    if (FAILED(hr))
+    {
+        throw winrt::hresult_error(hr, ErrorRecord);
+    }
+
+    return Result;
+}
+
+void NanaBox::HcnDeleteEndpoint(
+    winrt::guid const& EndpointId)
+{
+    winrt::hstring ErrorRecord;
+    PWSTR RawErrorRecord = nullptr;
+    HRESULT hr = ::HcnDeleteEndpoint(
+        EndpointId,
+        &RawErrorRecord);
+    if (RawErrorRecord)
+    {
+        ErrorRecord = winrt::hstring(RawErrorRecord);
+        ::CoTaskMemFree(RawErrorRecord);
+    }
+    if (FAILED(hr))
+    {
+        throw winrt::hresult_error(hr, ErrorRecord);
+    }
+}
+
+winrt::hstring NanaBox::HcnQueryEndpointProperties(
+    NanaBox::HcnEndpoint const& EndpointHandle,
+    winrt::hstring const& Query)
+{
+    winrt::hstring Result;
+
+    winrt::hstring ErrorRecord;
+    PWSTR RawResult = nullptr;
+    PWSTR RawErrorRecord = nullptr;
+    HRESULT hr = ::HcnQueryEndpointProperties(
+        EndpointHandle.get(),
+        Query.c_str(),
+        &RawResult,
+        &RawErrorRecord);
+    if (RawResult)
+    {
+        Result = winrt::hstring(RawResult);
+        ::CoTaskMemFree(RawResult);
+    }
+    if (RawErrorRecord)
+    {
+        ErrorRecord = winrt::hstring(RawErrorRecord);
+        ::CoTaskMemFree(RawErrorRecord);
+    }
+    if (FAILED(hr))
+    {
+        throw winrt::hresult_error(hr, ErrorRecord);
+    }
+
+    return Result;
+}

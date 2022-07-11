@@ -59,6 +59,40 @@ namespace NanaBox
 
     using HcsSystem = winrt::handle_type<HcsSystemTraits>;
 
+    struct HcnNetworkTraits
+    {
+        using type = HCN_NETWORK;
+
+        static void close(type value) noexcept
+        {
+            ::HcnCloseNetwork(value);
+        }
+
+        static constexpr type invalid() noexcept
+        {
+            return nullptr;
+        }
+    };
+
+    using HcnNetwork = winrt::handle_type<HcnNetworkTraits>;
+
+    struct HcnEndpointTraits
+    {
+        using type = HCN_ENDPOINT;
+
+        static void close(type value) noexcept
+        {
+            ::HcnCloseEndpoint(value);
+        }
+
+        static constexpr type invalid() noexcept
+        {
+            return nullptr;
+        }
+    };
+
+    using HcnEndpoint = winrt::handle_type<HcnEndpointTraits>;
+
     struct ComputeSystem
     {
     public:
@@ -114,6 +148,24 @@ namespace NanaBox
         winrt::event<winrt::delegate<winrt::hstring>> m_SystemExited;
         winrt::event<winrt::delegate<>> m_SystemRdpEnhancedModeStateChanged;
     };
+
+    const winrt::guid DefaultSwitchId = winrt::guid(
+        "C08CB7B8-9B3C-408E-8E30-5E16A3AEB444");
+
+    HcnNetwork HcnOpenNetwork(
+        winrt::guid const& NetworkId);
+
+    HcnEndpoint HcnCreateEndpoint(
+        HcnNetwork const& NetworkHandle,
+        winrt::guid const& EndpointId,
+        winrt::hstring const& Settings);
+
+    void HcnDeleteEndpoint(
+        winrt::guid const& EndpointId);
+
+    winrt::hstring HcnQueryEndpointProperties(
+        HcnEndpoint const& EndpointHandle,
+        winrt::hstring const& Query = winrt::hstring());
 }
 
 namespace winrt::NanaBox
