@@ -461,3 +461,208 @@ std::string NanaBox::SerializeConfiguration(
     Result["NanaBox"] = RootJson;
     return Result.dump(2);
 }
+
+std::string NanaBox::HcsGenerateConfiguration(
+    NanaBox::VirtualMachineConfiguration const& Configuration)
+{
+    nlohmann::json Result;
+
+    Result["SchemaVersion"]["Major"] = 2;
+    Result["SchemaVersion"]["Minor"] = 1;
+
+    Result["Owner"] = Configuration.Name;
+
+    Result["ShouldTerminateOnLastHandleClosed"] = true;
+
+    nlohmann::json BootThis;
+    BootThis["DeviceType"] = "ScsiDrive";
+    BootThis["DevicePath"] = "NanaBox Scsi Controller";
+    BootThis["DiskNumber"] = 0;
+    Result["VirtualMachine"]["Chipset"]["Uefi"]["BootThis"] = BootThis;
+
+    nlohmann::json Memory;
+    Memory["SizeInMB"] = Configuration.MemorySize;
+    Result["VirtualMachine"]["ComputeTopology"]["Memory"] = Memory;
+
+    nlohmann::json Processor;
+    Processor["Count"] = Configuration.ProcessorCount;
+    Processor["ExposeVirtualizationExtensions"] = true;
+    Result["VirtualMachine"]["ComputeTopology"]["Processor"] = Processor;
+
+    // Note: Skip Configuration.Gpu because it need to add at runtime.
+
+    nlohmann::json Devices;
+    {
+        nlohmann::json VideoMonitor;
+        VideoMonitor["HorizontalResolution"] = 1024;
+        VideoMonitor["VerticalResolution"] = 768;
+        Devices["VideoMonitor"] = VideoMonitor;
+
+        Devices["EnhancedModeVideo"] = nlohmann::json::object();
+
+        Devices["Keyboard"] = nlohmann::json::object();
+
+        Devices["Mouse"] = nlohmann::json::object();
+
+        if (!Configuration.ComPorts.empty())
+        {
+            nlohmann::json ComPorts;
+            std::uint32_t Count = 0;
+            for (std::string const& ComPort : Configuration.ComPorts)
+            {
+                ComPorts[std::to_string(Count++)]["NamedPipe"] = ComPort;
+            }
+            Devices["ComPorts"] = ComPorts;
+        }
+
+        if (!Configuration.NetworkAdapters.empty())
+        {
+            nlohmann::json NetworkAdapters;
+            for (NanaBox::NetworkAdapterConfiguration const& NetworkAdapter
+                : Configuration.NetworkAdapters)
+            {
+                if (!NetworkAdapter.Enabled)
+                {
+                    continue;
+                }
+
+                nlohmann::json Current;
+
+                if (!NetworkAdapter.Connected)
+                {
+                    Current["ConnectionState"] = "Disabled";
+                }
+
+                Current["EndpointId"] = NetworkAdapter.EndpointId;
+                Current["MacAddress"] = NetworkAdapter.MacAddress;
+
+                NetworkAdapters[NetworkAdapter.EndpointId] = Current;
+            }
+            Devices["NetworkAdapters"] = NetworkAdapters;
+        }
+
+        if (!Configuration.ScsiDevices.empty())
+        {
+            nlohmann::json ScsiDevices;
+            std::uint32_t Count = 0;
+            for (NanaBox::ScsiDeviceConfiguration const& ScsiDevice
+                : Configuration.ScsiDevices)
+            {
+                if (!ScsiDevice.Enabled)
+                {
+                    continue;
+                }
+
+                nlohmann::json Current;
+
+                switch (ScsiDevice.Type)
+                {
+                case NanaBox::ScsiDeviceType::VirtualDisk:
+                {
+                    Current["Type"] = "VirtualDisk";
+                    break;
+                }
+                case NanaBox::ScsiDeviceType::VirtualImage:
+                {
+                    Current["Type"] = "Iso";
+                    break;
+                }
+                case NanaBox::ScsiDeviceType::PhysicalDevice:
+                {
+                    Current["Type"] = "PassThru";
+                    break;
+                }
+                default:
+                    continue;
+                }
+                Current["Path"] = ScsiDevice.Path;
+                ScsiDevices[std::to_string(Count++)] = Current;
+            }
+            nlohmann::json ScsiController;
+            ScsiController["Attachments"] = ScsiDevices;
+            Devices["Scsi"]["NanaBox Scsi Controller"] = ScsiController;
+        }
+
+        if (!Configuration.SharedFolders.empty())
+        {
+            nlohmann::json SharedFolders;
+            for (NanaBox::SharedFolderConfiguration const& SharedFolder
+                : Configuration.SharedFolders)
+            {
+                if (!SharedFolder.Enabled)
+                {
+                    continue;
+                }
+
+                nlohmann::json Current;
+
+                if (NanaBox::GuestType::Windows == Configuration.GuestType)
+                {
+                    Current["Name"] = SharedFolder.GuestName;
+                    Current["Path"] = SharedFolder.HostPath;
+                    if (SharedFolder.ReadOnly)
+                    {
+                        Current["Options"]["ReadOnly"] = true;
+                        Current["Options"]["ShareRead"] = true;
+                        Current["Options"]["CacheIo"] = true;    
+                        Current["Options"]["PseudoOplocks"] = true;
+                    }
+                }
+                else if (NanaBox::GuestType::Linux == Configuration.GuestType)
+                {
+                    const std::uint32_t Plan9Port = 564;
+                    const std::uint32_t Plan9ReadOnly = 0x00000001;
+                    const std::uint32_t Plan9LinuxMetadata = 0x00000004;
+
+                    Current["Name"] = SharedFolder.GuestName;
+                    Current["AccessName"] = SharedFolder.GuestName;
+                    Current["Path"] = SharedFolder.HostPath;
+                    Current["Port"] = Plan9Port;
+                    std::uint32_t Flags = Plan9LinuxMetadata;
+                    if (SharedFolder.ReadOnly)
+                    {
+                        Flags |= Plan9ReadOnly;
+                    }
+                    Current["Flags"] = Flags;    
+                }
+
+                SharedFolders.push_back(Current);
+            }
+            if (NanaBox::GuestType::Windows == Configuration.GuestType)
+            {
+                Devices["VirtualSmb"]["Shares"] = SharedFolders;
+            }
+            else if(NanaBox::GuestType::Linux == Configuration.GuestType)
+            {
+                Devices["Plan9"]["Shares"] = SharedFolders;
+            }
+        }
+    }
+    Result["VirtualMachine"]["Devices"] = Devices;
+
+    if (Configuration.SecureBoot)
+    {
+        throw std::exception(
+            "Not Implemented: Configuration.SecureBoot");
+    }
+
+    if (Configuration.Tpm)
+    {
+        throw std::exception(
+            "Not Implemented: Configuration.Tpm");
+    }
+
+    if (!Configuration.GuestStateFile.empty())
+    {
+        throw std::exception(
+            "Not Implemented: Configuration.GuestStateFile");
+    }
+
+    if (!Configuration.RuntimeStateFile.empty())
+    {
+        throw std::exception(
+            "Not Implemented: Configuration.RuntimeStateFile");
+    }
+
+    return Result.dump(2);
+}
