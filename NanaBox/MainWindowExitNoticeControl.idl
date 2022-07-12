@@ -1,0 +1,8 @@
+﻿namespace NanaBox
+{
+    [default_interface]
+    runtimeclass MainWindowExitNoticeControl : Windows.UI.Xaml.Controls.Page
+    {
+        MainWindowExitNoticeControl();
+    }
+}

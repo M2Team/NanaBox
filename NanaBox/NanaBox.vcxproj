@@ -45,6 +45,10 @@
       <DependentUpon>MainWindowControl.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
+    <ClCompile Include="MainWindowExitNoticeControl.cpp">
+      <DependentUpon>MainWindowExitNoticeControl.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
     <ClCompile Include="NanaBox.cpp" />
     <ClCompile Include="RdpClient.cpp" />
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
@@ -70,6 +74,10 @@
       <DependentUpon>MainWindowControl.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
+    <Midl Include="MainWindowExitNoticeControl.idl">
+      <DependentUpon>MainWindowExitNoticeControl.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Midl>
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
@@ -81,6 +89,10 @@
     <ClInclude Include="HostCompute.h" />
     <ClInclude Include="MainWindowControl.h">
       <DependentUpon>MainWindowControl.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="MainWindowExitNoticeControl.h">
+      <DependentUpon>MainWindowExitNoticeControl.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="Mile.Project.Properties.h" />
@@ -100,6 +112,9 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="MainWindowControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MainWindowExitNoticeControl.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

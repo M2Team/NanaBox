@@ -29,6 +29,7 @@
 
 #include "App.h"
 #include "MainWindowControl.h"
+#include "MainWindowExitNoticeControl.h"
 
 #include <winrt/Windows.UI.Xaml.h>
 #include <winrt/Windows.UI.Xaml.Media.h>
@@ -52,13 +53,14 @@ namespace winrt
 
 namespace NanaBox
 {
-    class MainWindow : public ATL::CWindowImpl<MainWindow>
+    class MainWindowExitNoticeWindow : public ATL::CWindowImpl<
+        MainWindowExitNoticeWindow>
     {
     public:
 
-        DECLARE_WND_CLASS(L"NanaBoxMainWindow")
+        DECLARE_WND_CLASS(L"MainWindowExitNoticeWindow")
 
-        BEGIN_MSG_MAP(MainWindow)
+        BEGIN_MSG_MAP(MainWindowExitNoticeWindow)
             MSG_WM_CREATE(OnCreate)
             MSG_WM_SIZE(OnSize)
             MSG_WM_DPICHANGED(OnDpiChanged)
@@ -87,6 +89,214 @@ namespace NanaBox
         void OnSettingChange(
             UINT uFlags,
             LPCTSTR lpszSection);
+
+        void OnDestroy();
+
+    private:
+
+        winrt::DesktopWindowXamlSource m_XamlSource;
+        winrt::NanaBox::MainWindowExitNoticeControl m_XamlControl;
+    };
+}
+
+int NanaBox::MainWindowExitNoticeWindow::OnCreate(
+    LPCREATESTRUCT lpCreateStruct)
+{
+    UNREFERENCED_PARAMETER(lpCreateStruct);
+
+    using MainWindowExitNoticeControlInstance =
+        winrt::NanaBox::implementation::MainWindowExitNoticeControl;
+
+    this->m_XamlControl = winrt::make<MainWindowExitNoticeControlInstance>();
+
+    winrt::com_ptr<IDesktopWindowXamlSourceNative> XamlSourceNative =
+        this->m_XamlSource.as<IDesktopWindowXamlSourceNative>();
+    winrt::check_hresult(
+        XamlSourceNative->AttachToWindow(this->m_hWnd));
+    this->m_XamlSource.Content(this->m_XamlControl);
+
+    HWND XamlWindowHandle = nullptr;
+    winrt::check_hresult(
+        XamlSourceNative->get_WindowHandle(&XamlWindowHandle));
+
+    // Focus on XAML Island host window for Acrylic brush support.
+    ::SetFocus(XamlWindowHandle);
+
+    ::MileDisableSystemBackdrop(this->m_hWnd);
+
+    winrt::FrameworkElement Content =
+        this->m_XamlSource.Content().try_as<winrt::FrameworkElement>();
+
+    ::MileSetUseImmersiveDarkModeAttribute(
+        this->m_hWnd,
+        (Content.ActualTheme() == winrt::ElementTheme::Dark
+            ? TRUE
+            : FALSE));
+
+    ::MileSetCaptionColorAttribute(
+        this->m_hWnd,
+        (Content.ActualTheme() == winrt::ElementTheme::Dark
+            ? RGB(0, 0, 0)
+            : RGB(255, 255, 255)));
+
+    {
+        HMENU MenuHandle = this->GetSystemMenu(FALSE);
+        if (MenuHandle)
+        {
+            ::RemoveMenu(MenuHandle, 0, MF_SEPARATOR);
+            ::RemoveMenu(MenuHandle, SC_RESTORE, MF_BYCOMMAND);
+            ::RemoveMenu(MenuHandle, SC_SIZE, MF_BYCOMMAND);
+            ::RemoveMenu(MenuHandle, SC_MINIMIZE, MF_BYCOMMAND);
+            ::RemoveMenu(MenuHandle, SC_MAXIMIZE, MF_BYCOMMAND);
+            ::RemoveMenu(MenuHandle, SC_TASKLIST, MF_BYCOMMAND);
+        }
+    }
+
+    return 0;
+}
+
+void NanaBox::MainWindowExitNoticeWindow::OnSize(
+    UINT nType,
+    CSize size)
+{
+    UNREFERENCED_PARAMETER(nType);
+    UNREFERENCED_PARAMETER(size);
+
+    RECT ClientRect;
+    winrt::check_bool(this->GetClientRect(&ClientRect));
+
+    winrt::com_ptr<IDesktopWindowXamlSourceNative> XamlSourceNative =
+        this->m_XamlSource.as<IDesktopWindowXamlSourceNative>();
+
+    HWND XamlWindowHandle = nullptr;
+    winrt::check_hresult(
+        XamlSourceNative->get_WindowHandle(&XamlWindowHandle));
+    ::SetWindowPos(
+        XamlWindowHandle,
+        nullptr,
+        0,
+        0,
+        ClientRect.right - ClientRect.left,
+        ClientRect.bottom - ClientRect.top,
+        SWP_SHOWWINDOW);
+}
+
+void NanaBox::MainWindowExitNoticeWindow::OnDpiChanged(
+    UINT nDpiX,
+    UINT nDpiY,
+    PRECT pRect)
+{
+    UNREFERENCED_PARAMETER(nDpiX);
+    UNREFERENCED_PARAMETER(nDpiY);
+
+    this->SetWindowPos(
+        nullptr,
+        pRect,
+        SWP_NOZORDER | SWP_NOACTIVATE);
+}
+
+LRESULT NanaBox::MainWindowExitNoticeWindow::OnMenuChar(
+    UINT nChar,
+    UINT nFlags,
+    WTL::CMenuHandle menu)
+{
+    UNREFERENCED_PARAMETER(nChar);
+    UNREFERENCED_PARAMETER(nFlags);
+    UNREFERENCED_PARAMETER(menu);
+
+    // Reference: https://github.com/microsoft/terminal
+    //            /blob/756fd444b1d443320cf2ed6887d4b65aa67a9a03
+    //            /scratch/ScratchIslandApp
+    //            /WindowExe/SampleIslandWindow.cpp#L155
+    // Return this LRESULT here to prevent the app from making a bell
+    // when alt+key is pressed. A menu is active and the user presses a
+    // key that does not correspond to any mnemonic or accelerator key.
+
+    return MAKELRESULT(0, MNC_CLOSE);
+}
+
+void NanaBox::MainWindowExitNoticeWindow::OnSettingChange(
+    UINT uFlags,
+    LPCTSTR lpszSection)
+{
+    UNREFERENCED_PARAMETER(uFlags);
+
+    if (lpszSection && 0 == std::wcscmp(
+        lpszSection,
+        L"ImmersiveColorSet"))
+    {
+        winrt::FrameworkElement Content =
+            this->m_XamlSource.Content().try_as<winrt::FrameworkElement>();
+        if (Content &&
+            winrt::VisualTreeHelper::GetParent(Content))
+        {
+            Content.RequestedTheme(winrt::ElementTheme::Default);
+
+            ::MileSetUseImmersiveDarkModeAttribute(
+                this->m_hWnd,
+                (Content.ActualTheme() == winrt::ElementTheme::Dark
+                    ? TRUE
+                    : FALSE));
+
+            ::MileSetCaptionColorAttribute(
+                this->m_hWnd,
+                (Content.ActualTheme() == winrt::ElementTheme::Dark
+                    ? RGB(0, 0, 0)
+                    : RGB(255, 255, 255)));
+        }
+    }
+}
+
+void NanaBox::MainWindowExitNoticeWindow::OnDestroy()
+{
+    this->m_XamlSource.Close();
+
+    this->ShowWindow(SW_HIDE);
+
+    ::PostQuitMessage(0);
+}
+
+namespace NanaBox
+{
+    class MainWindow : public ATL::CWindowImpl<
+        MainWindow>
+    {
+    public:
+
+        DECLARE_WND_CLASS(L"NanaBoxMainWindow")
+
+        BEGIN_MSG_MAP(MainWindow)
+            MSG_WM_CREATE(OnCreate)
+            MSG_WM_SIZE(OnSize)
+            MSG_WM_DPICHANGED(OnDpiChanged)
+            MSG_WM_MENUCHAR(OnMenuChar)
+            MSG_WM_SETTINGCHANGE(OnSettingChange)
+            MSG_WM_CLOSE(OnClose)
+            MSG_WM_DESTROY(OnDestroy)
+        END_MSG_MAP()
+
+        int OnCreate(
+            LPCREATESTRUCT lpCreateStruct);
+
+        void OnSize(
+            UINT nType,
+            CSize size);
+
+        void OnDpiChanged(
+            UINT nDpiX,
+            UINT nDpiY,
+            PRECT pRect);
+
+        LRESULT OnMenuChar(
+            UINT nChar,
+            UINT nFlags,
+            WTL::CMenuHandle menu);
+
+        void OnSettingChange(
+            UINT uFlags,
+            LPCTSTR lpszSection);
+
+        void OnClose();
 
         void OnDestroy();
 
@@ -396,6 +606,41 @@ void NanaBox::MainWindow::OnSettingChange(
                     : RGB(255, 255, 255)));
         }
     }
+}
+
+void NanaBox::MainWindow::OnClose()
+{
+    const int Width = 400;
+    const int Height = 200;
+
+    UINT DpiValue = ::GetDpiForWindow(this->m_hWnd);
+
+    NanaBox::MainWindowExitNoticeWindow Window;
+    if (!Window.Create(
+        this->m_hWnd,
+        Window.rcDefault,
+        nullptr,
+        WS_CAPTION | WS_SYSMENU,
+        WS_EX_STATICEDGE | WS_EX_DLGMODALFRAME))
+    {
+        return;
+    }
+    Window.SetWindowPos(
+        nullptr,
+        0,
+        0,
+        ::MulDiv(Width, DpiValue, USER_DEFAULT_SCREEN_DPI),
+        ::MulDiv(Height, DpiValue, USER_DEFAULT_SCREEN_DPI),
+        SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE);
+    Window.CenterWindow(this->m_hWnd);
+    Window.ShowWindow(SW_SHOW);
+    Window.UpdateWindow();
+ 
+    WTL::CMessageLoop MessageLoop;
+    this->EnableWindow(FALSE);
+    MessageLoop.Run();
+    this->EnableWindow(TRUE);
+    this->SetActiveWindow();
 }
 
 void NanaBox::MainWindow::OnDestroy()
