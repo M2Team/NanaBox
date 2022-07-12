@@ -57,4 +57,7 @@
   <ItemGroup>
     <ResourceCompile Include="NanaBoxResources.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <Midl Include="DelegateTypes.idl" />
+  </ItemGroup>
 </Project>

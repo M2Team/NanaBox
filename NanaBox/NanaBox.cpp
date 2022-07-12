@@ -93,14 +93,15 @@ namespace NanaBox
     private:
 
         WTL::CIcon m_ApplicationIcon;
+        winrt::slim_mutex m_RdpClientOperationMutex;
         winrt::com_ptr<NanaBox::RdpClient> m_RdpClient;
         ATL::CAxWindow m_RdpClientWindow;
         winrt::DesktopWindowXamlSource m_XamlSource;
         winrt::NanaBox::MainWindowControl m_MainWindowControl;
         winrt::com_ptr<NanaBox::ComputeSystem> m_VirtualMachine;
         winrt::hstring m_VMID;
-        bool volatile m_VirtualMachineRunning = false;
-        bool volatile m_RdpClientEnhancedMode = false;
+        bool m_VirtualMachineRunning = false;
+        bool m_EnableEnhancedMode = false;
 
         void InitializeVirtualMachine();
     };
@@ -138,8 +139,29 @@ int NanaBox::MainWindow::OnCreate(
         this->m_RdpClient->RawControl().get(),
         nullptr));
 
+    this->InitializeVirtualMachine();
+
     this->m_MainWindowControl =
         winrt::make<winrt::NanaBox::implementation::MainWindowControl>();
+    this->m_MainWindowControl.RequestEnhancedSession([this](
+        bool const& RequestState)
+    {
+        this->m_EnableEnhancedMode = RequestState;
+        this->m_RdpClient->Disconnect();
+    });
+    this->m_MainWindowControl.RequestPauseVirtualMachine([this](
+        bool const& RequestState)
+    {
+        if (RequestState)
+        {
+            this->m_VirtualMachine->Pause();
+        }
+        else
+        {
+            this->m_VirtualMachine->Resume();
+        }
+    });
+
     winrt::com_ptr<IDesktopWindowXamlSourceNative> XamlSourceNative =
         this->m_XamlSource.as<IDesktopWindowXamlSourceNative>();
     winrt::check_hresult(
@@ -169,8 +191,6 @@ int NanaBox::MainWindow::OnCreate(
         (Content.ActualTheme() == winrt::ElementTheme::Dark
             ? RGB(0, 0, 0)
             : RGB(255, 255, 255)));
-
-    this->InitializeVirtualMachine();
 
     this->m_RdpClient->EnableAutoReconnect(false);
     this->m_RdpClient->RelativeMouseMode(true);
@@ -235,8 +255,19 @@ int NanaBox::MainWindow::OnCreate(
     {
         UNREFERENCED_PARAMETER(DisconnectReason);
 
+        winrt::slim_lock_guard Guard(this->m_RdpClientOperationMutex);
+
         if (this->m_VirtualMachineRunning)
         {
+            winrt::hstring PCB = this->m_VMID;
+
+            if (this->m_EnableEnhancedMode)
+            {
+                PCB = this->m_VMID + L";" + L"EnhancedMode=1";
+            }
+
+            this->m_RdpClient->PCB(PCB);
+
             this->m_RdpClient->Connect();
         }
     });
@@ -514,7 +545,7 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
         NanaBox::ScsiDeviceConfiguration Device;
         Device.Enabled = true;
         Device.Type = NanaBox::ScsiDeviceType::VirtualDisk;
-        Device.Path = "D:\\Hyper-V\\Windows 11\\Windows 11\\Virtual Hard Disks\\Windows 11.vhdx";//"D:\\Hyper-V\\DemoVM\\Virtual Hard Disks\\DemoVM.vhdx";
+        Device.Path = "D:\\Hyper-V\\Windows 11\\Windows 11\\Virtual Hard Disks\\Windows 11.vhdx";
         Configuration.ScsiDevices.push_back(Device);
     }
     {
@@ -562,10 +593,10 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
         this->m_VirtualMachineRunning = false;
     });
 
-    this->m_VirtualMachine->SystemRdpEnhancedModeStateChanged([this]()
+    /*this->m_VirtualMachine->SystemRdpEnhancedModeStateChanged([this]()
     {
-        this->m_RdpClientEnhancedMode = !this->m_RdpClientEnhancedMode;
-    });
+        this->m_EnableEnhancedMode = !this->m_EnableEnhancedMode;
+    });*/
 
     this->m_VirtualMachine->Start();
 

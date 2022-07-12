@@ -20,41 +20,33 @@
         AutomationProperties.Name="[Virtual Machine Settings Button]"
         Icon="Setting"
         LabelPosition="Collapsed"
-        ToolTipService.ToolTip="[Virtual Machine Settings]" />
+        ToolTipService.ToolTip="[Virtual Machine Settings]"
+        Visibility="Collapsed" />
       <AppBarToggleButton
         Width="40"
         AutomationProperties.Name="[Enhanced Session Button]"
+        Click="EnhancedSessionButtonClick"
         Icon="NewWindow"
         LabelPosition="Collapsed"
         ToolTipService.ToolTip="[Enhanced Session]" />
       <AppBarToggleButton
         Width="40"
         AutomationProperties.Name="[Pause Virtual Machine Button]"
+        Click="PauseVirtualMachineButtonClick"
         Icon="Pause"
         LabelPosition="Collapsed"
         ToolTipService.ToolTip="[Pause Virtual Machine]" />
-      <AppBarSeparator />
-      <AppBarButton
-        Width="40"
-        AutomationProperties.Name="[Save Virtual Machine Status Button]"
-        Icon="Save"
-        LabelPosition="Collapsed"
-        ToolTipService.ToolTip="[Save Virtual Machine Status]" />
       <AppBarButton
         Width="40"
         AutomationProperties.Name="[Shutdown Virtual Machine Button]"
+        Click="ShutdownVirtualMachineButtonClick"
         Icon="Stop"
         LabelPosition="Collapsed"
         ToolTipService.ToolTip="[Shutdown Virtual Machine]" />
       <AppBarButton
         Width="40"
-        AutomationProperties.Name="[Terminate Virtual Machine Button]"
-        Icon="Cancel"
-        LabelPosition="Collapsed"
-        ToolTipService.ToolTip="[Terminate Virtual Machine]" />
-      <AppBarButton
-        Width="40"
         AutomationProperties.Name="[Restart Virtual Machine Button]"
+        Click="RestartVirtualMachineButtonClick"
         Icon="Refresh"
         LabelPosition="Collapsed"
         ToolTipService.ToolTip="[Restart Virtual Machine]" />
