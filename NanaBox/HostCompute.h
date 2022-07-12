@@ -93,7 +93,7 @@ namespace NanaBox
 
     using HcnEndpoint = winrt::handle_type<HcnEndpointTraits>;
 
-    struct ComputeSystem
+    struct ComputeSystem : winrt::implements<ComputeSystem, IUnknown>
     {
     public:
 

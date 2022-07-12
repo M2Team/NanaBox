@@ -50,13 +50,6 @@ namespace winrt
     using Windows::UI::Xaml::Media::VisualTreeHelper;
 }
 
-namespace
-{
-    winrt::hstring g_VMID = L"48781dff-90cc-4650-89c3-fe12e6210b19";
-    bool volatile g_VirtualMachineRunning = false;
-    bool volatile g_RdpClientEnhancedMode = false;
-}
-
 namespace NanaBox
 {
     class MainWindow : public ATL::CWindowImpl<MainWindow>
@@ -104,6 +97,12 @@ namespace NanaBox
         ATL::CAxWindow m_RdpClientWindow;
         winrt::DesktopWindowXamlSource m_XamlSource;
         winrt::NanaBox::MainWindowControl m_MainWindowControl;
+        winrt::com_ptr<NanaBox::ComputeSystem> m_VirtualMachine;
+        winrt::hstring m_VMID;
+        bool volatile m_VirtualMachineRunning = false;
+        bool volatile m_RdpClientEnhancedMode = false;
+
+        void InitializeVirtualMachine();
     };
 
 }
@@ -171,7 +170,7 @@ int NanaBox::MainWindow::OnCreate(
             ? RGB(0, 0, 0)
             : RGB(255, 255, 255)));
 
-
+    this->InitializeVirtualMachine();
 
     this->m_RdpClient->EnableAutoReconnect(false);
     this->m_RdpClient->RelativeMouseMode(true);
@@ -203,7 +202,7 @@ int NanaBox::MainWindow::OnCreate(
 
 
 
-    this->m_RdpClient->PCB(g_VMID.c_str()/* + winrt::hstring(L";" L"EnhancedMode=1")*/);
+    this->m_RdpClient->PCB(this->m_VMID.c_str()/* + winrt::hstring(L";" L"EnhancedMode=1")*/);
 
     this->m_RdpClient->Connect();
 
@@ -236,7 +235,7 @@ int NanaBox::MainWindow::OnCreate(
     {
         UNREFERENCED_PARAMETER(DisconnectReason);
 
-        if (g_VirtualMachineRunning)
+        if (this->m_VirtualMachineRunning)
         {
             this->m_RdpClient->Connect();
         }
@@ -379,50 +378,33 @@ void NanaBox::MainWindow::OnDestroy()
     ::PostQuitMessage(0);
 }
 
-namespace
+void NanaBox::MainWindow::InitializeVirtualMachine()
 {
-    WTL::CAppModule g_Module;
-}
-
-int WINAPI wWinMain(
-    _In_ HINSTANCE hInstance,
-    _In_opt_ HINSTANCE hPrevInstance,
-    _In_ LPWSTR lpCmdLine,
-    _In_ int nShowCmd)
-{
-    UNREFERENCED_PARAMETER(hPrevInstance);
-    UNREFERENCED_PARAMETER(lpCmdLine);
-
-    winrt::init_apartment(winrt::apartment_type::single_threaded);
-
-    winrt::NanaBox::App app =
-        winrt::make<winrt::NanaBox::implementation::App>();
-
     /*winrt::check_hresult(::HcsCreateEmptyGuestStateFile(L"D:\\Test\\Test.vmgs"));
-    winrt::check_hresult(::HcsCreateEmptyRuntimeStateFile(L"D:\\Test\\Test.vmrs"));
-    winrt::check_hresult(::HcsGrantVmAccess(L"Sample", L"D:\\Test\\Test.vmgs"));
-    winrt::check_hresult(::HcsGrantVmAccess(L"Sample", L"D:\\Test\\Test.vmrs"));*/
+   winrt::check_hresult(::HcsCreateEmptyRuntimeStateFile(L"D:\\Test\\Test.vmrs"));
+   winrt::check_hresult(::HcsGrantVmAccess(L"Sample", L"D:\\Test\\Test.vmgs"));
+   winrt::check_hresult(::HcsGrantVmAccess(L"Sample", L"D:\\Test\\Test.vmrs"));*/
 
-    /*static constexpr wchar_t c_VmConfiguration[] = LR"(
-    {
-        "VirtualMachine": {
-            "Chipset": {
-                "Uefi": {
-                    "ApplySecureBootTemplate": "Apply",
-                    "SecureBootTemplateId": "1734c6e8-3154-4dda-ba5f-a874cc483422"
-                }
-            },
-            "GuestState": {
-                "GuestStateFilePath": "D:\\NanaBox VM\\B5BAB8AD-5A00-4EB7-BD48-966E3D382307.vmgs",
-                "GuestStateFileType": "FileMode",
-			    "ForceTransientState": true,
-                "RuntimeStateFilePath": "D:\\NanaBox VM\\B5BAB8AD-5A00-4EB7-BD48-966E3D382307.vmrs"
-            },
-            "SecuritySettings": {
-                "EnableTpm": true
-            }
-        }
-    })";*/
+   /*static constexpr wchar_t c_VmConfiguration[] = LR"(
+   {
+       "VirtualMachine": {
+           "Chipset": {
+               "Uefi": {
+                   "ApplySecureBootTemplate": "Apply",
+                   "SecureBootTemplateId": "1734c6e8-3154-4dda-ba5f-a874cc483422"
+               }
+           },
+           "GuestState": {
+               "GuestStateFilePath": "D:\\NanaBox VM\\B5BAB8AD-5A00-4EB7-BD48-966E3D382307.vmgs",
+               "GuestStateFileType": "FileMode",
+               "ForceTransientState": true,
+               "RuntimeStateFilePath": "D:\\NanaBox VM\\B5BAB8AD-5A00-4EB7-BD48-966E3D382307.vmrs"
+           },
+           "SecuritySettings": {
+               "EnableTpm": true
+           }
+       }
+   })";*/
 
     NanaBox::HcnNetwork NetworkHandle = NanaBox::HcnOpenNetwork(
         NanaBox::DefaultSwitchId);
@@ -463,7 +445,7 @@ int WINAPI wWinMain(
     winrt::guid EndpointId = winrt::guid(
         "B628CCF8-CB1F-405C-9C1A-3CA76526E4E0");
 
-    nlohmann::json Settings; 
+    nlohmann::json Settings;
     Settings["VirtualNetwork"] = "C08CB7B8-9B3C-408E-8E30-5E16A3AEB444";
     //Settings["ID"] = "B628CCF8-CB1F-405C-9C1A-3CA76526E4E0";
     Settings["MacAddress"] = "00-15-5D-64-2F-AB";
@@ -481,8 +463,8 @@ int WINAPI wWinMain(
     Settings["MacAddress"] = "00-15-5D-64-2F-8B";
     Settings["Flags"] = 0;
     Settings["Health"] = nullptr;*/
-    
-    
+
+
     //
     // // winrt::to_string(winrt::to_hstring(EndpointId));
     //
@@ -526,13 +508,13 @@ int WINAPI wWinMain(
     Configuration.GuestType = NanaBox::GuestType::Windows;
     Configuration.Name = "DemoVM";
     Configuration.ProcessorCount = 2;
-    Configuration.MemorySize = 2048;
+    Configuration.MemorySize = 4096;
     Configuration.Gpu.AssignmentMode = NanaBox::GpuAssignmentMode::Mirror;
     {
         NanaBox::ScsiDeviceConfiguration Device;
         Device.Enabled = true;
         Device.Type = NanaBox::ScsiDeviceType::VirtualDisk;
-        Device.Path = "D:\\Hyper-V\\DemoVM\\Virtual Hard Disks\\DemoVM.vhdx";
+        Device.Path = "D:\\Hyper-V\\Windows 11\\Windows 11\\Virtual Hard Disks\\Windows 11.vhdx";//"D:\\Hyper-V\\DemoVM\\Virtual Hard Disks\\DemoVM.vhdx";
         Configuration.ScsiDevices.push_back(Device);
     }
     {
@@ -550,33 +532,42 @@ int WINAPI wWinMain(
         Device.EndpointId = "b628ccf8-cb1f-405c-9c1a-3ca76526e4e0";
         Configuration.NetworkAdapters.push_back(Device);
     }
+    {
+        NanaBox::SharedFolderConfiguration Folder;
+        Folder.Enabled = true;
+        Folder.ReadOnly = true;
+        Folder.HostPath = "D:\\TempState";
+        Folder.GuestName = "TempState";
+        Configuration.SharedFolders.push_back(Folder);
+    }
 
-    std::string Test = NanaBox::SerializeConfiguration(Configuration);
+    /*std::string Test = NanaBox::SerializeConfiguration(Configuration);
 
     Test = Test;
 
     auto Fuck = NanaBox::DeserializeConfiguration(Test);
 
-    Fuck = Fuck;
+    Fuck = Fuck;*/
 
-    NanaBox::ComputeSystem VirtualMachine(
+
+    this->m_VirtualMachine = winrt::make_self<NanaBox::ComputeSystem>(
         winrt::to_hstring(Configuration.Name),
         winrt::to_hstring(NanaBox::MakeHcsConfiguration(Configuration)));
 
-    VirtualMachine.SystemExited([](
+    this->m_VirtualMachine->SystemExited([this](
         winrt::hstring const& EventData)
     {
         UNREFERENCED_PARAMETER(EventData);
 
-        g_VirtualMachineRunning = false;
+        this->m_VirtualMachineRunning = false;
     });
 
-    VirtualMachine.SystemRdpEnhancedModeStateChanged([]()
+    this->m_VirtualMachine->SystemRdpEnhancedModeStateChanged([this]()
     {
-        g_RdpClientEnhancedMode = !g_RdpClientEnhancedMode;
+        this->m_RdpClientEnhancedMode = !this->m_RdpClientEnhancedMode;
     });
 
-    VirtualMachine.Start();
+    this->m_VirtualMachine->Start();
 
     //test.Pause();
 
@@ -589,24 +580,43 @@ int WINAPI wWinMain(
         VirtualMachine.Modify(winrt::to_hstring(Request.dump()));
     }*/
 
-    VirtualMachine.Modify(winrt::to_hstring(
+    this->m_VirtualMachine->Modify(winrt::to_hstring(
         NanaBox::MakeHcsUpdateGpuRequest(Configuration.Gpu)));
 
     //VirtualMachine.Resume();
 
-    g_VirtualMachineRunning = true;
+    this->m_VirtualMachineRunning = true;
 
     nlohmann::json Properties = nlohmann::json::parse(
-        winrt::to_string(VirtualMachine.GetProperties()));
+        winrt::to_string(this->m_VirtualMachine->GetProperties()));
 
-    g_VMID = winrt::to_hstring(Properties["RuntimeId"]);
+    this->m_VMID = winrt::to_hstring(Properties["RuntimeId"]);
 
     /*::MessageBoxW(
         nullptr,
         winrt::to_hstring(Properties.dump(2)).c_str(),
         L"NanaBox",
         0);*/
+}
 
+namespace
+{
+    WTL::CAppModule g_Module;
+}
+
+int WINAPI wWinMain(
+    _In_ HINSTANCE hInstance,
+    _In_opt_ HINSTANCE hPrevInstance,
+    _In_ LPWSTR lpCmdLine,
+    _In_ int nShowCmd)
+{
+    UNREFERENCED_PARAMETER(hPrevInstance);
+    UNREFERENCED_PARAMETER(lpCmdLine);
+
+    winrt::init_apartment(winrt::apartment_type::single_threaded);
+
+    winrt::NanaBox::App app =
+        winrt::make<winrt::NanaBox::implementation::App>();
 
     WTL::CMessageLoop MessageLoop;
 
