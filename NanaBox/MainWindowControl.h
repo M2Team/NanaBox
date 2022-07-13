@@ -30,10 +30,6 @@ namespace winrt::NanaBox::implementation
             winrt::IInspectable const& sender,
             winrt::RoutedEventArgs const& e);
 
-        void ShutdownVirtualMachineButtonClick(
-            winrt::IInspectable const& sender,
-            winrt::RoutedEventArgs const& e);
-
         void RestartVirtualMachineButtonClick(
             winrt::IInspectable const& sender,
             winrt::RoutedEventArgs const& e);
@@ -50,12 +46,6 @@ namespace winrt::NanaBox::implementation
         void RequestPauseVirtualMachine(
             winrt::event_token const& Token);
 
-        winrt::event_token RequestShutdownVirtualMachine(
-            NanaBox::RequestSignalDelegate const& Handler);
-
-        void RequestShutdownVirtualMachine(
-            winrt::event_token const& Token);
-
         winrt::event_token RequestRestartVirtualMachine(
             NanaBox::RequestSignalDelegate const& Handler);
 
@@ -66,7 +56,6 @@ namespace winrt::NanaBox::implementation
 
         RequestStateChangedEvent m_RequestEnhancedSession;
         RequestStateChangedEvent m_RequestPauseVirtualMachine;
-        RequestSignalEvent m_RequestShutdownVirtualMachine;
         RequestSignalEvent m_RequestRestartVirtualMachine;
     };
 }

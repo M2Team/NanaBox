@@ -38,13 +38,6 @@
         ToolTipService.ToolTip="[Pause Virtual Machine]" />
       <AppBarButton
         Width="40"
-        AutomationProperties.Name="[Shutdown Virtual Machine Button]"
-        Click="ShutdownVirtualMachineButtonClick"
-        Icon="Stop"
-        LabelPosition="Collapsed"
-        ToolTipService.ToolTip="[Shutdown Virtual Machine]" />
-      <AppBarButton
-        Width="40"
         AutomationProperties.Name="[Restart Virtual Machine Button]"
         Click="RestartVirtualMachineButtonClick"
         Icon="Refresh"

@@ -556,15 +556,18 @@ int NanaBox::MainWindow::OnCreate(
             this->m_VirtualMachine->Resume();
         }
     });
-    this->m_MainWindowControl.RequestShutdownVirtualMachine([this]()
-    {
-        this->m_VirtualMachine->Shutdown();
-    });
-
     this->m_MainWindowControl.RequestRestartVirtualMachine([this]()
     {
         this->m_VirtualMachine->Terminate();
-        this->m_VirtualMachine->Start();
+        this->m_VirtualMachine = nullptr;
+
+        this->InitializeVirtualMachine();
+
+        nlohmann::json Properties = nlohmann::json::parse(
+            winrt::to_string(this->m_VirtualMachine->GetProperties()));
+        this->m_VMID = winrt::to_hstring(Properties["RuntimeId"]);
+
+        this->m_RdpClient->Disconnect();
     });
 
     winrt::com_ptr<IDesktopWindowXamlSourceNative> XamlSourceNative =

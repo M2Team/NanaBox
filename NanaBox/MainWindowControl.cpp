@@ -36,16 +36,6 @@ namespace winrt::NanaBox::implementation
             sender.as<winrt::AppBarToggleButton>().IsChecked()));
     }
 
-    void MainWindowControl::ShutdownVirtualMachineButtonClick(
-        winrt::IInspectable const& sender,
-        winrt::RoutedEventArgs const& e)
-    {
-        UNREFERENCED_PARAMETER(sender);
-        UNREFERENCED_PARAMETER(e);
-
-        this->m_RequestShutdownVirtualMachine();
-    }
-
     void MainWindowControl::RestartVirtualMachineButtonClick(
         winrt::IInspectable const& sender,
         winrt::RoutedEventArgs const& e)
@@ -78,18 +68,6 @@ namespace winrt::NanaBox::implementation
         winrt::event_token const& Token)
     {
         this->m_RequestPauseVirtualMachine.remove(Token);
-    }
-
-    winrt::event_token MainWindowControl::RequestShutdownVirtualMachine(
-        NanaBox::RequestSignalDelegate const& Handler)
-    {
-        return this->m_RequestShutdownVirtualMachine.add(Handler);
-    }
-
-    void MainWindowControl::RequestShutdownVirtualMachine(
-        winrt::event_token const& Token)
-    {
-        this->m_RequestShutdownVirtualMachine.remove(Token);
     }
 
     winrt::event_token MainWindowControl::RequestRestartVirtualMachine(
