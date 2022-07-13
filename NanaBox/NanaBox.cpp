@@ -51,6 +51,169 @@ namespace winrt
     using Windows::UI::Xaml::Media::VisualTreeHelper;
 }
 
+namespace
+{
+    winrt::hstring VFormatWindowsRuntimeString(
+        _In_z_ _Printf_format_string_ wchar_t const* const Format,
+        _In_z_ _Printf_format_string_ va_list ArgList)
+    {
+        // Check the argument list.
+        if (Format)
+        {
+            // Get the length of the format result.
+            size_t nLength =
+                static_cast<size_t>(::_vscwprintf(Format, ArgList)) + 1;
+
+            // Allocate for the format result.
+            std::wstring Buffer(nLength + 1, L'\0');
+
+            // Format the string.
+            int nWritten = ::_vsnwprintf_s(
+                &Buffer[0],
+                Buffer.size(),
+                nLength,
+                Format,
+                ArgList);
+
+            if (nWritten > 0)
+            {
+                // If succeed, resize to fit and return result.
+                Buffer.resize(nWritten);
+                return winrt::hstring(Buffer);
+            }
+        }
+
+        // If failed, return an empty string.
+        return winrt::hstring();
+    }
+
+    winrt::hstring FormatWindowsRuntimeString(
+        _In_z_ _Printf_format_string_ wchar_t const* const Format,
+        ...)
+    {
+        va_list ArgList;
+        va_start(ArgList, Format);
+        winrt::hstring Result = ::VFormatWindowsRuntimeString(
+            Format,
+            ArgList);
+        va_end(ArgList);
+        return Result;
+    }
+
+    winrt::hstring FromGuid(
+        winrt::guid const& Value)
+    {
+        return ::FormatWindowsRuntimeString(
+            L"%08x-%04hx-%04hx-%02hhx%02hhx-%02hhx%02hhx%02hhx%02hhx%02hhx%02hhx",
+            Value.Data1,
+            Value.Data2,
+            Value.Data3,
+            Value.Data4[0],
+            Value.Data4[1],
+            Value.Data4[2],
+            Value.Data4[3],
+            Value.Data4[4],
+            Value.Data4[5],
+            Value.Data4[6],
+            Value.Data4[7]);
+    }
+
+    std::size_t GetTextFileSize(
+        winrt::file_handle const& FileHandle)
+    {
+        FILE_STANDARD_INFO StandardInfo;
+
+        winrt::check_bool(::GetFileInformationByHandleEx(
+            FileHandle.get(),
+            FILE_INFO_BY_HANDLE_CLASS::FileStandardInfo,
+            &StandardInfo,
+            sizeof(FILE_STANDARD_INFO)));
+
+        return static_cast<std::size_t>(StandardInfo.EndOfFile.QuadPart);
+    }
+
+    static std::string ReadAllTextFromUtf8TextFile(
+        winrt::hstring const& Path)
+    {
+        winrt::file_handle FileHandle;
+
+        FileHandle.attach(::CreateFileW(
+            Path.c_str(),
+            GENERIC_READ,
+            FILE_SHARE_READ,
+            nullptr,
+            OPEN_EXISTING,
+            FILE_FLAG_SEQUENTIAL_SCAN,
+            nullptr));
+        if (!FileHandle)
+        {
+            winrt::throw_last_error();
+        }
+        
+        std::size_t FileSize = ::GetTextFileSize(FileHandle);
+
+        std::string Content(FileSize, '\0');
+
+        DWORD NumberOfBytesRead = 0;
+
+        winrt::check_bool(::ReadFile(
+            FileHandle.get(),
+            const_cast<char*>(Content.c_str()),
+            static_cast<DWORD>(FileSize),
+            &NumberOfBytesRead,
+            nullptr));
+
+        if (!(FileSize > 3 &&
+            Content[0] == '\xEF' &&
+            Content[1] == '\xBB' &&
+            Content[2] == '\xBF'))
+        {
+            throw winrt::hresult_invalid_argument(
+                L"UTF-8 with BOM is required.");
+        }
+
+        return Content;
+    }
+
+    static void WriteAllTextToUtf8TextFile(
+        winrt::hstring const& Path,
+        std::string& Content)
+    {
+        winrt::file_handle FileHandle;
+
+        FileHandle.attach(::CreateFileW(
+            Path.c_str(),
+            GENERIC_WRITE,
+            FILE_SHARE_WRITE,
+            nullptr,
+            CREATE_ALWAYS,
+            FILE_FLAG_SEQUENTIAL_SCAN,
+            nullptr));
+        if (!FileHandle)
+        {
+            winrt::throw_last_error();
+        }
+
+        DWORD NumberOfBytesWritten = 0;
+
+        const std::string BOM = "\xEF\xBB\xBF";
+
+        winrt::check_bool(::WriteFile(
+            FileHandle.get(),
+            BOM.c_str(),
+            static_cast<DWORD>(BOM.size()),
+            &NumberOfBytesWritten,
+            nullptr));
+
+        winrt::check_bool(::WriteFile(
+            FileHandle.get(),
+            Content.c_str(),
+            static_cast<DWORD>(Content.size()),
+            &NumberOfBytesWritten,
+            nullptr));
+    }
+}
+
 namespace NanaBox
 {
     class MainWindowExitNoticeWindow : public ATL::CWindowImpl<
@@ -308,6 +471,7 @@ namespace NanaBox
         ATL::CAxWindow m_RdpClientWindow;
         winrt::DesktopWindowXamlSource m_XamlSource;
         winrt::NanaBox::MainWindowControl m_MainWindowControl;
+        NanaBox::VirtualMachineConfiguration m_Configuration;
         winrt::com_ptr<NanaBox::ComputeSystem> m_VirtualMachine;
         winrt::hstring m_VMID;
         bool m_VirtualMachineRunning = false;
@@ -349,7 +513,28 @@ int NanaBox::MainWindow::OnCreate(
         this->m_RdpClient->RawControl().get(),
         nullptr));
 
-    this->InitializeVirtualMachine();
+    try
+    {
+        this->InitializeVirtualMachine();
+    }
+    catch (winrt::hresult_error const& ex)
+    {
+        ::MessageBoxW(
+            nullptr,
+            ex.message().c_str(),
+            L"NanaBox",
+            MB_ICONERROR);
+        return -1;
+    }
+    catch (std::exception const& ex)
+    {
+        ::MessageBoxW(
+            nullptr,
+            winrt::to_hstring(ex.what()).c_str(),
+            L"NanaBox",
+            MB_ICONERROR);
+        return -1;
+    }
 
     this->m_MainWindowControl =
         winrt::make<winrt::NanaBox::implementation::MainWindowControl>();
@@ -441,6 +626,10 @@ int NanaBox::MainWindow::OnCreate(
     this->m_RdpClient->MinInputSendInterval(20);
 
 
+
+    nlohmann::json Properties = nlohmann::json::parse(
+        winrt::to_string(this->m_VirtualMachine->GetProperties()));
+    this->m_VMID = winrt::to_hstring(Properties["RuntimeId"]);
 
     this->m_RdpClient->PCB(this->m_VMID.c_str()/* + winrt::hstring(L";" L"EnhancedMode=1")*/);
 
@@ -666,6 +855,59 @@ void NanaBox::MainWindow::OnDestroy()
 
 void NanaBox::MainWindow::InitializeVirtualMachine()
 {
+    std::string ConfigurationFileContent = ::ReadAllTextFromUtf8TextFile(
+        L"D:\\TestVM.7b");
+
+    this->m_Configuration = NanaBox::DeserializeConfiguration(
+        ConfigurationFileContent);
+   
+    NanaBox::HcnNetwork NetworkHandle = NanaBox::HcnOpenNetwork(
+        NanaBox::DefaultSwitchId);
+
+    std::string DefaultSwitchIdString = winrt::to_string(
+        ::FromGuid(NanaBox::DefaultSwitchId));
+
+    for (NanaBox::NetworkAdapterConfiguration& NetworkAdapter
+        : this->m_Configuration.NetworkAdapters)
+    {
+        if (!NetworkAdapter.Enabled)
+        {
+            continue;
+        }
+
+        GUID EndpointId;
+        winrt::check_hresult(::CoCreateGuid(&EndpointId));
+        NetworkAdapter.EndpointId = winrt::to_string(::FromGuid(EndpointId));
+
+        NanaBox::HcnEndpoint EndpointHandle;
+        try
+        {
+            nlohmann::json Settings;
+            Settings["VirtualNetwork"] = DefaultSwitchIdString;
+            if (!NetworkAdapter.MacAddress.empty())
+            {
+                Settings["MacAddress"] = NetworkAdapter.MacAddress;
+            }
+
+            EndpointHandle = NanaBox::HcnCreateEndpoint(
+                NetworkHandle,
+                EndpointId,
+                winrt::to_hstring(Settings.dump()));
+        }
+        catch (...)
+        {
+            nlohmann::json Settings;
+            Settings["VirtualNetwork"] = DefaultSwitchIdString;
+            EndpointHandle = NanaBox::HcnCreateEndpoint(
+                NetworkHandle,
+                EndpointId,
+                winrt::to_hstring(Settings.dump()));
+            nlohmann::json Properties = nlohmann::json::parse(winrt::to_string(
+                NanaBox::HcnQueryEndpointProperties(EndpointHandle)));
+            NetworkAdapter.MacAddress = Properties["MacAddress"];
+        }
+    }
+
     /*winrt::check_hresult(::HcsCreateEmptyGuestStateFile(L"D:\\Test\\Test.vmgs"));
    winrt::check_hresult(::HcsCreateEmptyRuntimeStateFile(L"D:\\Test\\Test.vmrs"));
    winrt::check_hresult(::HcsGrantVmAccess(L"Sample", L"D:\\Test\\Test.vmgs"));
@@ -686,154 +928,11 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
        }
    })";*/
 
-    NanaBox::HcnNetwork NetworkHandle = NanaBox::HcnOpenNetwork(
-        NanaBox::DefaultSwitchId);
-
-    /*GUID EndpointId;
-    winrt::check_hresult(::CoCreateGuid(&EndpointId));*/
-
-    /*static constexpr wchar_t c_EndpointConfiguration[] = LR"(
-    {
-      "ID": "b628ccf8-cb1f-405c-9c1a-3ca76526e4e0",
-      "Name": "Ethernet",
-      "Version": 64424509440,
-      "AdditionalParams": {},
-      "Resources": {
-        "AdditionalParams": {},
-        "AllocationOrder": 0,
-        "CompartmentOperationTime": 0,
-        "Flags": 0,
-        "Health": {
-          "LastErrorCode": 0,
-          "LastUpdateTime": 133019448371526766
-        },
-        "ID": "E9A1B213-E312-4033-9ED3-8292DFB20E62",
-        "PortOperationTime": 0,
-        "State": 1,
-        "SwitchOperationTime": 0,
-        "VfpOperationTime": 0,
-        "parentId": "BD080206-CABC-4D72-8AEC-DEA141D519EB"
-      },
-      "State": 1,
-      "VirtualNetwork": "c08cb7b8-9b3c-408e-8e30-5e16a3aeb444",
-      "VirtualNetworkName": "Default Switch",
-      "MacAddress": "00-15-5D-64-2F-8B",
-      "Flags": 32,
-      "SharedContainers": []
-    })";*/
-
-    winrt::guid EndpointId = winrt::guid(
-        "B628CCF8-CB1F-405C-9C1A-3CA76526E4E0");
-
-    nlohmann::json Settings;
-    Settings["VirtualNetwork"] = "C08CB7B8-9B3C-408E-8E30-5E16A3AEB444";
-    //Settings["ID"] = "B628CCF8-CB1F-405C-9C1A-3CA76526E4E0";
-    Settings["MacAddress"] = "00-15-5D-64-2F-AB";
-
-    //Settings["SchemaVersion"]["Major"] = 2;
-    //Settings["SchemaVersion"]["Minor"] = 0;
-    //Settings["ID"] = "B628CCF8-CB1F-405C-9C1A-3CA76526E4E0"; //
-    //Settings["Name"] = "B628CCF8-CB1F-405C-9C1A-3CA76526E4E0"; //
-    //Settings["HostComputeNetwork"] = "B628CCF8-CB1F-405C-9C1A-3CA76526E4E0"; //
-    //Settings["HostComputeNamespace"] =  "";
-    /*Settings["Policies"] = nullptr;
-    Settings["IpConfigurations"] = nullptr;
-    Settings["Dns"] = nullptr;
-    Settings["Routes"] = nullptr;
-    Settings["MacAddress"] = "00-15-5D-64-2F-8B";
-    Settings["Flags"] = 0;
-    Settings["Health"] = nullptr;*/
-
-
-    //
-    // // winrt::to_string(winrt::to_hstring(EndpointId));
-    //
-    //Settings["Flags"] = 0;
-
-    try
-    {
-        NanaBox::HcnDeleteEndpoint(EndpointId);
-    }
-    catch (...)
-    {
-
-    }
-
-    NanaBox::HcnEndpoint EndpointHandle = NanaBox::HcnCreateEndpoint(
-        NetworkHandle,
-        EndpointId,
-        winrt::to_hstring(Settings.dump()));
-
-    winrt::hstring EndpointProperties = NanaBox::HcnQueryEndpointProperties(
-        EndpointHandle);
-
-    /*::MessageBoxW(
-        nullptr,
-        EndpointProperties.c_str(),
-        L"NanaBox",
-        MB_ICONINFORMATION);
-
-    try
-    {
-        NanaBox::HcnDeleteEndpoint(EndpointId);
-    }
-    catch (...)
-    {
-
-    }*/
-
-    NanaBox::VirtualMachineConfiguration Configuration;
-
-    Configuration.Version = 1;
-    Configuration.GuestType = NanaBox::GuestType::Windows;
-    Configuration.Name = "DemoVM";
-    Configuration.ProcessorCount = 2;
-    Configuration.MemorySize = 4096;
-    Configuration.Gpu.AssignmentMode = NanaBox::GpuAssignmentMode::Mirror;
-    {
-        NanaBox::ScsiDeviceConfiguration Device;
-        Device.Enabled = true;
-        Device.Type = NanaBox::ScsiDeviceType::VirtualDisk;
-        Device.Path = "D:\\Hyper-V\\Windows 11\\Windows 11\\Virtual Hard Disks\\Windows 11.vhdx";
-        Configuration.ScsiDevices.push_back(Device);
-    }
-    {
-        NanaBox::ScsiDeviceConfiguration Device;
-        Device.Enabled = true;
-        Device.Type = NanaBox::ScsiDeviceType::VirtualImage;
-        Device.Path = "";
-        Configuration.ScsiDevices.push_back(Device);
-    }
-    {
-        NanaBox::NetworkAdapterConfiguration Device;
-        Device.Enabled = true;
-        Device.Connected = true;
-        Device.MacAddress = "00-15-5D-64-2F-AB";
-        Device.EndpointId = "b628ccf8-cb1f-405c-9c1a-3ca76526e4e0";
-        Configuration.NetworkAdapters.push_back(Device);
-    }
-    {
-        NanaBox::SharedFolderConfiguration Folder;
-        Folder.Enabled = true;
-        Folder.ReadOnly = true;
-        Folder.HostPath = "D:\\TempState";
-        Folder.GuestName = "TempState";
-        Configuration.SharedFolders.push_back(Folder);
-    }
-    Configuration.SecureBoot = true;
-
-    /*std::string Test = NanaBox::SerializeConfiguration(Configuration);
-
-    Test = Test;
-
-    auto Fuck = NanaBox::DeserializeConfiguration(Test);
-
-    Fuck = Fuck;*/
-
-
     this->m_VirtualMachine = winrt::make_self<NanaBox::ComputeSystem>(
-        winrt::to_hstring(Configuration.Name),
-        winrt::to_hstring(NanaBox::MakeHcsConfiguration(Configuration)));
+        winrt::to_hstring(
+            this->m_Configuration.Name),
+        winrt::to_hstring(
+            NanaBox::MakeHcsConfiguration(this->m_Configuration)));
 
     this->m_VirtualMachine->SystemExited([this](
         winrt::hstring const& EventData)
@@ -850,8 +949,6 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
 
     this->m_VirtualMachine->Start();
 
-    //test.Pause();
-
     /*{
         nlohmann::json Request;
         Request["ResourcePath"] = "VirtualMachine/Devices/NetworkAdapters/B628CCF8";
@@ -862,22 +959,16 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
     }*/
 
     this->m_VirtualMachine->Modify(winrt::to_hstring(
-        NanaBox::MakeHcsUpdateGpuRequest(Configuration.Gpu)));
-
-    //VirtualMachine.Resume();
+        NanaBox::MakeHcsUpdateGpuRequest(this->m_Configuration.Gpu)));
 
     this->m_VirtualMachineRunning = true;
 
-    nlohmann::json Properties = nlohmann::json::parse(
-        winrt::to_string(this->m_VirtualMachine->GetProperties()));
+    ConfigurationFileContent =
+        NanaBox::SerializeConfiguration(this->m_Configuration);
 
-    this->m_VMID = winrt::to_hstring(Properties["RuntimeId"]);
-
-    /*::MessageBoxW(
-        nullptr,
-        winrt::to_hstring(Properties.dump(2)).c_str(),
-        L"NanaBox",
-        0);*/
+    ::WriteAllTextToUtf8TextFile(
+        L"D:\\TestVM.7b",
+        ConfigurationFileContent);
 }
 
 namespace
