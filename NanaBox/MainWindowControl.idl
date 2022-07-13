@@ -9,5 +9,7 @@ namespace NanaBox
 
         event RequestStateChangedDelegate RequestEnhancedSession;
         event RequestStateChangedDelegate RequestPauseVirtualMachine;
+        event RequestSignalDelegate RequestShutdownVirtualMachine;
+        event RequestSignalDelegate RequestRestartVirtualMachine;
     }
 }

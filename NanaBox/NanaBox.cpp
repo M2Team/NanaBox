@@ -371,6 +371,16 @@ int NanaBox::MainWindow::OnCreate(
             this->m_VirtualMachine->Resume();
         }
     });
+    this->m_MainWindowControl.RequestShutdownVirtualMachine([this]()
+    {
+        this->m_VirtualMachine->Shutdown();
+    });
+
+    this->m_MainWindowControl.RequestRestartVirtualMachine([this]()
+    {
+        this->m_VirtualMachine->Terminate();
+        this->m_VirtualMachine->Start();
+    });
 
     winrt::com_ptr<IDesktopWindowXamlSourceNative> XamlSourceNative =
         this->m_XamlSource.as<IDesktopWindowXamlSourceNative>();
