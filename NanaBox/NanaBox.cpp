@@ -674,12 +674,6 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
    /*static constexpr wchar_t c_VmConfiguration[] = LR"(
    {
        "VirtualMachine": {
-           "Chipset": {
-               "Uefi": {
-                   "ApplySecureBootTemplate": "Apply",
-                   "SecureBootTemplateId": "1734c6e8-3154-4dda-ba5f-a874cc483422"
-               }
-           },
            "GuestState": {
                "GuestStateFilePath": "D:\\NanaBox VM\\B5BAB8AD-5A00-4EB7-BD48-966E3D382307.vmgs",
                "GuestStateFileType": "FileMode",
@@ -826,6 +820,7 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
         Folder.GuestName = "TempState";
         Configuration.SharedFolders.push_back(Folder);
     }
+    Configuration.SecureBoot = true;
 
     /*std::string Test = NanaBox::SerializeConfiguration(Configuration);
 

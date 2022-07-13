@@ -673,8 +673,10 @@ std::string NanaBox::MakeHcsConfiguration(
 
     if (Configuration.SecureBoot)
     {
-        throw std::exception(
-            "Not Implemented: Configuration.SecureBoot");
+        nlohmann::json Uefi;
+        Uefi["ApplySecureBootTemplate"] = "Apply";
+        Uefi["SecureBootTemplateId"] = "1734c6e8-3154-4dda-ba5f-a874cc483422";
+        Result["VirtualMachine"]["Chipset"]["Uefi"] = Uefi;
     }
 
     if (Configuration.Tpm)
