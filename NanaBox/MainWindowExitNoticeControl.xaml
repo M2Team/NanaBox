@@ -21,19 +21,19 @@
       Text="[You can suspend it for later use, or power it off now.]"
       TextWrapping="Wrap" />
     <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-      <Button>
+      <Button Click="SuspendButtonClick">
         <StackPanel Orientation="Horizontal">
           <SymbolIcon Margin="0,0,8,0" Symbol="Save" />
           <TextBlock Text="[Suspend]" />
         </StackPanel>
       </Button>
-      <Button Margin="8,0">
+      <Button Margin="8,0" Click="PowerOffButtonClick">
         <StackPanel Orientation="Horizontal">
           <SymbolIcon Margin="0,0,8,0" Symbol="Stop" />
           <TextBlock Text="[Power Off]" />
         </StackPanel>
       </Button>
-      <Button>
+      <Button Click="CancelButtonClick">
         <StackPanel Orientation="Horizontal">
           <SymbolIcon Margin="0,0,8,0" Symbol="Cancel" />
           <TextBlock Text="[Cancel]" />

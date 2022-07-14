@@ -216,6 +216,8 @@ namespace
 
 namespace NanaBox
 {
+    using winrt::NanaBox::MainWindowExitNoticeStatus;
+
     class MainWindowExitNoticeWindow : public ATL::CWindowImpl<
         MainWindowExitNoticeWindow>
     {
@@ -255,6 +257,11 @@ namespace NanaBox
 
         void OnDestroy();
 
+        MainWindowExitNoticeStatus Status()
+        {
+            return this->m_XamlControl.Status();
+        }
+
     private:
 
         winrt::DesktopWindowXamlSource m_XamlSource;
@@ -271,6 +278,10 @@ int NanaBox::MainWindowExitNoticeWindow::OnCreate(
         winrt::NanaBox::implementation::MainWindowExitNoticeControl;
 
     this->m_XamlControl = winrt::make<MainWindowExitNoticeControlInstance>();
+    this->m_XamlControl.RequestCloseDialog([this]()
+    {
+        this->DestroyWindow();
+    });
 
     winrt::com_ptr<IDesktopWindowXamlSourceNative> XamlSourceNative =
         this->m_XamlSource.as<IDesktopWindowXamlSourceNative>();
@@ -812,6 +823,12 @@ void NanaBox::MainWindow::OnSettingChange(
 
 void NanaBox::MainWindow::OnClose()
 {
+    if (!this->m_VirtualMachineRunning)
+    {
+        this->DestroyWindow();
+        return;
+    }
+
     const int Width = 400;
     const int Height = 200;
 
@@ -843,6 +860,24 @@ void NanaBox::MainWindow::OnClose()
     MessageLoop.Run();
     this->EnableWindow(TRUE);
     this->SetActiveWindow();
+
+    if (Window.Status() == NanaBox::MainWindowExitNoticeStatus::Suspend)
+    {
+        this->m_VirtualMachine->Pause();
+        /*if (!this->m_Configuration.RuntimeStateFile.empty())
+        {
+            nlohmann::json Options;
+            Options["SaveType"] = "ToFile";
+            Options["SaveStateFilePath"] = this->m_Configuration.RuntimeStateFile;
+            this->m_VirtualMachine->Save(winrt::to_hstring(Options.dump()));
+        }*/
+        this->m_VirtualMachine->Terminate();
+    }
+    else if (Window.Status() == NanaBox::MainWindowExitNoticeStatus::PowerOff)
+    {
+        this->m_VirtualMachine->Pause();
+        this->m_VirtualMachine->Terminate();
+    }
 }
 
 void NanaBox::MainWindow::OnDestroy()
@@ -858,8 +893,10 @@ void NanaBox::MainWindow::OnDestroy()
 
 void NanaBox::MainWindow::InitializeVirtualMachine()
 {
+    winrt::hstring ConfigurationPath = L"D:\\TestVM.7b";
+
     std::string ConfigurationFileContent = ::ReadAllTextFromUtf8TextFile(
-        L"D:\\TestVM.7b");
+        ConfigurationPath);
 
     this->m_Configuration = NanaBox::DeserializeConfiguration(
         ConfigurationFileContent);
@@ -943,6 +980,7 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
         UNREFERENCED_PARAMETER(EventData);
 
         this->m_VirtualMachineRunning = false;
+        this->PostMessageW(WM_CLOSE);
     });
 
     /*this->m_VirtualMachine->SystemRdpEnhancedModeStateChanged([this]()
@@ -970,7 +1008,7 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
         NanaBox::SerializeConfiguration(this->m_Configuration);
 
     ::WriteAllTextToUtf8TextFile(
-        L"D:\\TestVM.7b",
+        ConfigurationPath,
         ConfigurationFileContent);
 }
 

@@ -1,8 +1,21 @@
-﻿namespace NanaBox
+﻿import "DelegateTypes.idl";
+
+namespace NanaBox
 {
+    enum MainWindowExitNoticeStatus
+    {
+        Cancel = 0,
+        Suspend = 1,
+        PowerOff = 2
+    };
+
     [default_interface]
     runtimeclass MainWindowExitNoticeControl : Windows.UI.Xaml.Controls.Page
     {
         MainWindowExitNoticeControl();
+
+        MainWindowExitNoticeStatus Status{ get; };
+
+        event RequestSignalDelegate RequestCloseDialog;
     }
 }
