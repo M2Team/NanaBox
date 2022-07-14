@@ -12,6 +12,9 @@
 
 #include <ShlObj.h>
 
+#include <CommCtrl.h>
+#pragma comment(lib,"comctl32.lib")
+
 #include "RdpClient.h"
 #include "HostCompute.h"
 #include "VirtualMachineConfiguration.h"
@@ -668,8 +671,6 @@ void NanaBox::MainWindowExitNoticeWindow::OnSettingChange(
 
 void NanaBox::MainWindowExitNoticeWindow::OnDestroy()
 {
-    this->m_XamlSource.Close();
-
     this->ShowWindow(SW_HIDE);
 
     ::PostQuitMessage(0);
@@ -677,6 +678,21 @@ void NanaBox::MainWindowExitNoticeWindow::OnDestroy()
 
 namespace NanaBox
 {
+    namespace MainWindowTimerEvents
+    {
+        enum
+        {
+            SyncDisplaySettings = 1,
+        };
+    }
+
+    enum class RdpClientMode : std::uint32_t
+    {
+        BasicSession = 0,
+        EnhancedSession = 1,
+        EnhancedVideoSyncedSession = 2
+    };
+
     class MainWindow : public ATL::CWindowImpl<
         MainWindow>
     {
@@ -686,6 +702,7 @@ namespace NanaBox
 
         BEGIN_MSG_MAP(MainWindow)
             MSG_WM_CREATE(OnCreate)
+            MSG_WM_TIMER(OnTimer)
             MSG_WM_SIZE(OnSize)
             MSG_WM_DPICHANGED(OnDpiChanged)
             MSG_WM_MENUCHAR(OnMenuChar)
@@ -696,6 +713,9 @@ namespace NanaBox
 
         int OnCreate(
             LPCREATESTRUCT lpCreateStruct);
+
+        void OnTimer(
+            UINT_PTR nIDEvent);
 
         void OnSize(
             UINT nType,
@@ -722,16 +742,21 @@ namespace NanaBox
     private:
 
         WTL::CIcon m_ApplicationIcon;
-        winrt::slim_mutex m_RdpClientOperationMutex;
         winrt::com_ptr<NanaBox::RdpClient> m_RdpClient;
         ATL::CAxWindow m_RdpClientWindow;
         winrt::DesktopWindowXamlSource m_XamlSource;
+        const int m_MainWindowControlHeight = 40;
         winrt::NanaBox::MainWindowControl m_MainWindowControl;
         NanaBox::VirtualMachineConfiguration m_Configuration;
         winrt::com_ptr<NanaBox::ComputeSystem> m_VirtualMachine;
-        winrt::hstring m_VMID;
+        std::string m_VirtualMachineGuid;
         bool m_VirtualMachineRunning = false;
-        bool m_EnableEnhancedMode = false;
+        bool m_VirtualMachineRestarting = false;
+        RdpClientMode m_RdpClientMode = RdpClientMode::BasicSession;
+        CSize m_RecommendedDisplayResolution = CSize(1024, 768);
+        std::uint32_t m_RecommendedZoomLevel = 100;
+        CSize m_DisplayResolution = CSize(1024, 768);
+        UINT64 m_SyncDisplaySettingsCheckPoint = 0;
 
         void InitializeVirtualMachine();
     };
@@ -775,20 +800,28 @@ int NanaBox::MainWindow::OnCreate(
     }
     catch (winrt::hresult_error const& ex)
     {
-        ::MessageBoxW(
+        ::TaskDialog(
             nullptr,
-            ex.message().c_str(),
+            nullptr,
             L"NanaBox",
-            MB_ICONERROR);
+            ex.message().c_str(),
+            nullptr,
+            TDCBF_OK_BUTTON,
+            TD_ERROR_ICON,
+            nullptr);
         return -1;
     }
     catch (std::exception const& ex)
     {
-        ::MessageBoxW(
+        ::TaskDialog(
             nullptr,
-            winrt::to_hstring(ex.what()).c_str(),
+            nullptr,
             L"NanaBox",
-            MB_ICONERROR);
+            winrt::to_hstring(ex.what()).c_str(),
+            nullptr,
+            TDCBF_OK_BUTTON,
+            TD_ERROR_ICON,
+            nullptr);
         return -1;
     }
 
@@ -797,7 +830,10 @@ int NanaBox::MainWindow::OnCreate(
     this->m_MainWindowControl.RequestEnhancedSession([this](
         bool const& RequestState)
     {
-        this->m_EnableEnhancedMode = RequestState;
+        this->m_RdpClientMode =
+            RequestState
+            ? RdpClientMode::EnhancedSession
+            : RdpClientMode::BasicSession;
         this->m_RdpClient->Disconnect();
     });
     this->m_MainWindowControl.RequestPauseVirtualMachine([this](
@@ -814,15 +850,11 @@ int NanaBox::MainWindow::OnCreate(
     });
     this->m_MainWindowControl.RequestRestartVirtualMachine([this]()
     {
+        this->m_VirtualMachineRestarting = true;
         this->m_VirtualMachine->Terminate();
         this->m_VirtualMachine = nullptr;
 
         this->InitializeVirtualMachine();
-
-        nlohmann::json Properties = nlohmann::json::parse(
-            winrt::to_string(this->m_VirtualMachine->GetProperties()));
-        this->m_VMID = winrt::to_hstring(Properties["RuntimeId"]);
-
         this->m_RdpClient->Disconnect();
     });
 
@@ -858,7 +890,8 @@ int NanaBox::MainWindow::OnCreate(
 
     this->m_RdpClient->EnableAutoReconnect(false);
     this->m_RdpClient->RelativeMouseMode(true);
-    this->m_RdpClient->AuthenticationServiceClass(L"Microsoft Virtual Console Service");
+    this->m_RdpClient->AuthenticationServiceClass(
+        L"Microsoft Virtual Console Service");
 
     this->m_RdpClient->AuthenticationLevel(0);
     this->m_RdpClient->EnableCredSspSupport(true);
@@ -877,70 +910,162 @@ int NanaBox::MainWindow::OnCreate(
 
     this->m_RdpClient->GrabFocusOnConnect(false);
 
-
-
-
-    this->m_RdpClient->Server(L"localhost");
-    this->m_RdpClient->RDPPort(2179);
-    this->m_RdpClient->MinInputSendInterval(20);
-
-
-
-    nlohmann::json Properties = nlohmann::json::parse(
-        winrt::to_string(this->m_VirtualMachine->GetProperties()));
-    this->m_VMID = winrt::to_hstring(Properties["RuntimeId"]);
-
-    this->m_RdpClient->PCB(this->m_VMID.c_str()/* + winrt::hstring(L";" L"EnhancedMode=1")*/);
-
-    this->m_RdpClient->Connect();
-
-    /*g_RdpClient->OnLoginComplete([hWnd]()
+    this->m_RdpClient->OnRemoteDesktopSizeChange([this](
+        _In_ LONG Width,
+        _In_ LONG Height)
     {
-        ::Sleep(200);
+        if (this->m_RdpClientMode == RdpClientMode::BasicSession)
+        {
+            if (this->IsZoomed())
+            {
+                return;
+            }
 
-        RECT ClientRect;
-        winrt::check_bool(::GetClientRect(hWnd, &ClientRect));
-        ClientRect.top += 100;
-        ClientRect.bottom -= 50;
+            this->m_DisplayResolution = CSize(Width, Height);
 
-        ULONG RawWidth = ClientRect.right - ClientRect.left;
-        ULONG RawHeight = ClientRect.bottom - ClientRect.top;
+            UINT DpiValue = ::GetDpiForWindow(this->m_hWnd);
 
-        UINT WindowDpi = ::GetDpiForWindow(hWnd);
+            RECT WindowRect;
+            winrt::check_bool(this->GetWindowRect(&WindowRect));
+            {
+                int WindowWidth = 0;
+                WindowWidth += this->m_DisplayResolution.cx;
+                int WindowHeight = this->m_MainWindowControlHeight;
+                WindowHeight += this->m_DisplayResolution.cy;
 
-        this->m_RdpClient->UpdateSessionDisplaySettings(
-            RawWidth,
-            RawHeight,
-            (ULONG)(RawWidth * 100 * 25.4),
-            (ULONG)(RawHeight * 100 * 25.4),
-            0,
-            (ULONG)(WindowDpi * 100.0 / 96.0),
-            100);
-    });*/
+                RECT ClientRect;
+                winrt::check_bool(this->GetClientRect(&ClientRect));
 
+                WindowRect.right -= ClientRect.right;
+                WindowRect.bottom -= ClientRect.bottom;
+                WindowRect.right += ::MulDiv(
+                    WindowWidth,
+                    DpiValue,
+                    USER_DEFAULT_SCREEN_DPI);
+                WindowRect.bottom += ::MulDiv(
+                    WindowHeight,
+                    DpiValue,
+                    USER_DEFAULT_SCREEN_DPI);
+            }
+
+            this->SetWindowPos(
+                nullptr,
+                &WindowRect,
+                SWP_NOZORDER | SWP_NOACTIVATE);
+        }
+    });
+    this->m_RdpClient->OnLoginComplete([this]()
+    {
+        if (this->m_RdpClientMode == RdpClientMode::EnhancedSession)
+        {
+            this->m_RdpClientMode = RdpClientMode::EnhancedVideoSyncedSession;
+            this->m_DisplayResolution = CSize();
+            this->SetTimer(
+                NanaBox::MainWindowTimerEvents::SyncDisplaySettings,
+                200);
+        }
+    });
     this->m_RdpClient->OnDisconnected([this](
         _In_ LONG DisconnectReason)
     {
         UNREFERENCED_PARAMETER(DisconnectReason);
 
-        winrt::slim_lock_guard Guard(this->m_RdpClientOperationMutex);
+        if (this->m_RdpClientMode == RdpClientMode::EnhancedVideoSyncedSession)
+        {
+            this->KillTimer(
+                NanaBox::MainWindowTimerEvents::SyncDisplaySettings);
+
+            this->m_RdpClientMode = RdpClientMode::EnhancedSession;
+        }
 
         if (this->m_VirtualMachineRunning)
         {
-            winrt::hstring PCB = this->m_VMID;
-
-            if (this->m_EnableEnhancedMode)
+            try
             {
-                PCB = this->m_VMID + L";" + L"EnhancedMode=1";
+                std::string PCB = this->m_VirtualMachineGuid;
+                if (this->m_RdpClientMode == RdpClientMode::EnhancedSession)
+                {
+                    PCB += ";EnhancedMode=1";
+
+                    this->m_RdpClient->DesktopWidth(
+                        this->m_RecommendedDisplayResolution.cx);
+                    this->m_RdpClient->DesktopHeight(
+                        this->m_RecommendedDisplayResolution.cy);
+
+                    VARIANT RawZoomLevel;
+                    RawZoomLevel.vt = VT_UI4;
+                    RawZoomLevel.uintVal = 100;
+                    this->m_RdpClient->Property(
+                        L"ZoomLevel",
+                        RawZoomLevel);
+                }
+                else if (this->m_RdpClientMode == RdpClientMode::BasicSession)
+                {
+                    VARIANT RawZoomLevel;
+                    RawZoomLevel.vt = VT_UI4;
+                    RawZoomLevel.uintVal = this->m_RecommendedZoomLevel;
+                    this->m_RdpClient->Property(
+                        L"ZoomLevel",
+                        RawZoomLevel);
+                }
+                this->m_RdpClient->PCB(winrt::to_hstring(PCB));
+                this->m_RdpClient->Connect();       
             }
+            catch (...)
+            {
 
-            this->m_RdpClient->PCB(PCB);
-
-            this->m_RdpClient->Connect();
+            }
         }
     });
 
+    this->m_RdpClient->Server(L"localhost");
+    this->m_RdpClient->RDPPort(2179);
+    this->m_RdpClient->MinInputSendInterval(20); 
+
+    this->m_RdpClient->Connect();
+
     return 0;
+}
+
+void NanaBox::MainWindow::OnTimer(
+    UINT_PTR nIDEvent)
+{
+    if (nIDEvent == NanaBox::MainWindowTimerEvents::SyncDisplaySettings)
+    {
+        UINT64 CurrentCheckPoint = ::GetTickCount64();
+        if (this->m_SyncDisplaySettingsCheckPoint > CurrentCheckPoint)
+        {
+            return;
+        }
+        else
+        {
+            this->m_SyncDisplaySettingsCheckPoint = CurrentCheckPoint + 200;
+        }
+
+        CSize DisplayResolution = this->m_RecommendedDisplayResolution;
+        if (this->m_DisplayResolution == DisplayResolution)
+        {
+            return;
+        }
+
+        try
+        {
+            this->m_RdpClient->UpdateSessionDisplaySettings(
+                DisplayResolution.cx,
+                DisplayResolution.cy,
+                DisplayResolution.cx,
+                DisplayResolution.cy,
+                0,
+                this->m_RecommendedZoomLevel,
+                100);
+
+            this->m_DisplayResolution = DisplayResolution;
+        }
+        catch (...)
+        {
+
+        }
+    }
 }
 
 void NanaBox::MainWindow::OnSize(
@@ -950,18 +1075,30 @@ void NanaBox::MainWindow::OnSize(
     UNREFERENCED_PARAMETER(nType);
     UNREFERENCED_PARAMETER(size);
 
+    if (nType == SIZE_MINIMIZED)
+    {
+        return;
+    }
+
     UINT DpiValue = ::GetDpiForWindow(this->m_hWnd);
 
-    int MainWindowControlHeight =
-        ::MulDiv(40, DpiValue, USER_DEFAULT_SCREEN_DPI);
+    this->m_RecommendedZoomLevel = ::MulDiv(
+        100,
+        DpiValue,
+        USER_DEFAULT_SCREEN_DPI);
 
-    RECT ClientRect;
-    winrt::check_bool(this->GetClientRect(&ClientRect));
-    ClientRect.top += MainWindowControlHeight;
+    int MainWindowControlScaledHeight = ::MulDiv(
+        this->m_MainWindowControlHeight,
+        DpiValue,
+        USER_DEFAULT_SCREEN_DPI);
+
+    RECT RdpClientRect;
+    winrt::check_bool(this->GetClientRect(&RdpClientRect));
+    RdpClientRect.top += MainWindowControlScaledHeight;
 
     this->m_RdpClientWindow.SetWindowPos(
         nullptr,
-        &ClientRect,
+        &RdpClientRect,
         SWP_NOZORDER | SWP_NOACTIVATE);
 
     winrt::com_ptr<IDesktopWindowXamlSourceNative> XamlSourceNative =
@@ -975,29 +1112,23 @@ void NanaBox::MainWindow::OnSize(
         nullptr,
         0,
         0,
-        ClientRect.right - ClientRect.left,
-        MainWindowControlHeight,
+        RdpClientRect.right - RdpClientRect.left,
+        MainWindowControlScaledHeight,
         SWP_SHOWWINDOW);
 
+    this->m_RecommendedDisplayResolution = CSize(
+        RdpClientRect.right - RdpClientRect.left,
+        RdpClientRect.bottom - RdpClientRect.top);
 
-    //g_RdpClient->SyncSessionDisplaySettings();
-
-    /*if (this->m_RdpClient->Connected() == 1)
+    if (this->m_RdpClientMode == RdpClientMode::BasicSession)
     {
-        ULONG Width = ClientRect.right - ClientRect.left;
-        ULONG Height = ClientRect.bottom - ClientRect.top;
-
-        UINT WindowDpi = ::GetDpiForWindow(this->m_hWnd);
-
-        this->m_RdpClient->UpdateSessionDisplaySettings(
-            Width,
-            Height,
-            Width,
-            Height,
-            0,
-            static_cast<ULONG>(WindowDpi * 100.0 / 96.0),
-            100);
-    }*/
+        VARIANT RawZoomLevel;
+        RawZoomLevel.vt = VT_UI4;
+        RawZoomLevel.uintVal = this->m_RecommendedZoomLevel;
+        this->m_RdpClient->Property(
+            L"ZoomLevel",
+            RawZoomLevel);
+    }
 }
 
 void NanaBox::MainWindow::OnDpiChanged(
@@ -1113,7 +1244,8 @@ void NanaBox::MainWindow::OnClose()
         {
             nlohmann::json Options;
             Options["SaveType"] = "ToFile";
-            Options["SaveStateFilePath"] = this->m_Configuration.RuntimeStateFile;
+            Options["SaveStateFilePath"] =
+                this->m_Configuration.RuntimeStateFile;
             this->m_VirtualMachine->Save(winrt::to_hstring(Options.dump()));
         }*/
         this->m_VirtualMachine->Terminate();
@@ -1127,11 +1259,8 @@ void NanaBox::MainWindow::OnClose()
 
 void NanaBox::MainWindow::OnDestroy()
 {
-    this->m_RdpClient->DisableEventsDispatcher();
     this->m_RdpClientWindow.DestroyWindow();
     this->m_RdpClient = nullptr;
-
-    this->m_XamlSource.Close();
 
     ::PostQuitMessage(0);
 }
@@ -1159,8 +1288,32 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
         }
 
         GUID EndpointId;
-        winrt::check_hresult(::CoCreateGuid(&EndpointId));
-        NetworkAdapter.EndpointId = winrt::to_string(::FromGuid(EndpointId));
+        try
+        {
+            if (!NetworkAdapter.EndpointId.empty())
+            {
+                EndpointId = winrt::guid(NetworkAdapter.EndpointId);
+            }
+        }
+        catch (...)
+        {
+            
+        }
+        if (NetworkAdapter.EndpointId.empty())
+        {
+            winrt::check_hresult(::CoCreateGuid(&EndpointId));
+            NetworkAdapter.EndpointId =
+                winrt::to_string(::FromGuid(EndpointId));
+        }
+
+        try
+        {
+            NanaBox::HcnDeleteEndpoint(EndpointId);
+        }
+        catch (...)
+        {
+
+        }
 
         NanaBox::HcnEndpoint EndpointHandle;
         try
@@ -1222,7 +1375,15 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
     {
         UNREFERENCED_PARAMETER(EventData);
 
+        if (this->m_VirtualMachineRestarting)
+        {
+            this->m_VirtualMachineRestarting = false;
+            return;
+        }
+
         this->m_VirtualMachineRunning = false;
+        this->m_RdpClient->DisableEventsDispatcher();
+        ::SleepEx(200, FALSE);
         this->PostMessageW(WM_CLOSE);
     });
 
@@ -1253,6 +1414,10 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
     ::WriteAllTextToUtf8TextFile(
         g_ConfigurationFilePath,
         ConfigurationFileContent);
+
+    nlohmann::json Properties = nlohmann::json::parse(
+        winrt::to_string(this->m_VirtualMachine->GetProperties()));
+    this->m_VirtualMachineGuid = Properties["RuntimeId"];
 
     std::string WindowTitle = this->m_Configuration.Name;
     WindowTitle += " - ";
@@ -1329,11 +1494,15 @@ int WINAPI wWinMain(
         }
         catch (winrt::hresult_error const& ex)
         {
-            ::MessageBoxW(
+            ::TaskDialog(
                 nullptr,
-                ex.message().c_str(),
+                nullptr,
                 L"NanaBox",
-                MB_ICONERROR);
+                ex.message().c_str(),
+                nullptr,
+                TDCBF_OK_BUTTON,
+                TD_ERROR_ICON,
+                nullptr);
             return -1;
         }
     }

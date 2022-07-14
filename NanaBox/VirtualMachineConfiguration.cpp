@@ -189,8 +189,25 @@ NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
 
                 }
 
-                Current.MacAddress =
-                    NetworkAdapter.at("MacAddress").get<std::string>();
+                try
+                {
+                    Current.MacAddress =
+                        NetworkAdapter.at("MacAddress").get<std::string>();
+                }
+                catch (...)
+                {
+
+                }
+
+                try
+                {
+                    Current.EndpointId =
+                        NetworkAdapter.at("EndpointId").get<std::string>();
+                }
+                catch (...)
+                {
+
+                }
 
                 Result.NetworkAdapters.push_back(Current);
             }
@@ -400,6 +417,7 @@ std::string NanaBox::SerializeConfiguration(
             Current["Enabled"] = NetworkAdapter.Enabled;
             Current["Connected"] = NetworkAdapter.Connected;
             Current["MacAddress"] = NetworkAdapter.MacAddress;
+            Current["EndpointId"] = NetworkAdapter.EndpointId;
             NetworkAdapters.push_back(Current);
         }
         RootJson["NetworkAdapters"] = NetworkAdapters;
