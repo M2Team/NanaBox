@@ -466,8 +466,8 @@ namespace NanaBox
 {
     using winrt::NanaBox::MainWindowExitNoticeStatus;
 
-    class MainWindowExitNoticeWindow : public ATL::CWindowImpl<
-        MainWindowExitNoticeWindow>
+    class MainWindowExitNoticeWindow
+        : public ATL::CWindowImpl<MainWindowExitNoticeWindow>
     {
     public:
 
@@ -478,6 +478,8 @@ namespace NanaBox
             MSG_WM_SIZE(OnSize)
             MSG_WM_DPICHANGED(OnDpiChanged)
             MSG_WM_MENUCHAR(OnMenuChar)
+            MSG_WM_SETFOCUS(OnSetFocus)
+            MSG_WM_ACTIVATE(OnActivate)
             MSG_WM_SETTINGCHANGE(OnSettingChange)
             MSG_WM_DESTROY(OnDestroy)
         END_MSG_MAP()
@@ -498,6 +500,14 @@ namespace NanaBox
             UINT nChar,
             UINT nFlags,
             WTL::CMenuHandle menu);
+
+        void OnSetFocus(
+            ATL::CWindow wndOld);
+
+        void OnActivate(
+            UINT nState,
+            BOOL bMinimized,
+            ATL::CWindow wndOther);
 
         void OnSettingChange(
             UINT uFlags,
@@ -637,6 +647,43 @@ LRESULT NanaBox::MainWindowExitNoticeWindow::OnMenuChar(
     return MAKELRESULT(0, MNC_CLOSE);
 }
 
+void NanaBox::MainWindowExitNoticeWindow::OnSetFocus(
+    ATL::CWindow wndOld)
+{
+    UNREFERENCED_PARAMETER(wndOld);
+
+    winrt::com_ptr<IDesktopWindowXamlSourceNative> XamlSourceNative =
+        this->m_XamlSource.as<IDesktopWindowXamlSourceNative>();
+
+    HWND XamlWindowHandle = nullptr;
+    winrt::check_hresult(
+        XamlSourceNative->get_WindowHandle(&XamlWindowHandle));
+
+    ::SetFocus(XamlWindowHandle);
+}
+
+void NanaBox::MainWindowExitNoticeWindow::OnActivate(
+    UINT nState,
+    BOOL bMinimized,
+    ATL::CWindow wndOther)
+{
+    UNREFERENCED_PARAMETER(wndOther);
+
+    if (bMinimized || nState == WA_INACTIVE)
+    {
+        return;
+    }
+
+    winrt::com_ptr<IDesktopWindowXamlSourceNative> XamlSourceNative =
+        this->m_XamlSource.as<IDesktopWindowXamlSourceNative>();
+
+    HWND XamlWindowHandle = nullptr;
+    winrt::check_hresult(
+        XamlSourceNative->get_WindowHandle(&XamlWindowHandle));
+
+    ::SetFocus(XamlWindowHandle);
+}
+
 void NanaBox::MainWindowExitNoticeWindow::OnSettingChange(
     UINT uFlags,
     LPCTSTR lpszSection)
@@ -693,8 +740,8 @@ namespace NanaBox
         EnhancedVideoSyncedSession = 2
     };
 
-    class MainWindow : public ATL::CWindowImpl<
-        MainWindow>
+    class MainWindow
+        : public ATL::CWindowImpl<MainWindow>
     {
     public:
 
@@ -706,6 +753,8 @@ namespace NanaBox
             MSG_WM_SIZE(OnSize)
             MSG_WM_DPICHANGED(OnDpiChanged)
             MSG_WM_MENUCHAR(OnMenuChar)
+            MSG_WM_SETFOCUS(OnSetFocus)
+            MSG_WM_ACTIVATE(OnActivate)
             MSG_WM_SETTINGCHANGE(OnSettingChange)
             MSG_WM_CLOSE(OnClose)
             MSG_WM_DESTROY(OnDestroy)
@@ -730,6 +779,14 @@ namespace NanaBox
             UINT nChar,
             UINT nFlags,
             WTL::CMenuHandle menu);
+
+        void OnSetFocus(
+            ATL::CWindow wndOld);
+
+        void OnActivate(
+            UINT nState,
+            BOOL bMinimized,
+            ATL::CWindow wndOther);
 
         void OnSettingChange(
             UINT uFlags,
@@ -1024,6 +1081,8 @@ int NanaBox::MainWindow::OnCreate(
 
     this->m_RdpClient->Connect();
 
+    this->m_RdpClientWindow.SetFocus();
+
     return 0;
 }
 
@@ -1163,6 +1222,29 @@ LRESULT NanaBox::MainWindow::OnMenuChar(
     // key that does not correspond to any mnemonic or accelerator key.
 
     return MAKELRESULT(0, MNC_CLOSE);
+}
+
+void NanaBox::MainWindow::OnSetFocus(
+    ATL::CWindow wndOld)
+{
+    UNREFERENCED_PARAMETER(wndOld);
+
+    this->m_RdpClientWindow.SetFocus();
+}
+
+void NanaBox::MainWindow::OnActivate(
+    UINT nState,
+    BOOL bMinimized,
+    ATL::CWindow wndOther)
+{
+    UNREFERENCED_PARAMETER(wndOther);
+    
+    if (bMinimized || nState == WA_INACTIVE)
+    {
+        return;
+    }
+
+    this->m_RdpClientWindow.SetFocus();
 }
 
 void NanaBox::MainWindow::OnSettingChange(
@@ -1316,32 +1398,21 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
         }
 
         NanaBox::HcnEndpoint EndpointHandle;
-        try
+        nlohmann::json Settings;
+        Settings["VirtualNetwork"] = DefaultSwitchIdString;
+        if (!NetworkAdapter.MacAddress.empty())
         {
-            nlohmann::json Settings;
-            Settings["VirtualNetwork"] = DefaultSwitchIdString;
-            if (!NetworkAdapter.MacAddress.empty())
-            {
-                Settings["MacAddress"] = NetworkAdapter.MacAddress;
-            }
+            Settings["MacAddress"] = NetworkAdapter.MacAddress;
+        }
 
-            EndpointHandle = NanaBox::HcnCreateEndpoint(
-                NetworkHandle,
-                EndpointId,
-                winrt::to_hstring(Settings.dump()));
-        }
-        catch (...)
-        {
-            nlohmann::json Settings;
-            Settings["VirtualNetwork"] = DefaultSwitchIdString;
-            EndpointHandle = NanaBox::HcnCreateEndpoint(
-                NetworkHandle,
-                EndpointId,
-                winrt::to_hstring(Settings.dump()));
-            nlohmann::json Properties = nlohmann::json::parse(winrt::to_string(
-                NanaBox::HcnQueryEndpointProperties(EndpointHandle)));
-            NetworkAdapter.MacAddress = Properties["MacAddress"];
-        }
+        EndpointHandle = NanaBox::HcnCreateEndpoint(
+            NetworkHandle,
+            EndpointId,
+            winrt::to_hstring(Settings.dump()));
+
+        nlohmann::json Properties = nlohmann::json::parse(winrt::to_string(
+            NanaBox::HcnQueryEndpointProperties(EndpointHandle)));
+        NetworkAdapter.MacAddress = Properties["MacAddress"];
     }
 
     /*winrt::check_hresult(::HcsCreateEmptyGuestStateFile(L"D:\\Test\\Test.vmgs"));
