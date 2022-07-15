@@ -20,6 +20,13 @@ namespace NanaBox
         { NanaBox::GuestType::Linux, "Linux" }
     })
 
+    NLOHMANN_JSON_SERIALIZE_ENUM(NanaBox::UefiConsoleMode, {
+        { NanaBox::UefiConsoleMode::Disabled, "Disabled" },
+        { NanaBox::UefiConsoleMode::Default, "Default" },
+        { NanaBox::UefiConsoleMode::ComPort1, "ComPort1" },
+        { NanaBox::UefiConsoleMode::ComPort2, "ComPort2" }
+    })
+
     NLOHMANN_JSON_SERIALIZE_ENUM(NanaBox::GpuAssignmentMode, {
         { NanaBox::GpuAssignmentMode::Disabled, "Disabled" },
         { NanaBox::GpuAssignmentMode::Default, "Default" },
@@ -96,17 +103,34 @@ NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
     {
         nlohmann::json ComPorts = RootJson["ComPorts"];
 
-        for (nlohmann::json const& ComPort : ComPorts)
+        try
         {
-            try
-            {
-                Result.ComPorts.push_back(
-                    ComPort.get<std::string>());
-            }
-            catch (...)
-            {
+            Result.ComPorts.UefiConsole =
+                ComPorts.at("UefiConsole").get<NanaBox::UefiConsoleMode>();
+        }
+        catch (...)
+        {
 
-            }
+        }
+
+        try
+        {
+            Result.ComPorts.ComPort1 =
+                ComPorts.at("ComPort1").get<std::string>();
+        }
+        catch (...)
+        {
+
+        }
+
+        try
+        {
+            Result.ComPorts.ComPort2 =
+                ComPorts.at("ComPort2").get<std::string>();
+        }
+        catch (...)
+        {
+
         }
     }
     catch (...)
@@ -382,14 +406,11 @@ std::string NanaBox::SerializeConfiguration(
     RootJson["Name"] = Configuration.Name;
     RootJson["ProcessorCount"] = Configuration.ProcessorCount;
     RootJson["MemorySize"] = Configuration.MemorySize;
-    if (!Configuration.ComPorts.empty())
     {
         nlohmann::json ComPorts;
-        for (std::string const& ComPort
-            : Configuration.ComPorts)
-        {
-            ComPorts.push_back(ComPort);
-        }
+        ComPorts["UefiConsole"] = Configuration.ComPorts.UefiConsole;
+        ComPorts["ComPort1"] = Configuration.ComPorts.ComPort1;
+        ComPorts["ComPort2"] = Configuration.ComPorts.ComPort2;
         RootJson["ComPorts"] = ComPorts;
     }
     {
@@ -523,11 +544,38 @@ std::string NanaBox::MakeHcsConfiguration(
 
     Result["ShouldTerminateOnLastHandleClosed"] = true;
 
-    nlohmann::json BootThis;
-    BootThis["DeviceType"] = "ScsiDrive";
-    BootThis["DevicePath"] = "NanaBox Scsi Controller";
-    BootThis["DiskNumber"] = 0;
-    Result["VirtualMachine"]["Chipset"]["Uefi"]["BootThis"] = BootThis;
+    nlohmann::json Uefi;
+    {
+        nlohmann::json BootThis;
+        BootThis["DeviceType"] = "ScsiDrive";
+        BootThis["DevicePath"] = "NanaBox Scsi Controller";
+        BootThis["DiskNumber"] = 0;
+        Uefi["BootThis"] = BootThis;
+
+        switch (Configuration.ComPorts.UefiConsole)
+        {
+        case NanaBox::UefiConsoleMode::Default:
+            Uefi["Console"] = "Default";
+            break;
+        case NanaBox::UefiConsoleMode::ComPort1:
+            Uefi["Console"] = "ComPort1";
+            break;
+        case NanaBox::UefiConsoleMode::ComPort2:
+            Uefi["Console"] = "ComPort2";
+            break;
+        default:
+            Uefi["Console"] = "Disabled";
+            break;
+        }
+
+        if (Configuration.SecureBoot)
+        {
+            Uefi["ApplySecureBootTemplate"] = "Apply";
+            Uefi["SecureBootTemplateId"] =
+                "1734c6e8-3154-4dda-ba5f-a874cc483422";
+        }
+    }
+    Result["VirtualMachine"]["Chipset"]["Uefi"] = Uefi;
 
     nlohmann::json Memory;
     Memory["SizeInMB"] = Configuration.MemorySize;
@@ -553,16 +601,16 @@ std::string NanaBox::MakeHcsConfiguration(
 
         Devices["Mouse"] = nlohmann::json::object();
 
-        if (!Configuration.ComPorts.empty())
+        nlohmann::json ComPorts;
+        if (!Configuration.ComPorts.ComPort1.empty())
         {
-            nlohmann::json ComPorts;
-            std::uint32_t Count = 0;
-            for (std::string const& ComPort : Configuration.ComPorts)
-            {
-                ComPorts[std::to_string(Count++)]["NamedPipe"] = ComPort;
-            }
-            Devices["ComPorts"] = ComPorts;
+            ComPorts["0"]["NamedPipe"] = Configuration.ComPorts.ComPort1;
         }
+        if (!Configuration.ComPorts.ComPort2.empty())
+        {
+            ComPorts["1"]["NamedPipe"] = Configuration.ComPorts.ComPort2;
+        }
+        Devices["ComPorts"] = ComPorts;
 
         if (!Configuration.NetworkAdapters.empty())
         {
@@ -688,14 +736,6 @@ std::string NanaBox::MakeHcsConfiguration(
         }
     }
     Result["VirtualMachine"]["Devices"] = Devices;
-
-    if (Configuration.SecureBoot)
-    {
-        nlohmann::json Uefi;
-        Uefi["ApplySecureBootTemplate"] = "Apply";
-        Uefi["SecureBootTemplateId"] = "1734c6e8-3154-4dda-ba5f-a874cc483422";
-        Result["VirtualMachine"]["Chipset"]["Uefi"] = Uefi;
-    }
 
     if (Configuration.Tpm)
     {

@@ -30,6 +30,14 @@ namespace NanaBox
         Linux = 2,
     };
 
+    enum class UefiConsoleMode : std::int32_t
+    {
+        Disabled = 0,
+        Default = 1,
+        ComPort1 = 2,
+        ComPort2 = 3,
+    };
+
     enum class GpuAssignmentMode : std::int32_t
     {
         Disabled = 0,
@@ -43,6 +51,13 @@ namespace NanaBox
         VirtualDisk = 0,
         VirtualImage = 1,
         PhysicalDevice = 2,
+    };
+
+    struct ComPortsConfiguration
+    {
+        UefiConsoleMode UefiConsole = UefiConsoleMode::Disabled;
+        std::string ComPort1;
+        std::string ComPort2;
     };
 
     struct GpuConfiguration
@@ -81,7 +96,7 @@ namespace NanaBox
         std::string Name;
         std::uint32_t ProcessorCount = 0;
         std::uint64_t MemorySize = 0;
-        std::vector<std::string> ComPorts;
+        ComPortsConfiguration ComPorts;
         GpuConfiguration Gpu;
         std::vector<NetworkAdapterConfiguration> NetworkAdapters;
         std::vector<ScsiDeviceConfiguration> ScsiDevices;
