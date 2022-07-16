@@ -1017,9 +1017,6 @@ int NanaBox::MainWindow::OnCreate(
         {
             this->m_RdpClientMode = RdpClientMode::EnhancedVideoSyncedSession;
             this->m_DisplayResolution = CSize();
-            this->SetTimer(
-                NanaBox::MainWindowTimerEvents::SyncDisplaySettings,
-                200);
         }
     });
     this->m_RdpClient->OnDisconnected([this](
@@ -1029,9 +1026,6 @@ int NanaBox::MainWindow::OnCreate(
 
         if (this->m_RdpClientMode == RdpClientMode::EnhancedVideoSyncedSession)
         {
-            this->KillTimer(
-                NanaBox::MainWindowTimerEvents::SyncDisplaySettings);
-
             this->m_RdpClientMode = RdpClientMode::EnhancedSession;
         }
 
@@ -1075,6 +1069,10 @@ int NanaBox::MainWindow::OnCreate(
         }
     });
 
+    this->SetTimer(
+        NanaBox::MainWindowTimerEvents::SyncDisplaySettings,
+        200);
+
     this->m_RdpClient->Server(L"localhost");
     this->m_RdpClient->RDPPort(2179);
     this->m_RdpClient->MinInputSendInterval(20); 
@@ -1091,6 +1089,11 @@ void NanaBox::MainWindow::OnTimer(
 {
     if (nIDEvent == NanaBox::MainWindowTimerEvents::SyncDisplaySettings)
     {
+        if (this->m_RdpClientMode != RdpClientMode::EnhancedVideoSyncedSession)
+        {
+            return;
+        }
+
         UINT64 CurrentCheckPoint = ::GetTickCount64();
         if (this->m_SyncDisplaySettingsCheckPoint > CurrentCheckPoint)
         {
@@ -1341,6 +1344,9 @@ void NanaBox::MainWindow::OnClose()
 
 void NanaBox::MainWindow::OnDestroy()
 {
+    this->KillTimer(
+        NanaBox::MainWindowTimerEvents::SyncDisplaySettings);
+
     this->m_RdpClientWindow.DestroyWindow();
     this->m_RdpClient = nullptr;
 
