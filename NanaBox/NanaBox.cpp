@@ -471,7 +471,7 @@ namespace NanaBox
     {
     public:
 
-        DECLARE_WND_CLASS(L"MainWindowExitNoticeWindow")
+        DECLARE_WND_CLASS(L"NanaBoxMainWindowExitNoticeWindow")
 
         BEGIN_MSG_MAP(MainWindowExitNoticeWindow)
             MSG_WM_CREATE(OnCreate)
