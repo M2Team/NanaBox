@@ -352,8 +352,14 @@ std::string NanaBox::SerializeConfiguration(
     {
         nlohmann::json ComPorts;
         ComPorts["UefiConsole"] = Configuration.ComPorts.UefiConsole;
-        ComPorts["ComPort1"] = Configuration.ComPorts.ComPort1;
-        ComPorts["ComPort2"] = Configuration.ComPorts.ComPort2;
+        if (!Configuration.ComPorts.ComPort1.empty())
+        {
+            ComPorts["ComPort1"] = Configuration.ComPorts.ComPort1;
+        }
+        if (!Configuration.ComPorts.ComPort2.empty())
+        {
+            ComPorts["ComPort2"] = Configuration.ComPorts.ComPort2;
+        }
         RootJson["ComPorts"] = ComPorts;
     }
     {
