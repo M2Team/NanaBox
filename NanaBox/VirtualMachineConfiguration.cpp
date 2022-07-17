@@ -298,63 +298,6 @@ NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
 
     try
     {
-        nlohmann::json SharedFolders = RootJson["SharedFolders"];
-
-        for (nlohmann::json const& SharedFolder : SharedFolders)
-        {
-            try
-            {
-                NanaBox::SharedFolderConfiguration Current;
-
-                try
-                {
-                    Current.Enabled =
-                        SharedFolder.at("Enabled").get<bool>();
-                }
-                catch (...)
-                {
-
-                }
-
-                try
-                {
-                    Current.ReadOnly =
-                        SharedFolder.at("ReadOnly").get<bool>();
-                }
-                catch (...)
-                {
-
-                }
-
-                Current.HostPath =
-                    SharedFolder.at("HostPath").get<std::string>();
-                if (Current.HostPath.empty())
-                {
-                    continue;
-                }
-
-                Current.GuestName =
-                    SharedFolder.at("GuestName").get<std::string>();
-                if (Current.GuestName.empty())
-                {
-                    continue;
-                }
-
-                Result.SharedFolders.push_back(Current);
-            }
-            catch (...)
-            {
-
-            }
-        }
-    }
-    catch (...)
-    {
-
-    }
-
-    try
-    {
         Result.SecureBoot =
             RootJson["SecureBoot"].get<bool>();
     }
@@ -459,21 +402,6 @@ std::string NanaBox::SerializeConfiguration(
             ScsiDevices.push_back(Current);
         }
         RootJson["ScsiDevices"] = ScsiDevices;
-    }
-    if (!Configuration.SharedFolders.empty())
-    {
-        nlohmann::json SharedFolders;
-        for (NanaBox::SharedFolderConfiguration const& SharedFolder
-            : Configuration.SharedFolders)
-        {
-            nlohmann::json Current;
-            Current["Enabled"] = SharedFolder.Enabled;
-            Current["ReadOnly"] = SharedFolder.ReadOnly;
-            Current["HostPath"] = SharedFolder.HostPath;
-            Current["GuestName"] = SharedFolder.GuestName;
-            SharedFolders.push_back(Current);
-        }
-        RootJson["SharedFolders"] = SharedFolders;
     }
     if (Configuration.SecureBoot)
     {
@@ -672,61 +600,6 @@ std::string NanaBox::MakeHcsConfiguration(
             nlohmann::json ScsiController;
             ScsiController["Attachments"] = ScsiDevices;
             Devices["Scsi"]["NanaBox Scsi Controller"] = ScsiController;
-        }
-
-        if (!Configuration.SharedFolders.empty())
-        {
-            nlohmann::json SharedFolders;
-            for (NanaBox::SharedFolderConfiguration const& SharedFolder
-                : Configuration.SharedFolders)
-            {
-                if (!SharedFolder.Enabled)
-                {
-                    continue;
-                }
-
-                nlohmann::json Current;
-
-                if (NanaBox::GuestType::Windows == Configuration.GuestType)
-                {
-                    Current["Name"] = SharedFolder.GuestName;
-                    Current["Path"] = SharedFolder.HostPath;
-                    if (SharedFolder.ReadOnly)
-                    {
-                        Current["Options"]["ReadOnly"] = true;
-                        Current["Options"]["ShareRead"] = true;
-                        Current["Options"]["CacheIo"] = true;    
-                        Current["Options"]["PseudoOplocks"] = true;
-                    }
-                }
-                else if (NanaBox::GuestType::Linux == Configuration.GuestType)
-                {
-                    const std::uint32_t Plan9Port = 564;
-                    const std::uint32_t Plan9ReadOnly = 0x00000001;
-                    const std::uint32_t Plan9LinuxMetadata = 0x00000004;
-
-                    Current["Name"] = SharedFolder.GuestName;
-                    Current["AccessName"] = SharedFolder.GuestName;
-                    Current["Path"] = SharedFolder.HostPath;
-                    Current["Port"] = Plan9Port;
-                    std::uint32_t Flags = Plan9LinuxMetadata;
-                    if (SharedFolder.ReadOnly)
-                    {
-                        Flags |= Plan9ReadOnly;
-                    }
-                    Current["Flags"] = Flags;    
-                }
-
-                SharedFolders.push_back(Current);
-            }
-            if (NanaBox::GuestType::Windows == Configuration.GuestType)
-            {
-                Devices["VirtualSmb"]["Shares"] = SharedFolders;
-            }
-            else if(NanaBox::GuestType::Linux == Configuration.GuestType)
-            {
-                Devices["Plan9"]["Shares"] = SharedFolders;
-            }
         }
     }
     Result["VirtualMachine"]["Devices"] = Devices;

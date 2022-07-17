@@ -81,14 +81,6 @@ namespace NanaBox
         std::string Path;
     };
 
-    struct SharedFolderConfiguration
-    {
-        bool Enabled = false;
-        bool ReadOnly = true;
-        std::string HostPath;
-        std::string GuestName;
-    };
-
     struct VirtualMachineConfiguration
     {
         std::uint32_t Version = 1;
@@ -100,7 +92,6 @@ namespace NanaBox
         GpuConfiguration Gpu;
         std::vector<NetworkAdapterConfiguration> NetworkAdapters;
         std::vector<ScsiDeviceConfiguration> ScsiDevices;
-        std::vector<SharedFolderConfiguration> SharedFolders;
         bool SecureBoot = false;
         bool Tpm = false;
         std::string GuestStateFile;
