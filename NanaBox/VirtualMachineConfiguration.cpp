@@ -546,12 +546,6 @@ std::string NanaBox::MakeHcsConfiguration(
 
     nlohmann::json Uefi;
     {
-        nlohmann::json BootThis;
-        BootThis["DeviceType"] = "ScsiDrive";
-        BootThis["DevicePath"] = "NanaBox Scsi Controller";
-        BootThis["DiskNumber"] = 0;
-        Uefi["BootThis"] = BootThis;
-
         switch (Configuration.ComPorts.UefiConsole)
         {
         case NanaBox::UefiConsoleMode::Default:
