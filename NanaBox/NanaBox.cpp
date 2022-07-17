@@ -461,19 +461,32 @@ namespace
             nullptr));
     }
 
-    std::wstring GetSystemDirectoryPath()
+    bool IsCurrentProcessElevated()
     {
-        std::wstring Path;
+        bool Result = false;
 
-        UINT Length = ::GetSystemDirectoryW(nullptr, 0);
-        if (Length)
+        HANDLE CurrentProcessAccessToken = nullptr;
+        if (::OpenProcessToken(
+            ::GetCurrentProcess(),
+            TOKEN_ALL_ACCESS,
+            &CurrentProcessAccessToken))
         {
-            Path.resize(Length);
-            Length = ::GetSystemDirectoryW(&Path[0], Length);
-            Path.resize(Length);
+            TOKEN_ELEVATION Information = { 0 };
+            DWORD Length = sizeof(Information);
+            if (::GetTokenInformation(
+                CurrentProcessAccessToken,
+                TOKEN_INFORMATION_CLASS::TokenElevation,
+                &Information,
+                Length,
+                &Length))
+            {
+                Result = Information.TokenIsElevated;
+            }
+
+            ::CloseHandle(CurrentProcessAccessToken);
         }
 
-        return Path;
+        return Result;
     }
 }
 
@@ -1632,10 +1645,6 @@ int WINAPI wWinMain(
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
-    ::PrerequisiteCheck();
-
-    winrt::init_apartment(winrt::apartment_type::single_threaded);
-
     std::wstring ApplicationName;
     std::map<std::wstring, std::wstring> OptionsAndParameters;
     std::wstring UnresolvedCommandLine;
@@ -1647,6 +1656,43 @@ int WINAPI wWinMain(
         ApplicationName,
         OptionsAndParameters,
         UnresolvedCommandLine);
+
+    if (!::IsCurrentProcessElevated())
+    {
+        try
+        {
+            SHELLEXECUTEINFOW Information = { 0 };
+            Information.cbSize = sizeof(SHELLEXECUTEINFOW);
+            Information.lpVerb = L"runas";
+            Information.nShow = nShowCmd;
+            Information.lpFile = ApplicationName.c_str();
+            Information.lpParameters = UnresolvedCommandLine.c_str();
+            winrt::check_bool(::ShellExecuteExW(&Information));
+        }
+        catch (winrt::hresult_error const& ex)
+        {
+            if (ex.code() != ::HRESULT_FROM_WIN32(ERROR_CANCELLED))
+            {
+                ::TaskDialog(
+                    nullptr,
+                    nullptr,
+                    L"NanaBox",
+                    ex.message().c_str(),
+                    nullptr,
+                    TDCBF_OK_BUTTON,
+                    TD_ERROR_ICON,
+                    nullptr);
+            }
+
+            ::ExitProcess(ex.code());
+        }
+
+        ::ExitProcess(0);
+    }
+
+    ::PrerequisiteCheck();
+
+    winrt::init_apartment(winrt::apartment_type::single_threaded);
 
     if (!UnresolvedCommandLine.empty())
     {
@@ -1693,16 +1739,20 @@ int WINAPI wWinMain(
         }
         catch (winrt::hresult_error const& ex)
         {
-            ::TaskDialog(
-                nullptr,
-                nullptr,
-                L"NanaBox",
-                ex.message().c_str(),
-                nullptr,
-                TDCBF_OK_BUTTON,
-                TD_ERROR_ICON,
-                nullptr);
-            return -1;
+            if (ex.code() != ::HRESULT_FROM_WIN32(ERROR_CANCELLED))
+            {
+                ::TaskDialog(
+                    nullptr,
+                    nullptr,
+                    L"NanaBox",
+                    ex.message().c_str(),
+                    nullptr,
+                    TDCBF_OK_BUTTON,
+                    TD_ERROR_ICON,
+                    nullptr);
+            }
+
+            ::ExitProcess(ex.code());
         }
     }
 
