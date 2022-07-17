@@ -149,6 +149,9 @@ namespace NanaBox
         winrt::event<winrt::delegate<>> m_SystemRdpEnhancedModeStateChanged;
     };
 
+    winrt::hstring HcsGetServiceProperties(
+        winrt::hstring const& PropertyQuery = winrt::hstring());
+
     const winrt::guid DefaultSwitchId = winrt::guid(
         "C08CB7B8-9B3C-408E-8E30-5E16A3AEB444");
 

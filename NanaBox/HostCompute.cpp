@@ -13,6 +13,45 @@
 #pragma comment(lib, "computecore.lib")
 #pragma comment(lib, "computenetwork.lib")
 
+#include <json.hpp>
+
+namespace winrt
+{
+    struct hlocal_string_traits
+    {
+        using type = PWSTR;
+
+        static void close(type value) noexcept
+        {
+            ::LocalFree(value);
+        }
+
+        static constexpr type invalid() noexcept
+        {
+            return nullptr;
+        }
+    };
+
+    using hlocal_string = handle_type<hlocal_string_traits>;
+
+    struct cotaskmem_string_traits
+    {
+        using type = PWSTR;
+
+        static void close(type value) noexcept
+        {
+            ::CoTaskMemFree(value);
+        }
+
+        static constexpr type invalid() noexcept
+        {
+            return nullptr;
+        }
+    };
+
+    using cotaskmem_string = handle_type<cotaskmem_string_traits>;
+}
+
 namespace
 {
     winrt::hstring WaitForOperationResult(
@@ -20,22 +59,64 @@ namespace
     {
         winrt::hstring Result;
 
-        PWSTR RawResult = nullptr;
+        winrt::hlocal_string RawResult;
         HRESULT hr = ::HcsWaitForOperationResult(
             Operation.get(),
             INFINITE,
-            &RawResult);
+            RawResult.put());
         if (RawResult)
         {
-            Result = winrt::hstring(RawResult);
-            ::LocalFree(RawResult);
+            Result = winrt::hstring(RawResult.get());
         }
         if (FAILED(hr))
         {
-            throw winrt::hresult_error(hr, Result);
+            winrt::hresult_error Exception;
+            try
+            {
+                nlohmann::json ResultError = nlohmann::json::parse(
+                    winrt::to_string(Result));
+                Exception = winrt::hresult_error(
+                    ResultError["Error"].get<std::int32_t>(),
+                    winrt::to_hstring(
+                        ResultError["ErrorMessage"].get<std::string>()));
+            }
+            catch (...)
+            {
+                Exception = winrt::hresult_error(hr, Result);
+            }
+            throw Exception;
         }
 
         return Result;
+    }
+
+    void CheckHcnCall(
+        HRESULT RawErrorCode,
+        winrt::cotaskmem_string const& RawErrorRecord)
+    {
+        winrt::hstring ErrorRecord;
+        if (RawErrorRecord)
+        {
+            ErrorRecord = winrt::hstring(RawErrorRecord.get());
+        }
+        if (FAILED(RawErrorCode))
+        {
+            winrt::hresult_error Exception;
+            try
+            {
+                nlohmann::json ResultError = nlohmann::json::parse(
+                    winrt::to_string(ErrorRecord));
+                Exception = winrt::hresult_error(
+                    ResultError["ErrorCode"].get<std::int32_t>(),
+                    winrt::to_hstring(
+                        ResultError["Error"].get<std::string>()));
+            }
+            catch (...)
+            {
+                Exception = winrt::hresult_error(RawErrorCode, ErrorRecord);
+            }
+            throw Exception;
+        }
     }
 }
 
@@ -235,26 +316,53 @@ void CALLBACK NanaBox::ComputeSystem::ComputeSystemCallback(
     }
 }
 
+winrt::hstring NanaBox::HcsGetServiceProperties(
+    winrt::hstring const& PropertyQuery)
+{
+    winrt::hstring Result;
+
+    winrt::hlocal_string RawResult;
+    HRESULT hr = ::HcsGetServiceProperties(
+        PropertyQuery.empty() ? nullptr : PropertyQuery.c_str(),
+        RawResult.put());
+    if (RawResult)
+    {
+        Result = winrt::hstring(RawResult.get());
+    }
+    if (FAILED(hr))
+    {
+        winrt::hresult_error Exception;
+        try
+        {
+            nlohmann::json ResultError = nlohmann::json::parse(
+                winrt::to_string(Result));
+            Exception = winrt::hresult_error(
+                ResultError["Error"].get<std::int32_t>(),
+                winrt::to_hstring(
+                    ResultError["ErrorMessage"].get<std::string>()));
+        }
+        catch (...)
+        {
+            Exception = winrt::hresult_error(hr, Result);
+        }
+        throw Exception;
+    }
+
+    return Result;
+}
+
 NanaBox::HcnNetwork NanaBox::HcnOpenNetwork(
     winrt::guid const& NetworkId)
 {
     NanaBox::HcnNetwork Result;
 
-    winrt::hstring ErrorRecord;
-    PWSTR RawErrorRecord = nullptr;
-    HRESULT hr = ::HcnOpenNetwork(
-        NetworkId,
-        Result.put(),
-        &RawErrorRecord);
-    if (RawErrorRecord)
-    {
-        ErrorRecord = winrt::hstring(RawErrorRecord);
-        ::CoTaskMemFree(RawErrorRecord);
-    }
-    if (FAILED(hr))
-    {
-        throw winrt::hresult_error(hr, ErrorRecord);
-    }
+    winrt::cotaskmem_string RawErrorRecord;
+    ::CheckHcnCall(
+        ::HcnOpenNetwork(
+            NetworkId,
+            Result.put(),
+            RawErrorRecord.put()),
+        RawErrorRecord);
 
     return Result;
 }
@@ -266,23 +374,15 @@ NanaBox::HcnEndpoint NanaBox::HcnCreateEndpoint(
 {
     NanaBox::HcnEndpoint Result;
 
-    winrt::hstring ErrorRecord;
-    PWSTR RawErrorRecord = nullptr;
-    HRESULT hr = ::HcnCreateEndpoint(
-        NetworkHandle.get(),
-        EndpointId,
-        Settings.c_str(),
-        Result.put(),
-        &RawErrorRecord);
-    if (RawErrorRecord)
-    {
-        ErrorRecord = winrt::hstring(RawErrorRecord);
-        ::CoTaskMemFree(RawErrorRecord);
-    }
-    if (FAILED(hr))
-    {
-        throw winrt::hresult_error(hr, ErrorRecord);
-    }
+    winrt::cotaskmem_string RawErrorRecord;
+    ::CheckHcnCall(
+        ::HcnCreateEndpoint(
+            NetworkHandle.get(),
+            EndpointId,
+            Settings.c_str(),
+            Result.put(),
+            RawErrorRecord.put()),
+        RawErrorRecord);
 
     return Result;
 }
@@ -290,20 +390,12 @@ NanaBox::HcnEndpoint NanaBox::HcnCreateEndpoint(
 void NanaBox::HcnDeleteEndpoint(
     winrt::guid const& EndpointId)
 {
-    winrt::hstring ErrorRecord;
-    PWSTR RawErrorRecord = nullptr;
-    HRESULT hr = ::HcnDeleteEndpoint(
-        EndpointId,
-        &RawErrorRecord);
-    if (RawErrorRecord)
-    {
-        ErrorRecord = winrt::hstring(RawErrorRecord);
-        ::CoTaskMemFree(RawErrorRecord);
-    }
-    if (FAILED(hr))
-    {
-        throw winrt::hresult_error(hr, ErrorRecord);
-    }
+    winrt::cotaskmem_string RawErrorRecord;
+    ::CheckHcnCall(
+        ::HcnDeleteEndpoint(
+            EndpointId,
+            RawErrorRecord.put()),
+        RawErrorRecord);
 }
 
 winrt::hstring NanaBox::HcnQueryEndpointProperties(
@@ -312,27 +404,18 @@ winrt::hstring NanaBox::HcnQueryEndpointProperties(
 {
     winrt::hstring Result;
 
-    winrt::hstring ErrorRecord;
-    PWSTR RawResult = nullptr;
-    PWSTR RawErrorRecord = nullptr;
-    HRESULT hr = ::HcnQueryEndpointProperties(
-        EndpointHandle.get(),
-        Query.c_str(),
-        &RawResult,
-        &RawErrorRecord);
+    winrt::cotaskmem_string RawResult;
+    winrt::cotaskmem_string RawErrorRecord;
+    ::CheckHcnCall(
+        ::HcnQueryEndpointProperties(
+            EndpointHandle.get(),
+            Query.c_str(),
+            RawResult.put(),
+            RawErrorRecord.put()),
+        RawErrorRecord);
     if (RawResult)
     {
-        Result = winrt::hstring(RawResult);
-        ::CoTaskMemFree(RawResult);
-    }
-    if (RawErrorRecord)
-    {
-        ErrorRecord = winrt::hstring(RawErrorRecord);
-        ::CoTaskMemFree(RawErrorRecord);
-    }
-    if (FAILED(hr))
-    {
-        throw winrt::hresult_error(hr, ErrorRecord);
+        Result = winrt::hstring(RawResult.get());
     }
 
     return Result;
