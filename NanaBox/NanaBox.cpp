@@ -460,6 +460,21 @@ namespace
             &NumberOfBytesWritten,
             nullptr));
     }
+
+    std::wstring GetSystemDirectoryPath()
+    {
+        std::wstring Path;
+
+        UINT Length = ::GetSystemDirectoryW(nullptr, 0);
+        if (Length)
+        {
+            Path.resize(Length);
+            Length = ::GetSystemDirectoryW(&Path[0], Length);
+            Path.resize(Length);
+        }
+
+        return Path;
+    }
 }
 
 namespace NanaBox
@@ -1503,6 +1518,111 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
         winrt::to_hstring(WindowTitle).c_str());
 }
 
+void PrerequisiteCheck()
+{
+    try
+    {
+        NanaBox::HcsGetServiceProperties();
+    }
+    catch (winrt::hresult_error const& ex)
+    {
+        if (ex.code() == HCS_E_ACCESS_DENIED)
+        {
+            ::TaskDialog(
+                nullptr,
+                nullptr,
+                L"NanaBox",
+                L"[You do not have permission to run NanaBox.]",
+                L"[Please run NanaBox in elevated mode, or join the current "
+                L"user to the Hyper-V Administrators security group allows you "
+                L"to run NanaBox without elevation. You must log on again for "
+                L"the permissions to take effect.]",
+                TDCBF_OK_BUTTON,
+                TD_ERROR_ICON,
+                nullptr);
+        }
+        else if (ex.code() == HCS_E_SERVICE_NOT_AVAILABLE)
+        {
+            ::TaskDialog(
+                nullptr,
+                nullptr,
+                L"NanaBox",
+                L"[Hyper-V is not enabled]",
+                L"[NanaBox requires the Hyper-V and Virtual Machine Platform "
+                L"features of Windows. Enable these features and then try "
+                L"running NanaBox again.]",
+                TDCBF_OK_BUTTON,
+                TD_ERROR_ICON,
+                nullptr);
+        }
+        else
+        {
+            ::TaskDialog(
+                nullptr,
+                nullptr,
+                L"NanaBox",
+                ex.message().c_str(),
+                nullptr,
+                TDCBF_OK_BUTTON,
+                TD_ERROR_ICON,
+                nullptr);
+        }
+
+        ::ExitProcess(ex.code());
+    }
+
+    bool IsHyperVManagementServiceRunning = false;
+    {
+        SC_HANDLE ManagerHandle = ::OpenSCManagerW(
+            nullptr,
+            nullptr,
+            SC_MANAGER_CONNECT);
+        if (ManagerHandle)
+        {
+            SC_HANDLE ServiceHandle = ::OpenServiceW(
+                ManagerHandle,
+                L"vmms",
+                SERVICE_QUERY_STATUS);
+            if (ServiceHandle)
+            {
+                SERVICE_STATUS_PROCESS ServiceStatus = { 0 };
+                DWORD BytesNeeded = 0;
+                if (::QueryServiceStatusEx(
+                    ServiceHandle,
+                    SC_STATUS_PROCESS_INFO,
+                    reinterpret_cast<LPBYTE>(&ServiceStatus),
+                    sizeof(SERVICE_STATUS_PROCESS),
+                    &BytesNeeded))
+                {
+                    IsHyperVManagementServiceRunning =
+                        (SERVICE_RUNNING == ServiceStatus.dwCurrentState);
+                }
+
+                ::CloseServiceHandle(ServiceHandle);
+            }
+
+            ::CloseServiceHandle(ManagerHandle);
+        }
+    }
+    if (!IsHyperVManagementServiceRunning)
+    {
+        ::TaskDialog(
+            nullptr,
+            nullptr,
+            L"NanaBox",
+            L"[Virtual Machine Management Service isn't running]",
+            L"[NanaBox is unable to start without this Hyper-V service. In "
+            L"Hyper-V Manager, click \"Start Service\" under the Action menu "
+            L"and try running NanaBox again.]",
+            TDCBF_OK_BUTTON,
+            TD_ERROR_ICON,
+            nullptr);
+        ::ExitProcess(winrt::hresult_no_interface().code());
+    }
+
+    return;
+}
+
 int WINAPI wWinMain(
     _In_ HINSTANCE hInstance,
     _In_opt_ HINSTANCE hPrevInstance,
@@ -1511,6 +1631,8 @@ int WINAPI wWinMain(
 {
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
+
+    ::PrerequisiteCheck();
 
     winrt::init_apartment(winrt::apartment_type::single_threaded);
 
