@@ -885,28 +885,34 @@ int NanaBox::MainWindow::OnCreate(
     }
     catch (winrt::hresult_error const& ex)
     {
-        ::TaskDialog(
-            nullptr,
-            nullptr,
-            L"NanaBox",
-            ex.message().c_str(),
-            nullptr,
-            TDCBF_OK_BUTTON,
-            TD_ERROR_ICON,
-            nullptr);
+        std::thread([ex]()
+        {
+            ::TaskDialog(
+                nullptr,
+                nullptr,
+                L"NanaBox",
+                ex.message().c_str(),
+                nullptr,
+                TDCBF_OK_BUTTON,
+                TD_ERROR_ICON,
+                nullptr);
+        }).join();
         return -1;
     }
     catch (std::exception const& ex)
     {
-        ::TaskDialog(
-            nullptr,
-            nullptr,
-            L"NanaBox",
-            winrt::to_hstring(ex.what()).c_str(),
-            nullptr,
-            TDCBF_OK_BUTTON,
-            TD_ERROR_ICON,
-            nullptr);
+        std::thread([ex]()
+        {
+            ::TaskDialog(
+                nullptr,
+                nullptr,
+                L"NanaBox",
+                winrt::to_hstring(ex.what()).c_str(),
+                nullptr,
+                TDCBF_OK_BUTTON,
+                TD_ERROR_ICON,
+                nullptr);
+        }).join();    
         return -1;
     }
 
