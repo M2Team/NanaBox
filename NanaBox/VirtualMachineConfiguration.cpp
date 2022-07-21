@@ -340,6 +340,16 @@ NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
 
     }
 
+    try
+    {
+        Result.SaveStateFile =
+            RootJson["SaveStateFile"].get<std::string>();
+    }
+    catch (...)
+    {
+
+    }
+
     return Result;
 }
 
@@ -420,15 +430,19 @@ std::string NanaBox::SerializeConfiguration(
     if (Configuration.Tpm)
     {
         RootJson["Tpm"] = Configuration.Tpm;
-    }    
+    }
     if (!Configuration.GuestStateFile.empty())
     {
         RootJson["GuestStateFile"] = Configuration.GuestStateFile;
-    }   
+    }
     if (!Configuration.RuntimeStateFile.empty())
     {
         RootJson["RuntimeStateFile"] = Configuration.RuntimeStateFile;
-    }   
+    }
+    if (!Configuration.SaveStateFile.empty())
+    {
+        RootJson["SaveStateFile"] = Configuration.SaveStateFile;
+    }
 
     nlohmann::json Result;
     Result["NanaBox"] = RootJson;
@@ -632,6 +646,13 @@ std::string NanaBox::MakeHcsConfiguration(
         Result["VirtualMachine"]["GuestState"]["RuntimeStateFilePath"] =
             winrt::to_string(std::filesystem::absolute(winrt::to_hstring(
                 Configuration.RuntimeStateFile).c_str()).c_str());
+    }
+
+    if (!Configuration.SaveStateFile.empty())
+    {
+        Result["VirtualMachine"]["RestoreState"]["SaveStateFilePath"] =
+            winrt::to_string(std::filesystem::absolute(winrt::to_hstring(
+                Configuration.SaveStateFile).c_str()).c_str());
     }
 
     return Result.dump(2);

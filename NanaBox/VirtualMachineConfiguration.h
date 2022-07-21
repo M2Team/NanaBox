@@ -96,6 +96,7 @@ namespace NanaBox
         bool Tpm = false;
         std::string GuestStateFile;
         std::string RuntimeStateFile;
+        std::string SaveStateFile;
     };
 
     VirtualMachineConfiguration DeserializeConfiguration(

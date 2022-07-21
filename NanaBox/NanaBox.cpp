@@ -1361,15 +1361,82 @@ void NanaBox::MainWindow::OnClose()
     if (Window.Status() == NanaBox::MainWindowExitNoticeStatus::Suspend)
     {
         this->m_VirtualMachine->Pause();
-        /*if (!this->m_Configuration.RuntimeStateFile.empty())
+
+        if (this->m_Configuration.SaveStateFile.empty())
         {
-            nlohmann::json Options;
-            Options["SaveType"] = "ToFile";
-            Options["SaveStateFilePath"] =
-                this->m_Configuration.RuntimeStateFile;
+            this->m_Configuration.SaveStateFile =
+                this->m_Configuration.Name + ".SaveState.vmrs";
+        }
+
+        std::filesystem::path SaveStateFile = std::filesystem::absolute(
+            winrt::to_hstring(this->m_Configuration.SaveStateFile).c_str());
+        if (std::filesystem::exists(SaveStateFile))
+        {
+            std::filesystem::perms perms = std::filesystem::perms::none;
+            perms |= std::filesystem::perms::owner_write;
+            perms |= std::filesystem::perms::group_write;
+            perms |= std::filesystem::perms::others_write;
+
+            std::filesystem::permissions(
+                SaveStateFile,
+                perms,
+                std::filesystem::perm_options::remove);
+
+            std::filesystem::remove(SaveStateFile);
+        }
+
+        nlohmann::json Options;
+        Options["SaveType"] = "ToFile";
+        Options["SaveStateFilePath"] = winrt::to_string(SaveStateFile.c_str());
+
+        try
+        {
             this->m_VirtualMachine->Save(winrt::to_hstring(Options.dump()));
-        }*/
-        this->m_VirtualMachine->Terminate();
+        }
+        catch (winrt::hresult_error const& ex)
+        {
+            std::filesystem::perms perms = std::filesystem::perms::none;
+            perms |= std::filesystem::perms::owner_write;
+            perms |= std::filesystem::perms::group_write;
+            perms |= std::filesystem::perms::others_write;
+
+            std::filesystem::permissions(
+                SaveStateFile,
+                perms,
+                std::filesystem::perm_options::remove);
+
+            std::filesystem::remove(SaveStateFile);
+
+            this->m_Configuration.SaveStateFile.clear();
+
+            std::thread([ex]()
+            {
+                ::TaskDialog(
+                    nullptr,
+                    nullptr,
+                    L"NanaBox",
+                    ex.message().c_str(),
+                    nullptr,
+                    TDCBF_OK_BUTTON,
+                    TD_ERROR_ICON,
+                    nullptr);
+            }).join();
+        }
+
+        if (this->m_Configuration.SaveStateFile.empty())
+        {
+            this->m_VirtualMachine->Resume();
+        }
+        else
+        {
+            this->m_VirtualMachine->Terminate();
+
+            std::string ConfigurationFileContent =
+                NanaBox::SerializeConfiguration(this->m_Configuration);
+            ::WriteAllTextToUtf8TextFile(
+                g_ConfigurationFilePath,
+                ConfigurationFileContent);
+        }
     }
     else if (Window.Status() == NanaBox::MainWindowExitNoticeStatus::PowerOff)
     {
@@ -1495,6 +1562,18 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
             RuntimeStateFile.c_str()));
     }
 
+    if (!this->m_Configuration.SaveStateFile.empty())
+    {
+        std::filesystem::path SaveStateFile = std::filesystem::absolute(
+            winrt::to_hstring(this->m_Configuration.SaveStateFile).c_str());
+        if (std::filesystem::exists(SaveStateFile))
+        {
+            winrt::check_hresult(::HcsGrantVmAccess(
+                winrt::to_hstring(this->m_Configuration.Name).c_str(),
+                SaveStateFile.c_str()));
+        }
+    }
+
     this->m_VirtualMachine = winrt::make_self<NanaBox::ComputeSystem>(
         winrt::to_hstring(
             this->m_Configuration.Name),
@@ -1539,9 +1618,30 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
 
     this->m_VirtualMachineRunning = true;
 
+    if (!this->m_Configuration.SaveStateFile.empty())
+    {
+        std::filesystem::path SaveStateFile = std::filesystem::absolute(
+            winrt::to_hstring(this->m_Configuration.SaveStateFile).c_str());
+        if (std::filesystem::exists(SaveStateFile))
+        {
+            std::filesystem::perms perms = std::filesystem::perms::none;
+            perms |= std::filesystem::perms::owner_write;
+            perms |= std::filesystem::perms::group_write;
+            perms |= std::filesystem::perms::others_write;
+
+            std::filesystem::permissions(
+                SaveStateFile,
+                perms,
+                std::filesystem::perm_options::remove);
+
+            std::filesystem::remove(SaveStateFile);        
+        }
+
+        this->m_Configuration.SaveStateFile.clear();
+    }
+
     ConfigurationFileContent =
         NanaBox::SerializeConfiguration(this->m_Configuration);
-
     ::WriteAllTextToUtf8TextFile(
         g_ConfigurationFilePath,
         ConfigurationFileContent);
