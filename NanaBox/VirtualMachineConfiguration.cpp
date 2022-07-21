@@ -604,8 +604,8 @@ std::string NanaBox::MakeHcsConfiguration(
                 default:
                     continue;
                 }
-                Current["Path"] = winrt::to_string(
-                    std::filesystem::absolute(ScsiDevice.Path).c_str());
+                Current["Path"] = winrt::to_string(std::filesystem::absolute(
+                    winrt::to_hstring(ScsiDevice.Path).c_str()).c_str());
                 ScsiDevices[std::to_string(Count++)] = Current;
             }
             nlohmann::json ScsiController;
@@ -617,20 +617,21 @@ std::string NanaBox::MakeHcsConfiguration(
 
     if (Configuration.Tpm)
     {
-        throw std::exception(
-            "Not Implemented: Configuration.Tpm");
+        Result["VirtualMachine"]["SecuritySettings"]["EnableTpm"] = true;
     }
 
     if (!Configuration.GuestStateFile.empty())
     {
-        throw std::exception(
-            "Not Implemented: Configuration.GuestStateFile");
+        Result["VirtualMachine"]["GuestState"]["GuestStateFilePath"] =
+            winrt::to_string(std::filesystem::absolute(winrt::to_hstring(
+                Configuration.GuestStateFile).c_str()).c_str());
     }
 
     if (!Configuration.RuntimeStateFile.empty())
     {
-        throw std::exception(
-            "Not Implemented: Configuration.RuntimeStateFile");
+        Result["VirtualMachine"]["GuestState"]["RuntimeStateFilePath"] =
+            winrt::to_string(std::filesystem::absolute(winrt::to_hstring(
+                Configuration.RuntimeStateFile).c_str()).c_str());
     }
 
     return Result.dump(2);

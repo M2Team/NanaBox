@@ -1457,25 +1457,43 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
         NetworkAdapter.MacAddress = Properties["MacAddress"];
     }
 
-    /*winrt::check_hresult(::HcsCreateEmptyGuestStateFile(L"D:\\Test\\Test.vmgs"));
-   winrt::check_hresult(::HcsCreateEmptyRuntimeStateFile(L"D:\\Test\\Test.vmrs"));
-   winrt::check_hresult(::HcsGrantVmAccess(L"Sample", L"D:\\Test\\Test.vmgs"));
-   winrt::check_hresult(::HcsGrantVmAccess(L"Sample", L"D:\\Test\\Test.vmrs"));*/
+    if (this->m_Configuration.GuestStateFile.empty())
+    {
+        this->m_Configuration.GuestStateFile =
+            this->m_Configuration.Name + ".vmgs";
+    }
+    {
+        std::filesystem::path GuestStateFile = std::filesystem::absolute(
+            winrt::to_hstring(this->m_Configuration.GuestStateFile).c_str());
+        if (!std::filesystem::exists(GuestStateFile))
+        {
+            winrt::check_hresult(::HcsCreateEmptyGuestStateFile(
+                GuestStateFile.c_str()));
+        }
 
-   /*static constexpr wchar_t c_VmConfiguration[] = LR"(
-   {
-       "VirtualMachine": {
-           "GuestState": {
-               "GuestStateFilePath": "D:\\NanaBox VM\\B5BAB8AD-5A00-4EB7-BD48-966E3D382307.vmgs",
-               "GuestStateFileType": "FileMode",
-               "ForceTransientState": true,
-               "RuntimeStateFilePath": "D:\\NanaBox VM\\B5BAB8AD-5A00-4EB7-BD48-966E3D382307.vmrs"
-           },
-           "SecuritySettings": {
-               "EnableTpm": true
-           }
-       }
-   })";*/
+        winrt::check_hresult(::HcsGrantVmAccess(
+            winrt::to_hstring(this->m_Configuration.Name).c_str(),
+            GuestStateFile.c_str()));
+    }
+
+    if (this->m_Configuration.RuntimeStateFile.empty())
+    {
+        this->m_Configuration.RuntimeStateFile =
+            this->m_Configuration.Name + ".vmrs";
+    }
+    {
+        std::filesystem::path RuntimeStateFile = std::filesystem::absolute(
+            winrt::to_hstring(this->m_Configuration.RuntimeStateFile).c_str());
+        if (!std::filesystem::exists(RuntimeStateFile))
+        {
+            winrt::check_hresult(::HcsCreateEmptyRuntimeStateFile(
+                RuntimeStateFile.c_str()));
+        }
+
+        winrt::check_hresult(::HcsGrantVmAccess(
+            winrt::to_hstring(this->m_Configuration.Name).c_str(),
+            RuntimeStateFile.c_str()));
+    }
 
     this->m_VirtualMachine = winrt::make_self<NanaBox::ComputeSystem>(
         winrt::to_hstring(
