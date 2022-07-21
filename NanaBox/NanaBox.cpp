@@ -21,6 +21,8 @@
 
 #include <cwchar>
 
+#include <filesystem>
+
 #define _ATL_NO_AUTOMATIC_NAMESPACE
 #include <atlbase.h>
 #include <atlhost.h>
@@ -59,7 +61,7 @@ namespace winrt
 namespace
 {
     WTL::CAppModule g_Module;
-    std::wstring g_ConfigurationFilePath;
+    std::filesystem::path g_ConfigurationFilePath;
 }
 
 namespace
@@ -1702,7 +1704,8 @@ int WINAPI wWinMain(
 
     if (!UnresolvedCommandLine.empty())
     {
-        g_ConfigurationFilePath = UnresolvedCommandLine;
+        g_ConfigurationFilePath = std::filesystem::absolute(
+            UnresolvedCommandLine);
     }
     else
     {
@@ -1761,6 +1764,9 @@ int WINAPI wWinMain(
             ::ExitProcess(ex.code());
         }
     }
+
+    std::filesystem::current_path(
+        g_ConfigurationFilePath.parent_path());
 
     winrt::NanaBox::App app =
         winrt::make<winrt::NanaBox::implementation::App>();

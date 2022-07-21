@@ -10,6 +10,10 @@
 
 #include "VirtualMachineConfiguration.h"
 
+#include <winrt/Windows.Foundation.h>
+
+#include <filesystem>
+
 #include <json.hpp>
 
 namespace NanaBox
@@ -600,7 +604,8 @@ std::string NanaBox::MakeHcsConfiguration(
                 default:
                     continue;
                 }
-                Current["Path"] = ScsiDevice.Path;
+                Current["Path"] = winrt::to_string(
+                    std::filesystem::absolute(ScsiDevice.Path).c_str());
                 ScsiDevices[std::to_string(Count++)] = Current;
             }
             nlohmann::json ScsiController;
