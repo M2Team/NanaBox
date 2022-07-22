@@ -54,6 +54,8 @@ requests and issues are welcome.**
 - NanaBox needs elevated privilege via UAC because HCN API in Windows 11 Build
   22621 will return ERROR_ACCESS_DENIED even add the current user to the Hyper-V
   Administrators user group. Windows 10 don't have that issue.
+- Due to HCS API limitation, the guest only supports UEFI Class 3 or UEFI 
+  without CSM or Hyper-V Gen 2 VM.
 
 ## Development Roadmap
 
@@ -84,3 +86,4 @@ requests and issues are welcome.**
 - [Contributing Guide](CONTRIBUTING.md)
 - [Release Notes](Documents/ReleaseNotes.md)
 - [Versioning](Documents/Versioning.md)
+- [NanaBox Configuration File Reference](Documents/ConfigurationReference.md)
