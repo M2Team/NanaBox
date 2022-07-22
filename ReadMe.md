@@ -35,8 +35,8 @@ requests and issues are welcome.**
 
 ## System Requirements
 
-- Supported OS: Windows 10, version 2004 or later
-- Supported Platforms: x64 and ARM64.
+- Supported OS: Windows 10 Version 2004 (Build 19041) or later
+- Supported Platforms: x64 and ARM64
 
 ## Known issues
 
