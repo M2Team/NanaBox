@@ -45,6 +45,8 @@
 
 #include <json.hpp>
 
+#include "Mile.Project.Properties.h"
+
 #include "NanaBoxResources.h"
 
 #include <Mile.Windows.DwmHelpers.h>
@@ -60,6 +62,10 @@ namespace winrt
 
 namespace
 {
+    std::wstring g_WindowTitle =
+        L"NanaBox " MILE_PROJECT_VERSION_STRING
+        L" (" MILE_PROJECT_DOT_VERSION_STRING L")";
+
     WTL::CAppModule g_Module;
     std::filesystem::path g_ConfigurationFilePath;
 }
@@ -892,7 +898,7 @@ int NanaBox::MainWindow::OnCreate(
             ::TaskDialog(
                 nullptr,
                 nullptr,
-                L"NanaBox",
+                g_WindowTitle.c_str(),
                 ex.message().c_str(),
                 nullptr,
                 TDCBF_OK_BUTTON,
@@ -908,7 +914,7 @@ int NanaBox::MainWindow::OnCreate(
             ::TaskDialog(
                 nullptr,
                 nullptr,
-                L"NanaBox",
+                g_WindowTitle.c_str(),
                 winrt::to_hstring(ex.what()).c_str(),
                 nullptr,
                 TDCBF_OK_BUTTON,
@@ -1414,7 +1420,7 @@ void NanaBox::MainWindow::OnClose()
                 ::TaskDialog(
                     nullptr,
                     nullptr,
-                    L"NanaBox",
+                    g_WindowTitle.c_str(),
                     ex.message().c_str(),
                     nullptr,
                     TDCBF_OK_BUTTON,
@@ -1650,11 +1656,11 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
         winrt::to_string(this->m_VirtualMachine->GetProperties()));
     this->m_VirtualMachineGuid = Properties["RuntimeId"];
 
-    std::string WindowTitle = this->m_Configuration.Name;
-    WindowTitle += " - ";
-    WindowTitle += "NanaBox";
-    this->SetWindowTextW(
-        winrt::to_hstring(WindowTitle).c_str());
+    std::wstring WindowTitle =
+        winrt::to_hstring(this->m_Configuration.Name).c_str();
+    WindowTitle += L" - ";
+    WindowTitle += g_WindowTitle;
+    this->SetWindowTextW(WindowTitle.c_str());
 }
 
 void PrerequisiteCheck()
@@ -1670,7 +1676,7 @@ void PrerequisiteCheck()
             ::TaskDialog(
                 nullptr,
                 nullptr,
-                L"NanaBox",
+                g_WindowTitle.c_str(),
                 L"[You do not have permission to run NanaBox.]",
                 L"[Please run NanaBox in elevated mode, or join the current "
                 L"user to the Hyper-V Administrators security group allows you "
@@ -1685,7 +1691,7 @@ void PrerequisiteCheck()
             ::TaskDialog(
                 nullptr,
                 nullptr,
-                L"NanaBox",
+                g_WindowTitle.c_str(),
                 L"[Hyper-V is not enabled]",
                 L"[NanaBox requires the Hyper-V and Virtual Machine Platform "
                 L"features of Windows. Enable these features and then try "
@@ -1699,7 +1705,7 @@ void PrerequisiteCheck()
             ::TaskDialog(
                 nullptr,
                 nullptr,
-                L"NanaBox",
+                g_WindowTitle.c_str(),
                 ex.message().c_str(),
                 nullptr,
                 TDCBF_OK_BUTTON,
@@ -1748,7 +1754,7 @@ void PrerequisiteCheck()
         ::TaskDialog(
             nullptr,
             nullptr,
-            L"NanaBox",
+            g_WindowTitle.c_str(),
             L"[Virtual Machine Management Service isn't running]",
             L"[NanaBox is unable to start without this Hyper-V service. In "
             L"Hyper-V Manager, click \"Start Service\" under the Action menu "
@@ -1802,7 +1808,7 @@ int WINAPI wWinMain(
                 ::TaskDialog(
                     nullptr,
                     nullptr,
-                    L"NanaBox",
+                    g_WindowTitle.c_str(),
                     ex.message().c_str(),
                     nullptr,
                     TDCBF_OK_BUTTON,
@@ -1871,7 +1877,7 @@ int WINAPI wWinMain(
                 ::TaskDialog(
                     nullptr,
                     nullptr,
-                    L"NanaBox",
+                    g_WindowTitle.c_str(),
                     ex.message().c_str(),
                     nullptr,
                     TDCBF_OK_BUTTON,
@@ -1900,7 +1906,7 @@ int WINAPI wWinMain(
     if (!Window.Create(
         nullptr,
         Window.rcDefault,
-        L"NanaBox",
+        g_WindowTitle.c_str(),
         WS_OVERLAPPEDWINDOW))
     {
         return -1;
