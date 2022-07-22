@@ -7,6 +7,12 @@
 
 [![Latest Release Downloads](https://img.shields.io/github/downloads/M2Team/NanaBox/latest/total)](https://github.com/M2Team/NanaBox/releases/latest)
 
+![Screenshot 1](Documents/Screenshot1.png)
+
+![Screenshot 2](Documents/Screenshot2.png)
+
+![Screenshot 3](Documents/Screenshot3.png)
+
 NanaBox is a third-party lightweight XAML-based out-of-box-experience oriented
 Hyper-V client based on Host Compute System API, Remote Desktop ActiveX control
 and XAML Islands.
