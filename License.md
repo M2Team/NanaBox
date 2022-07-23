@@ -8,8 +8,8 @@ The source code of NanaBox (not including the source code from third-party
 libraries) is distributed under the MIT License.
 
 The application file association icons of NanaBox (these contents are only in 
-the `Assets` folder) are designed by Kenji Mouri and authorized to the NanaBox 
-project, and it is distributed under the CC BY-ND 4.0 License.
+the `Assets` folder) are designed by Shomnipotence and authorized to the 
+NanaBox project, and it is distributed under the CC BY-ND 4.0 License.
 
 The source code from the third-party libraries is distributed under the original
 license used in the third-party libraries.
@@ -62,7 +62,7 @@ SOFTWARE.
 ### The CC BY-ND 4.0 License
 
 ```
-Copyright (c) Kenji Mouri and M2-Team. All rights reserved.
+Copyright (c) Shomnipotence and M2-Team. All rights reserved.
 
 This work is licensed under a Creative Commons Attribution-NoDerivatives 4.0
 International License.
