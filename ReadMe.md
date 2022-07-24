@@ -73,6 +73,7 @@ requests and issues are welcome.**
         (Dynamic dark and light mode switching is supported for Windows 11 and 
         later.)
   - [x] Add full High DPI and partial Accessibility support.
+  - [ ] Add full screen support. (Suggested by Belleve.)
   - [ ] Add localization for the NanaBox UI.
   - [ ] Add virtual machine creation UI and settings UI.
   - [ ] Submit to the Windows Store.
