@@ -357,14 +357,6 @@ Example value: "TestVM.SaveState.vmrs"
         "Type": "VirtualImage"
       }
     ],
-    "SharedFolders": [
-      {
-        "Enabled": true,
-        "GuestName": "/mnt/TempState",
-        "HostPath": "D:\\TempState",
-        "ReadOnly": true
-      }
-    ],
     "Type": "VirtualMachine",
     "Version": 1
   }
