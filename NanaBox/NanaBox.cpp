@@ -1530,6 +1530,24 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
         NetworkAdapter.MacAddress = Properties["MacAddress"];
     }
 
+    for (NanaBox::ScsiDeviceConfiguration& ScsiDevice
+        : this->m_Configuration.ScsiDevices)
+    {
+        if (ScsiDevice.Type == NanaBox::ScsiDeviceType::PhysicalDevice)
+        {
+            break;
+        }
+
+        std::filesystem::path Path = std::filesystem::absolute(
+            winrt::to_hstring(ScsiDevice.Path).c_str());
+        if (std::filesystem::exists(Path))
+        {
+            winrt::check_hresult(::HcsGrantVmAccess(
+                winrt::to_hstring(this->m_Configuration.Name).c_str(),
+                Path.c_str()));
+        }
+    }
+
     if (this->m_Configuration.GuestStateFile.empty())
     {
         this->m_Configuration.GuestStateFile =
