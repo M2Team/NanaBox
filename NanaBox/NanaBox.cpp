@@ -1169,31 +1169,6 @@ int NanaBox::MainWindow::OnCreate(
             HWND_TOP,
             &FullScreenRect,
             SWP_FRAMECHANGED | SWP_NOACTIVATE);
-
-        //this->m_RdpClientWindow.SetWindowPos(
-        //    nullptr,
-        //    &FullScreenRect,
-        //    SWP_NOZORDER | SWP_NOACTIVATE);
-        //this->m_RdpClientWindow.SetFocus();
-        //if (this->m_RdpClientMode == RdpClientMode::EnhancedVideoSyncedSession)
-        //{
-        //    this->m_RecommendedDisplayResolution =
-        //        CSize(dm.dmPelsWidth, dm.dmPelsHeight);
-        //}
-
-        //winrt::com_ptr<IDesktopWindowXamlSourceNative> XamlSourceNative =
-        //    this->m_XamlSource.as<IDesktopWindowXamlSourceNative>();
-        //HWND XamlWindowHandle = nullptr;
-        //winrt::check_hresult(
-        //    XamlSourceNative->get_WindowHandle(&XamlWindowHandle));
-        //::SetWindowPos(
-        //    XamlWindowHandle,
-        //    nullptr,
-        //    0,
-        //    0,
-        //    0,
-        //    0,
-        //    SWP_HIDEWINDOW);
     });
     this->m_RdpClient->OnRequestLeaveFullScreen([this]()
     {
@@ -1205,7 +1180,6 @@ int NanaBox::MainWindow::OnCreate(
             nullptr,
             &this->m_RememberedMainWindowRect,
             SWP_NOACTIVATE);
-        //this->PostMessageW(WM_SIZE);
     });
     this->m_RdpClient->OnRequestContainerMinimize([this]()
     {
@@ -1216,7 +1190,7 @@ int NanaBox::MainWindow::OnCreate(
     {
         UNREFERENCED_PARAMETER(pfAllowClose);
         // OnConfirmClose isn't the event about full screen.
-        if(this->m_RdpClient->FullScreen())
+        if (this->m_RdpClient->FullScreen())
         {
             this->m_RdpClient->FullScreen(false);
             this->PostMessageW(WM_CLOSE);
@@ -1792,9 +1766,6 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
     WindowTitle += g_WindowTitle;
     this->SetWindowTextW(WindowTitle.c_str());
     this->m_RdpClient->ConnectionBarText(WindowTitle.c_str());
-
-    this->m_RdpClient->DisableConnectionBar(!this->m_Configuration.FullScreen.ConnectionBar);
-    this->m_RdpClient->HotKeyFullScreen(this->m_Configuration.FullScreen.HotKey);
 }
 
 void PrerequisiteCheck()
