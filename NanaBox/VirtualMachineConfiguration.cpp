@@ -354,11 +354,30 @@ NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
     {
         nlohmann::json FullScreen = RootJson["FullScreen"];
 
-        Result.FullScreen.ConnectionBar =
-            FullScreen["ConnectionBar"].get<bool>();
+        try
+        {
+            Result.FullScreen.ConnectionBar =
+                FullScreen["ConnectionBar"].get<bool>();
+        }
+        catch (...)
+        {
 
-        Result.FullScreen.HotKet =
-            FullScreen["HotKet"].get<std::int32_t>();
+        }
+        
+        try
+        {
+            std::string::size_type sz;
+            std::string str_HotKey = FullScreen["HotKey"].get<std::string>();
+            int32_t int_HotKey = std::stoi(str_HotKey, &sz, 0);
+            if (str_HotKey.length() == sz)
+            {
+                Result.FullScreen.HotKey = int_HotKey;
+            }
+        }
+        catch (...)
+        {
+
+        }
     }
     catch (...)
     {
@@ -460,8 +479,13 @@ std::string NanaBox::SerializeConfiguration(
     }
     {
         nlohmann::json FullScreen;
+
         FullScreen["ConnectionBar"] = Configuration.FullScreen.ConnectionBar;
-        FullScreen["HotKet"] = Configuration.FullScreen.HotKet;
+
+        char buffer[5]{ '\0' };     // The length of Virtual-Key Codes must be 4. Its format is 0xHH.
+        sprintf_s(buffer, "0x%02X", Configuration.FullScreen.HotKey);
+        FullScreen["HotKey"] = std::string(buffer);
+
         RootJson["FullScreen"] = FullScreen;
     }
 

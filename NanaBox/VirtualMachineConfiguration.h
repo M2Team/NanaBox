@@ -86,7 +86,7 @@ namespace NanaBox
     struct FullScreenConfiguration
     {
         bool ConnectionBar = true;
-        std::int32_t HotKet = VK_F11;
+        std::int32_t HotKey = VK_RETURN;    // ENTER key
     };
 
     struct VirtualMachineConfiguration

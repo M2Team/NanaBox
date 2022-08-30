@@ -1166,7 +1166,7 @@ int NanaBox::MainWindow::OnCreate(
             WS_VISIBLE | WS_POPUP);
         // SetWindowPos will send WM_SIZE, RDP Zoom will be re-enabled in Basic Session Mode.
         this->SetWindowPos(
-            HWND_TOPMOST,
+            HWND_TOP,
             &FullScreenRect,
             SWP_FRAMECHANGED | SWP_NOACTIVATE);
 
@@ -1202,7 +1202,7 @@ int NanaBox::MainWindow::OnCreate(
             GWL_STYLE,
             this->m_RememberedMainWindowStyle);
         this->SetWindowPos(
-            HWND_NOTOPMOST,
+            nullptr,
             &this->m_RememberedMainWindowRect,
             SWP_NOACTIVATE);
         //this->PostMessageW(WM_SIZE);
@@ -1794,7 +1794,7 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
     this->m_RdpClient->ConnectionBarText(WindowTitle.c_str());
 
     this->m_RdpClient->DisableConnectionBar(!this->m_Configuration.FullScreen.ConnectionBar);
-    this->m_RdpClient->HotKeyFullScreen(this->m_Configuration.FullScreen.HotKet);
+    this->m_RdpClient->HotKeyFullScreen(this->m_Configuration.FullScreen.HotKey);
 }
 
 void PrerequisiteCheck()
