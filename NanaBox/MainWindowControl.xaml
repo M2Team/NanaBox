@@ -29,6 +29,14 @@
         Icon="NewWindow"
         LabelPosition="Collapsed"
         ToolTipService.ToolTip="[Enhanced Session]" />
+      <AppBarButton
+        Width="40"
+        AutomationProperties.Name="[Full Screen Button]"
+        Click="FullScreenButtonClick"
+        Icon="FullScreen"
+        LabelPosition="Collapsed"
+        ToolTipService.ToolTip="[Full Screen]" />
+      <AppBarSeparator />
       <AppBarToggleButton
         Width="40"
         AutomationProperties.Name="[Pause Virtual Machine Button]"

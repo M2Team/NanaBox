@@ -21,6 +21,8 @@
 #include <string>
 #include <vector>
 
+#include <Windows.h>
+
 namespace NanaBox
 {
     enum class GuestType : std::int32_t
@@ -81,6 +83,12 @@ namespace NanaBox
         std::string Path;
     };
 
+    struct FullScreenConfiguration
+    {
+        bool ConnectionBar = true;
+        std::int32_t HotKet = VK_F11;
+    };
+
     struct VirtualMachineConfiguration
     {
         std::uint32_t Version = 1;
@@ -97,6 +105,7 @@ namespace NanaBox
         std::string GuestStateFile;
         std::string RuntimeStateFile;
         std::string SaveStateFile;
+        FullScreenConfiguration FullScreen;
     };
 
     VirtualMachineConfiguration DeserializeConfiguration(

@@ -350,6 +350,21 @@ NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
 
     }
 
+    try
+    {
+        nlohmann::json FullScreen = RootJson["FullScreen"];
+
+        Result.FullScreen.ConnectionBar =
+            FullScreen["ConnectionBar"].get<bool>();
+
+        Result.FullScreen.HotKet =
+            FullScreen["HotKet"].get<std::int32_t>();
+    }
+    catch (...)
+    {
+
+    }
+
     return Result;
 }
 
@@ -442,6 +457,12 @@ std::string NanaBox::SerializeConfiguration(
     if (!Configuration.SaveStateFile.empty())
     {
         RootJson["SaveStateFile"] = Configuration.SaveStateFile;
+    }
+    {
+        nlohmann::json FullScreen;
+        FullScreen["ConnectionBar"] = Configuration.FullScreen.ConnectionBar;
+        FullScreen["HotKet"] = Configuration.FullScreen.HotKet;
+        RootJson["FullScreen"] = FullScreen;
     }
 
     nlohmann::json Result;
