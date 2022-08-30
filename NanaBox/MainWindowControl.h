@@ -26,6 +26,10 @@ namespace winrt::NanaBox::implementation
             winrt::IInspectable const& sender,
             winrt::RoutedEventArgs const& e);
 
+        void FullScreenButtonClick(
+            winrt::IInspectable const& sender,
+            winrt::RoutedEventArgs const& e);
+
         void PauseVirtualMachineButtonClick(
             winrt::IInspectable const& sender,
             winrt::RoutedEventArgs const& e);
@@ -38,6 +42,12 @@ namespace winrt::NanaBox::implementation
             NanaBox::RequestStateChangedDelegate const& Handler);
 
         void RequestEnhancedSession(
+            winrt::event_token const& Token);
+
+        winrt::event_token RequestFullScreen(
+            NanaBox::RequestSignalDelegate const& Handler);
+
+        void RequestFullScreen(
             winrt::event_token const& Token);
 
         winrt::event_token RequestPauseVirtualMachine(
@@ -55,6 +65,7 @@ namespace winrt::NanaBox::implementation
     private:
 
         RequestStateChangedEvent m_RequestEnhancedSession;
+        RequestSignalEvent m_RequestFullScreen;
         RequestStateChangedEvent m_RequestPauseVirtualMachine;
         RequestSignalEvent m_RequestRestartVirtualMachine;
     };

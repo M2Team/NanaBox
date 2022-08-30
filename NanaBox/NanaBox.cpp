@@ -839,6 +839,7 @@ namespace NanaBox
         ATL::CAxWindow m_RdpClientWindow;
         winrt::DesktopWindowXamlSource m_XamlSource;
         const int m_MainWindowControlHeight = 40;
+        int m_RecommendedMainWindowControlHeight = m_MainWindowControlHeight;
         winrt::NanaBox::MainWindowControl m_MainWindowControl;
         NanaBox::VirtualMachineConfiguration m_Configuration;
         winrt::com_ptr<NanaBox::ComputeSystem> m_VirtualMachine;
@@ -850,6 +851,8 @@ namespace NanaBox
         std::uint32_t m_RecommendedZoomLevel = 100;
         CSize m_DisplayResolution = CSize(1024, 768);
         UINT64 m_SyncDisplaySettingsCheckPoint = 0;
+        RECT m_RememberedMainWindowRect;
+        LONG_PTR m_RememberedMainWindowStyle;
 
         void InitializeVirtualMachine();
     };
@@ -935,6 +938,21 @@ int NanaBox::MainWindow::OnCreate(
             : RdpClientMode::BasicSession;
         this->m_RdpClient->Disconnect();
     });
+    this->m_MainWindowControl.RequestFullScreen([this]()
+    {
+        // If ZoomLevel doesn't equal 100, Basic Session Mode can't enter full screen.
+        if (this->m_RdpClientMode == RdpClientMode::BasicSession)
+        {
+            this->m_RecommendedZoomLevel = 100;
+            VARIANT RawZoomLevel;
+            RawZoomLevel.vt = VT_UI4;
+            RawZoomLevel.uintVal = this->m_RecommendedZoomLevel;
+            this->m_RdpClient->Property(
+                L"ZoomLevel",
+                RawZoomLevel);
+        }
+        this->m_RdpClient->FullScreen(true);
+    });
     this->m_MainWindowControl.RequestPauseVirtualMachine([this](
         bool const& RequestState)
     {
@@ -995,6 +1013,9 @@ int NanaBox::MainWindow::OnCreate(
     this->m_RdpClient->AuthenticationLevel(0);
     this->m_RdpClient->EnableCredSspSupport(true);
     this->m_RdpClient->NegotiateSecurityLayer(false);
+
+    this->m_RdpClient->ContainerHandledFullScreen(true);
+
     try
     {
         VARIANT Value;
@@ -1029,7 +1050,7 @@ int NanaBox::MainWindow::OnCreate(
             {
                 int WindowWidth = 0;
                 WindowWidth += this->m_DisplayResolution.cx;
-                int WindowHeight = this->m_MainWindowControlHeight;
+                int WindowHeight = this->m_RecommendedMainWindowControlHeight;
                 WindowHeight += this->m_DisplayResolution.cy;
 
                 RECT ClientRect;
@@ -1108,6 +1129,71 @@ int NanaBox::MainWindow::OnCreate(
             {
 
             }
+        }
+    });
+    this->m_RdpClient->OnRequestGoFullScreen([this]()
+    {
+        HMONITOR m_hMonitor = ::MonitorFromWindow(
+            m_hWnd,
+            MONITOR_DEFAULTTONULL);
+        winrt::check_pointer(m_hMonitor);
+        MONITORINFOEX mi;
+        mi.cbSize = sizeof(MONITORINFOEX);
+        winrt::check_bool(::GetMonitorInfoW(
+            m_hMonitor,
+            &mi));
+        DEVMODE dm;
+        dm.dmSize = sizeof(DEVMODE);
+        winrt::check_bool(::EnumDisplaySettingsW(
+            mi.szDevice,
+            ENUM_CURRENT_SETTINGS,
+            &dm));
+
+        winrt::check_bool(this->GetWindowRect(&this->m_RememberedMainWindowRect));
+        this->m_RememberedMainWindowStyle = this->GetWindowLongPtrW(GWL_STYLE);
+
+        RECT FullScreenRect;
+        FullScreenRect.left = 0;
+        FullScreenRect.top = 0;
+        FullScreenRect.right = dm.dmPelsWidth;
+        FullScreenRect.bottom = dm.dmPelsHeight;
+
+        // Resize RdpClientWindow and hidden XamlIslands by OnSize method automatically calculate.
+        m_RecommendedMainWindowControlHeight = 0;
+
+        this->SetWindowLongPtrW(
+            GWL_STYLE,
+            WS_VISIBLE | WS_POPUP);
+        // SetWindowPos will send WM_SIZE, RDP Zoom will be re-enabled in Basic Session Mode.
+        this->SetWindowPos(
+            HWND_TOP,
+            &FullScreenRect,
+            SWP_FRAMECHANGED | SWP_NOACTIVATE);
+    });
+    this->m_RdpClient->OnRequestLeaveFullScreen([this]()
+    {
+        m_RecommendedMainWindowControlHeight = m_MainWindowControlHeight;
+        this->SetWindowLongPtrW(
+            GWL_STYLE,
+            this->m_RememberedMainWindowStyle);
+        this->SetWindowPos(
+            nullptr,
+            &this->m_RememberedMainWindowRect,
+            SWP_NOACTIVATE);
+    });
+    this->m_RdpClient->OnRequestContainerMinimize([this]()
+    {
+        this->ShowWindow(SW_MINIMIZE);
+    });
+    this->m_RdpClient->OnConfirmClose([this](
+        VARIANT_BOOL* pfAllowClose)
+    {
+        UNREFERENCED_PARAMETER(pfAllowClose);
+        // OnConfirmClose isn't the event about full screen.
+        if (this->m_RdpClient->FullScreen())
+        {
+            this->m_RdpClient->FullScreen(false);
+            this->PostMessageW(WM_CLOSE);
         }
     });
 
@@ -1192,7 +1278,7 @@ void NanaBox::MainWindow::OnSize(
         USER_DEFAULT_SCREEN_DPI);
 
     int MainWindowControlScaledHeight = ::MulDiv(
-        this->m_MainWindowControlHeight,
+        this->m_RecommendedMainWindowControlHeight,
         DpiValue,
         USER_DEFAULT_SCREEN_DPI);
 
@@ -1679,6 +1765,7 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
     WindowTitle += L" - ";
     WindowTitle += g_WindowTitle;
     this->SetWindowTextW(WindowTitle.c_str());
+    this->m_RdpClient->ConnectionBarText(WindowTitle.c_str());
 }
 
 void PrerequisiteCheck()

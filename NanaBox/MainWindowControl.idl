@@ -8,6 +8,7 @@ namespace NanaBox
         MainWindowControl();
 
         event RequestStateChangedDelegate RequestEnhancedSession;
+        event RequestSignalDelegate RequestFullScreen;
         event RequestStateChangedDelegate RequestPauseVirtualMachine;
         event RequestSignalDelegate RequestRestartVirtualMachine;
     }

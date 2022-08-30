@@ -81,6 +81,10 @@ namespace NanaBox
         std::string Path;
     };
 
+    // todo: FullScreen Configuration
+    // bool ShowConnectionBarDefault;
+    // std::int32_t EnterFullScreenHotKey;
+
     struct VirtualMachineConfiguration
     {
         std::uint32_t Version = 1;

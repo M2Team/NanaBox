@@ -26,6 +26,16 @@ namespace winrt::NanaBox::implementation
             sender.as<winrt::AppBarToggleButton>().IsChecked()));
     }
 
+    void MainWindowControl::FullScreenButtonClick(
+        winrt::IInspectable const& sender,
+        winrt::RoutedEventArgs const& e)
+    {
+        UNREFERENCED_PARAMETER(sender);
+        UNREFERENCED_PARAMETER(e);
+
+        this->m_RequestFullScreen();
+    }
+
     void MainWindowControl::PauseVirtualMachineButtonClick(
         winrt::IInspectable const& sender,
         winrt::RoutedEventArgs const& e)
@@ -56,6 +66,18 @@ namespace winrt::NanaBox::implementation
         winrt::event_token const& Token)
     {
         this->m_RequestEnhancedSession.remove(Token);
+    }
+
+    winrt::event_token MainWindowControl::RequestFullScreen(
+        NanaBox::RequestSignalDelegate const& Handler)
+    {
+        return this->m_RequestFullScreen.add(Handler);
+    }
+
+    void MainWindowControl::RequestFullScreen(
+        winrt::event_token const& Token)
+    {
+        this->m_RequestFullScreen.remove(Token);
     }
 
     winrt::event_token MainWindowControl::RequestPauseVirtualMachine(
