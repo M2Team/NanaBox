@@ -502,65 +502,48 @@ namespace NanaBox
 {
     using winrt::NanaBox::MainWindowExitNoticeStatus;
 
-    class MainWindowExitNoticeWindow
-        : public ATL::CWindowImpl<MainWindowExitNoticeWindow>
+    class MainWindowExitNoticeWindow :
+        public ATL::CWindowImpl<MainWindowExitNoticeWindow>,
+        public WTL::CMessageFilter
     {
     public:
 
-        DECLARE_WND_CLASS(L"NanaBoxMainWindowExitNoticeWindow")
+        DECLARE_WND_SUPERCLASS(
+            L"NanaBox.MainWindowExitNoticeWindow",
+            L"Mile.Xaml.ContentWindow")
 
         BEGIN_MSG_MAP(MainWindowExitNoticeWindow)
             MSG_WM_CREATE(OnCreate)
-            MSG_WM_SIZE(OnSize)
-            MSG_WM_DPICHANGED(OnDpiChanged)
-            MSG_WM_MENUCHAR(OnMenuChar)
-            MSG_WM_SETFOCUS(OnSetFocus)
-            MSG_WM_ACTIVATE(OnActivate)
-            MSG_WM_SETTINGCHANGE(OnSettingChange)
             MSG_WM_DESTROY(OnDestroy)
         END_MSG_MAP()
+
+        virtual BOOL PreTranslateMessage(
+            MSG* pMsg);
 
         int OnCreate(
             LPCREATESTRUCT lpCreateStruct);
 
-        void OnSize(
-            UINT nType,
-            CSize size);
-
-        void OnDpiChanged(
-            UINT nDpiX,
-            UINT nDpiY,
-            PRECT pRect);
-
-        LRESULT OnMenuChar(
-            UINT nChar,
-            UINT nFlags,
-            WTL::CMenuHandle menu);
-
-        void OnSetFocus(
-            ATL::CWindow wndOld);
-
-        void OnActivate(
-            UINT nState,
-            BOOL bMinimized,
-            ATL::CWindow wndOther);
-
-        void OnSettingChange(
-            UINT uFlags,
-            LPCTSTR lpszSection);
-
         void OnDestroy();
-
-        MainWindowExitNoticeStatus Status()
-        {
-            return this->m_XamlControl.Status();
-        }
-
-    private:
-
-        winrt::DesktopWindowXamlSource m_XamlSource;
-        winrt::NanaBox::MainWindowExitNoticeControl m_XamlControl;
     };
+}
+
+BOOL NanaBox::MainWindowExitNoticeWindow::PreTranslateMessage(
+    MSG* pMsg)
+{
+    // Workaround for capturing Alt+F4 in applications with XAML Islands.
+    // Reference: https://github.com/microsoft/microsoft-ui-xaml/issues/2408
+    if (pMsg->message == WM_SYSKEYDOWN && pMsg->wParam == VK_F4)
+    {
+        ::SendMessageW(
+            ::GetAncestor(pMsg->hwnd, GA_ROOT),
+            pMsg->message,
+            pMsg->wParam,
+            pMsg->lParam);
+
+        return TRUE;
+    }
+
+    return FALSE;
 }
 
 int NanaBox::MainWindowExitNoticeWindow::OnCreate(
@@ -568,44 +551,10 @@ int NanaBox::MainWindowExitNoticeWindow::OnCreate(
 {
     UNREFERENCED_PARAMETER(lpCreateStruct);
 
-    using MainWindowExitNoticeControlInstance =
-        winrt::NanaBox::implementation::MainWindowExitNoticeControl;
-
-    this->m_XamlControl = winrt::make<MainWindowExitNoticeControlInstance>();
-    this->m_XamlControl.RequestCloseDialog([this]()
+    if (this->DefWindowProcW() != 0)
     {
-        this->DestroyWindow();
-    });
-
-    winrt::com_ptr<IDesktopWindowXamlSourceNative> XamlSourceNative =
-        this->m_XamlSource.as<IDesktopWindowXamlSourceNative>();
-    winrt::check_hresult(
-        XamlSourceNative->AttachToWindow(this->m_hWnd));
-    this->m_XamlSource.Content(this->m_XamlControl);
-
-    HWND XamlWindowHandle = nullptr;
-    winrt::check_hresult(
-        XamlSourceNative->get_WindowHandle(&XamlWindowHandle));
-
-    // Focus on XAML Island host window for Acrylic brush support.
-    ::SetFocus(XamlWindowHandle);
-
-    ::MileDisableSystemBackdrop(this->m_hWnd);
-
-    winrt::FrameworkElement Content =
-        this->m_XamlSource.Content().try_as<winrt::FrameworkElement>();
-
-    ::MileSetUseImmersiveDarkModeAttribute(
-        this->m_hWnd,
-        (Content.ActualTheme() == winrt::ElementTheme::Dark
-            ? TRUE
-            : FALSE));
-
-    ::MileSetCaptionColorAttribute(
-        this->m_hWnd,
-        (Content.ActualTheme() == winrt::ElementTheme::Dark
-            ? RGB(0, 0, 0)
-            : RGB(255, 255, 255)));
+        return -1;
+    }
 
     {
         HMENU MenuHandle = this->GetSystemMenu(FALSE);
@@ -623,140 +572,9 @@ int NanaBox::MainWindowExitNoticeWindow::OnCreate(
     return 0;
 }
 
-void NanaBox::MainWindowExitNoticeWindow::OnSize(
-    UINT nType,
-    CSize size)
-{
-    UNREFERENCED_PARAMETER(nType);
-    UNREFERENCED_PARAMETER(size);
-
-    RECT ClientRect;
-    winrt::check_bool(this->GetClientRect(&ClientRect));
-
-    winrt::com_ptr<IDesktopWindowXamlSourceNative> XamlSourceNative =
-        this->m_XamlSource.as<IDesktopWindowXamlSourceNative>();
-
-    HWND XamlWindowHandle = nullptr;
-    winrt::check_hresult(
-        XamlSourceNative->get_WindowHandle(&XamlWindowHandle));
-    ::SetWindowPos(
-        XamlWindowHandle,
-        nullptr,
-        0,
-        0,
-        ClientRect.right - ClientRect.left,
-        ClientRect.bottom - ClientRect.top,
-        SWP_SHOWWINDOW);
-}
-
-void NanaBox::MainWindowExitNoticeWindow::OnDpiChanged(
-    UINT nDpiX,
-    UINT nDpiY,
-    PRECT pRect)
-{
-    UNREFERENCED_PARAMETER(nDpiX);
-    UNREFERENCED_PARAMETER(nDpiY);
-
-    this->SetWindowPos(
-        nullptr,
-        pRect,
-        SWP_NOZORDER | SWP_NOACTIVATE);
-}
-
-LRESULT NanaBox::MainWindowExitNoticeWindow::OnMenuChar(
-    UINT nChar,
-    UINT nFlags,
-    WTL::CMenuHandle menu)
-{
-    UNREFERENCED_PARAMETER(nChar);
-    UNREFERENCED_PARAMETER(nFlags);
-    UNREFERENCED_PARAMETER(menu);
-
-    // Reference: https://github.com/microsoft/terminal
-    //            /blob/756fd444b1d443320cf2ed6887d4b65aa67a9a03
-    //            /scratch/ScratchIslandApp
-    //            /WindowExe/SampleIslandWindow.cpp#L155
-    // Return this LRESULT here to prevent the app from making a bell
-    // when alt+key is pressed. A menu is active and the user presses a
-    // key that does not correspond to any mnemonic or accelerator key.
-
-    return MAKELRESULT(0, MNC_CLOSE);
-}
-
-void NanaBox::MainWindowExitNoticeWindow::OnSetFocus(
-    ATL::CWindow wndOld)
-{
-    UNREFERENCED_PARAMETER(wndOld);
-
-    winrt::com_ptr<IDesktopWindowXamlSourceNative> XamlSourceNative =
-        this->m_XamlSource.as<IDesktopWindowXamlSourceNative>();
-
-    HWND XamlWindowHandle = nullptr;
-    winrt::check_hresult(
-        XamlSourceNative->get_WindowHandle(&XamlWindowHandle));
-
-    ::SetFocus(XamlWindowHandle);
-}
-
-void NanaBox::MainWindowExitNoticeWindow::OnActivate(
-    UINT nState,
-    BOOL bMinimized,
-    ATL::CWindow wndOther)
-{
-    UNREFERENCED_PARAMETER(wndOther);
-
-    if (bMinimized || nState == WA_INACTIVE)
-    {
-        return;
-    }
-
-    winrt::com_ptr<IDesktopWindowXamlSourceNative> XamlSourceNative =
-        this->m_XamlSource.as<IDesktopWindowXamlSourceNative>();
-
-    HWND XamlWindowHandle = nullptr;
-    winrt::check_hresult(
-        XamlSourceNative->get_WindowHandle(&XamlWindowHandle));
-
-    ::SetFocus(XamlWindowHandle);
-}
-
-void NanaBox::MainWindowExitNoticeWindow::OnSettingChange(
-    UINT uFlags,
-    LPCTSTR lpszSection)
-{
-    UNREFERENCED_PARAMETER(uFlags);
-
-    if (lpszSection && 0 == std::wcscmp(
-        lpszSection,
-        L"ImmersiveColorSet"))
-    {
-        winrt::FrameworkElement Content =
-            this->m_XamlSource.Content().try_as<winrt::FrameworkElement>();
-        if (Content &&
-            winrt::VisualTreeHelper::GetParent(Content))
-        {
-            Content.RequestedTheme(winrt::ElementTheme::Default);
-
-            ::MileSetUseImmersiveDarkModeAttribute(
-                this->m_hWnd,
-                (Content.ActualTheme() == winrt::ElementTheme::Dark
-                    ? TRUE
-                    : FALSE));
-
-            ::MileSetCaptionColorAttribute(
-                this->m_hWnd,
-                (Content.ActualTheme() == winrt::ElementTheme::Dark
-                    ? RGB(0, 0, 0)
-                    : RGB(255, 255, 255)));
-        }
-    }
-}
-
 void NanaBox::MainWindowExitNoticeWindow::OnDestroy()
 {
-    this->ShowWindow(SW_HIDE);
-
-    ::PostQuitMessage(0);
+    ::PostQuitMessage(0);  
 }
 
 namespace NanaBox
@@ -1423,16 +1241,28 @@ void NanaBox::MainWindow::OnClose()
 
     UINT DpiValue = ::GetDpiForWindow(this->m_hWnd);
 
+    using MainWindowExitNoticeControlInstance =
+        winrt::NanaBox::implementation::MainWindowExitNoticeControl;
+
+    winrt::NanaBox::MainWindowExitNoticeControl Control =
+        winrt::make<MainWindowExitNoticeControlInstance>();
+
     NanaBox::MainWindowExitNoticeWindow Window;
     if (!Window.Create(
         this->m_hWnd,
         Window.rcDefault,
         nullptr,
         WS_CAPTION | WS_SYSMENU,
-        WS_EX_STATICEDGE | WS_EX_DLGMODALFRAME))
+        WS_EX_STATICEDGE | WS_EX_DLGMODALFRAME,
+        nullptr,
+        winrt::get_abi(Control)))
     {
         return;
     }
+    Control.RequestCloseDialog([&]()
+    {
+        Window.DestroyWindow();
+    });
     Window.SetWindowPos(
         nullptr,
         0,
@@ -1445,12 +1275,13 @@ void NanaBox::MainWindow::OnClose()
     Window.UpdateWindow();
  
     WTL::CMessageLoop MessageLoop;
+    MessageLoop.AddMessageFilter(&Window);
     this->EnableWindow(FALSE);
     MessageLoop.Run();
     this->EnableWindow(TRUE);
     this->SetActiveWindow();
 
-    if (Window.Status() == NanaBox::MainWindowExitNoticeStatus::Suspend)
+    if (Control.Status() == NanaBox::MainWindowExitNoticeStatus::Suspend)
     {
         this->m_VirtualMachine->Pause();
 
@@ -1530,7 +1361,7 @@ void NanaBox::MainWindow::OnClose()
                 ConfigurationFileContent);
         }
     }
-    else if (Window.Status() == NanaBox::MainWindowExitNoticeStatus::PowerOff)
+    else if (Control.Status() == NanaBox::MainWindowExitNoticeStatus::PowerOff)
     {
         this->m_VirtualMachine->Pause();
         this->m_VirtualMachine->Terminate();
