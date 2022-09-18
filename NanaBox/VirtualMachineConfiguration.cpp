@@ -476,7 +476,7 @@ std::string NanaBox::MakeHcsUpdateGpuRequest(
             {
                 Devices[Device] = 0xffff;
             }
-            Result["Settings"]["SelectedDevices"] = Devices;
+            Result["Settings"]["AssignmentRequest"] = Devices;
         }
     }
     Result["Settings"]["AllowVendorExtension"] = true;
