@@ -49,8 +49,8 @@ requests and issues are welcome.**
 - The automatic switch between Enhanced Session Mode and Basic Session Mode is 
   not implemented because HcsEventSystemRdpEnhancedModeStateChanged event can 
   be fired on at least Windows 10 Build 17763, but in Windows 11 Build 22621 
-  cannot. It's confirmed as a HCS API bug via a friendly Microsoft employee 
-  and will fix it in the future.
+  cannot. It's confirmed as a HCS API bug via Kris Harper and will fix it in 
+  the future.
 - TPM support is not available because current stage of HCS API seems doesn't 
   implement them.
 - NanaBox needs elevated privilege via UAC because HCN API in Windows 11 Build
