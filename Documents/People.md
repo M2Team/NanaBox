@@ -6,14 +6,17 @@
 
 ## Development Team
 
-- Kenji Mouri ([https://github.com/MouriNaruto](https://github.com/MouriNaruto))
+- Kenji Mouri, https://github.com/MouriNaruto
 
 ## Logo Designers
 
-- Shomnipotence ([https://github.com/Shomnipotence](https://github.com/Shomnipotence))
+- Shomnipotence, https://github.com/Shomnipotence
 
 ## Contributors
 
+- AndromedaMelody, https://github.com/AndromedaMelody
+
 ## Special thanks
 
-- mingkuang ([https://github.com/mingkuang-Chuyu](https://github.com/mingkuang-Chuyu))
+- Kris Harper, https://github.com/kharpMSFT
+- mingkuang, https://github.com/mingkuang-Chuyu
