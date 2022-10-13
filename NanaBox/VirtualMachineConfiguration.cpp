@@ -525,6 +525,7 @@ std::string NanaBox::MakeHcsConfiguration(
 
     nlohmann::json Memory;
     Memory["SizeInMB"] = Configuration.MemorySize;
+    Memory["AllowOvercommit"] = true;
     Result["VirtualMachine"]["ComputeTopology"]["Memory"] = Memory;
 
     nlohmann::json Processor;
