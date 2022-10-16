@@ -1006,13 +1006,10 @@ int NanaBox::MainWindow::OnCreate(
     this->m_RdpClient->OnConfirmClose([this](
         VARIANT_BOOL* pfAllowClose)
     {
-        UNREFERENCED_PARAMETER(pfAllowClose);
-        // OnConfirmClose isn't the event about full screen.
-        if (this->m_RdpClient->FullScreen())
-        {
-            this->m_RdpClient->FullScreen(false);
-            this->PostMessageW(WM_CLOSE);
-        }
+        // Set it FALSE because we don't want to close the connection before
+        // making decisions in the close confirmation dialog.
+        *pfAllowClose = VARIANT_FALSE;
+        this->PostMessageW(WM_CLOSE);
     });
 
     this->SetTimer(
