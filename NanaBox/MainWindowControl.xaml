@@ -15,13 +15,6 @@
       DefaultLabelPosition="Collapsed"
       IsDynamicOverflowEnabled="False"
       IsOpen="False">
-      <AppBarButton
-        Width="40"
-        AutomationProperties.Name="[Virtual Machine Settings Button]"
-        Icon="Setting"
-        LabelPosition="Collapsed"
-        ToolTipService.ToolTip="[Virtual Machine Settings]"
-        Visibility="Collapsed" />
       <AppBarToggleButton
         Width="40"
         AutomationProperties.Name="[Enhanced Session Button]"
@@ -36,6 +29,46 @@
         Icon="FullScreen"
         LabelPosition="Collapsed"
         ToolTipService.ToolTip="[Full Screen]" />
+      <AppBarButton
+        Width="40"
+        AutomationProperties.Name="[Settings Button]"
+        Icon="Setting"
+        LabelPosition="Collapsed"
+        ToolTipService.ToolTip="[Settings]">
+        <AppBarButton.Flyout>
+          <MenuFlyout Placement="BottomEdgeAlignedLeft">
+            <MenuFlyoutItem Text="[Advanced Configurations]" />
+            <MenuFlyoutSeparator />
+            <MenuFlyoutSubItem Text="[Virtual Image] - WinPE.iso">
+              <ToggleMenuFlyoutItem Text="[Enable]" />
+              <MenuFlyoutItem Text="[Change]" />
+            </MenuFlyoutSubItem>
+            <MenuFlyoutSubItem Text="[Virtual Image] - MinLin.iso">
+              <ToggleMenuFlyoutItem Text="[Enable]" />
+              <MenuFlyoutItem Text="[Change]" />
+            </MenuFlyoutSubItem>
+            <MenuFlyoutSeparator />
+            <ToggleMenuFlyoutItem Text="[Audio Redirection]" />
+            <ToggleMenuFlyoutItem Text="[Audio Capture Redirection]" />
+            <MenuFlyoutSubItem Text="[Drives Redirection]">
+              <ToggleMenuFlyoutItem Text="[Enable]" />
+              <ToggleMenuFlyoutItem Text="[Enable Dynamic Redirection]" />
+              <MenuFlyoutSeparator />
+              <ToggleMenuFlyoutItem Text="Windows (C:)" />
+            </MenuFlyoutSubItem>
+            <MenuFlyoutSubItem Text="[Devices Redirection]">
+              <ToggleMenuFlyoutItem Text="[Enable]" />
+              <ToggleMenuFlyoutItem Text="[Enable Dynamic Redirection]" />
+              <ToggleMenuFlyoutItem Text="[Enable POS Devices Redirection]" />
+              <MenuFlyoutSeparator />
+              <ToggleMenuFlyoutItem Text="Mouri Sample Device" />
+            </MenuFlyoutSubItem>
+            <ToggleMenuFlyoutItem Text="[Ports Redirection]" />
+            <ToggleMenuFlyoutItem Text="[Smart Cards Redirection]" />
+            <ToggleMenuFlyoutItem Text="[Clipboard Redirection]" />
+          </MenuFlyout>
+        </AppBarButton.Flyout>
+      </AppBarButton>
       <AppBarSeparator />
       <AppBarToggleButton
         Width="40"
