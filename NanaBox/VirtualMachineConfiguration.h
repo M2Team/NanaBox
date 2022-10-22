@@ -17,6 +17,8 @@
 #error "[NanaBox] You should use a C++ compiler with the C++17 standard."
 #endif
 
+#include <Windows.h>
+
 #include <cstdint>
 #include <string>
 #include <vector>
@@ -81,9 +83,59 @@ namespace NanaBox
         std::string Path;
     };
 
-    // todo: FullScreen Configuration
-    // bool ShowConnectionBarDefault;
-    // std::int32_t EnterFullScreenHotKey;
+    struct VideoMonitorConfiguration
+    {      
+        bool EnableBasicSessionDpiScaling = true;
+        bool EnableDpiScalingValueOverride = false;
+        bool EnableContentResizing = true;
+        bool ShowFullScreenModeConnectionBar = true;
+        std::uint16_t HorizontalResolution = 1024;
+        std::uint16_t VerticalResolution = 768;
+        std::uint32_t OverriddenDpiScalingValue = 100;
+    };
+
+    struct HotkeyConfiguration
+    {
+        std::int32_t FullScreen = VK_CANCEL; // CTRL + ALT + ?
+        std::int32_t CtrlEsc = VK_HOME; // ALT + ?
+        std::int32_t AltEsc = VK_INSERT; // ALT + ?
+        std::int32_t AltTab = VK_PRIOR; // ALT + ?
+        std::int32_t AltShiftTab = VK_NEXT; // ALT + ?
+        std::int32_t AltSpace = VK_DELETE; // ALT + ?
+        std::int32_t CtrlAltDel = VK_END; // CTRL + ALT + ?
+        std::int32_t FocusReleaseLeft = VK_LEFT; // // CTRL + ALT + ?
+        std::int32_t FocusReleaseRight = VK_RIGHT; // // CTRL + ALT + ?
+    };
+
+    struct DriveConfiguration
+    {
+        bool EnableRedirection = false;
+        std::string Name;
+    };
+
+    struct DeviceConfiguration
+    {
+        bool EnableRedirection = false;
+        std::string FriendlyName;
+        std::string DeviceInstanceId;
+    };
+
+    struct EnhancedSessionConfiguration
+    {
+        bool RedirectAudio = true;
+        bool RedirectAudioCapture = false;
+        bool RedirectDrives = false;
+        bool RedirectPrinters = false;
+        bool RedirectPorts = false;
+        bool RedirectSmartCards = false;
+        bool RedirectClipboard = true;
+        bool RedirectDevices = false;
+        bool RedirectPOSDevices = false;
+        bool RedirectDynamicDrives = false;
+        bool RedirectDynamicDevices = false;
+        std::vector<DriveConfiguration> Drives; // Runtime Only
+        std::vector<DeviceConfiguration> Devices; // Runtime Only
+    };
 
     struct VirtualMachineConfiguration
     {
@@ -101,6 +153,10 @@ namespace NanaBox
         std::string GuestStateFile;
         std::string RuntimeStateFile;
         std::string SaveStateFile;
+        bool ExposeVirtualizationExtensions = false; // Not Implemented
+        VideoMonitorConfiguration VideoMonitor; // Not Implemented
+        HotkeyConfiguration Hotkey; // Not Implemented
+        EnhancedSessionConfiguration EnhancedSession; // Not Implemented
     };
 
     VirtualMachineConfiguration DeserializeConfiguration(
