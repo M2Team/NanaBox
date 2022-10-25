@@ -39,33 +39,41 @@
           <MenuFlyout Placement="BottomEdgeAlignedLeft">
             <MenuFlyoutItem Text="[Advanced Configurations]" />
             <MenuFlyoutSeparator />
-            <MenuFlyoutSubItem Text="[Virtual Image] - WinPE.iso">
-              <ToggleMenuFlyoutItem Text="[Enable]" />
-              <MenuFlyoutItem Text="[Change]" />
-            </MenuFlyoutSubItem>
-            <MenuFlyoutSubItem Text="[Virtual Image] - MinLin.iso">
-              <ToggleMenuFlyoutItem Text="[Enable]" />
-              <MenuFlyoutItem Text="[Change]" />
+            <MenuFlyoutSubItem Text="[Virtual Devices]">
+              <MenuFlyoutSubItem Icon="Accept" Text="[SCSI Image] - WinPE.iso">
+                <MenuFlyoutItem Text="[Disable]" />
+                <MenuFlyoutItem Text="[Change]" />
+              </MenuFlyoutSubItem>
+              <MenuFlyoutSubItem Text="[SCSI Image] - MinLin.iso">
+                <ToggleMenuFlyoutItem Text="[Enable]" />
+                <MenuFlyoutItem Text="[Change]" />
+              </MenuFlyoutSubItem>
+              <MenuFlyoutSubItem Icon="Accept" Text="[Network Adapter] - AB-CD-EF-12-34-56">
+                <MenuFlyoutItem Text="[Disable]" />
+              </MenuFlyoutSubItem>
             </MenuFlyoutSubItem>
             <MenuFlyoutSeparator />
             <ToggleMenuFlyoutItem Text="[Audio Redirection]" />
             <ToggleMenuFlyoutItem Text="[Audio Capture Redirection]" />
-            <MenuFlyoutSubItem Text="[Drives Redirection]">
-              <ToggleMenuFlyoutItem Text="[Enable]" />
-              <ToggleMenuFlyoutItem Text="[Enable Dynamic Redirection]" />
-              <MenuFlyoutSeparator />
-              <ToggleMenuFlyoutItem Text="Windows (C:)" />
-            </MenuFlyoutSubItem>
-            <MenuFlyoutSubItem Text="[Devices Redirection]">
-              <ToggleMenuFlyoutItem Text="[Enable]" />
-              <ToggleMenuFlyoutItem Text="[Enable Dynamic Redirection]" />
-              <ToggleMenuFlyoutItem Text="[Enable POS Devices Redirection]" />
-              <MenuFlyoutSeparator />
+            <MenuFlyoutSeparator />
+            <ToggleMenuFlyoutItem Text="[Clipboard Redirection]" />
+            <MenuFlyoutSeparator />
+            <ToggleMenuFlyoutItem Text="[Devices Redirection]" />
+            <ToggleMenuFlyoutItem Text="[Dynamic Devices Redirection]" />
+            <ToggleMenuFlyoutItem Text="[POS Devices Redirection]" />
+            <MenuFlyoutSubItem Text="[Redirected Devices]">
               <ToggleMenuFlyoutItem Text="Mouri Sample Device" />
             </MenuFlyoutSubItem>
+            <MenuFlyoutSeparator />
+            <ToggleMenuFlyoutItem Text="[Drives Redirection]" />
+            <ToggleMenuFlyoutItem Text="[Dynamic Drives Redirection]" />
+            <MenuFlyoutSubItem Text="[Redirected Drives]">
+              <ToggleMenuFlyoutItem Text="Windows (C:)" />
+            </MenuFlyoutSubItem>
+            <MenuFlyoutSeparator />
             <ToggleMenuFlyoutItem Text="[Ports Redirection]" />
+            <MenuFlyoutSeparator />
             <ToggleMenuFlyoutItem Text="[Smart Cards Redirection]" />
-            <ToggleMenuFlyoutItem Text="[Clipboard Redirection]" />
           </MenuFlyout>
         </AppBarButton.Flyout>
       </AppBarButton>
