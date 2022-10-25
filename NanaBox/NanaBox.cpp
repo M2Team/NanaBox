@@ -832,6 +832,11 @@ int NanaBox::MainWindow::OnCreate(
     this->m_RdpClient->EnableCredSspSupport(true);
     this->m_RdpClient->NegotiateSecurityLayer(false);
 
+    // Set KeyboardHookMode to remote for fixing keyboard navigation issues in
+    // window mode.
+    // TODO: Connect with m_Configuration.Keyboard.RedirectKeyCombinations
+    //this->m_RdpClient->KeyboardHookMode(1);
+
     this->m_RdpClient->ContainerHandledFullScreen(true);
 
     try
