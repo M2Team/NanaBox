@@ -61,7 +61,7 @@ requests and issues are welcome.**
 
 ## Development Roadmap
 
-- 1.x Series (Late 2022)
+- 1.0 Series (Late 2022)
   - [x] Based on Host Compute System API as virtualization backend.
   - [x] Add Hyper-V Enhanced Session Mode support for Windows Guests.
   - [x] Add Hyper-V GPU paravirtualization solution a.k.a GPU-PV support.
@@ -77,6 +77,12 @@ requests and issues are welcome.**
   - [ ] Add localization for the NanaBox UI.
   - [ ] Add virtual machine creation UI and settings UI.
   - [ ] Submit to the Windows Store.
+- 1.x Series (2023 Q3)
+  - [ ] Provide tool for Hyper-V vmcx migration. (Suggested by Belleve.)
+  - [ ] Add support for setting RDP options with .rdp file. (Suggested by 
+        awakecoding.)
+  - [ ] Add support for connecting virtual machine with MsRdpEx from 
+        Devolutions. (Suggested by awakecoding.)
 - Future Series (T.B.D.)
   - Currently no new feature plans for this series.
 
