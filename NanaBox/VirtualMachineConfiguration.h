@@ -94,17 +94,18 @@ namespace NanaBox
         std::uint32_t OverriddenDpiScalingValue = 100;
     };
 
-    struct HotkeyConfiguration
+    struct KeyboardConfiguration
     {
-        std::int32_t FullScreen = VK_CANCEL; // CTRL + ALT + ?
-        std::int32_t CtrlEsc = VK_HOME; // ALT + ?
-        std::int32_t AltEsc = VK_INSERT; // ALT + ?
-        std::int32_t AltTab = VK_PRIOR; // ALT + ?
-        std::int32_t AltShiftTab = VK_NEXT; // ALT + ?
-        std::int32_t AltSpace = VK_DELETE; // ALT + ?
-        std::int32_t CtrlAltDel = VK_END; // CTRL + ALT + ?
-        std::int32_t FocusReleaseLeft = VK_LEFT; // // CTRL + ALT + ?
-        std::int32_t FocusReleaseRight = VK_RIGHT; // // CTRL + ALT + ?
+        bool RedirectKeyCombinations = true;
+        std::int32_t FullScreenHotkey = VK_CANCEL; // CTRL + ALT + ?
+        std::int32_t CtrlEscHotkey = VK_HOME; // ALT + ?
+        std::int32_t AltEscHotkey = VK_INSERT; // ALT + ?
+        std::int32_t AltTabHotkey = VK_PRIOR; // ALT + ?
+        std::int32_t AltShiftTabHotkey = VK_NEXT; // ALT + ?
+        std::int32_t AltSpaceHotkey = VK_DELETE; // ALT + ?
+        std::int32_t CtrlAltDelHotkey = VK_END; // CTRL + ALT + ?
+        std::int32_t FocusReleaseLeftHotkey = VK_LEFT; // // CTRL + ALT + ?
+        std::int32_t FocusReleaseRightHotkey = VK_RIGHT; // // CTRL + ALT + ?
     };
 
     struct DriveConfiguration
@@ -155,7 +156,7 @@ namespace NanaBox
         std::string SaveStateFile;
         bool ExposeVirtualizationExtensions = false; // Not Implemented
         VideoMonitorConfiguration VideoMonitor; // Not Implemented
-        HotkeyConfiguration Hotkey; // Not Implemented
+        KeyboardConfiguration Keyboard; // Not Implemented
         EnhancedSessionConfiguration EnhancedSession; // Not Implemented
     };
 
