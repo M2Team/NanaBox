@@ -11,11 +11,13 @@
     HorizontalAlignment="Center"
     VerticalAlignment="Center">
     <TextBlock
+      x:Uid="/MainWindowExitNoticeWindow/TitleTextBlock"
       Margin="0,0,0,16"
       FontSize="16"
       Text="[The virtual machine is still powered on.]"
       TextWrapping="Wrap" />
     <TextBlock
+      x:Uid="/MainWindowExitNoticeWindow/ContentTextBlock"
       Margin="0,0,0,16"
       FontSize="16"
       Text="[You can suspend it for later use, or power it off now.]"
@@ -24,19 +26,19 @@
       <Button Click="SuspendButtonClick">
         <StackPanel Orientation="Horizontal">
           <SymbolIcon Margin="0,0,8,0" Symbol="Save" />
-          <TextBlock Text="[Suspend]" />
+          <TextBlock x:Uid="/MainWindowExitNoticeWindow/SuspendButtonTextBlock" Text="[Suspend]" />
         </StackPanel>
       </Button>
       <Button Margin="8,0" Click="PowerOffButtonClick">
         <StackPanel Orientation="Horizontal">
           <SymbolIcon Margin="0,0,8,0" Symbol="Stop" />
-          <TextBlock Text="[Power Off]" />
+          <TextBlock x:Uid="/MainWindowExitNoticeWindow/PowerOffButtonTextBlock" Text="[Power Off]" />
         </StackPanel>
       </Button>
       <Button Click="CancelButtonClick">
         <StackPanel Orientation="Horizontal">
           <SymbolIcon Margin="0,0,8,0" Symbol="Cancel" />
-          <TextBlock Text="[Cancel]" />
+          <TextBlock x:Uid="/MainWindowExitNoticeWindow/CancelButtonTextBlock" Text="[Cancel]" />
         </StackPanel>
       </Button>
     </StackPanel>

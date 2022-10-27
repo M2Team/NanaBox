@@ -44,6 +44,15 @@
     <Filter Include="VirtualMachineConfiguration">
       <UniqueIdentifier>{80460fc0-e997-49cc-848e-d24bb72e5521}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Strings">
+      <UniqueIdentifier>{1cdb8d5a-8e9a-4f86-a8aa-f2817908b2d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Strings\en">
+      <UniqueIdentifier>{f780b885-61d0-4592-8721-dd70bf5332e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Strings\zh-Hans">
+      <UniqueIdentifier>{94bc5f35-ec7d-4199-9dc0-8926e5c0615d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml" />
@@ -60,5 +69,13 @@
   </ItemGroup>
   <ItemGroup>
     <Midl Include="DelegateTypes.idl" />
+  </ItemGroup>
+  <ItemGroup>
+    <PRIResource Include="Strings\en\MainWindowExitNoticeWindow.resw">
+      <Filter>Strings\en</Filter>
+    </PRIResource>
+    <PRIResource Include="Strings\zh-Hans\MainWindowExitNoticeWindow.resw">
+      <Filter>Strings\zh-Hans</Filter>
+    </PRIResource>
   </ItemGroup>
 </Project>

@@ -107,5 +107,9 @@
       <Version>1.0.361</Version>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup>
+    <PRIResource Include="Strings\en\MainWindowExitNoticeWindow.resw" />
+    <PRIResource Include="Strings\zh-Hans\MainWindowExitNoticeWindow.resw" />
+  </ItemGroup>
   <Import Project="..\Mile.Project.Windows\Mile.Project.Cpp.targets" />
 </Project>
