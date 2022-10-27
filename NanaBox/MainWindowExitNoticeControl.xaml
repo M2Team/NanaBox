@@ -6,41 +6,63 @@
   xmlns:local="using:NanaBox"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   mc:Ignorable="d">
-  <StackPanel
-    Margin="16"
-    HorizontalAlignment="Center"
-    VerticalAlignment="Center">
+  <Grid Margin="16">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="auto" />
+      <RowDefinition Height="16" />
+      <RowDefinition Height="*" />
+      <RowDefinition Height="16" />
+      <RowDefinition Height="auto" />
+    </Grid.RowDefinitions>
     <TextBlock
       x:Uid="/MainWindowExitNoticeWindow/TitleTextBlock"
-      Margin="0,0,0,16"
+      Grid.Row="0"
       FontSize="16"
       Text="[The virtual machine is still powered on.]"
       TextWrapping="Wrap" />
     <TextBlock
       x:Uid="/MainWindowExitNoticeWindow/ContentTextBlock"
-      Margin="0,0,0,16"
+      Grid.Row="2"
       FontSize="16"
       Text="[You can suspend it for later use, or power it off now.]"
       TextWrapping="Wrap" />
-    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-      <Button Click="SuspendButtonClick">
+    <Grid Grid.Row="4">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="8" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="8" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+      <Button
+        Grid.Column="0"
+        HorizontalAlignment="Stretch"
+        Click="SuspendButtonClick">
         <StackPanel Orientation="Horizontal">
           <SymbolIcon Margin="0,0,8,0" Symbol="Save" />
           <TextBlock x:Uid="/MainWindowExitNoticeWindow/SuspendButtonTextBlock" Text="[Suspend]" />
         </StackPanel>
       </Button>
-      <Button Margin="8,0" Click="PowerOffButtonClick">
+      <Button
+        Grid.Column="2"
+        HorizontalAlignment="Stretch"
+        Click="PowerOffButtonClick">
         <StackPanel Orientation="Horizontal">
           <SymbolIcon Margin="0,0,8,0" Symbol="Stop" />
           <TextBlock x:Uid="/MainWindowExitNoticeWindow/PowerOffButtonTextBlock" Text="[Power Off]" />
         </StackPanel>
       </Button>
-      <Button Click="CancelButtonClick">
+      <Button
+        x:Name="CancelButton"
+        Grid.Column="4"
+        HorizontalAlignment="Stretch"
+        Click="CancelButtonClick"
+        TabIndex="1">
         <StackPanel Orientation="Horizontal">
           <SymbolIcon Margin="0,0,8,0" Symbol="Cancel" />
           <TextBlock x:Uid="/MainWindowExitNoticeWindow/CancelButtonTextBlock" Text="[Cancel]" />
         </StackPanel>
       </Button>
-    </StackPanel>
-  </StackPanel>
+    </Grid>
+  </Grid>
 </Page>
