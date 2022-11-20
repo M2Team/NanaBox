@@ -51,6 +51,11 @@
 
 #include <Mile.Windows.DwmHelpers.h>
 
+#include <Mile.Helpers.h>
+
+#include <dwmapi.h>
+#pragma comment(lib, "dwmapi.lib")
+
 namespace winrt
 {
     using Windows::UI::Xaml::ElementTheme;
@@ -599,14 +604,14 @@ namespace NanaBox
     {
     public:
 
-        DECLARE_WND_CLASS(L"NanaBoxMainWindow")
+        DECLARE_WND_SUPERCLASS(
+            L"NanaBoxMainWindow",
+            L"Mile.Xaml.ContentWindow")
 
         BEGIN_MSG_MAP(MainWindow)
             MSG_WM_CREATE(OnCreate)
             MSG_WM_TIMER(OnTimer)
             MSG_WM_SIZE(OnSize)
-            MSG_WM_DPICHANGED(OnDpiChanged)
-            MSG_WM_MENUCHAR(OnMenuChar)
             MSG_WM_SETFOCUS(OnSetFocus)
             MSG_WM_ACTIVATE(OnActivate)
             MSG_WM_SETTINGCHANGE(OnSettingChange)
@@ -623,16 +628,6 @@ namespace NanaBox
         void OnSize(
             UINT nType,
             CSize size);
-
-        void OnDpiChanged(
-            UINT nDpiX,
-            UINT nDpiY,
-            PRECT pRect);
-
-        LRESULT OnMenuChar(
-            UINT nChar,
-            UINT nFlags,
-            WTL::CMenuHandle menu);
 
         void OnSetFocus(
             ATL::CWindow wndOld);
@@ -656,7 +651,7 @@ namespace NanaBox
         winrt::com_ptr<NanaBox::RdpClient> m_RdpClient;
         ATL::CAxWindow m_RdpClientWindow;
         winrt::DesktopWindowXamlSource m_XamlSource;
-        const int m_MainWindowControlHeight = 40;
+        const int m_MainWindowControlHeight = 48;
         int m_RecommendedMainWindowControlHeight = m_MainWindowControlHeight;
         winrt::NanaBox::MainWindowControl m_MainWindowControl;
         NanaBox::VirtualMachineConfiguration m_Configuration;
@@ -806,22 +801,21 @@ int NanaBox::MainWindow::OnCreate(
     // Focus on XAML Island host window for Acrylic brush support.
     ::SetFocus(XamlWindowHandle);
 
-    ::MileDisableSystemBackdrop(this->m_hWnd);
-
     winrt::FrameworkElement Content =
         this->m_XamlSource.Content().try_as<winrt::FrameworkElement>();
 
-    ::MileSetUseImmersiveDarkModeAttribute(
+    MARGINS Margins = { -1 };
+    ::DwmExtendFrameIntoClientArea(this->m_hWnd, &Margins);
+
+    ::MileSetWindowSystemBackdropTypeAttribute(
+        this->m_hWnd,
+        MILE_WINDOW_SYSTEM_BACKDROP_TYPE_MICA);
+
+    ::MileEnableImmersiveDarkModeForWindow(
         this->m_hWnd,
         (Content.ActualTheme() == winrt::ElementTheme::Dark
             ? TRUE
             : FALSE));
-
-    ::MileSetCaptionColorAttribute(
-        this->m_hWnd,
-        (Content.ActualTheme() == winrt::ElementTheme::Dark
-            ? RGB(0, 0, 0)
-            : RGB(255, 255, 255)));
 
     this->m_RdpClient->EnableAutoReconnect(false);
     this->m_RdpClient->RelativeMouseMode(true);
@@ -1141,40 +1135,6 @@ void NanaBox::MainWindow::OnSize(
     }
 }
 
-void NanaBox::MainWindow::OnDpiChanged(
-    UINT nDpiX,
-    UINT nDpiY,
-    PRECT pRect)
-{
-    UNREFERENCED_PARAMETER(nDpiX);
-    UNREFERENCED_PARAMETER(nDpiY);
-
-    this->SetWindowPos(
-        nullptr,
-        pRect,
-        SWP_NOZORDER | SWP_NOACTIVATE);
-}
-
-LRESULT NanaBox::MainWindow::OnMenuChar(
-    UINT nChar,
-    UINT nFlags,
-    WTL::CMenuHandle menu)
-{
-    UNREFERENCED_PARAMETER(nChar);
-    UNREFERENCED_PARAMETER(nFlags);
-    UNREFERENCED_PARAMETER(menu);
-
-    // Reference: https://github.com/microsoft/terminal
-    //            /blob/756fd444b1d443320cf2ed6887d4b65aa67a9a03
-    //            /scratch/ScratchIslandApp
-    //            /WindowExe/SampleIslandWindow.cpp#L155
-    // Return this LRESULT here to prevent the app from making a bell
-    // when alt+key is pressed. A menu is active and the user presses a
-    // key that does not correspond to any mnemonic or accelerator key.
-
-    return MAKELRESULT(0, MNC_CLOSE);
-}
-
 void NanaBox::MainWindow::OnSetFocus(
     ATL::CWindow wndOld)
 {
@@ -1215,17 +1175,11 @@ void NanaBox::MainWindow::OnSettingChange(
         {
             Content.RequestedTheme(winrt::ElementTheme::Default);
 
-            ::MileSetUseImmersiveDarkModeAttribute(
+            ::MileEnableImmersiveDarkModeForWindow(
                 this->m_hWnd,
                 (Content.ActualTheme() == winrt::ElementTheme::Dark
                     ? TRUE
                     : FALSE));
-
-            ::MileSetCaptionColorAttribute(
-                this->m_hWnd,
-                (Content.ActualTheme() == winrt::ElementTheme::Dark
-                    ? RGB(0, 0, 0)
-                    : RGB(255, 255, 255)));
         }
     }
 }
