@@ -49,8 +49,6 @@
 
 #include "NanaBoxResources.h"
 
-#include <Mile.Windows.DwmHelpers.h>
-
 #include <Mile.Helpers.h>
 
 #include <dwmapi.h>
