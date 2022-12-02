@@ -1385,7 +1385,10 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
 
         NanaBox::HcnEndpoint EndpointHandle;
         nlohmann::json Settings;
-        Settings["VirtualNetwork"] = DefaultSwitchIdString;
+        Settings["SchemaVersion"]["Major"] = 2;
+        Settings["SchemaVersion"]["Minor"] = 0;
+        Settings["Owner"]= this->m_Configuration.Name;
+        Settings["HostComputeNetwork"] = DefaultSwitchIdString;
         if (!NetworkAdapter.MacAddress.empty())
         {
             Settings["MacAddress"] = NetworkAdapter.MacAddress;
