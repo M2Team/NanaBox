@@ -38,6 +38,7 @@
 #include "MainWindowControl.h"
 #include "MainWindowExitNoticeControl.h"
 
+#include <winrt/Windows.ApplicationModel.h>
 #include <winrt/Windows.UI.Xaml.h>
 #include <winrt/Windows.UI.Xaml.Media.h>
 #include <winrt/Windows.UI.Xaml.Hosting.h>
@@ -56,6 +57,7 @@
 
 namespace winrt
 {
+    using Windows::ApplicationModel::Package;
     using Windows::UI::Xaml::ElementTheme;
     using Windows::UI::Xaml::FrameworkElement;
     using Windows::UI::Xaml::UIElement;
@@ -470,6 +472,33 @@ namespace
             static_cast<DWORD>(Content.size()),
             &NumberOfBytesWritten,
             nullptr));
+    }
+
+    bool IsPackagedMode()
+    {
+        static bool CachedResult = ([]() -> bool
+        {
+            try
+        {
+            const auto CurrentPackage = winrt::Package::Current();
+            return true;
+        }
+        catch (...)
+        {
+            return false;
+        }
+        }());
+
+        return CachedResult;
+    }
+
+    std::wstring GetCurrentProcessModulePath()
+    {
+        // 32767 is the maximum path length without the terminating null character.
+        std::wstring Path(32767, L'\0');
+        Path.resize(::GetModuleFileNameW(
+            nullptr, &Path[0], static_cast<DWORD>(Path.size())));
+        return Path;
     }
 
     bool IsCurrentProcessElevated()
@@ -1682,17 +1711,110 @@ int WINAPI wWinMain(
         OptionsAndParameters,
         UnresolvedCommandLine);
 
-    if (!::IsCurrentProcessElevated())
+    bool PackagedMode = ::IsPackagedMode();
+    std::filesystem::path TargetBinaryPath;
+
+    if (PackagedMode)
     {
         try
         {
+            std::filesystem::path AppBinaryPath;
+            {
+                std::wstring RawPath = ::GetCurrentProcessModulePath();
+                std::wcsrchr(&RawPath[0], L'\\')[0] = L'\0';
+                RawPath.resize(std::wcslen(RawPath.c_str()));
+                AppBinaryPath = std::filesystem::absolute(RawPath);
+            }
+
+            std::filesystem::path TempBinaryPath;
+            {
+                TempBinaryPath = std::filesystem::temp_directory_path();
+                GUID TempFolderGuid;
+                winrt::check_hresult(::CoCreateGuid(&TempFolderGuid));
+                TempBinaryPath /= ::FromGuid(TempFolderGuid).c_str();
+            }
+
+            if (std::filesystem::create_directory(TempBinaryPath))
+            {
+                std::filesystem::copy_file(
+                    AppBinaryPath / L"NanaBox.exe",
+                    TempBinaryPath / L"NanaBox.exe");
+
+                std::filesystem::copy_file(
+                    AppBinaryPath / L"resources.pri",
+                    TempBinaryPath / L"resources.pri");
+
+                std::filesystem::copy_file(
+                    AppBinaryPath / L"Mile.Xaml.dll",
+                    TempBinaryPath / L"Mile.Xaml.dll");
+
+                std::filesystem::copy_file(
+                    AppBinaryPath / L"Mile.Xaml.Styles.SunValley.xbf",
+                    TempBinaryPath / L"Mile.Xaml.Styles.SunValley.xbf");
+
+                std::filesystem::copy_file(
+                    AppBinaryPath / L"Mile.Xaml.winmd",
+                    TempBinaryPath / L"Mile.Xaml.winmd");
+
+                TargetBinaryPath = TempBinaryPath;
+            }
+        }
+        catch (winrt::hresult_error const& ex)
+        {
+            ::TaskDialog(
+                nullptr,
+                nullptr,
+                g_WindowTitle.c_str(),
+                ex.message().c_str(),
+                nullptr,
+                TDCBF_OK_BUTTON,
+                TD_ERROR_ICON,
+                nullptr);
+            ::ExitProcess(ex.code());
+        }
+        catch (std::exception const& ex)
+        {
+            ::TaskDialog(
+                nullptr,
+                nullptr,
+                g_WindowTitle.c_str(),
+                winrt::to_hstring(ex.what()).c_str(),
+                nullptr,
+                TDCBF_OK_BUTTON,
+                TD_ERROR_ICON,
+                nullptr);
+            ::ExitProcess(static_cast<UINT>(-1));
+        }
+    }
+
+    if (!::IsCurrentProcessElevated() || PackagedMode)
+    {
+        try
+        {
+            if (PackagedMode && !TargetBinaryPath.empty())
+            {
+                ApplicationName = TargetBinaryPath / L"NanaBox.exe";
+            }
+            else
+            {
+                ApplicationName = ::GetCurrentProcessModulePath();
+            }
+
             SHELLEXECUTEINFOW Information = { 0 };
             Information.cbSize = sizeof(SHELLEXECUTEINFOW);
+            Information.fMask = SEE_MASK_NOCLOSEPROCESS;
             Information.lpVerb = L"runas";
             Information.nShow = nShowCmd;
             Information.lpFile = ApplicationName.c_str();
             Information.lpParameters = UnresolvedCommandLine.c_str();
             winrt::check_bool(::ShellExecuteExW(&Information));
+            ::WaitForSingleObjectEx(Information.hProcess, INFINITE, FALSE);
+            ::CloseHandle(Information.hProcess);
+
+            if (PackagedMode && !TargetBinaryPath.empty())
+            {
+                std::filesystem::remove_all(TargetBinaryPath);
+        }
         }
         catch (winrt::hresult_error const& ex)
         {
@@ -1710,6 +1832,19 @@ int WINAPI wWinMain(
             }
 
             ::ExitProcess(ex.code());
+        }
+        catch (std::exception const& ex)
+        {
+            ::TaskDialog(
+                nullptr,
+                nullptr,
+                g_WindowTitle.c_str(),
+                winrt::to_hstring(ex.what()).c_str(),
+                nullptr,
+                TDCBF_OK_BUTTON,
+                TD_ERROR_ICON,
+                nullptr);
+            ::ExitProcess(static_cast<UINT>(-1));
         }
 
         ::ExitProcess(0);
