@@ -3,17 +3,20 @@
 [![GitHub Actions Build Status](https://github.com/M2Team/NanaBox/actions/workflows/BuildBinaries.yml/badge.svg?branch=main&event=push)](https://github.com/M2Team/NanaBox/actions/workflows/BuildBinaries.yml?query=event%3Apush+branch%3Amain)
 [![Total Downloads](https://img.shields.io/github/downloads/M2Team/NanaBox/total)](https://github.com/M2Team/NanaBox/releases)
 
+[![Windows Store - Release Channel](https://img.shields.io/badge/Windows%20Store-Release%20Channel-blue)](https://www.microsoft.com/store/apps/9NJXJSCB2JK0)
+[![Windows Store - Preview Channel](https://img.shields.io/badge/Windows%20Store-Preview%20Channel-blue)](https://www.microsoft.com/store/apps/9NCBGTS09QJJ)
+
 [![Latest Version - Release Channel](https://img.shields.io/github/v/release/M2Team/NanaBox?display_name=release&sort=date&color=%23a4a61d)](https://github.com/M2Team/NanaBox/releases/latest)
 [![Latest Version - Preview Channel](https://img.shields.io/github/v/release/M2Team/NanaBox?include_prereleases&display_name=release&sort=date&color=%23a4a61d)](https://github.com/M2Team/NanaBox/releases)
 
 [![Latest Release Downloads - Release Channel](https://img.shields.io/github/downloads/M2Team/NanaBox/latest/total)](https://github.com/M2Team/NanaBox/releases/latest)
 [![Latest Release Downloads - Preview Channel](https://img.shields.io/github/downloads-pre/M2Team/NanaBox/latest/total)](https://github.com/M2Team/NanaBox/releases)
 
-![Screenshot 1](Documents/Screenshot1.jpg)
+![Screenshot 1](Documents/Screenshot1.png)
 
-![Screenshot 2](Documents/Screenshot2.jpg)
+![Screenshot 2](Documents/Screenshot2.png)
 
-![Screenshot 3](Documents/Screenshot3.jpg)
+![Screenshot 3](Documents/Screenshot3.png)
 
 NanaBox is a third-party lightweight XAML-based out-of-box-experience oriented
 Hyper-V client based on Host Compute System API, Remote Desktop ActiveX control
@@ -26,14 +29,17 @@ requests and issues are welcome.**
 
 - Based on Host Compute System API as virtualization backend.
 - Support Hyper-V Enhanced Session Mode for Windows Guests.
+- Support Hyper-V Nested Virtualization.
 - Support Hyper-V GPU paravirtualization solution a.k.a GPU-PV.
 - Support expose COM ports and physical drives to the virtual machine.
-- Support enable Secure Boot for virtual machine.
+- Support enables Secure Boot for virtual machine.
 - Use JSON based format to support portable virtual machine.
 - Packaging with MSIX for modern deployment experience.
 - Modernize the UI with XAML Islands with dark and light mode support. (Dynamic
   dark and light mode switching is supported for Windows 11 and later.)
 - Full High DPI and partial Accessibility support.
+- Support full screen mode.
+- Multi-language Support: English and Simplified Chinese.
 
 ## System Requirements
 
@@ -61,7 +67,7 @@ requests and issues are welcome.**
 
 ## Development Roadmap
 
-- 1.0 Series (Late 2022)
+- 1.0 Series (2023 Q2)
   - [x] Based on Host Compute System API as virtualization backend.
   - [x] Add Hyper-V Enhanced Session Mode support for Windows Guests.
   - [x] Add Hyper-V GPU paravirtualization solution a.k.a GPU-PV support.
@@ -73,11 +79,11 @@ requests and issues are welcome.**
         (Dynamic dark and light mode switching is supported for Windows 11 and 
         later.)
   - [x] Add full High DPI and partial Accessibility support.
-  - [ ] Add full screen support. (Suggested by Belleve.)
-  - [ ] Add localization for the NanaBox UI.
+  - [x] Add full screen support. (Suggested by Belleve.)
+  - [x] Add localization for the NanaBox UI.
+  - [x] Submit to the Windows Store.
   - [ ] Add virtual machine creation UI and settings UI.
-  - [ ] Submit to the Windows Store.
-- 1.x Series (2023 Q3)
+- 1.x Series (Late 2023)
   - [ ] Provide tool for Hyper-V vmcx migration. (Suggested by Belleve.)
   - [ ] Add support for setting RDP options with .rdp file. (Suggested by 
         awakecoding.)
