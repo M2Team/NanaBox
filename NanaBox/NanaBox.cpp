@@ -39,6 +39,7 @@
 #include "MainWindowExitNoticeControl.h"
 
 #include <winrt/Windows.ApplicationModel.h>
+#include <winrt/Windows.ApplicationModel.Resources.Core.h>
 #include <winrt/Windows.UI.Xaml.h>
 #include <winrt/Windows.UI.Xaml.Media.h>
 #include <winrt/Windows.UI.Xaml.Hosting.h>
@@ -58,6 +59,8 @@
 namespace winrt
 {
     using Windows::ApplicationModel::Package;
+    using winrt::Windows::ApplicationModel::Resources::Core::ResourceManager;
+    using winrt::Windows::ApplicationModel::Resources::Core::ResourceMap;
     using Windows::UI::Xaml::ElementTheme;
     using Windows::UI::Xaml::FrameworkElement;
     using Windows::UI::Xaml::UIElement;
@@ -479,14 +482,14 @@ namespace
         static bool CachedResult = ([]() -> bool
         {
             try
-        {
-            const auto CurrentPackage = winrt::Package::Current();
-            return true;
-        }
-        catch (...)
-        {
-            return false;
-        }
+            {
+                const auto CurrentPackage = winrt::Package::Current();
+                return true;
+            }
+            catch (...)
+            {
+                return false;
+            }
         }());
 
         return CachedResult;
@@ -527,6 +530,37 @@ namespace
         }
 
         return Result;
+    }
+
+    winrt::hstring GetLocalizedString(
+        winrt::hstring const& ResourcePath,
+        winrt::hstring const& FallbackString)
+    {
+        try
+        {
+            winrt::ResourceMap CurrentResourceMap =
+                winrt::ResourceManager::Current().MainResourceMap();
+
+            if (CurrentResourceMap.HasKey(ResourcePath))
+            {
+                return CurrentResourceMap.Lookup(
+                    ResourcePath).Candidates().GetAt(0).ValueAsString();
+            }
+            else
+            {
+                return FallbackString;
+            }
+        }
+        catch (...)
+        {
+            return FallbackString;
+        }
+    }
+
+    winrt::hstring GetLocalizedString(
+        winrt::hstring const& ResourcePath)
+    {
+        return ::GetLocalizedString(ResourcePath, ResourcePath);
     }
 }
 
@@ -1599,11 +1633,10 @@ void PrerequisiteCheck()
                 nullptr,
                 nullptr,
                 g_WindowTitle.c_str(),
-                L"[You do not have permission to run NanaBox.]",
-                L"[Please run NanaBox in elevated mode, or join the current "
-                L"user to the Hyper-V Administrators security group allows you "
-                L"to run NanaBox without elevation. You must log on again for "
-                L"the permissions to take effect.]",
+                ::GetLocalizedString(
+                    L"Messages/AccessDeniedInstructionText").c_str(),
+                ::GetLocalizedString(
+                    L"Messages/AccessDeniedContentText").c_str(),
                 TDCBF_OK_BUTTON,
                 TD_ERROR_ICON,
                 nullptr);
@@ -1614,10 +1647,10 @@ void PrerequisiteCheck()
                 nullptr,
                 nullptr,
                 g_WindowTitle.c_str(),
-                L"[Hyper-V is not enabled]",
-                L"[NanaBox requires the Hyper-V and Virtual Machine Platform "
-                L"features of Windows. Enable these features and then try "
-                L"running NanaBox again.]",
+                ::GetLocalizedString(
+                    L"Messages/HyperVNotAvailableInstructionText").c_str(),
+                ::GetLocalizedString(
+                    L"Messages/HyperVNotAvailableContentText").c_str(),
                 TDCBF_OK_BUTTON,
                 TD_ERROR_ICON,
                 nullptr);
@@ -1677,10 +1710,10 @@ void PrerequisiteCheck()
             nullptr,
             nullptr,
             g_WindowTitle.c_str(),
-            L"[Virtual Machine Management Service isn't running]",
-            L"[NanaBox is unable to start without this Hyper-V service. In "
-            L"Hyper-V Manager, click \"Start Service\" under the Action menu "
-            L"and try running NanaBox again.]",
+            ::GetLocalizedString(
+                L"Messages/VMMSNotAvailableInstructionText").c_str(),
+            ::GetLocalizedString(
+                L"Messages/VMMSNotAvailableContentText").c_str(),
             TDCBF_OK_BUTTON,
             TD_ERROR_ICON,
             nullptr);
@@ -1698,6 +1731,8 @@ int WINAPI wWinMain(
 {
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
+
+    winrt::init_apartment(winrt::apartment_type::single_threaded);
 
     std::wstring ApplicationName;
     std::map<std::wstring, std::wstring> OptionsAndParameters;
@@ -1851,8 +1886,6 @@ int WINAPI wWinMain(
     }
 
     ::PrerequisiteCheck();
-
-    winrt::init_apartment(winrt::apartment_type::single_threaded);
 
     if (!UnresolvedCommandLine.empty())
     {

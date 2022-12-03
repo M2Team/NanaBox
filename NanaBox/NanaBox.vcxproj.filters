@@ -83,5 +83,11 @@
     <PRIResource Include="Strings\zh-Hans\MainWindow.resw">
       <Filter>Strings\zh-Hans</Filter>
     </PRIResource>
+    <PRIResource Include="Strings\en\Messages.resw">
+      <Filter>Strings\en</Filter>
+    </PRIResource>
+    <PRIResource Include="Strings\zh-Hans\Messages.resw">
+      <Filter>Strings\zh-Hans</Filter>
+    </PRIResource>
   </ItemGroup>
 </Project>

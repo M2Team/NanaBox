@@ -112,8 +112,10 @@
   <ItemGroup>
     <PRIResource Include="Strings\en\MainWindow.resw" />
     <PRIResource Include="Strings\en\MainWindowExitNoticeWindow.resw" />
+    <PRIResource Include="Strings\en\Messages.resw" />
     <PRIResource Include="Strings\zh-Hans\MainWindow.resw" />
     <PRIResource Include="Strings\zh-Hans\MainWindowExitNoticeWindow.resw" />
+    <PRIResource Include="Strings\zh-Hans\Messages.resw" />
   </ItemGroup>
   <Import Project="..\Mile.Project.Windows\Mile.Project.Cpp.targets" />
 </Project>
