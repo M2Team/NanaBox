@@ -16,6 +16,7 @@
       IsDynamicOverflowEnabled="False"
       IsOpen="False">
       <AppBarToggleButton
+        x:Uid="/MainWindow/EnhancedSessionButton"
         Width="40"
         AutomationProperties.Name="[Enhanced Session Button]"
         Click="EnhancedSessionButtonClick"
@@ -23,6 +24,7 @@
         LabelPosition="Collapsed"
         ToolTipService.ToolTip="[Enhanced Session]" />
       <AppBarButton
+        x:Uid="/MainWindow/FullScreenButton"
         Width="40"
         AutomationProperties.Name="[Full Screen Button]"
         Click="FullScreenButtonClick"
@@ -80,6 +82,7 @@
       </AppBarButton>
       <AppBarSeparator />
       <AppBarToggleButton
+        x:Uid="/MainWindow/PauseVirtualMachineButton"
         Width="40"
         AutomationProperties.Name="[Pause Virtual Machine Button]"
         Click="PauseVirtualMachineButtonClick"
@@ -87,6 +90,7 @@
         LabelPosition="Collapsed"
         ToolTipService.ToolTip="[Pause Virtual Machine]" />
       <AppBarButton
+        x:Uid="/MainWindow/RestartVirtualMachineButton"
         Width="40"
         AutomationProperties.Name="[Restart Virtual Machine Button]"
         Click="RestartVirtualMachineButtonClick"
