@@ -50,7 +50,8 @@
         "Tpm": true,
         "GuestStateFile": "Test.vmgs",
         "RuntimeStateFile": "Test.vmrs",
-        "SaveStateFile": "Test.SaveState.vmrs"
+        "SaveStateFile": "Test.SaveState.vmrs",
+        "ExposeVirtualizationExtensions": true
     }
 }
 ```
@@ -85,6 +86,7 @@
   - GuestStateFile (String)
   - RuntimeStateFile (String)
   - SaveStateFile (String)
+  - ExposeVirtualizationExtensions (Boolean)
 
 ### NanaBox
 
@@ -273,6 +275,14 @@ Note: The relative path is supported.
 Note: This option is used for internal implementation.
 
 Example value: "TestVM.SaveState.vmrs"
+
+### ExposeVirtualizationExtensions
+
+(Optional) Expose the virtualization extensions to the virtual machine if set
+it true.
+
+Note: Some processors don't support exposing the virtualization extensions to
+the virtual machine.
 
 ## Samples
 

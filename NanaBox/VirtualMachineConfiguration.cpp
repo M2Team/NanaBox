@@ -350,6 +350,16 @@ NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
 
     }
 
+    try
+    {
+        Result.ExposeVirtualizationExtensions =
+            RootJson["ExposeVirtualizationExtensions"].get<bool>();
+    }
+    catch (...)
+    {
+
+    }
+
     return Result;
 }
 
@@ -443,6 +453,11 @@ std::string NanaBox::SerializeConfiguration(
     {
         RootJson["SaveStateFile"] = Configuration.SaveStateFile;
     }
+    if (Configuration.ExposeVirtualizationExtensions)
+    {
+        RootJson["ExposeVirtualizationExtensions"] =
+            Configuration.ExposeVirtualizationExtensions;
+    }
 
     nlohmann::json Result;
     Result["NanaBox"] = RootJson;
@@ -530,7 +545,10 @@ std::string NanaBox::MakeHcsConfiguration(
 
     nlohmann::json Processor;
     Processor["Count"] = Configuration.ProcessorCount;
-    Processor["ExposeVirtualizationExtensions"] = true;
+    if (Configuration.ExposeVirtualizationExtensions)
+    {
+        Processor["ExposeVirtualizationExtensions"] = true;
+    }
     Result["VirtualMachine"]["ComputeTopology"]["Processor"] = Processor;
 
     // Note: Skip Configuration.Gpu because it need to add at runtime.

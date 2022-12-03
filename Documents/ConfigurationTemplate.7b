@@ -41,6 +41,7 @@
         "Tpm": true,
         "GuestStateFile": "Test.vmgs",
         "RuntimeStateFile": "Test.vmrs",
-        "SaveStateFile": "Test.SaveState.vmrs"
+        "SaveStateFile": "Test.SaveState.vmrs",
+        "ExposeVirtualizationExtensions": true
     }
 }
