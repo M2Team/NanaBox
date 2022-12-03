@@ -1,0 +1,35 @@
+﻿{
+  "NanaBox": {
+    "ComPorts": {
+      "UefiConsole": "Disabled"
+    },
+    "Gpu": {
+      "AssignmentMode": "Disabled"
+    },
+    "GuestType": "Windows",
+    "MemorySize": 4096,
+    "Name": "Change to the unique name of virtual machine you want.",
+    "NetworkAdapters": [
+      {
+        "Connected": true,
+        "Enabled": true
+      }
+    ],
+    "ProcessorCount": 2,
+    "ScsiDevices": [
+      {
+        "Enabled": true,
+        "Path": "Change to the path of the virtual disk you want.",
+        "Type": "VirtualDisk"
+      },
+      {
+        "Enabled": true,
+        "Path": "Change to the path of the virtual image you want.",
+        "Type": "VirtualImage"
+      }
+    ],
+    "SecureBoot": true,
+    "Type": "VirtualMachine",
+    "Version": 1
+  }
+}
