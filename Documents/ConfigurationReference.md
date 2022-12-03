@@ -219,8 +219,7 @@ The path of the current SCSI device.
 
 Note: The relative path is supported.
 
-When type is "VirtualDisk", you can use vhdx files. Maybe vhd file is OK but not
-tested for it.
+When type is "VirtualDisk", you can use vhdx and vhd files.
 
 When type is "VirtualImage", you can use iso files, and you can make it empty or
 not set if you want to make a ejected virtual optical drive.
