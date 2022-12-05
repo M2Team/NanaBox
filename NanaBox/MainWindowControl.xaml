@@ -36,8 +36,7 @@
         AutomationProperties.Name="[Settings Button]"
         Icon="Setting"
         LabelPosition="Collapsed"
-        ToolTipService.ToolTip="[Settings]"
-        Visibility="Collapsed">
+        ToolTipService.ToolTip="[Settings]">
         <AppBarButton.Flyout>
           <MenuFlyout Placement="BottomEdgeAlignedLeft">
             <MenuFlyoutItem Text="[Advanced Configurations]" />
