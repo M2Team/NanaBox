@@ -1157,6 +1157,10 @@ void NanaBox::MainWindow::OnSize(
         DpiValue,
         USER_DEFAULT_SCREEN_DPI);
 
+    MARGINS Margins = { 0 };
+    Margins.cyTopHeight = MainWindowControlScaledHeight;
+    ::DwmExtendFrameIntoClientArea(this->m_hWnd, &Margins);
+
     RECT RdpClientRect;
     winrt::check_bool(this->GetClientRect(&RdpClientRect));
     RdpClientRect.top += MainWindowControlScaledHeight;
