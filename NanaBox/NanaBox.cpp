@@ -890,7 +890,7 @@ int NanaBox::MainWindow::OnCreate(
     // Set KeyboardHookMode to remote for fixing keyboard navigation issues in
     // window mode.
     // TODO: Connect with m_Configuration.Keyboard.RedirectKeyCombinations
-    //this->m_RdpClient->KeyboardHookMode(1);
+    this->m_RdpClient->KeyboardHookMode(1);
 
     this->m_RdpClient->ContainerHandledFullScreen(true);
 
