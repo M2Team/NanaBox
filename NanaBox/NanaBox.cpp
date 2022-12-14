@@ -906,6 +906,18 @@ int NanaBox::MainWindow::OnCreate(
 
     }
 
+    try
+    {
+        VARIANT Value;
+        Value.vt = VT_BOOL;
+        Value.boolVal = VARIANT_TRUE;
+        this->m_RdpClient->Property(L"EnableFrameBufferRedirection", Value);
+    }
+    catch (...)
+    {
+
+    }
+
     this->m_RdpClient->GrabFocusOnConnect(false);
 
     this->m_RdpClient->OnRemoteDesktopSizeChange([this](
@@ -1157,7 +1169,8 @@ void NanaBox::MainWindow::OnSize(
         DpiValue,
         USER_DEFAULT_SCREEN_DPI);
 
-    MARGINS Margins = { (MainWindowControlScaledHeight ? -1 : 0) };
+    MARGINS Margins = { 0 };
+    Margins.cyTopHeight = MainWindowControlScaledHeight;
     ::DwmExtendFrameIntoClientArea(this->m_hWnd, &Margins);
 
     RECT RdpClientRect;
