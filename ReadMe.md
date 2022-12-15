@@ -64,6 +64,10 @@ requests and issues are welcome.**
   Administrators user group. Windows 10 don't have that issue.
 - Due to HCS API limitation, the guest only supports UEFI Class 3 or UEFI 
   without CSM or Hyper-V Gen 2 VM.
+- You may meet the UI frozen when lost the focus from the Settings menu in the
+  NanaBox main window (the popup windows created by XAML Islands) unless switch
+  to another application windows before switch back to the NanaBox main window,
+  may caused by the design of XAML Islands and Remote Desktop ActiveX control.
 
 ## Development Roadmap
 
