@@ -48,23 +48,23 @@ requests and issues are welcome.**
 
 ## Known issues
 
+- Due to Host Compute System API and Host Compute Network API limitations, 
+  there are some limitations from them also applied to NanaBox:
+  - NanaBox only supports create UEFI Class 3 or UEFI without CSM or Hyper-V 
+    Gen 2 virtual machines.
+  - TPM support for virtual machines created by NanaBox is not available.
+  - NanaBox needs elevated privilege via UAC.
+  - The automatic switch between Enhanced Session Mode and Basic Session Mode
+    won't be implemented.
 - The virtual machine creation UI and settings UI is not implemented.
-- The automatic switch between Enhanced Session Mode and Basic Session Mode is 
-  not implemented because HcsEventSystemRdpEnhancedModeStateChanged event can 
-  be fired on at least Windows 10 Build 17763, but in Windows 11 Build 22621 
-  cannot. It's confirmed as a HCS API bug via Kris Harper and will fix it in 
-  the future.
-- TPM support is not available because current stage of HCS API seems doesn't 
-  implement them.
-- NanaBox needs elevated privilege via UAC because HCN API in Windows 11 Build
-  22621 will return ERROR_ACCESS_DENIED even add the current user to the Hyper-V
-  Administrators user group. Windows 10 don't have that issue.
-- Due to HCS API limitation, the guest only supports UEFI Class 3 or UEFI 
-  without CSM or Hyper-V Gen 2 VM.
 - You may meet the UI frozen when lost the focus from the Settings menu in the
   NanaBox main window (the popup windows created by XAML Islands) unless switch
   to another application windows before switch back to the NanaBox main window,
   may caused by the design of XAML Islands and Remote Desktop ActiveX control.
+
+Reference documents for known issues:
+
+- [MD4: Notes for using Host Compute System API](https://github.com/MouriNaruto/MouriDocs/tree/main/docs/4)
 
 ## Development Roadmap
 
