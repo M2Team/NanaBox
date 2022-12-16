@@ -48,10 +48,7 @@ requests and issues are welcome.**
 
 ## Known issues
 
-- The localization for the NanaBox UI is not implemented in NanaBox 1.0 Preview
-  1.
-- The virtual machine creation UI and settings UI is not implemented in NanaBox
-  1.0 Preview 1.
+- The virtual machine creation UI and settings UI is not implemented.
 - The automatic switch between Enhanced Session Mode and Basic Session Mode is 
   not implemented because HcsEventSystemRdpEnhancedModeStateChanged event can 
   be fired on at least Windows 10 Build 17763, but in Windows 11 Build 22621 
