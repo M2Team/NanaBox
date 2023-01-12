@@ -169,6 +169,9 @@ namespace NanaBox
     std::string MakeHcsUpdateGpuRequest(
         GpuConfiguration const& Value);
 
+    std::string MakeHcsAddNetworkAdapterRequest(
+        NetworkAdapterConfiguration const& Value);
+
     std::string MakeHcsConfiguration(
         VirtualMachineConfiguration const& Configuration);
 }

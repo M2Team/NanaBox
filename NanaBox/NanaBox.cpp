@@ -1420,69 +1420,6 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
     this->m_Configuration = NanaBox::DeserializeConfiguration(
         ConfigurationFileContent);
    
-    NanaBox::HcnNetwork NetworkHandle = NanaBox::HcnOpenNetwork(
-        NanaBox::DefaultSwitchId);
-
-    std::string DefaultSwitchIdString = winrt::to_string(
-        ::FromGuid(NanaBox::DefaultSwitchId));
-
-    for (NanaBox::NetworkAdapterConfiguration& NetworkAdapter
-        : this->m_Configuration.NetworkAdapters)
-    {
-        if (!NetworkAdapter.Enabled)
-        {
-            continue;
-        }
-
-        GUID EndpointId;
-        try
-        {
-            if (!NetworkAdapter.EndpointId.empty())
-            {
-                EndpointId = winrt::guid(NetworkAdapter.EndpointId);
-            }
-        }
-        catch (...)
-        {
-            
-        }
-        if (NetworkAdapter.EndpointId.empty())
-        {
-            winrt::check_hresult(::CoCreateGuid(&EndpointId));
-            NetworkAdapter.EndpointId =
-                winrt::to_string(::FromGuid(EndpointId));
-        }
-
-        try
-        {
-            NanaBox::HcnDeleteEndpoint(EndpointId);
-        }
-        catch (...)
-        {
-
-        }
-
-        NanaBox::HcnEndpoint EndpointHandle;
-        nlohmann::json Settings;
-        Settings["SchemaVersion"]["Major"] = 2;
-        Settings["SchemaVersion"]["Minor"] = 0;
-        Settings["Owner"]= this->m_Configuration.Name;
-        Settings["HostComputeNetwork"] = DefaultSwitchIdString;
-        if (!NetworkAdapter.MacAddress.empty())
-        {
-            Settings["MacAddress"] = NetworkAdapter.MacAddress;
-        }
-
-        EndpointHandle = NanaBox::HcnCreateEndpoint(
-            NetworkHandle,
-            EndpointId,
-            winrt::to_hstring(Settings.dump()));
-
-        nlohmann::json Properties = nlohmann::json::parse(winrt::to_string(
-            NanaBox::HcnQueryEndpointProperties(EndpointHandle)));
-        NetworkAdapter.MacAddress = Properties["MacAddress"];
-    }
-
     for (NanaBox::ScsiDeviceConfiguration& ScsiDevice
         : this->m_Configuration.ScsiDevices)
     {
@@ -1581,14 +1518,74 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
 
     this->m_VirtualMachine->Start();
 
-    /*{
-        nlohmann::json Request;
-        Request["ResourcePath"] = "VirtualMachine/Devices/NetworkAdapters/B628CCF8";
-        Request["RequestType"] = "Add";
-        Request["Settings"]["EndpointId"] = "b628ccf8-cb1f-405c-9c1a-3ca76526e4e0";
-        Request["Settings"]["MacAddress"] = "00-15-5D-64-2F-AB";
-        VirtualMachine.Modify(winrt::to_hstring(Request.dump()));
-    }*/
+    NanaBox::HcnNetwork NetworkHandle = NanaBox::HcnOpenNetwork(
+        NanaBox::DefaultSwitchId);
+
+    std::string DefaultSwitchIdString = winrt::to_string(
+        ::FromGuid(NanaBox::DefaultSwitchId));
+
+    if (!this->m_Configuration.NetworkAdapters.empty())
+    {
+        for (NanaBox::NetworkAdapterConfiguration& NetworkAdapter
+            : this->m_Configuration.NetworkAdapters)
+        {
+            if (!NetworkAdapter.Enabled)
+            {
+                continue;
+            }
+
+            GUID EndpointId;
+            try
+            {
+                if (!NetworkAdapter.EndpointId.empty())
+                {
+                    EndpointId = winrt::guid(NetworkAdapter.EndpointId);
+                }
+            }
+            catch (...)
+            {
+
+            }
+            if (NetworkAdapter.EndpointId.empty())
+            {
+                winrt::check_hresult(::CoCreateGuid(&EndpointId));
+                NetworkAdapter.EndpointId =
+                    winrt::to_string(::FromGuid(EndpointId));
+            }
+
+            try
+            {
+                NanaBox::HcnDeleteEndpoint(EndpointId);
+            }
+            catch (...)
+            {
+
+            }
+
+            NanaBox::HcnEndpoint EndpointHandle;
+            nlohmann::json Settings;
+            Settings["SchemaVersion"]["Major"] = 2;
+            Settings["SchemaVersion"]["Minor"] = 0;
+            Settings["Owner"] = this->m_Configuration.Name;
+            Settings["HostComputeNetwork"] = DefaultSwitchIdString;
+            if (!NetworkAdapter.MacAddress.empty())
+            {
+                Settings["MacAddress"] = NetworkAdapter.MacAddress;
+            }
+
+            EndpointHandle = NanaBox::HcnCreateEndpoint(
+                NetworkHandle,
+                EndpointId,
+                winrt::to_hstring(Settings.dump()));
+
+            nlohmann::json Properties = nlohmann::json::parse(winrt::to_string(
+                NanaBox::HcnQueryEndpointProperties(EndpointHandle)));
+            NetworkAdapter.MacAddress = Properties["MacAddress"];
+
+            this->m_VirtualMachine->Modify(winrt::to_hstring(
+                NanaBox::MakeHcsAddNetworkAdapterRequest(NetworkAdapter)));
+        }
+    }
 
     this->m_VirtualMachine->Modify(winrt::to_hstring(
         NanaBox::MakeHcsUpdateGpuRequest(this->m_Configuration.Gpu)));
