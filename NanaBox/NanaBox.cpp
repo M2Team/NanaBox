@@ -495,6 +495,40 @@ namespace
         return CachedResult;
     }
 
+    std::filesystem::path GetLocalStateFolderPath()
+    {
+        static std::filesystem::path CachedResult = ([]() -> std::filesystem::path
+        {
+            std::filesystem::path FolderPath;
+            {
+                LPWSTR RawFolderPath = nullptr;
+                // KF_FLAG_FORCE_APP_DATA_REDIRECTION, when engaged, causes
+                // SHGetKnownFolderPath to return the new AppModel paths
+                // (Packages/xxx/RoamingState, etc.) for standard path requests.
+                // Using this flag allows us to avoid
+                // Windows.Storage.ApplicationData completely.
+                winrt::check_hresult(::SHGetKnownFolderPath(
+                    FOLDERID_LocalAppData,
+                    KF_FLAG_FORCE_APP_DATA_REDIRECTION,
+                    nullptr,
+                    &RawFolderPath));
+                FolderPath = std::filesystem::path(RawFolderPath);
+                if (!::IsPackagedMode())
+                {
+                    FolderPath /= L"M2-Team\\NanaBox";
+                }
+                ::CoTaskMemFree(RawFolderPath);
+            }
+
+            // Create the directory if it doesn't exist.
+            std::filesystem::create_directories(FolderPath);
+
+            return FolderPath;
+        }());
+
+        return CachedResult;
+    }
+
     std::wstring GetCurrentProcessModulePath()
     {
         // 32767 is the maximum path length without the terminating null character.
@@ -1419,7 +1453,7 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
 
     this->m_Configuration = NanaBox::DeserializeConfiguration(
         ConfigurationFileContent);
-   
+
     for (NanaBox::ScsiDeviceConfiguration& ScsiDevice
         : this->m_Configuration.ScsiDevices)
     {
@@ -1776,7 +1810,7 @@ int WINAPI wWinMain(
 
             std::filesystem::path TempBinaryPath;
             {
-                TempBinaryPath = std::filesystem::temp_directory_path();
+                TempBinaryPath = ::GetLocalStateFolderPath();
                 GUID TempFolderGuid;
                 winrt::check_hresult(::CoCreateGuid(&TempFolderGuid));
                 TempBinaryPath /= ::FromGuid(TempFolderGuid).c_str();
