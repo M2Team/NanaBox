@@ -75,6 +75,7 @@ namespace
         L"_" MILE_PROJECT_DOT_VERSION_STRING
         L"_" MILE_PROJECT_BUILD_GUID_STRING;
 
+    const std::wstring_view g_WindowTitle =
         L"NanaBox " MILE_PROJECT_VERSION_STRING
         L" (" MILE_PROJECT_DOT_VERSION_STRING L")";
 
@@ -813,7 +814,7 @@ int NanaBox::MainWindow::OnCreate(
             ::TaskDialog(
                 nullptr,
                 nullptr,
-                g_WindowTitle.c_str(),
+                g_WindowTitle.data(),
                 ex.message().c_str(),
                 nullptr,
                 TDCBF_OK_BUTTON,
@@ -829,7 +830,7 @@ int NanaBox::MainWindow::OnCreate(
             ::TaskDialog(
                 nullptr,
                 nullptr,
-                g_WindowTitle.c_str(),
+                g_WindowTitle.data(),
                 winrt::to_hstring(ex.what()).c_str(),
                 nullptr,
                 TDCBF_OK_BUTTON,
@@ -1408,7 +1409,7 @@ void NanaBox::MainWindow::OnClose()
                 ::TaskDialog(
                     nullptr,
                     nullptr,
-                    g_WindowTitle.c_str(),
+                    g_WindowTitle.data(),
                     ex.message().c_str(),
                     nullptr,
                     TDCBF_OK_BUTTON,
@@ -1683,7 +1684,7 @@ void PrerequisiteCheck()
             ::TaskDialog(
                 nullptr,
                 nullptr,
-                g_WindowTitle.c_str(),
+                g_WindowTitle.data(),
                 ::GetLocalizedString(
                     L"Messages/AccessDeniedInstructionText").c_str(),
                 ::GetLocalizedString(
@@ -1697,7 +1698,7 @@ void PrerequisiteCheck()
             ::TaskDialog(
                 nullptr,
                 nullptr,
-                g_WindowTitle.c_str(),
+                g_WindowTitle.data(),
                 ::GetLocalizedString(
                     L"Messages/HyperVNotAvailableInstructionText").c_str(),
                 ::GetLocalizedString(
@@ -1711,7 +1712,7 @@ void PrerequisiteCheck()
             ::TaskDialog(
                 nullptr,
                 nullptr,
-                g_WindowTitle.c_str(),
+                g_WindowTitle.data(),
                 ex.message().c_str(),
                 nullptr,
                 TDCBF_OK_BUTTON,
@@ -1760,7 +1761,7 @@ void PrerequisiteCheck()
         ::TaskDialog(
             nullptr,
             nullptr,
-            g_WindowTitle.c_str(),
+            g_WindowTitle.data(),
             ::GetLocalizedString(
                 L"Messages/VMMSNotAvailableInstructionText").c_str(),
             ::GetLocalizedString(
@@ -1853,7 +1854,7 @@ int WINAPI wWinMain(
             ::TaskDialog(
                 nullptr,
                 nullptr,
-                g_WindowTitle.c_str(),
+                g_WindowTitle.data(),
                 ex.message().c_str(),
                 nullptr,
                 TDCBF_OK_BUTTON,
@@ -1866,7 +1867,7 @@ int WINAPI wWinMain(
             ::TaskDialog(
                 nullptr,
                 nullptr,
-                g_WindowTitle.c_str(),
+                g_WindowTitle.data(),
                 winrt::to_hstring(ex.what()).c_str(),
                 nullptr,
                 TDCBF_OK_BUTTON,
@@ -1912,7 +1913,7 @@ int WINAPI wWinMain(
                 ::TaskDialog(
                     nullptr,
                     nullptr,
-                    g_WindowTitle.c_str(),
+                    g_WindowTitle.data(),
                     ex.message().c_str(),
                     nullptr,
                     TDCBF_OK_BUTTON,
@@ -1927,7 +1928,7 @@ int WINAPI wWinMain(
             ::TaskDialog(
                 nullptr,
                 nullptr,
-                g_WindowTitle.c_str(),
+                g_WindowTitle.data(),
                 winrt::to_hstring(ex.what()).c_str(),
                 nullptr,
                 TDCBF_OK_BUTTON,
@@ -1992,7 +1993,7 @@ int WINAPI wWinMain(
                 ::TaskDialog(
                     nullptr,
                     nullptr,
-                    g_WindowTitle.c_str(),
+                    g_WindowTitle.data(),
                     ex.message().c_str(),
                     nullptr,
                     TDCBF_OK_BUTTON,
@@ -2021,7 +2022,7 @@ int WINAPI wWinMain(
     if (!Window.Create(
         nullptr,
         Window.rcDefault,
-        g_WindowTitle.c_str(),
+        g_WindowTitle.data(),
         WS_OVERLAPPEDWINDOW))
     {
         return -1;
