@@ -70,7 +70,11 @@ namespace winrt
 
 namespace
 {
-    std::wstring g_WindowTitle =
+    const std::wstring_view g_AppUserModelID =
+        L"M2Team.NanaBox"
+        L"_" MILE_PROJECT_DOT_VERSION_STRING
+        L"_" MILE_PROJECT_BUILD_GUID_STRING;
+
         L"NanaBox " MILE_PROJECT_VERSION_STRING
         L" (" MILE_PROJECT_DOT_VERSION_STRING L")";
 
@@ -1780,6 +1784,9 @@ int WINAPI wWinMain(
     UNREFERENCED_PARAMETER(lpCmdLine);
 
     winrt::init_apartment(winrt::apartment_type::single_threaded);
+
+    winrt::check_hresult(::SetCurrentProcessExplicitAppUserModelID(
+        g_AppUserModelID.data()));
 
     std::wstring ApplicationName;
     std::map<std::wstring, std::wstring> OptionsAndParameters;
