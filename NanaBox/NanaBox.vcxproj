@@ -17,6 +17,15 @@
     <WindowsTargetPlatformMinVersion>10.0.19041.0</WindowsTargetPlatformMinVersion>
     <MileProjectEnableVCLTLSupport>true</MileProjectEnableVCLTLSupport>
     <MileProjectEnableCppWinRTSupport>true</MileProjectEnableCppWinRTSupport>
+    <MileProjectUseProjectProperties>true</MileProjectUseProjectProperties>
+    <MileProjectCompanyName>M2-Team</MileProjectCompanyName>
+    <MileProjectFileDescription>NanaBox for Windows</MileProjectFileDescription>
+    <MileProjectInternalName>NanaBox</MileProjectInternalName>
+    <MileProjectLegalCopyright>© M2-Team and Contributors. All rights reserved.</MileProjectLegalCopyright>
+    <MileProjectOriginalFilename>NanaBox.exe</MileProjectOriginalFilename>
+    <MileProjectProductName>NanaBox</MileProjectProductName>
+    <MileProjectVersion>1.0.248.0</MileProjectVersion>
+    <MileProjectVersionTag>Preview 3</MileProjectVersionTag>
   </PropertyGroup>
   <Import Project="..\Mile.Project.Windows\Mile.Project.Cpp.props" />
   <Import Project="..\ThirdParty\WindowsTemplateLibrary.props" />
@@ -80,7 +89,6 @@
       <DependentUpon>MainWindowExitNoticeControl.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
-    <ClInclude Include="Mile.Project.Properties.h" />
     <ClInclude Include="MsTscAx.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="RdpClient.h" />

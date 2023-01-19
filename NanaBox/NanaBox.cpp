@@ -47,7 +47,7 @@
 
 #include <json.hpp>
 
-#include "Mile.Project.Properties.h"
+#include <Mile.Project.Version.h>
 
 #include "NanaBoxResources.h"
 
@@ -418,7 +418,7 @@ namespace
         {
             winrt::throw_last_error();
         }
-        
+
         std::size_t FileSize = ::GetTextFileSize(FileHandle);
 
         std::string Content(FileSize, '\0');
@@ -679,7 +679,7 @@ int NanaBox::MainWindowExitNoticeWindow::OnCreate(
 
 void NanaBox::MainWindowExitNoticeWindow::OnDestroy()
 {
-    ::PostQuitMessage(0);  
+    ::PostQuitMessage(0);
 }
 
 namespace NanaBox
@@ -836,7 +836,7 @@ int NanaBox::MainWindow::OnCreate(
                 TDCBF_OK_BUTTON,
                 TD_ERROR_ICON,
                 nullptr);
-        }).join();    
+        }).join();
         return -1;
     }
 
@@ -1052,7 +1052,7 @@ int NanaBox::MainWindow::OnCreate(
                         RawZoomLevel);
                 }
                 this->m_RdpClient->PCB(winrt::to_hstring(PCB));
-                this->m_RdpClient->Connect();       
+                this->m_RdpClient->Connect();
             }
             catch (...)
             {
@@ -1129,7 +1129,7 @@ int NanaBox::MainWindow::OnCreate(
 
     this->m_RdpClient->Server(L"localhost");
     this->m_RdpClient->RDPPort(2179);
-    this->m_RdpClient->MinInputSendInterval(20); 
+    this->m_RdpClient->MinInputSendInterval(20);
 
     this->m_RdpClient->Connect();
 
@@ -1265,7 +1265,7 @@ void NanaBox::MainWindow::OnActivate(
     ATL::CWindow wndOther)
 {
     UNREFERENCED_PARAMETER(wndOther);
-    
+
     if (bMinimized || nState == WA_INACTIVE)
     {
         return;
@@ -1345,7 +1345,7 @@ void NanaBox::MainWindow::OnClose()
     Window.CenterWindow(this->m_hWnd);
     Window.ShowWindow(SW_SHOW);
     Window.UpdateWindow();
- 
+
     WTL::CMessageLoop MessageLoop;
     MessageLoop.AddMessageFilter(&Window);
     this->EnableWindow(FALSE);
@@ -1647,7 +1647,7 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
                 perms,
                 std::filesystem::perm_options::remove);
 
-            std::filesystem::remove(SaveStateFile);        
+            std::filesystem::remove(SaveStateFile);
         }
 
         this->m_Configuration.SaveStateFile.clear();

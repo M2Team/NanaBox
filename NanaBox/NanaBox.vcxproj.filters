@@ -18,7 +18,6 @@
     <Manifest Include="NanaBox.manifest" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Mile.Project.Properties.h" />
     <ClInclude Include="MsTscAx.h">
       <Filter>RdpClient</Filter>
     </ClInclude>
