@@ -73,7 +73,7 @@ namespace
     const std::wstring_view g_AppUserModelID =
         L"M2Team.NanaBox"
         L"_" MILE_PROJECT_DOT_VERSION_STRING
-        L"_" MILE_PROJECT_BUILD_GUID_STRING;
+        L"_" MILE_PROJECT_BUILD_DATE_STRING;
 
     const std::wstring_view g_WindowTitle =
         L"NanaBox " MILE_PROJECT_VERSION_STRING
