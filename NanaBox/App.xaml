@@ -5,6 +5,12 @@
   xmlns:MileXaml="using:Mile.Xaml"
   xmlns:local="using:NanaBox">
   <Application.Resources>
-    <MileXaml:XamlControlsResources />
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="MinimalExpanderStyles.xaml"/>
+        <MileXaml:XamlControlsResources />
+      </ResourceDictionary.MergedDictionaries>
+      <local:NegativeDoubleConverter x:Name="NegativeDoubleConverter"/>
+    </ResourceDictionary>
   </Application.Resources>
 </MileXaml:Application>

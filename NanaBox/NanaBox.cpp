@@ -37,12 +37,8 @@
 #include "App.h"
 #include "MainWindowControl.h"
 #include "MainWindowExitNoticeControl.h"
+#include "ConfigurationWindowControl.h"
 
-#include <winrt/Windows.ApplicationModel.h>
-#include <winrt/Windows.ApplicationModel.Resources.Core.h>
-#include <winrt/Windows.UI.Xaml.h>
-#include <winrt/Windows.UI.Xaml.Media.h>
-#include <winrt/Windows.UI.Xaml.Hosting.h>
 #include <windows.ui.xaml.hosting.desktopwindowxamlsource.h>
 
 #include <json.hpp>
@@ -1671,6 +1667,186 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
     this->m_RdpClient->ConnectionBarText(WindowTitle.c_str());
 }
 
+namespace NanaBox
+{
+
+    class ConfigurationWindow :
+        public ATL::CWindowImpl<ConfigurationWindow>,
+        public WTL::CMessageFilter
+    {
+    public:
+
+        DECLARE_WND_SUPERCLASS(
+            L"NanaBoxVirtualMachineConfigurationWindow",
+            L"Mile.Xaml.ContentWindow")
+
+        BEGIN_MSG_MAP(VirtualMachineConfigurationWindow)
+            MSG_WM_CREATE(OnCreate)
+            MSG_WM_SIZE(OnSize)
+            MSG_WM_SETFOCUS(OnSetFocus)
+            MSG_WM_SETTINGCHANGE(OnSettingChange)
+        END_MSG_MAP()
+
+        virtual BOOL PreTranslateMessage(
+            MSG* pMsg);
+
+        int OnCreate(
+            LPCREATESTRUCT lpCreateStruct);
+
+        void OnSize(
+            UINT nType,
+            CSize size);
+
+        void OnSetFocus(
+            ATL::CWindow wndOld);
+
+        void OnSettingChange(
+            UINT uFlags,
+            LPCTSTR lpszSection);
+
+    private:
+
+        WTL::CIcon m_ApplicationIcon;
+        winrt::DesktopWindowXamlSource m_XamlSource;
+        winrt::NanaBox::ConfigurationWindowControl m_ConfigurationControl = nullptr;
+        NanaBox::VirtualMachineConfiguration m_Configuration;
+    };
+
+}
+
+BOOL NanaBox::ConfigurationWindow::PreTranslateMessage(
+    MSG* pMsg)
+{
+    // Workaround for capturing Alt+F4 in applications with XAML Islands.
+    // Reference: https://github.com/microsoft/microsoft-ui-xaml/issues/2408
+    if (pMsg->message == WM_SYSKEYDOWN && pMsg->wParam == VK_F4)
+    {
+        ::SendMessageW(
+            ::GetAncestor(pMsg->hwnd, GA_ROOT),
+            pMsg->message,
+            pMsg->wParam,
+            pMsg->lParam);
+
+        return TRUE;
+    }
+
+    return FALSE;
+}
+
+int NanaBox::ConfigurationWindow::OnCreate(
+    LPCREATESTRUCT lpCreateStruct)
+{
+    UNREFERENCED_PARAMETER(lpCreateStruct);
+
+    this->m_ApplicationIcon.LoadIconW(
+        MAKEINTRESOURCE(IDI_NANABOX),
+        256,
+        256,
+        LR_SHARED);
+
+    this->SetIcon(this->m_ApplicationIcon, TRUE);
+    this->SetIcon(this->m_ApplicationIcon, FALSE);
+
+
+    this->m_ConfigurationControl =
+        winrt::make<winrt::NanaBox::implementation::ConfigurationWindowControl>();
+    winrt::com_ptr<IDesktopWindowXamlSourceNative> XamlSourceNative =
+        this->m_XamlSource.as<IDesktopWindowXamlSourceNative>();
+    winrt::check_hresult(
+        XamlSourceNative->AttachToWindow(this->m_hWnd));
+    this->m_XamlSource.Content(this->m_ConfigurationControl);
+
+    HWND XamlWindowHandle = nullptr;
+    winrt::check_hresult(
+        XamlSourceNative->get_WindowHandle(&XamlWindowHandle));
+
+    // Focus on XAML Island host window for Acrylic brush support.
+    ::SetFocus(XamlWindowHandle);
+
+    winrt::FrameworkElement Content =
+        this->m_XamlSource.Content().try_as<winrt::FrameworkElement>();
+
+    MARGINS Margins = { -1 };
+    ::DwmExtendFrameIntoClientArea(this->m_hWnd, &Margins);
+
+    ::MileSetWindowSystemBackdropTypeAttribute(
+        this->m_hWnd,
+        MILE_WINDOW_SYSTEM_BACKDROP_TYPE_MICA);
+
+    ::MileEnableImmersiveDarkModeForWindow(
+        this->m_hWnd,
+        (Content.ActualTheme() == winrt::ElementTheme::Dark
+            ? TRUE
+            : FALSE));
+    return 0;
+}
+
+
+void NanaBox::ConfigurationWindow::OnSize(
+    UINT nType,
+    CSize size)
+{
+    if (nType == SIZE_MINIMIZED)
+    {
+        return;
+    }
+
+    winrt::com_ptr<IDesktopWindowXamlSourceNative> XamlSourceNative =
+        this->m_XamlSource.as<IDesktopWindowXamlSourceNative>();
+    
+    HWND XamlWindowHandle = nullptr;
+    winrt::check_hresult(
+        XamlSourceNative->get_WindowHandle(&XamlWindowHandle));
+    ::SetWindowPos(
+        XamlWindowHandle,
+        nullptr,
+        0,
+        0,
+        size.cx,
+        size.cy,
+        SWP_SHOWWINDOW);
+}
+
+
+void NanaBox::ConfigurationWindow::OnSetFocus(
+    ATL::CWindow wndOld)
+{
+    UNREFERENCED_PARAMETER(wndOld);
+    winrt::com_ptr<IDesktopWindowXamlSourceNative> XamlSourceNative =
+        this->m_XamlSource.as<IDesktopWindowXamlSourceNative>();
+
+    HWND XamlWindowHandle = nullptr;
+    winrt::check_hresult(
+        XamlSourceNative->get_WindowHandle(&XamlWindowHandle));
+    ::SetFocus(XamlWindowHandle);
+}
+
+void NanaBox::ConfigurationWindow::OnSettingChange(
+    UINT uFlags,
+    LPCTSTR lpszSection)
+{
+    UNREFERENCED_PARAMETER(uFlags);
+
+    if (lpszSection && 0 == std::wcscmp(
+        lpszSection,
+        L"ImmersiveColorSet"))
+    {
+        winrt::FrameworkElement Content =
+            this->m_XamlSource.Content().try_as<winrt::FrameworkElement>();
+        if (Content &&
+            winrt::VisualTreeHelper::GetParent(Content))
+        {
+            Content.RequestedTheme(winrt::ElementTheme::Default);
+
+            ::MileEnableImmersiveDarkModeForWindow(
+                this->m_hWnd,
+                (Content.ActualTheme() == winrt::ElementTheme::Dark
+                    ? TRUE
+                    : FALSE));
+        }
+    }
+}
+
 void PrerequisiteCheck()
 {
     try
@@ -2018,17 +2194,57 @@ int WINAPI wWinMain(
     g_Module.Init(nullptr, hInstance);
     g_Module.AddMessageLoop(&MessageLoop);
 
-    NanaBox::MainWindow Window;
-    if (!Window.Create(
-        nullptr,
-        Window.rcDefault,
-        g_WindowTitle.data(),
-        WS_OVERLAPPEDWINDOW))
+    bool ShowVirtualMachineConfig = false;
+    if (!OptionsAndParameters.empty())
     {
-        return -1;
+        auto iter = OptionsAndParameters.find(L"edit");
+        if (iter != OptionsAndParameters.end())
+        {
+            const std::pair<std::wstring, std::wstring> & kv = *iter;
+            OutputDebugStringW(kv.first.c_str());
+            OutputDebugStringW(L"\n");
+            OutputDebugStringW(kv.second.c_str());
+            OutputDebugStringW(L"\n");
+            ShowVirtualMachineConfig = true;
+        }
     }
-    Window.ShowWindow(nShowCmd);
-    Window.UpdateWindow();
+
+    std::unique_ptr<NanaBox::ConfigurationWindow> ConfigurationWindow = nullptr;
+    std::unique_ptr<NanaBox::MainWindow> MainWindow = nullptr;
+
+    if (ShowVirtualMachineConfig)
+    {
+        OutputDebugStringW(g_ConfigurationFilePath.c_str());
+        OutputDebugStringW(L"\n");
+
+        ConfigurationWindow = std::make_unique<NanaBox::ConfigurationWindow>();
+        if (!ConfigurationWindow->Create(
+            nullptr,
+            ConfigurationWindow->rcDefault,
+            g_WindowTitle.data(),
+            WS_OVERLAPPEDWINDOW))
+        {
+            return -1;
+        }
+
+        ConfigurationWindow->ShowWindow(nShowCmd);
+        ConfigurationWindow->UpdateWindow();
+    }
+    else
+    {
+        MainWindow = std::make_unique<NanaBox::MainWindow>();
+        if (!MainWindow->Create(
+            nullptr,
+            MainWindow->rcDefault,
+            g_WindowTitle.data(),
+            WS_OVERLAPPEDWINDOW))
+        {
+            return -1;
+        }
+
+        ConfigurationWindow->ShowWindow(nShowCmd);
+        ConfigurationWindow->UpdateWindow();
+    }
 
     int Result = MessageLoop.Run();
 

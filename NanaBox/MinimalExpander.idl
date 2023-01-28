@@ -1,0 +1,16 @@
+﻿namespace NanaBox
+{
+    [bindable]
+    runtimeclass MinimalExpander : Windows.UI.Xaml.Controls.ContentControl
+    {
+        MinimalExpander();
+
+        IInspectable Header{ get; set; };
+        Windows.UI.Xaml.DataTemplate HeaderTemplate{ get; set; };
+        Boolean IsExpanded{ get; set; };
+
+        static Windows.UI.Xaml.DependencyProperty HeaderProperty{ get; };
+        static Windows.UI.Xaml.DependencyProperty HeaderTemplateProperty{ get; };
+        static Windows.UI.Xaml.DependencyProperty IsExpandedProperty{ get; };
+    }
+}

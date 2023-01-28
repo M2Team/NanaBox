@@ -34,6 +34,14 @@
     <Import Project="PropertySheet.props" />
   </ImportGroup>
   <ItemGroup>
+    <ClCompile Include="BasicConfigurationPage.cpp">
+      <DependentUpon>BasicConfigurationPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="GraphicsConfigurationPage.cpp">
+      <DependentUpon>GraphicsConfigurationPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
     <ClCompile Include="HostCompute.cpp" />
     <ClCompile Include="MainWindowControl.cpp">
       <DependentUpon>MainWindowControl.xaml</DependentUpon>
@@ -44,6 +52,14 @@
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="NanaBox.cpp" />
+    <ClCompile Include="NegativeDoubleConverter.cpp">
+      <DependentUpon>NegativeDoubleConverter.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="NetworkConfigurationPage.cpp">
+      <DependentUpon>NetworkConfigurationPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
     <ClCompile Include="RdpClient.cpp" />
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
     <ClCompile Include="pch.cpp">
@@ -51,6 +67,30 @@
     </ClCompile>
     <ClCompile Include="App.cpp">
       <DependentUpon>App.xaml</DependentUpon>
+    </ClCompile>
+    <ClCompile Include="SerialPortConfigurationPage.cpp">
+      <DependentUpon>SerialPortConfigurationPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="MinimalExpander.cpp">
+      <DependentUpon>MinimalExpander.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="StorageConfigurationPage.cpp">
+      <DependentUpon>StorageConfigurationPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="SystemConfigurationPage.cpp">
+      <DependentUpon>SystemConfigurationPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="ConfigurationWindowControl.cpp">
+      <DependentUpon>ConfigurationWindowControl.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="ViewModel.cpp">
+      <DependentUpon>ViewModel.idl</DependentUpon>
+      <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="VirtualMachineConfiguration.cpp" />
   </ItemGroup>
@@ -63,7 +103,15 @@
     <Midl Include="App.idl">
       <DependentUpon>App.xaml</DependentUpon>
     </Midl>
+    <Midl Include="BasicConfigurationPage.idl">
+      <DependentUpon>BasicConfigurationPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Midl>
     <Midl Include="DelegateTypes.idl" />
+    <Midl Include="GraphicsConfigurationPage.idl">
+      <DependentUpon>GraphicsConfigurationPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Midl>
     <Midl Include="MainWindowControl.idl">
       <DependentUpon>MainWindowControl.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -71,6 +119,35 @@
     <Midl Include="MainWindowExitNoticeControl.idl">
       <DependentUpon>MainWindowExitNoticeControl.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Midl>
+    <Midl Include="NegativeDoubleConverter.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="NetworkConfigurationPage.idl">
+      <DependentUpon>NetworkConfigurationPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Midl>
+    <Midl Include="SerialPortConfigurationPage.idl">
+      <DependentUpon>SerialPortConfigurationPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Midl>
+    <Midl Include="MinimalExpander.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="StorageConfigurationPage.idl">
+      <DependentUpon>StorageConfigurationPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Midl>
+    <Midl Include="SystemConfigurationPage.idl">
+      <DependentUpon>SystemConfigurationPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Midl>
+    <Midl Include="ConfigurationWindowControl.idl">
+      <DependentUpon>ConfigurationWindowControl.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Midl>
+    <Midl Include="ViewModel.idl">
+      <SubType>Designer</SubType>
     </Midl>
   </ItemGroup>
   <ItemGroup>
@@ -80,6 +157,14 @@
     <Manifest Include="NanaBox.manifest" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BasicConfigurationPage.h">
+      <DependentUpon>BasicConfigurationPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="GraphicsConfigurationPage.h">
+      <DependentUpon>GraphicsConfigurationPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="HostCompute.h" />
     <ClInclude Include="MainWindowControl.h">
       <DependentUpon>MainWindowControl.xaml</DependentUpon>
@@ -90,19 +175,75 @@
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="MsTscAx.h" />
+    <ClInclude Include="NegativeDoubleConverter.h">
+      <DependentUpon>NegativeDoubleConverter.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="NetworkConfigurationPage.h">
+      <DependentUpon>NetworkConfigurationPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="pch.h" />
     <ClInclude Include="RdpClient.h" />
     <ClInclude Include="App.h">
       <DependentUpon>App.xaml</DependentUpon>
     </ClInclude>
     <ClInclude Include="NanaBoxResources.h" />
+    <ClInclude Include="SerialPortConfigurationPage.h">
+      <DependentUpon>SerialPortConfigurationPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="MinimalExpander.h">
+      <DependentUpon>MinimalExpander.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="StorageConfigurationPage.h">
+      <DependentUpon>StorageConfigurationPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="SystemConfigurationPage.h">
+      <DependentUpon>SystemConfigurationPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="ViewModel.h">
+      <DependentUpon>ViewModel.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="VirtualMachineConfiguration.h" />
+    <ClInclude Include="ConfigurationWindowControl.h">
+      <DependentUpon>ConfigurationWindowControl.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="BasicConfigurationPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="GraphicsConfigurationPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="MainWindowControl.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Include="MainWindowExitNoticeControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MinimalExpanderStyles.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="NetworkConfigurationPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SerialPortConfigurationPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="StorageConfigurationPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SystemConfigurationPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ConfigurationWindowControl.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
