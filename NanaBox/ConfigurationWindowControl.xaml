@@ -44,11 +44,6 @@
           <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE958;"></FontIcon>
         </NavigationViewItem.Icon>
       </NavigationViewItem>
-      <NavigationViewItem Tag="serial" Content="[Serial Ports]">
-        <NavigationViewItem.Icon>
-          <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xF0B9;"></FontIcon>
-        </NavigationViewItem.Icon>
-      </NavigationViewItem>
     </NavigationView.MenuItems>
     <NavigationView.PaneFooter>
       <NavigationViewItem>

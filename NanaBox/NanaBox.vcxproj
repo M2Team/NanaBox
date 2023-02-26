@@ -68,10 +68,6 @@
     <ClCompile Include="App.cpp">
       <DependentUpon>App.xaml</DependentUpon>
     </ClCompile>
-    <ClCompile Include="SerialPortConfigurationPage.cpp">
-      <DependentUpon>SerialPortConfigurationPage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </ClCompile>
     <ClCompile Include="MinimalExpander.cpp">
       <DependentUpon>MinimalExpander.idl</DependentUpon>
       <SubType>Code</SubType>
@@ -86,10 +82,6 @@
     </ClCompile>
     <ClCompile Include="ConfigurationWindowControl.cpp">
       <DependentUpon>ConfigurationWindowControl.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </ClCompile>
-    <ClCompile Include="ViewModel.cpp">
-      <DependentUpon>ViewModel.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="VirtualMachineConfiguration.cpp" />
@@ -127,10 +119,6 @@
       <DependentUpon>NetworkConfigurationPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
-    <Midl Include="SerialPortConfigurationPage.idl">
-      <DependentUpon>SerialPortConfigurationPage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Midl>
     <Midl Include="MinimalExpander.idl">
       <SubType>Designer</SubType>
     </Midl>
@@ -145,9 +133,6 @@
     <Midl Include="ConfigurationWindowControl.idl">
       <DependentUpon>ConfigurationWindowControl.xaml</DependentUpon>
       <SubType>Code</SubType>
-    </Midl>
-    <Midl Include="ViewModel.idl">
-      <SubType>Designer</SubType>
     </Midl>
   </ItemGroup>
   <ItemGroup>
@@ -189,10 +174,6 @@
       <DependentUpon>App.xaml</DependentUpon>
     </ClInclude>
     <ClInclude Include="NanaBoxResources.h" />
-    <ClInclude Include="SerialPortConfigurationPage.h">
-      <DependentUpon>SerialPortConfigurationPage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </ClInclude>
     <ClInclude Include="MinimalExpander.h">
       <DependentUpon>MinimalExpander.idl</DependentUpon>
       <SubType>Code</SubType>
@@ -203,10 +184,6 @@
     </ClInclude>
     <ClInclude Include="SystemConfigurationPage.h">
       <DependentUpon>SystemConfigurationPage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </ClInclude>
-    <ClInclude Include="ViewModel.h">
-      <DependentUpon>ViewModel.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="VirtualMachineConfiguration.h" />
@@ -232,9 +209,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="NetworkConfigurationPage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SerialPortConfigurationPage.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Include="StorageConfigurationPage.xaml">

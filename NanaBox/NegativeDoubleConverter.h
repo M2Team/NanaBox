@@ -20,6 +20,7 @@ namespace winrt::NanaBox::implementation
             winrt::Windows::Foundation::IInspectable const& parameter,
             hstring const& language);
     };
+
 }
 
 namespace winrt::NanaBox::factory_implementation

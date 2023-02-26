@@ -36,9 +36,6 @@ namespace winrt::NanaBox::implementation
         m_pages.push_back(std::make_pair<std::wstring, winrt::TypeName>(
             L"storage",
             winrt::xaml_typename<NanaBox::StorageConfigurationPage>()));
-        m_pages.push_back(std::make_pair<std::wstring, winrt::TypeName>(
-            L"serial",
-            winrt::xaml_typename<NanaBox::SerialPortConfigurationPage>()));
     }
 
 

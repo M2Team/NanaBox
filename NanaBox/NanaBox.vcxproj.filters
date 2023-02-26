@@ -62,13 +62,21 @@
   <ItemGroup>
     <Page Include="MainWindowControl.xaml" />
     <Page Include="MainWindowExitNoticeControl.xaml" />
-    <Page Include="VirtualMachineConfigurationControl.xaml" />
+    <Page Include="BasicConfigurationPage.xaml" />
+    <Page Include="GraphicsConfigurationPage.xaml" />
+    <Page Include="MinimalExpanderStyles.xaml" />
+    <Page Include="NetworkConfigurationPage.xaml" />
+    <Page Include="StorageConfigurationPage.xaml" />
+    <Page Include="SystemConfigurationPage.xaml" />
+    <Page Include="ConfigurationWindowControl.xaml" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="NanaBoxResources.rc" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="DelegateTypes.idl" />
+    <Midl Include="NegativeDoubleConverter.idl" />
+    <Midl Include="MinimalExpander.idl" />
   </ItemGroup>
   <ItemGroup>
     <PRIResource Include="Strings\en\MainWindowExitNoticeWindow.resw">

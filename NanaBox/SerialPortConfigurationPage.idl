@@ -1,9 +1,0 @@
-namespace NanaBox
-{
-    [default_interface]
-    runtimeclass SerialPortConfigurationPage : Windows.UI.Xaml.Controls.Page
-    {
-        SerialPortConfigurationPage();
-        Int32 MyProperty;
-    }
-}

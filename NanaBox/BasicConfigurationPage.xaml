@@ -6,13 +6,41 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Margin="48, 20, 48, 0">
+    Margin="48, 24, 48, 0">
 
-    <StackPanel Orientation="Vertical">
-    <TextBlock>Basic</TextBlock>
+  <StackPanel Orientation="Vertical">
+    
+    <Grid Style="{StaticResource SettingBlockStyle}">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="6*"/>
+        <ColumnDefinition Width="4*" MinWidth="150"/>
+      </Grid.ColumnDefinitions>
+      <TextBlock Grid.Column="0" VerticalAlignment="Center">[Name]</TextBlock>
+      <TextBox Grid.Column="1" />
+    </Grid>
+    
+    <Grid Style="{StaticResource SettingBlockStyle}">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition/>
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <TextBlock Grid.Column="0" VerticalAlignment="Center">[Type]</TextBlock>
+      <ComboBox Grid.Column="1" MinWidth="150">
+        <ComboBoxItem>Windows</ComboBoxItem>
+        <ComboBoxItem>Linux</ComboBoxItem>
+      </ComboBox>
+    </Grid>
 
-    <local:MinimalExpander HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" IsExpanded="True">
+
+    <local:MinimalExpander Header="[State Files]" IsExpanded="False"
+                           HorizontalAlignment="Stretch"
+                           HorizontalContentAlignment="Stretch" Margin="0,2,0,2">
       <TextBox HorizontalAlignment="Stretch"/>
     </local:MinimalExpander>
+
+
+    <!--<local:MinimalExpander HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" IsExpanded="True">
+      <TextBox HorizontalAlignment="Stretch"/>
+    </local:MinimalExpander>-->
   </StackPanel>
 </Page>

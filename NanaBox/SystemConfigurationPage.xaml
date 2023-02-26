@@ -5,9 +5,93 @@
     xmlns:local="using:NanaBox"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    Margin="48, 24, 48, 0">
 
-    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-      <TextBlock>System</TextBlock>
-    </StackPanel>
+
+  <StackPanel Orientation="Vertical">
+    <Grid Style="{StaticResource SettingBlockStyle}">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition/>
+        <ColumnDefinition Width="Auto"/>
+      </Grid.ColumnDefinitions>
+      <TextBlock Grid.Column="0" VerticalAlignment="Center">[Processor Count]</TextBlock>
+      <ComboBox Grid.Column="1" MinWidth="150">
+        <ComboBoxItem>1</ComboBoxItem>
+        <ComboBoxItem>2</ComboBoxItem>
+        <ComboBoxItem>3</ComboBoxItem>
+        <ComboBoxItem>4</ComboBoxItem>
+        <ComboBoxItem>5</ComboBoxItem>
+        <ComboBoxItem>6</ComboBoxItem>
+        <ComboBoxItem>7</ComboBoxItem>
+        <ComboBoxItem>8</ComboBoxItem>
+        <ComboBoxItem>9</ComboBoxItem>
+        <ComboBoxItem>10</ComboBoxItem>
+        <ComboBoxItem>11</ComboBoxItem>
+        <ComboBoxItem>12</ComboBoxItem>
+        <ComboBoxItem>13</ComboBoxItem>
+        <ComboBoxItem>14</ComboBoxItem>
+        <ComboBoxItem>15</ComboBoxItem>
+        <ComboBoxItem>16</ComboBoxItem>
+      </ComboBox>
+    </Grid>
+    <Grid Style="{StaticResource SettingBlockStyle}">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition/>
+        <ColumnDefinition Width="Auto"/>
+      </Grid.ColumnDefinitions>
+      <TextBlock Grid.Column="0" VerticalAlignment="Center">[Memory]</TextBlock>
+
+      <Grid Grid.Column="1" Width="150">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition/>
+          <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <TextBox Grid.Column="0" InputScope="Number"/>
+        <TextBlock Grid.Column="1" VerticalAlignment="Center" Padding="8,0,0,0">MiB</TextBlock>
+      </Grid>
+    </Grid>
+
+    <local:MinimalExpander Header="[Console and Serial Ports]" IsExpanded="True"
+                           HorizontalAlignment="Stretch"
+                           HorizontalContentAlignment="Stretch" Margin="0,24,0,2" Padding="0">
+
+      <StackPanel>
+        <Grid Padding="16, 8, 16, 8" BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}" BorderThickness="0,0,0,1">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="Auto"/>
+          </Grid.ColumnDefinitions>
+          <TextBlock Grid.Column="0" VerticalAlignment="Center">[UEFI Console Port]</TextBlock>
+          <ComboBox Grid.Column="1" Width="150">
+            <ComboBoxItem>[Disabled]</ComboBoxItem>
+            <ComboBoxItem>[COM1]</ComboBoxItem>
+            <ComboBoxItem>[COM2]</ComboBoxItem>
+          </ComboBox>
+        </Grid>
+        <Grid Padding="16, 8, 16, 8" BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}" BorderThickness="0,0,0,1">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="6*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="4*"/>
+          </Grid.ColumnDefinitions>
+          <TextBlock Grid.Column="0" VerticalAlignment="Center">[COM1 Redirection]</TextBlock>
+          <CheckBox Grid.Column="1">[Enabled]</CheckBox>
+          <TextBox Grid.Column="2"/>
+        </Grid>
+        <Grid Padding="16, 8, 16, 8">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="6*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="4*"/>
+          </Grid.ColumnDefinitions>
+          <TextBlock Grid.Column="0" VerticalAlignment="Center">[COM2 Redirection]</TextBlock>
+          <CheckBox Grid.Column="1">[Enabled]</CheckBox>
+          <TextBox Grid.Column="2"/>
+        </Grid>
+      </StackPanel>
+
+    </local:MinimalExpander>
+
+  </StackPanel>
 </Page>

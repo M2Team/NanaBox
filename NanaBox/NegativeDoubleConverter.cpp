@@ -3,7 +3,6 @@
 #if __has_include("NegativeDoubleConverter.g.cpp")
 #include "NegativeDoubleConverter.g.cpp"
 #endif
-
 namespace winrt::NanaBox::implementation
 {
     winrt::Windows::Foundation::IInspectable

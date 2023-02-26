@@ -1980,6 +1980,16 @@ int WINAPI wWinMain(
     bool PackagedMode = ::IsPackagedMode();
     std::filesystem::path TargetBinaryPath;
 
+    bool ShowVirtualMachineConfig = false;
+    if (!OptionsAndParameters.empty())
+    {
+        auto iter = OptionsAndParameters.find(L"edit");
+        if (iter != OptionsAndParameters.end())
+        {
+            ShowVirtualMachineConfig = true;
+        }
+    }
+
     if (PackagedMode)
     {
         try
@@ -2066,13 +2076,28 @@ int WINAPI wWinMain(
                 ApplicationName = ::GetCurrentProcessModulePath();
             }
 
+            std::wstring parameters;
+            for (auto&& item : OptionsAndParameters)
+            {
+                if (!item.second.empty())
+                {
+                    parameters.append(std::format(L"--{}={} ", item.first, item.second));
+                }
+                else
+                {
+                    parameters.append(std::format(L"--{} ", item.first));
+                }                
+            }
+            parameters.append(UnresolvedCommandLine);
+
             SHELLEXECUTEINFOW Information = { 0 };
             Information.cbSize = sizeof(SHELLEXECUTEINFOW);
             Information.fMask = SEE_MASK_NOCLOSEPROCESS;
             Information.lpVerb = L"runas";
             Information.nShow = nShowCmd;
             Information.lpFile = ApplicationName.c_str();
-            Information.lpParameters = UnresolvedCommandLine.c_str();
+
+            Information.lpParameters = parameters.c_str();
             winrt::check_bool(::ShellExecuteExW(&Information));
             ::WaitForSingleObjectEx(Information.hProcess, INFINITE, FALSE);
             ::CloseHandle(Information.hProcess);
@@ -2193,21 +2218,6 @@ int WINAPI wWinMain(
 
     g_Module.Init(nullptr, hInstance);
     g_Module.AddMessageLoop(&MessageLoop);
-
-    bool ShowVirtualMachineConfig = false;
-    if (!OptionsAndParameters.empty())
-    {
-        auto iter = OptionsAndParameters.find(L"edit");
-        if (iter != OptionsAndParameters.end())
-        {
-            const std::pair<std::wstring, std::wstring> & kv = *iter;
-            OutputDebugStringW(kv.first.c_str());
-            OutputDebugStringW(L"\n");
-            OutputDebugStringW(kv.second.c_str());
-            OutputDebugStringW(L"\n");
-            ShowVirtualMachineConfig = true;
-        }
-    }
 
     std::unique_ptr<NanaBox::ConfigurationWindow> ConfigurationWindow = nullptr;
     std::unique_ptr<NanaBox::MainWindow> MainWindow = nullptr;

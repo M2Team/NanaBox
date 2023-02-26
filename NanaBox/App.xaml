@@ -11,6 +11,21 @@
         <MileXaml:XamlControlsResources />
       </ResourceDictionary.MergedDictionaries>
       <local:NegativeDoubleConverter x:Name="NegativeDoubleConverter"/>
+
+      <Style TargetType="Grid" x:Name="SettingBlockStyle">
+        <Setter Target="Background" Value="{StaticResource CardBackgroundFillColorDefaultBrush}"/>
+        <Setter Target="BorderBrush" Value="{StaticResource CardStrokeColorDefaultBrush}"/>
+        <Setter Target="BorderThickness" Value="1"/>
+        <Setter Target="CornerRadius" Value="{StaticResource ControlCornerRadius}"/>
+        <Setter Target="Padding" Value="16"/>
+        <Setter Target="Margin" Value="0,2,0,2"/>
+      </Style>
+
+      <Style TargetType="Grid" x:Name="SettingExpanderContentBlockStyle">
+        <Setter Target="CornerRadius" Value="{StaticResource ControlCornerRadius}"/>
+        <Setter Target="Padding" Value="16"/>
+        <Setter Target="Margin" Value="0,2,0,2"/>
+      </Style>
     </ResourceDictionary>
   </Application.Resources>
 </MileXaml:Application>
