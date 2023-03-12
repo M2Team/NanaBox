@@ -1,8 +1,0 @@
-﻿namespace NanaBox
-{
-    [default_interface]
-    runtimeclass NegativeDoubleConverter : Windows.UI.Xaml.Data.IValueConverter
-    {
-        NegativeDoubleConverter();
-    }
-}

@@ -52,10 +52,6 @@
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="NanaBox.cpp" />
-    <ClCompile Include="NegativeDoubleConverter.cpp">
-      <DependentUpon>NegativeDoubleConverter.idl</DependentUpon>
-      <SubType>Code</SubType>
-    </ClCompile>
     <ClCompile Include="NetworkConfigurationPage.cpp">
       <DependentUpon>NetworkConfigurationPage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -112,9 +108,6 @@
       <DependentUpon>MainWindowExitNoticeControl.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
-    <Midl Include="NegativeDoubleConverter.idl">
-      <SubType>Designer</SubType>
-    </Midl>
     <Midl Include="NetworkConfigurationPage.idl">
       <DependentUpon>NetworkConfigurationPage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -160,10 +153,6 @@
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="MsTscAx.h" />
-    <ClInclude Include="NegativeDoubleConverter.h">
-      <DependentUpon>NegativeDoubleConverter.idl</DependentUpon>
-      <SubType>Code</SubType>
-    </ClInclude>
     <ClInclude Include="NetworkConfigurationPage.h">
       <DependentUpon>NetworkConfigurationPage.xaml</DependentUpon>
       <SubType>Code</SubType>
