@@ -59,8 +59,12 @@ namespace winrt
     using winrt::Windows::ApplicationModel::Resources::Core::ResourceMap;
     using Windows::UI::Xaml::ElementTheme;
     using Windows::UI::Xaml::FrameworkElement;
+    using Windows::UI::Xaml::FocusState;
     using Windows::UI::Xaml::UIElement;
+    using Windows::UI::Xaml::Controls::Control;
     using Windows::UI::Xaml::Hosting::DesktopWindowXamlSource;
+    using Windows::UI::Xaml::Hosting::DesktopWindowXamlSourceTakeFocusRequestedEventArgs;
+    using Windows::UI::Xaml::Hosting::XamlSourceFocusNavigationReason;
     using Windows::UI::Xaml::Media::VisualTreeHelper;
 }
 
@@ -1762,6 +1766,14 @@ int NanaBox::ConfigurationWindow::OnCreate(
 
     // Focus on XAML Island host window for Acrylic brush support.
     ::SetFocus(XamlWindowHandle);
+
+    // When focus is moving out from XAML island, move it back in again.
+    this->m_XamlSource.TakeFocusRequested(
+        [](winrt::DesktopWindowXamlSource const& sender, winrt::DesktopWindowXamlSourceTakeFocusRequestedEventArgs const& args)
+        {
+            sender.Content().try_as<winrt::Control>().Focus(winrt::FocusState::Programmatic);
+            sender.NavigateFocus(args.Request());
+        });
 
     winrt::FrameworkElement Content =
         this->m_XamlSource.Content().try_as<winrt::FrameworkElement>();
