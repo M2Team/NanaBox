@@ -1,0 +1,17 @@
+﻿namespace NanaBox
+{
+    enum ScsiDeviceType
+    {
+        VirtualDisk = 0,
+        VirtualImage = 1,
+        PhysicalDevice = 2,
+    };
+
+    [default_interface]
+    runtimeclass ScsiDeviceViewModel : Windows.UI.Xaml.Data.INotifyPropertyChanged
+    {    
+        Boolean Enabled;
+        ScsiDeviceType DeviceType;
+        String Path;
+    }
+}

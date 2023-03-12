@@ -1,0 +1,37 @@
+﻿import "ComPortsViewModel.idl";
+import "GpuViewModel.idl";
+import "NetworkAdapterViewModel.idl";
+import "ScsiDeviceViewModel.idl";
+
+namespace NanaBox
+{
+    enum GuestType
+    {
+        Unknown = 0,
+        Windows = 1,
+        Linux = 2
+    };
+
+    [default_interface]
+    runtimeclass ConfigurationViewModel : Windows.UI.Xaml.Data.INotifyPropertyChanged
+    {
+        Int32 Version{ get; };
+
+        String Name;
+        GuestType GuestType;
+        UInt32 ProcessorCount;
+        UInt64 MemorySize;
+        Boolean ExposeVirtualizationExtensions;
+
+        String GuestStateFile;
+        String RuntimeStateFile;
+        String SaveStateFile;
+
+        ComPortsViewModel ComPorts {get;};
+        GpuViewModel Gpu {get;};
+        Windows.Foundation.Collections.IObservableVector<NetworkAdapterViewModel> NetworkAdapters {get;};
+        Windows.Foundation.Collections.IObservableVector<ScsiDeviceViewModel> ScsiDevices {get;};
+
+        Windows.UI.Xaml.Input.ICommand SaveCommand {get;};
+    }
+}

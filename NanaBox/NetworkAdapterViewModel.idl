@@ -1,0 +1,11 @@
+﻿namespace NanaBox
+{
+    [default_interface]
+    runtimeclass NetworkAdapterViewModel : Windows.UI.Xaml.Data.INotifyPropertyChanged
+    {
+        Boolean Enabled;
+        Boolean Connected;
+        String MacAddress;
+        String EndpointId;
+    }
+}

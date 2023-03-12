@@ -38,6 +38,18 @@
       <DependentUpon>BasicConfigurationPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
+    <ClCompile Include="ComPortsViewModel.cpp">
+      <DependentUpon>ComPortsViewModel.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="ConfigurationViewModel.cpp">
+      <DependentUpon>ConfigurationViewModel.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="GpuViewModel.cpp">
+      <DependentUpon>GpuViewModel.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
     <ClCompile Include="GraphicsConfigurationPage.cpp">
       <DependentUpon>GraphicsConfigurationPage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -52,6 +64,10 @@
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="NanaBox.cpp" />
+    <ClCompile Include="NetworkAdapterViewModel.cpp">
+      <DependentUpon>NetworkAdapterViewModel.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
     <ClCompile Include="NetworkConfigurationPage.cpp">
       <DependentUpon>NetworkConfigurationPage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -66,6 +82,10 @@
     </ClCompile>
     <ClCompile Include="MinimalExpander.cpp">
       <DependentUpon>MinimalExpander.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
+    <ClCompile Include="ScsiDeviceViewModel.cpp">
+      <DependentUpon>ScsiDeviceViewModel.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="StorageConfigurationPage.cpp">
@@ -95,7 +115,16 @@
       <DependentUpon>BasicConfigurationPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
+    <Midl Include="ComPortsViewModel.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="ConfigurationViewModel.idl">
+      <SubType>Designer</SubType>
+    </Midl>
     <Midl Include="DelegateTypes.idl" />
+    <Midl Include="GpuViewModel.idl">
+      <SubType>Designer</SubType>
+    </Midl>
     <Midl Include="GraphicsConfigurationPage.idl">
       <DependentUpon>GraphicsConfigurationPage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -108,11 +137,17 @@
       <DependentUpon>MainWindowExitNoticeControl.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
+    <Midl Include="NetworkAdapterViewModel.idl">
+      <SubType>Designer</SubType>
+    </Midl>
     <Midl Include="NetworkConfigurationPage.idl">
       <DependentUpon>NetworkConfigurationPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
     <Midl Include="MinimalExpander.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="ScsiDeviceViewModel.idl">
       <SubType>Designer</SubType>
     </Midl>
     <Midl Include="StorageConfigurationPage.idl">
@@ -139,6 +174,18 @@
       <DependentUpon>BasicConfigurationPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
+    <ClInclude Include="ComPortsViewModel.h">
+      <DependentUpon>ComPortsViewModel.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="ConfigurationViewModel.h">
+      <DependentUpon>ConfigurationViewModel.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="GpuViewModel.h">
+      <DependentUpon>GpuViewModel.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="GraphicsConfigurationPage.h">
       <DependentUpon>GraphicsConfigurationPage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -153,6 +200,10 @@
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="MsTscAx.h" />
+    <ClInclude Include="NetworkAdapterViewModel.h">
+      <DependentUpon>NetworkAdapterViewModel.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="NetworkConfigurationPage.h">
       <DependentUpon>NetworkConfigurationPage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -165,6 +216,10 @@
     <ClInclude Include="NanaBoxResources.h" />
     <ClInclude Include="MinimalExpander.h">
       <DependentUpon>MinimalExpander.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="ScsiDeviceViewModel.h">
+      <DependentUpon>ScsiDeviceViewModel.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="StorageConfigurationPage.h">

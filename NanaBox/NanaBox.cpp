@@ -38,6 +38,7 @@
 #include "MainWindowControl.h"
 #include "MainWindowExitNoticeControl.h"
 #include "ConfigurationWindowControl.h"
+#include "ConfigurationViewModel.h"
 
 #include <windows.ui.xaml.hosting.desktopwindowxamlsource.h>
 
@@ -1790,6 +1791,18 @@ int NanaBox::ConfigurationWindow::OnCreate(
         (Content.ActualTheme() == winrt::ElementTheme::Dark
             ? TRUE
             : FALSE));
+
+
+    // Load configuration
+    std::string ConfigurationFileContent = ::ReadAllTextFromUtf8TextFile(
+        g_ConfigurationFilePath);
+
+    this->m_Configuration = NanaBox::DeserializeConfiguration(
+        ConfigurationFileContent);
+    auto viewModel = winrt::make<winrt::NanaBox::implementation::ConfigurationViewModel>(
+        &this->m_Configuration);
+    this->m_ConfigurationControl.ViewModel(viewModel);
+    
     return 0;
 }
 
