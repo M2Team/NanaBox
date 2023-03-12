@@ -10,13 +10,13 @@
 
 
   <StackPanel Orientation="Vertical">
-    <Grid Style="{StaticResource SettingBlockStyle}">
+    <Grid Style="{StaticResource ConfigurationBlockStyle}">
       <Grid.ColumnDefinitions>
         <ColumnDefinition/>
         <ColumnDefinition Width="Auto"/>
       </Grid.ColumnDefinitions>
       <TextBlock Grid.Column="0" VerticalAlignment="Center">[Processor Count]</TextBlock>
-      <ComboBox Grid.Column="1" MinWidth="150">
+      <ComboBox Grid.Column="1" MinWidth="150" Style="{StaticResource ConfigurationBlockComboBoxStyle}">
         <ComboBoxItem>1</ComboBoxItem>
         <ComboBoxItem>2</ComboBoxItem>
         <ComboBoxItem>3</ComboBoxItem>
@@ -35,7 +35,7 @@
         <ComboBoxItem>16</ComboBoxItem>
       </ComboBox>
     </Grid>
-    <Grid Style="{StaticResource SettingBlockStyle}">
+    <Grid Style="{StaticResource ConfigurationBlockStyle}">
       <Grid.ColumnDefinitions>
         <ColumnDefinition/>
         <ColumnDefinition Width="Auto"/>
@@ -47,14 +47,23 @@
           <ColumnDefinition/>
           <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        <TextBox Grid.Column="0" InputScope="Number"/>
+        <TextBox Grid.Column="0" InputScope="Number" Style="{StaticResource ConfigurationBlockTextBoxStyle}"/>
         <TextBlock Grid.Column="1" VerticalAlignment="Center" Padding="8,0,0,0">MiB</TextBlock>
       </Grid>
     </Grid>
 
+    <Grid Style="{StaticResource ConfigurationBlockStyle}">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition/>
+        <ColumnDefinition Width="Auto"/>
+      </Grid.ColumnDefinitions>
+      <TextBlock Grid.Column="0" VerticalAlignment="Center">[Expose Virtualization Extensions]</TextBlock>
+      <ToggleSwitch Grid.Column="1" MinWidth="0"/>
+    </Grid>
+
     <local:MinimalExpander Header="[Console and Serial Ports]" IsExpanded="True"
                            HorizontalAlignment="Stretch"
-                           HorizontalContentAlignment="Stretch" Margin="0,24,0,2" Padding="0">
+                           HorizontalContentAlignment="Stretch" Margin="0,24,0,4" Padding="0">
 
       <StackPanel>
         <Grid Padding="16, 8, 16, 8" BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}" BorderThickness="0,0,0,1">
@@ -90,7 +99,6 @@
           <TextBox Grid.Column="2"/>
         </Grid>
       </StackPanel>
-
     </local:MinimalExpander>
 
   </StackPanel>

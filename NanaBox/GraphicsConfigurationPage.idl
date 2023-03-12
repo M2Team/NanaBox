@@ -1,9 +1,8 @@
-namespace NanaBox
+﻿namespace NanaBox
 {
     [default_interface]
     runtimeclass GraphicsConfigurationPage : Windows.UI.Xaml.Controls.Page
     {
         GraphicsConfigurationPage();
-        Int32 MyProperty;
     }
 }

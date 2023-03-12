@@ -9,11 +9,6 @@ namespace winrt
     using Windows::Foundation::IStringable;
     using Windows::UI::Xaml::Controls::NavigationView;
     using Windows::UI::Xaml::Controls::NavigationViewItem;
-    using Windows::UI::Xaml::Controls::NavigationViewSelectionChangedEventArgs;
-    using Windows::UI::Xaml::RoutedEventArgs;
-
-    using Windows::UI::Xaml::Interop::TypeName;
-    using Windows::UI::Xaml::Media::Animation::NavigationTransitionInfo;
     using Windows::UI::Xaml::Media::Animation::EntranceNavigationTransitionInfo;
 }
 
@@ -21,23 +16,32 @@ namespace winrt::NanaBox::implementation
 {
     ConfigurationWindowControl::ConfigurationWindowControl()
     {
-        m_pages.push_back(std::make_pair<std::wstring, winrt::TypeName>(
+        m_pages.push_back(std::make_pair<std::wstring, TypeName>(
             L"basic",
             winrt::xaml_typename<NanaBox::BasicConfigurationPage>()));
-        m_pages.push_back(std::make_pair<std::wstring, winrt::TypeName>(
+        m_pages.push_back(std::make_pair<std::wstring, TypeName>(
             L"system",
             winrt::xaml_typename<NanaBox::SystemConfigurationPage>()));
-        m_pages.push_back(std::make_pair<std::wstring, winrt::TypeName>(
+        m_pages.push_back(std::make_pair<std::wstring, TypeName>(
             L"graphics",
             winrt::xaml_typename<NanaBox::GraphicsConfigurationPage>()));
-        m_pages.push_back(std::make_pair<std::wstring, winrt::TypeName>(
+        m_pages.push_back(std::make_pair<std::wstring, TypeName>(
             L"network",
             winrt::xaml_typename<NanaBox::NetworkConfigurationPage>()));
-        m_pages.push_back(std::make_pair<std::wstring, winrt::TypeName>(
+        m_pages.push_back(std::make_pair<std::wstring, TypeName>(
             L"storage",
             winrt::xaml_typename<NanaBox::StorageConfigurationPage>()));
     }
 
+
+    void ConfigurationWindowControl::InitializeComponent()
+    {
+        ConfigurationWindowControlT::InitializeComponent();
+
+        // Disable the focus cycling inside NavigationView
+        auto openFileBtn = this->OpenFileBtn();
+        openFileBtn.XYFocusDown(openFileBtn);
+    }
 
     void ConfigurationWindowControl::NavigationView_Loaded(
         IInspectable const& sender, RoutedEventArgs const& e)
@@ -83,6 +87,15 @@ namespace winrt::NanaBox::implementation
             NavigationView_Navigate(
                 tag.c_str(), args.RecommendedNavigationTransitionInfo());
         }
+    }
+
+    winrt::NanaBox::ConfigurationViewModel ConfigurationWindowControl::ViewModel()
+    {
+        return m_viewModel;
+    }
+    void ConfigurationWindowControl::ViewModel(winrt::NanaBox::ConfigurationViewModel const& value)
+    {
+        m_viewModel = value;
     }
 
 }

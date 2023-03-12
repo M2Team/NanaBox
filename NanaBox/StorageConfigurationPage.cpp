@@ -9,14 +9,4 @@ using namespace Windows::UI::Xaml;
 
 namespace winrt::NanaBox::implementation
 {
-    int32_t StorageConfigurationPage::MyProperty()
-    {
-        throw hresult_not_implemented();
-    }
-
-    void StorageConfigurationPage::MyProperty(int32_t /* value */)
-    {
-        throw hresult_not_implemented();
-    }
-
 }

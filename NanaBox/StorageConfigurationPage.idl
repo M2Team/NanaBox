@@ -1,9 +1,8 @@
-namespace NanaBox
+﻿namespace NanaBox
 {
     [default_interface]
     runtimeclass StorageConfigurationPage : Windows.UI.Xaml.Controls.Page
     {
         StorageConfigurationPage();
-        Int32 MyProperty;
     }
 }

@@ -6,20 +6,32 @@
 #include "winrt/Windows.UI.Xaml.Controls.Primitives.h"
 #include "ConfigurationWindowControl.g.h"
 
+namespace winrt
+{    
+    using Windows::UI::Xaml::RoutedEventArgs;
+    using Windows::UI::Xaml::Interop::TypeName;
+    using Windows::UI::Xaml::Controls::NavigationViewSelectionChangedEventArgs;
+    using Windows::UI::Xaml::Media::Animation::NavigationTransitionInfo;
+}
+
 namespace winrt::NanaBox::implementation
 {
     struct ConfigurationWindowControl : ConfigurationWindowControlT<ConfigurationWindowControl>
     {
         ConfigurationWindowControl();
+        void InitializeComponent();
 
-        void NavigationView_Navigate(
-            std::wstring navItemTag,
-            Windows::UI::Xaml::Media::Animation::NavigationTransitionInfo const& transitionInfo);
-        void NavigationView_SelectionChanged(winrt::Windows::Foundation::IInspectable const& sender, winrt::Windows::UI::Xaml::Controls::NavigationViewSelectionChangedEventArgs const& args);
-        void NavigationView_Loaded(winrt::Windows::Foundation::IInspectable const& sender, winrt::Windows::UI::Xaml::RoutedEventArgs const& e);
+        void NavigationView_Navigate(std::wstring navItemTag,
+            NavigationTransitionInfo const& transitionInfo);
+        void NavigationView_SelectionChanged(IInspectable const& sender,
+            NavigationViewSelectionChangedEventArgs const& args);
+        void NavigationView_Loaded(IInspectable const& sender, RoutedEventArgs const& e);
 
+        winrt::NanaBox::ConfigurationViewModel ViewModel();
+        void ViewModel(winrt::NanaBox::ConfigurationViewModel const& value);
     private:
-        std::vector<std::pair<std::wstring, winrt::Windows::UI::Xaml::Interop::TypeName>> m_pages;
+        std::vector<std::pair<std::wstring, TypeName>> m_pages;
+        winrt::NanaBox::ConfigurationViewModel m_viewModel{ nullptr };
     };
 }
 

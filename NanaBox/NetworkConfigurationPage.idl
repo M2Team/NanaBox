@@ -1,9 +1,8 @@
-namespace NanaBox
+﻿namespace NanaBox
 {
     [default_interface]
     runtimeclass NetworkConfigurationPage : Windows.UI.Xaml.Controls.Page
     {
-        NetworkConfigurationPage();
-        Int32 MyProperty;
+        NetworkConfigurationPage();        
     }
 }

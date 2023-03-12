@@ -1,5 +1,6 @@
 ﻿<UserControl
     x:Class="NanaBox.ConfigurationWindowControl"
+    x:Name="ConfigurationWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:NanaBox"
@@ -17,7 +18,7 @@
   <NavigationView x:Name="NavigationView" Margin="0,8,0,0" PaneDisplayMode="Left" IsBackButtonVisible="Collapsed"
                   IsPaneToggleButtonVisible="False" IsSettingsVisible="False"
                   Header="{Binding ElementName=NavigationView, Path=SelectedItem.Content}"
-                  SelectionChanged="NavigationView_SelectionChanged" Loaded="NavigationView_Loaded">
+                  SelectionChanged="NavigationView_SelectionChanged" Loaded="NavigationView_Loaded" XYFocusKeyboardNavigation="Enabled">
     <NavigationView.MenuItems>
       <NavigationViewItem Tag="basic" Content="[Basic]">
         <NavigationViewItem.Icon>
@@ -46,13 +47,13 @@
       </NavigationViewItem>
     </NavigationView.MenuItems>
     <NavigationView.PaneFooter>
-      <NavigationViewItem>
+      <NavigationViewItem x:Name="OpenFileBtn">
         <NavigationViewItem.Icon>
           <SymbolIcon Symbol="Setting"></SymbolIcon>
         </NavigationViewItem.Icon>
-        [Open b7 File]</NavigationViewItem>
+        [Open 7b File]
+      </NavigationViewItem>
     </NavigationView.PaneFooter>
-    
 
     <ScrollViewer>
       <Frame x:Name="ContentFrame"></Frame>

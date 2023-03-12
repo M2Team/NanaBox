@@ -1,8 +1,12 @@
-﻿namespace NanaBox
+﻿import "ConfigurationViewModel.idl";
+
+namespace NanaBox
 {
     [default_interface]
     runtimeclass ConfigurationWindowControl : Windows.UI.Xaml.Controls.UserControl
     {
         ConfigurationWindowControl();
+
+        ConfigurationViewModel ViewModel;
     }
 }

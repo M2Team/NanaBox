@@ -1,9 +1,8 @@
-namespace NanaBox
+﻿namespace NanaBox
 {
     [default_interface]
     runtimeclass SystemConfigurationPage : Windows.UI.Xaml.Controls.Page
     {
         SystemConfigurationPage();
-        Int32 MyProperty;
     }
 }
