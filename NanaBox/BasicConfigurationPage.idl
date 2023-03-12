@@ -1,8 +1,15 @@
-﻿namespace NanaBox
+﻿import "ConfigurationViewModel.idl";
+
+namespace NanaBox
 {
     [default_interface]
     runtimeclass BasicConfigurationPage : Windows.UI.Xaml.Controls.Page
     {
         BasicConfigurationPage();
+
+        ConfigurationViewModel ViewModel{ get; };
+
+        IInspectable BoxedGuestType;
+        Windows.Foundation.Collections.IVector<IInspectable> GuestTypes{ get; };
     }
 }

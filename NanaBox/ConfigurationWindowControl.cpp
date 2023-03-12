@@ -50,11 +50,12 @@ namespace winrt::NanaBox::implementation
         UNREFERENCED_PARAMETER(e);
 
         NavigationView().SelectedItem(NavigationView().MenuItems().GetAt(0));
-        NavigationView_Navigate(L"basic", EntranceNavigationTransitionInfo());
+        NavigationView_Navigate(L"basic", m_viewModel, EntranceNavigationTransitionInfo());
     }
 
     void ConfigurationWindowControl::NavigationView_Navigate(
         std::wstring navItemTag,
+        IInspectable const& parameter,
         NavigationTransitionInfo const& transitionInfo)
     {
         TypeName currPageName = ContentFrame().CurrentSourcePageType();
@@ -70,7 +71,7 @@ namespace winrt::NanaBox::implementation
 
         if (targetPageName.Name != L"" && targetPageName.Name != currPageName.Name)
         {
-            ContentFrame().Navigate(targetPageName, nullptr, transitionInfo);
+            ContentFrame().Navigate(targetPageName, parameter, transitionInfo);
         }
     }
 
@@ -85,7 +86,7 @@ namespace winrt::NanaBox::implementation
             auto tag = winrt::unbox_value_or<winrt::hstring>(
                 args.SelectedItemContainer().Tag(), L"");
             NavigationView_Navigate(
-                tag.c_str(), args.RecommendedNavigationTransitionInfo());
+                tag.c_str(), m_viewModel, args.RecommendedNavigationTransitionInfo());
         }
     }
 

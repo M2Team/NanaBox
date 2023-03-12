@@ -21,5 +21,28 @@
         <Button>[Add CD/DVD-ROM]</Button>
       </StackPanel>
     </Grid>
+
+    <ItemsControl ItemsSource="{x:Bind ViewModel.ScsiDevices}">
+      <ItemsControl.ItemsPanel>
+        <ItemsPanelTemplate>
+          <ItemsStackPanel Orientation="Vertical"/>
+        </ItemsPanelTemplate>
+      </ItemsControl.ItemsPanel>
+      <ItemsControl.ItemTemplate>
+        <DataTemplate x:DataType="local:ScsiDeviceViewModel">
+          <Grid Style="{StaticResource ConfigurationBlockStyle}">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition/>
+              <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" VerticalAlignment="Center" Text="{x:Bind Path}"/>
+            <StackPanel Grid.Column="1" Orientation="Horizontal">
+              <Button Margin="0,0,8,0">[Browse]</Button>
+              <Button>[Delete]</Button>
+            </StackPanel>
+          </Grid>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </ItemsControl>
   </StackPanel>
 </Page>

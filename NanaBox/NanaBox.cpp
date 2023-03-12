@@ -1769,10 +1769,10 @@ int NanaBox::ConfigurationWindow::OnCreate(
     ::SetFocus(XamlWindowHandle);
 
     // When focus is moving out from XAML island, move it back in again.
-    this->m_XamlSource.TakeFocusRequested(
-        [](winrt::DesktopWindowXamlSource const& sender, winrt::DesktopWindowXamlSourceTakeFocusRequestedEventArgs const& args)
+    this->m_XamlSource.TakeFocusRequested([](
+            winrt::DesktopWindowXamlSource const& sender,
+            winrt::DesktopWindowXamlSourceTakeFocusRequestedEventArgs const& args)
         {
-            sender.Content().try_as<winrt::Control>().Focus(winrt::FocusState::Programmatic);
             sender.NavigateFocus(args.Request());
         });
 
@@ -1802,7 +1802,7 @@ int NanaBox::ConfigurationWindow::OnCreate(
     auto viewModel = winrt::make<winrt::NanaBox::implementation::ConfigurationViewModel>(
         &this->m_Configuration);
     this->m_ConfigurationControl.ViewModel(viewModel);
-    
+
     return 0;
 }
 

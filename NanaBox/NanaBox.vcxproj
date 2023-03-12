@@ -54,6 +54,10 @@
       <DependentUpon>GraphicsConfigurationPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
+    <ClCompile Include="GuestTypeConverter.cpp">
+      <DependentUpon>GuestTypeConverter.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
     <ClCompile Include="HostCompute.cpp" />
     <ClCompile Include="MainWindowControl.cpp">
       <DependentUpon>MainWindowControl.xaml</DependentUpon>
@@ -100,6 +104,10 @@
       <DependentUpon>ConfigurationWindowControl.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
+    <ClCompile Include="UInt32StringConverter.cpp">
+      <DependentUpon>UInt32StringConverter.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
     <ClCompile Include="VirtualMachineConfiguration.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -128,6 +136,9 @@
     <Midl Include="GraphicsConfigurationPage.idl">
       <DependentUpon>GraphicsConfigurationPage.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Midl>
+    <Midl Include="GuestTypeConverter.idl">
+      <SubType>Designer</SubType>
     </Midl>
     <Midl Include="MainWindowControl.idl">
       <DependentUpon>MainWindowControl.xaml</DependentUpon>
@@ -162,6 +173,9 @@
       <DependentUpon>ConfigurationWindowControl.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
+    <Midl Include="UInt32StringConverter.idl">
+      <SubType>Designer</SubType>
+    </Midl>
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
@@ -188,6 +202,10 @@
     </ClInclude>
     <ClInclude Include="GraphicsConfigurationPage.h">
       <DependentUpon>GraphicsConfigurationPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="GuestTypeConverter.h">
+      <DependentUpon>GuestTypeConverter.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="HostCompute.h" />
@@ -228,6 +246,10 @@
     </ClInclude>
     <ClInclude Include="SystemConfigurationPage.h">
       <DependentUpon>SystemConfigurationPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="UInt32StringConverter.h">
+      <DependentUpon>UInt32StringConverter.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="VirtualMachineConfiguration.h" />

@@ -1,8 +1,12 @@
-﻿namespace NanaBox
+﻿import "ConfigurationViewModel.idl";
+
+namespace NanaBox
 {
     [default_interface]
     runtimeclass NetworkConfigurationPage : Windows.UI.Xaml.Controls.Page
     {
-        NetworkConfigurationPage();        
+        NetworkConfigurationPage();
+
+        ConfigurationViewModel ViewModel{ get; };
     }
 }

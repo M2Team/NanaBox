@@ -7,7 +7,7 @@
 #include "ConfigurationWindowControl.g.h"
 
 namespace winrt
-{    
+{
     using Windows::UI::Xaml::RoutedEventArgs;
     using Windows::UI::Xaml::Interop::TypeName;
     using Windows::UI::Xaml::Controls::NavigationViewSelectionChangedEventArgs;
@@ -22,6 +22,7 @@ namespace winrt::NanaBox::implementation
         void InitializeComponent();
 
         void NavigationView_Navigate(std::wstring navItemTag,
+            IInspectable const& parameter,
             NavigationTransitionInfo const& transitionInfo);
         void NavigationView_SelectionChanged(IInspectable const& sender,
             NavigationViewSelectionChangedEventArgs const& args);

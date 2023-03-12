@@ -7,10 +7,11 @@
 
 namespace winrt
 {
+    using Windows::Foundation::IInspectable;
+    using Windows::Foundation::Collections::IObservableVector;
     using Windows::UI::Xaml::Data::PropertyChangedEventArgs;
     using Windows::UI::Xaml::Data::PropertyChangedEventHandler;
     using Windows::UI::Xaml::Input::ICommand;
-    using Windows::Foundation::Collections::IObservableVector;
 }
 
 namespace winrt::NanaBox::implementation

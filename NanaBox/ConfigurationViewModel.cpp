@@ -54,7 +54,7 @@ namespace winrt::NanaBox::implementation
         return static_cast<winrt::NanaBox::GuestType>(m_configuration->GuestType);
     }
     void ConfigurationViewModel::GuestType(winrt::NanaBox::GuestType const& value)
-    {
+    {        
         auto newValue = static_cast<::NanaBox::GuestType>(value);
         if (m_configuration->GuestType != newValue)
         {

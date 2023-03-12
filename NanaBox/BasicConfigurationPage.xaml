@@ -16,7 +16,7 @@
         <ColumnDefinition Width="4*" MinWidth="150"/>
       </Grid.ColumnDefinitions>
       <TextBlock Grid.Column="0" VerticalAlignment="Center">[Name]</TextBlock>
-      <TextBox Grid.Column="1" Style="{StaticResource ConfigurationBlockTextBoxStyle}"/>
+      <TextBox Grid.Column="1" Style="{StaticResource ConfigurationBlockTextBoxStyle}" Text="{x:Bind ViewModel.Name, Mode=TwoWay}"/>
     </Grid>
 
     <Grid Style="{StaticResource ConfigurationBlockStyle}">
@@ -25,9 +25,14 @@
         <ColumnDefinition Width="Auto" />
       </Grid.ColumnDefinitions>
       <TextBlock Grid.Column="0" VerticalAlignment="Center">[Type]</TextBlock>
-      <ComboBox Grid.Column="1" MinWidth="150" Style="{StaticResource ConfigurationBlockComboBoxStyle}">
-        <ComboBoxItem>Windows</ComboBoxItem>
-        <ComboBoxItem>Linux</ComboBoxItem>
+      <ComboBox Grid.Column="1" MinWidth="150" Style="{StaticResource ConfigurationBlockComboBoxStyle}"
+                ItemsSource="{x:Bind GuestTypes}"
+                SelectedValue="{x:Bind BoxedGuestType, Mode=TwoWay}">
+        <ComboBox.ItemTemplate>
+          <DataTemplate x:DataType="local:GuestType">
+            <TextBlock Text="{x:Bind Converter={StaticResource GuestTypeConverter}}"></TextBlock>
+          </DataTemplate>
+        </ComboBox.ItemTemplate>
       </ComboBox>
     </Grid>
 
@@ -42,7 +47,7 @@
             <ColumnDefinition Width="6*" MinWidth="150"/>
           </Grid.ColumnDefinitions>
           <TextBlock Grid.Column="0" VerticalAlignment="Center">[Guest State]</TextBlock>
-          <TextBox Grid.Column="1"/>
+          <TextBox Grid.Column="1" Text="{x:Bind ViewModel.GuestStateFile, Mode=TwoWay}"/>
         </Grid>
         <Grid Padding="16, 8, 16, 8" BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}" BorderThickness="0,0,0,1">
           <Grid.ColumnDefinitions>
@@ -50,7 +55,7 @@
             <ColumnDefinition Width="6*" MinWidth="150"/>
           </Grid.ColumnDefinitions>
           <TextBlock Grid.Column="0" VerticalAlignment="Center">[Runtime State]</TextBlock>
-          <TextBox Grid.Column="1"/>
+          <TextBox Grid.Column="1" Text="{x:Bind ViewModel.RuntimeStateFile, Mode=TwoWay}"/>
         </Grid>
         <Grid Padding="16, 8, 16, 8">
           <Grid.ColumnDefinitions>
@@ -58,7 +63,7 @@
             <ColumnDefinition Width="6*" MinWidth="150"/>
           </Grid.ColumnDefinitions>
           <TextBlock Grid.Column="0" VerticalAlignment="Center">[Save State]</TextBlock>
-          <TextBox Grid.Column="1"/>
+          <TextBox Grid.Column="1" Text="{x:Bind ViewModel.SaveStateFile, Mode=TwoWay}"/>
         </Grid>
       </StackPanel>
     </local:MinimalExpander>
