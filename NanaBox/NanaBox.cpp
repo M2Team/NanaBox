@@ -1749,6 +1749,12 @@ int NanaBox::ConfigurationWindow::OnCreate(
         256,
         LR_SHARED);
 
+
+    UINT dpi = GetDpiForWindow(this->m_hWnd);
+    UINT width = MulDiv(1000, dpi, 96);
+    UINT height = MulDiv(620, dpi, 96);
+    this->SetWindowPos(nullptr, 0, 0, width, height, SWP_NOMOVE);
+
     this->SetIcon(this->m_ApplicationIcon, TRUE);
     this->SetIcon(this->m_ApplicationIcon, FALSE);
 
@@ -2254,7 +2260,7 @@ int WINAPI wWinMain(
     {
         OutputDebugStringW(g_ConfigurationFilePath.c_str());
         OutputDebugStringW(L"\n");
-
+        
         ConfigurationWindow = std::make_unique<NanaBox::ConfigurationWindow>();
         if (!ConfigurationWindow->Create(
             nullptr,
