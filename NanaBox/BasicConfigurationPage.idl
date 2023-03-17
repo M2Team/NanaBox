@@ -8,8 +8,5 @@ namespace NanaBox
         BasicConfigurationPage();
 
         ConfigurationViewModel ViewModel{ get; };
-
-        IInspectable BoxedGuestType;
-        Windows.Foundation.Collections.IVector<IInspectable> GuestTypes{ get; };
     }
 }

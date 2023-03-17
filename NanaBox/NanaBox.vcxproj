@@ -54,10 +54,6 @@
       <DependentUpon>GraphicsConfigurationPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
-    <ClCompile Include="GuestTypeConverter.cpp">
-      <DependentUpon>GuestTypeConverter.idl</DependentUpon>
-      <SubType>Code</SubType>
-    </ClCompile>
     <ClCompile Include="HostCompute.cpp" />
     <ClCompile Include="MainWindowControl.cpp">
       <DependentUpon>MainWindowControl.xaml</DependentUpon>
@@ -92,6 +88,10 @@
       <DependentUpon>ScsiDeviceViewModel.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
+    <ClCompile Include="SelectOption.cpp">
+      <DependentUpon>SelectOption.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
     <ClCompile Include="StorageConfigurationPage.cpp">
       <DependentUpon>StorageConfigurationPage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -102,10 +102,6 @@
     </ClCompile>
     <ClCompile Include="ConfigurationWindowControl.cpp">
       <DependentUpon>ConfigurationWindowControl.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </ClCompile>
-    <ClCompile Include="UInt32StringConverter.cpp">
-      <DependentUpon>UInt32StringConverter.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="VirtualMachineConfiguration.cpp" />
@@ -137,9 +133,6 @@
       <DependentUpon>GraphicsConfigurationPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
-    <Midl Include="GuestTypeConverter.idl">
-      <SubType>Designer</SubType>
-    </Midl>
     <Midl Include="MainWindowControl.idl">
       <DependentUpon>MainWindowControl.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -161,6 +154,9 @@
     <Midl Include="ScsiDeviceViewModel.idl">
       <SubType>Designer</SubType>
     </Midl>
+    <Midl Include="SelectOption.idl">
+      <SubType>Designer</SubType>
+    </Midl>
     <Midl Include="StorageConfigurationPage.idl">
       <DependentUpon>StorageConfigurationPage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -172,9 +168,6 @@
     <Midl Include="ConfigurationWindowControl.idl">
       <DependentUpon>ConfigurationWindowControl.xaml</DependentUpon>
       <SubType>Code</SubType>
-    </Midl>
-    <Midl Include="UInt32StringConverter.idl">
-      <SubType>Designer</SubType>
     </Midl>
   </ItemGroup>
   <ItemGroup>
@@ -202,10 +195,6 @@
     </ClInclude>
     <ClInclude Include="GraphicsConfigurationPage.h">
       <DependentUpon>GraphicsConfigurationPage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </ClInclude>
-    <ClInclude Include="GuestTypeConverter.h">
-      <DependentUpon>GuestTypeConverter.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="HostCompute.h" />
@@ -240,16 +229,16 @@
       <DependentUpon>ScsiDeviceViewModel.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
+    <ClInclude Include="SelectOption.h">
+      <DependentUpon>SelectOption.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="StorageConfigurationPage.h">
       <DependentUpon>StorageConfigurationPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="SystemConfigurationPage.h">
       <DependentUpon>SystemConfigurationPage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </ClInclude>
-    <ClInclude Include="UInt32StringConverter.h">
-      <DependentUpon>UInt32StringConverter.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="VirtualMachineConfiguration.h" />

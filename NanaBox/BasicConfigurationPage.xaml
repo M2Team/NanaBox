@@ -26,11 +26,11 @@
       </Grid.ColumnDefinitions>
       <TextBlock Grid.Column="0" VerticalAlignment="Center">[Type]</TextBlock>
       <ComboBox Grid.Column="1" MinWidth="150" Style="{StaticResource ConfigurationBlockComboBoxStyle}"
-                ItemsSource="{x:Bind GuestTypes}"
-                SelectedValue="{x:Bind BoxedGuestType, Mode=TwoWay}">
+                ItemsSource="{x:Bind ViewModel.GuestTypeList}"
+                SelectedValue="{x:Bind ViewModel.GuestType, Mode=TwoWay}">
         <ComboBox.ItemTemplate>
-          <DataTemplate x:DataType="local:GuestType">
-            <TextBlock Text="{x:Bind Converter={StaticResource GuestTypeConverter}}"></TextBlock>
+          <DataTemplate x:DataType="local:SelectOption">
+            <TextBlock Text="{x:Bind Name}"/>
           </DataTemplate>
         </ComboBox.ItemTemplate>
       </ComboBox>

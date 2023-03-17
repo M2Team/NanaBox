@@ -1,8 +1,14 @@
-﻿namespace NanaBox
+﻿import "SelectOption.idl";
+
+namespace NanaBox
 {
     [default_interface]
-    runtimeclass ComPortsViewModel 
+    runtimeclass ComPortsViewModel : Windows.UI.Xaml.Data.INotifyPropertyChanged
     {
-        ComPortsViewModel();
+        SelectOption UefiConsoleMode;
+        String Com1RedirectPath;
+        String Com2RedirectPath;
+
+        Windows.Foundation.Collections.IObservableVector<SelectOption> UefiConsoleModeList {get;};
     }
 }

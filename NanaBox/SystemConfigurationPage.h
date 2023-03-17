@@ -13,20 +13,12 @@ namespace winrt::NanaBox::implementation
 {
     struct SystemConfigurationPage : SystemConfigurationPageT<SystemConfigurationPage>
     {
-        SystemConfigurationPage();
+        SystemConfigurationPage() = default;
 
         void OnNavigatedTo(NavigationEventArgs const& args);
-
         winrt::NanaBox::ConfigurationViewModel ViewModel();
-        IVector<IInspectable> AllowedProcessorCount();
-
-        hstring UInt32ToString(uint32_t value);
-
-        IInspectable BoxedProcessorCount();
-        void BoxedProcessorCount(IInspectable const& value);
     private:
         winrt::NanaBox::ConfigurationViewModel m_viewModel{ nullptr };
-        IVector<IInspectable> m_allowedProcessorCount{ nullptr };
     };
 }
 

@@ -7,10 +7,6 @@ namespace NanaBox
     {
         SystemConfigurationPage();
 
-        ConfigurationViewModel ViewModel{ get; };
-        Windows.Foundation.Collections.IVector<IInspectable> AllowedProcessorCount{ get; };
-
-        IInspectable BoxedProcessorCount;
-        String UInt32ToString(UInt32 value);        
+        ConfigurationViewModel ViewModel{ get; };           
     }
 }

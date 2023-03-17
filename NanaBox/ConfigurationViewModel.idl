@@ -2,24 +2,18 @@
 import "GpuViewModel.idl";
 import "NetworkAdapterViewModel.idl";
 import "ScsiDeviceViewModel.idl";
+import "SelectOption.idl";
 
 namespace NanaBox
 {
-    enum GuestType
-    {
-        Unknown = 0,
-        Windows = 1,
-        Linux = 2
-    };
-
     [default_interface]
     runtimeclass ConfigurationViewModel : Windows.UI.Xaml.Data.INotifyPropertyChanged
     {
         Int32 Version{ get; };
 
         String Name;
-        GuestType GuestType;
-        UInt32 ProcessorCount;
+        SelectOption GuestType;
+        SelectOption ProcessorCount;
         UInt64 MemorySize;
         Boolean ExposeVirtualizationExtensions;
 
@@ -32,6 +26,9 @@ namespace NanaBox
         Windows.Foundation.Collections.IObservableVector<NetworkAdapterViewModel> NetworkAdapters {get;};
         Windows.Foundation.Collections.IObservableVector<ScsiDeviceViewModel> ScsiDevices {get;};
 
+        Windows.Foundation.Collections.IObservableVector<SelectOption> GuestTypeList { get; };
+        Windows.Foundation.Collections.IObservableVector<SelectOption> ProcessorCountList { get; };
+        
         Windows.UI.Xaml.Input.ICommand SaveCommand {get;};
     }
 }

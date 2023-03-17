@@ -19,11 +19,11 @@
       <TextBlock Grid.Column="0" VerticalAlignment="Center">[Processor Count]</TextBlock>
       <ComboBox Grid.Column="1" MinWidth="150"
                 Style="{StaticResource ConfigurationBlockComboBoxStyle}"
-                ItemsSource="{x:Bind AllowedProcessorCount}"
-                SelectedItem="{x:Bind BoxedProcessorCount, Mode=TwoWay}">
+                ItemsSource="{x:Bind ViewModel.ProcessorCountList}"
+                SelectedItem="{x:Bind ViewModel.ProcessorCount, Mode=TwoWay}">
         <ComboBox.ItemTemplate>
-          <DataTemplate x:DataType="wf:IPropertyValue">
-            <TextBlock Text="{x:Bind Converter={StaticResource UInt32StringConverter}}"></TextBlock>
+          <DataTemplate x:DataType="local:SelectOption">
+            <TextBlock Text="{x:Bind Name}"/>
           </DataTemplate>
         </ComboBox.ItemTemplate>
       </ComboBox>
@@ -65,10 +65,14 @@
             <ColumnDefinition Width="Auto"/>
           </Grid.ColumnDefinitions>
           <TextBlock Grid.Column="0" VerticalAlignment="Center">[UEFI Console Port]</TextBlock>
-          <ComboBox Grid.Column="1" Width="150">
-            <ComboBoxItem>[Disabled]</ComboBoxItem>
-            <ComboBoxItem>[COM1]</ComboBoxItem>
-            <ComboBoxItem>[COM2]</ComboBoxItem>
+          <ComboBox Grid.Column="1" Width="150"
+                    ItemsSource="{x:Bind ViewModel.ComPorts.UefiConsoleModeList}"
+                    SelectedItem="{x:Bind ViewModel.ComPorts.UefiConsoleMode, Mode=TwoWay}">
+            <ComboBox.ItemTemplate>
+              <DataTemplate x:DataType="local:SelectOption">
+                <TextBlock Text="{x:Bind Name}"/>
+              </DataTemplate>
+            </ComboBox.ItemTemplate>
           </ComboBox>
         </Grid>
         <Grid Padding="16, 8, 16, 8" BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}" BorderThickness="0,0,0,1">
@@ -79,7 +83,7 @@
           </Grid.ColumnDefinitions>
           <TextBlock Grid.Column="0" VerticalAlignment="Center">[COM1 Redirection]</TextBlock>
           <CheckBox Grid.Column="1">[Enabled]</CheckBox>
-          <TextBox Grid.Column="2"/>
+          <TextBox Grid.Column="2" Text="{x:Bind ViewModel.ComPorts.Com1RedirectPath, Mode=TwoWay}"/>
         </Grid>
         <Grid Padding="16, 8, 16, 8">
           <Grid.ColumnDefinitions>
@@ -89,7 +93,7 @@
           </Grid.ColumnDefinitions>
           <TextBlock Grid.Column="0" VerticalAlignment="Center">[COM2 Redirection]</TextBlock>
           <CheckBox Grid.Column="1">[Enabled]</CheckBox>
-          <TextBox Grid.Column="2"/>
+          <TextBox Grid.Column="2" Text="{x:Bind ViewModel.ComPorts.Com2RedirectPath, Mode=TwoWay}"/>
         </Grid>
       </StackPanel>
     </local:MinimalExpander>

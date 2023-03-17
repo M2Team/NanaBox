@@ -4,18 +4,67 @@
 #include "ConfigurationViewModel.g.cpp"
 #endif
 
+#include "ComPortsViewModel.h"
 #include "NetworkAdapterViewModel.h"
 #include "ScsiDeviceViewModel.h"
+#include "SelectOption.h"
 
+#include <numeric>
+#include <ranges>
 namespace winrt::NanaBox::implementation
 {
     ConfigurationViewModel::ConfigurationViewModel(::NanaBox::VirtualMachineConfiguration* config)
         : m_configuration{ config }
-    {        
+    {
         m_name = winrt::to_hstring(m_configuration->Name);
         m_guestStateFile = winrt::to_hstring(m_configuration->GuestStateFile);
         m_runtimeStateFile = winrt::to_hstring(m_configuration->RuntimeStateFile);
         m_saveStateFile = winrt::to_hstring(m_configuration->SaveStateFile);
+
+        m_guestTypeList = winrt::single_threaded_observable_vector<NanaBox::SelectOption>({
+            winrt::make<implementation::SelectOption>(L"Windows",
+                static_cast<uint32_t>(::NanaBox::GuestType::Windows)),
+            winrt::make<implementation::SelectOption>(L"Linux",
+                static_cast<uint32_t>(::NanaBox::GuestType::Linux))
+        });
+
+        m_processorCountList = winrt::single_threaded_observable_vector<NanaBox::SelectOption>();
+        {
+            uint32_t count = GetActiveProcessorCount(ALL_PROCESSOR_GROUPS);
+            if (count <= 0) count = 1;
+
+            for (uint32_t i = 1; i <= count; i++)
+            {
+                auto item = winrt::make<implementation::SelectOption>(winrt::to_hstring(i), i);
+                m_processorCountList.Append(item);
+            }
+        }
+
+        m_guestType = nullptr;
+        {            
+            for (auto&& item : m_guestTypeList)
+            {
+                if (static_cast<::NanaBox::GuestType>(item.Value()) == m_configuration->GuestType)
+                {
+                    m_guestType = item;
+                    break;
+                }
+            }
+        }
+        
+        m_processorCount = nullptr;
+        {
+            for (auto&& item : m_processorCountList)
+            {
+                if (item.Value() == m_configuration->ProcessorCount)
+                {
+                    m_processorCount = item;
+                    break;
+                }
+            }
+        }
+
+        m_comPorts = winrt::make<implementation::ComPortsViewModel>(&config->ComPorts);
 
         m_netAdapters = winrt::single_threaded_observable_vector<NanaBox::NetworkAdapterViewModel>();
         for (auto&& device : m_configuration->NetworkAdapters) {
@@ -49,29 +98,30 @@ namespace winrt::NanaBox::implementation
         }
     }
 
-    winrt::NanaBox::GuestType ConfigurationViewModel::GuestType()
+    NanaBox::SelectOption ConfigurationViewModel::GuestType()
     {
-        return static_cast<winrt::NanaBox::GuestType>(m_configuration->GuestType);
+        return m_guestType;
     }
-    void ConfigurationViewModel::GuestType(winrt::NanaBox::GuestType const& value)
-    {        
-        auto newValue = static_cast<::NanaBox::GuestType>(value);
-        if (m_configuration->GuestType != newValue)
-        {
-            m_configuration->GuestType = newValue;
+    void ConfigurationViewModel::GuestType(NanaBox::SelectOption const& value)
+    {
+        if (m_guestType != value)
+        {            
+            m_guestType = value;
+            m_configuration->GuestType = static_cast<::NanaBox::GuestType>(value.Value());
             m_propertyChanged(*this, PropertyChangedEventArgs{ L"GuestType" });
         }
     }
 
-    uint32_t ConfigurationViewModel::ProcessorCount()
+    NanaBox::SelectOption ConfigurationViewModel::ProcessorCount()
     {
-        return m_configuration->ProcessorCount;
+        return m_processorCount;
     }
-    void ConfigurationViewModel::ProcessorCount(uint32_t value)
+    void ConfigurationViewModel::ProcessorCount(NanaBox::SelectOption value)
     {
-        if (m_configuration->ProcessorCount != value)
-        {
-            m_configuration->ProcessorCount = value;
+        if (m_processorCount != value)
+        {            
+            m_processorCount = value;
+            m_configuration->ProcessorCount = value.Value();
             m_propertyChanged(*this, PropertyChangedEventArgs{ L"ProcessorCount" });
         }
     }
@@ -146,11 +196,11 @@ namespace winrt::NanaBox::implementation
 
     winrt::NanaBox::ComPortsViewModel ConfigurationViewModel::ComPorts()
     {
-        throw hresult_not_implemented();
+        return m_comPorts;
     }
     winrt::NanaBox::GpuViewModel ConfigurationViewModel::Gpu()
     {
-        throw hresult_not_implemented();
+        return m_gpu;
     }
     winrt::IObservableVector<winrt::NanaBox::NetworkAdapterViewModel> ConfigurationViewModel::NetworkAdapters()
     {
@@ -159,6 +209,15 @@ namespace winrt::NanaBox::implementation
     winrt::IObservableVector<winrt::NanaBox::ScsiDeviceViewModel> ConfigurationViewModel::ScsiDevices()
     {
         return m_scsiDevices;
+    }
+
+    IObservableVector<NanaBox::SelectOption> ConfigurationViewModel::GuestTypeList()
+    {
+        return m_guestTypeList;
+    }
+    IObservableVector<NanaBox::SelectOption> ConfigurationViewModel::ProcessorCountList()
+    {
+        return m_processorCountList;
     }
 
     winrt::ICommand ConfigurationViewModel::SaveCommand()

@@ -1,8 +1,0 @@
-﻿namespace NanaBox
-{    
-    [default_interface]
-    runtimeclass GuestTypeConverter : Windows.UI.Xaml.Data.IValueConverter
-    {
-        GuestTypeConverter();
-    }
-}

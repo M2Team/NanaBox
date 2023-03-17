@@ -14,17 +14,12 @@ namespace winrt::NanaBox::implementation
 {
     struct BasicConfigurationPage : BasicConfigurationPageT<BasicConfigurationPage>
     {
-        BasicConfigurationPage();
+        BasicConfigurationPage() = default;
 
         void OnNavigatedTo(NavigationEventArgs const& args);
-
         winrt::NanaBox::ConfigurationViewModel ViewModel();
-        IInspectable BoxedGuestType();
-        void BoxedGuestType(IInspectable const& value);
-        IVector<IInspectable> GuestTypes();
     private:
         winrt::NanaBox::ConfigurationViewModel m_viewModel{ nullptr };
-        IVector<IInspectable> m_guestTypes{ nullptr };
     };
 }
 

@@ -122,6 +122,9 @@
     <Midl Include="MinimalExpander.idl">
       <Filter>Controls</Filter>
     </Midl>
+    <Midl Include="SelectOption.idl">
+      <Filter>ConfigurationUI\ViewModels</Filter>
+    </Midl>
   </ItemGroup>
   <ItemGroup>
     <PRIResource Include="Strings\en\MainWindowExitNoticeWindow.resw">
