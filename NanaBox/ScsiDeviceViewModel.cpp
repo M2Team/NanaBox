@@ -25,11 +25,11 @@ namespace winrt::NanaBox::implementation
         }
     }
 
-    winrt::NanaBox::ScsiDeviceType ScsiDeviceViewModel::DeviceType()
+    uint32_t ScsiDeviceViewModel::DeviceType()
     {
-        return static_cast<winrt::NanaBox::ScsiDeviceType>(m_scsiConfig->Type);
+        return static_cast<uint32_t>(m_scsiConfig->Type);
     }
-    void ScsiDeviceViewModel::DeviceType(winrt::NanaBox::ScsiDeviceType const& value)
+    void ScsiDeviceViewModel::DeviceType(uint32_t const& value)
     {
         auto newValue = static_cast<::NanaBox::ScsiDeviceType>(value);
         if (m_scsiConfig->Type != newValue)

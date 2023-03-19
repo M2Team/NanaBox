@@ -1,0 +1,11 @@
+﻿namespace NanaBox
+{    
+    [default_interface]
+    runtimeclass ScsiDeviceDataTemplateSelector : Windows.UI.Xaml.Controls.DataTemplateSelector
+    {
+        ScsiDeviceDataTemplateSelector();
+
+        Windows.UI.Xaml.DataTemplate VirtualDiskTemplate;
+        Windows.UI.Xaml.DataTemplate VirtualImageTemplate;
+    }
+}

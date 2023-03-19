@@ -5,9 +5,47 @@
     xmlns:local="using:NanaBox"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    Margin="48, 24, 48, 0">
 
-  <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-    <TextBlock>Network</TextBlock>
+
+  <StackPanel Orientation="Vertical">
+
+    <Grid Style="{StaticResource ConfigurationBlockStyle}">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition/>
+        <ColumnDefinition Width="Auto"/>
+      </Grid.ColumnDefinitions>
+      <TextBlock Grid.Column="0" VerticalAlignment="Center">[Add Network Adapter]</TextBlock>
+      <Button Grid.Column="1">[Add]</Button>
+    </Grid>
+
+    <ItemsControl ItemsSource="{x:Bind ViewModel.NetworkAdapters}"                  
+                  Margin="0,24,0,0">
+      <ItemsControl.ItemsPanel>
+        <ItemsPanelTemplate>
+          <ItemsStackPanel Orientation="Vertical"/>
+        </ItemsPanelTemplate>
+      </ItemsControl.ItemsPanel>
+      <ItemsControl.ItemTemplate>
+        <DataTemplate x:DataType="local:NetworkAdapterViewModel">
+          <Grid Style="{StaticResource ConfigurationBlockStyle}">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto"/>
+              <ColumnDefinition/>
+              <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <FontIcon Grid.Column="0" FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE839;"/>
+            <StackPanel Grid.Column="1" VerticalAlignment="Center" Orientation="Vertical" Margin="16,0,0,0">
+              <TextBlock Text="{x:Bind EndpointId, Mode=OneWay}" FontSize="12" Foreground="{StaticResource SystemBaseMediumColor}"/>
+              <TextBlock Text="{x:Bind MacAddress, Mode=OneWay}" FontSize="12" Foreground="{StaticResource SystemBaseMediumColor}"/>
+            </StackPanel>
+            <StackPanel Grid.Column="2" Orientation="Horizontal">
+              <Button>[Delete]</Button>
+            </StackPanel>
+          </Grid>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </ItemsControl>
   </StackPanel>
 </Page>

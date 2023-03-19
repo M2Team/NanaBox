@@ -17,8 +17,8 @@ namespace winrt::NanaBox::implementation
 
         bool Enabled();
         void Enabled(bool value);
-        winrt::NanaBox::ScsiDeviceType DeviceType();
-        void DeviceType(winrt::NanaBox::ScsiDeviceType const& value);
+        uint32_t DeviceType();
+        void DeviceType(uint32_t const& value);
         hstring Path();
         void Path(hstring const& value);
 

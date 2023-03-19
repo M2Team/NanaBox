@@ -8,6 +8,50 @@
     mc:Ignorable="d"
     Margin="48, 24, 48, 0">
 
+  <Page.Resources>
+    <DataTemplate x:DataType="local:ScsiDeviceViewModel" x:Key="VirtualDiskDataTemplate">
+      <Grid Style="{StaticResource ConfigurationBlockStyle}">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto"/>
+          <ColumnDefinition/>
+          <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <FontIcon Grid.Column="0" FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xEDA2;"/>
+        <StackPanel Grid.Column="1" VerticalAlignment="Center" Orientation="Vertical" Margin="16,0,0,0">
+          <TextBlock Text="[Disk]"/>
+          <TextBlock Text="{x:Bind Path, Mode=OneWay}" FontSize="12" Foreground="{StaticResource SystemBaseMediumColor}"/>
+        </StackPanel>
+        <StackPanel Grid.Column="2" Orientation="Horizontal">
+          <Button Margin="0,0,8,0">[Browse]</Button>
+          <Button>[Delete]</Button>
+        </StackPanel>
+      </Grid>
+    </DataTemplate>
+    <DataTemplate x:DataType="local:ScsiDeviceViewModel" x:Key="VirtualImageDataTemplate">
+      <Grid Style="{StaticResource ConfigurationBlockStyle}">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto"/>
+          <ColumnDefinition/>
+          <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <FontIcon Grid.Column="0" FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE958;"/>
+        <StackPanel Grid.Column="1" VerticalAlignment="Center" Orientation="Vertical" Margin="16,0,0,0">
+          <TextBlock Text="[CD/DVD-ROM]"/>
+          <TextBlock Text="{x:Bind Path, Mode=OneWay}" FontSize="12" Foreground="{StaticResource SystemBaseMediumColor}"/>
+        </StackPanel>
+        <StackPanel Grid.Column="2" Orientation="Horizontal">
+          <Button Margin="0,0,8,0">[Eject]</Button>
+          <Button Margin="0,0,8,0">[Browse]</Button>
+          <Button>[Delete]</Button>
+        </StackPanel>
+      </Grid>
+    </DataTemplate>
+    <local:ScsiDeviceDataTemplateSelector x:Key="ScsiDeviceDataTemplateSelector"
+      VirtualDiskTemplate="{StaticResource VirtualDiskDataTemplate}"
+      VirtualImageTemplate="{StaticResource VirtualImageDataTemplate}"/>
+  </Page.Resources>
+
   <StackPanel Orientation="Vertical">
 
     <Grid Style="{StaticResource ConfigurationBlockStyle}">
@@ -22,27 +66,14 @@
       </StackPanel>
     </Grid>
 
-    <ItemsControl ItemsSource="{x:Bind ViewModel.ScsiDevices}">
+    <ItemsControl ItemsSource="{x:Bind ViewModel.ScsiDevices}"
+                  ItemTemplateSelector="{StaticResource ScsiDeviceDataTemplateSelector}"
+                  Margin="0,24,0,0">
       <ItemsControl.ItemsPanel>
         <ItemsPanelTemplate>
           <ItemsStackPanel Orientation="Vertical"/>
         </ItemsPanelTemplate>
       </ItemsControl.ItemsPanel>
-      <ItemsControl.ItemTemplate>
-        <DataTemplate x:DataType="local:ScsiDeviceViewModel">
-          <Grid Style="{StaticResource ConfigurationBlockStyle}">
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition/>
-              <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0" VerticalAlignment="Center" Text="{x:Bind Path}"/>
-            <StackPanel Grid.Column="1" Orientation="Horizontal">
-              <Button Margin="0,0,8,0">[Browse]</Button>
-              <Button>[Delete]</Button>
-            </StackPanel>
-          </Grid>
-        </DataTemplate>
-      </ItemsControl.ItemTemplate>
     </ItemsControl>
   </StackPanel>
 </Page>

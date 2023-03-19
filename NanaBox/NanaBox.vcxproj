@@ -96,6 +96,10 @@
       <DependentUpon>StorageConfigurationPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
+    <ClCompile Include="ScsiDeviceDataTemplateSelector.cpp">
+      <DependentUpon>ScsiDeviceDataTemplateSelector.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
     <ClCompile Include="SystemConfigurationPage.cpp">
       <DependentUpon>SystemConfigurationPage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -160,6 +164,9 @@
     <Midl Include="StorageConfigurationPage.idl">
       <DependentUpon>StorageConfigurationPage.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Midl>
+    <Midl Include="ScsiDeviceDataTemplateSelector.idl">
+      <SubType>Designer</SubType>
     </Midl>
     <Midl Include="SystemConfigurationPage.idl">
       <DependentUpon>SystemConfigurationPage.xaml</DependentUpon>
@@ -235,6 +242,10 @@
     </ClInclude>
     <ClInclude Include="StorageConfigurationPage.h">
       <DependentUpon>StorageConfigurationPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="ScsiDeviceDataTemplateSelector.h">
+      <DependentUpon>ScsiDeviceDataTemplateSelector.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="SystemConfigurationPage.h">
