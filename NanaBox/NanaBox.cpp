@@ -2008,8 +2008,8 @@ int WINAPI wWinMain(
     std::filesystem::current_path(
         g_ConfigurationFilePath.parent_path());
 
-    winrt::NanaBox::App app =
-        winrt::make<winrt::NanaBox::implementation::App>();
+    winrt::com_ptr<winrt::NanaBox::implementation::App> app =
+        winrt::make_self<winrt::NanaBox::implementation::App>();
 
     WTL::CMessageLoop MessageLoop;
 
@@ -2035,7 +2035,7 @@ int WINAPI wWinMain(
     g_Module.RemoveMessageLoop();
     g_Module.Term();
 
-    app.Close();
+    app->Close();
 
     return Result;
 }
