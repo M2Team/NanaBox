@@ -28,11 +28,11 @@ API is stateless which not available to manage virtual machines listed in
 Hyper-V Manager.
 
 NanaBox chooses Host Compute System API instead of Hyper-V WMI Providers because
-the author (Kenji Mouri) want to have portable virtual machine configurations
-and feel disgusting for registering virtual machine configurations into system.
+the author (Kenji Mouri) wants to have portable virtual machine configurations
+and feels disgusting for registering virtual machine configurations into system.
 
 NanaBox chooses define own JSON-based virtual machine configurations format
-because Hyper-V's vmcx is a binary format and no documented format definitions
+because Hyper-V's VMCX is a binary format and no documented format definitions
 from Microsoft.
 
 **All kinds of contributions will be appreciated. All suggestions, pull 
