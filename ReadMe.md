@@ -19,8 +19,18 @@
 ![Screenshot 3](Documents/Screenshot3.png)
 
 NanaBox is a third-party lightweight XAML-based out-of-box-experience oriented
-Hyper-V client based on Host Compute System API, Remote Desktop ActiveX control
-and XAML Islands.
+Hyper-V virtualization client based on Host Compute System API, Remote Desktop
+ActiveX control and XAML Islands.
+
+NanaBox is not a Hyper-V client because Host Compute System API is low-level
+API of Hyper-V WMI Providers which used in Hyper-V Manager, and Host Compute
+System API is stateless which not available to manage virtual machines listed
+in Hyper-V Manager. NanaBox chooses Host Compute System API instead of Hyper-V
+WMI Providers because the author (Kenji Mouri) want to have portable virtual
+machine configurations and really don't like registering virtual machine
+configurations into system. NanaBox chooses define own JSON-based virtual
+machine configurations format because Hyper-V's vmcx is a binary format and no
+documented format definitions from Microsoft.
 
 **All kinds of contributions will be appreciated. All suggestions, pull 
 requests and issues are welcome.**
