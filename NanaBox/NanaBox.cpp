@@ -1835,16 +1835,8 @@ int WINAPI wWinMain(
                     TempBinaryPath / L"resources.pri");
 
                 std::filesystem::copy_file(
-                    AppBinaryPath / L"Mile.Xaml.dll",
-                    TempBinaryPath / L"Mile.Xaml.dll");
-
-                std::filesystem::copy_file(
                     AppBinaryPath / L"Mile.Xaml.Styles.SunValley.xbf",
                     TempBinaryPath / L"Mile.Xaml.Styles.SunValley.xbf");
-
-                std::filesystem::copy_file(
-                    AppBinaryPath / L"Mile.Xaml.winmd",
-                    TempBinaryPath / L"Mile.Xaml.winmd");
 
                 TargetBinaryPath = TempBinaryPath;
             }
