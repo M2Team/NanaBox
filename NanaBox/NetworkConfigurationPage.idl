@@ -2,6 +2,7 @@
 
 namespace NanaBox
 {
+    [bindable]
     [default_interface]
     runtimeclass NetworkConfigurationPage : Windows.UI.Xaml.Controls.Page
     {

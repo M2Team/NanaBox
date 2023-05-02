@@ -8,9 +8,9 @@
 #include "NetworkAdapterViewModel.h"
 #include "ScsiDeviceViewModel.h"
 #include "SelectOption.h"
+#include "RelayCommand.h"
 
-#include <numeric>
-#include <ranges>
+#include <functional>
 namespace winrt::NanaBox::implementation
 {
     ConfigurationViewModel::ConfigurationViewModel(::NanaBox::VirtualMachineConfiguration* config)
@@ -77,6 +77,13 @@ namespace winrt::NanaBox::implementation
             auto impl = winrt::make_self<implementation::ScsiDeviceViewModel>(&device);
             m_scsiDevices.Append(*impl);
         }
+
+        m_deleteNetAdapterCmd = winrt::make<implementation::RelayCommand>(
+            std::bind(&ConfigurationViewModel::DeleteNetworkAdapter, this, std::placeholders::_1)
+        );
+        m_deleteScsiDeviceCmd = winrt::make<implementation::RelayCommand>(
+            std::bind(&ConfigurationViewModel::DeleteScsiDevice, this, std::placeholders::_1)            
+        );
     }
 
     int32_t ConfigurationViewModel::Version()
@@ -220,9 +227,70 @@ namespace winrt::NanaBox::implementation
         return m_processorCountList;
     }
 
-    winrt::ICommand ConfigurationViewModel::SaveCommand()
+    void ConfigurationViewModel::AddNetworkAdapter()
     {
-        throw hresult_not_implemented();
+        m_configuration->NetworkAdapters.push_back(::NanaBox::NetworkAdapterConfiguration{});
+        auto&& device = m_configuration->NetworkAdapters.back();
+        device.Connected = true;
+        device.Enabled = true;
+
+        auto impl = winrt::make_self<implementation::NetworkAdapterViewModel>(&device);
+        m_netAdapters.Append(*impl);
+    }
+    void ConfigurationViewModel::DeleteNetworkAdapter(IInspectable item)
+    {
+        auto vm = item.try_as<NanaBox::NetworkAdapterViewModel>();
+        if (!vm) return;
+
+        uint32_t index;
+        if (!m_netAdapters.IndexOf(vm, index)) return;
+
+        m_netAdapters.RemoveAt(index);
+        auto iter = m_configuration->NetworkAdapters.begin();
+        std::advance(iter, index);
+        m_configuration->NetworkAdapters.erase(iter);
+    }
+    winrt::ICommand ConfigurationViewModel::DeleteNetworkAdapterCommand()
+    {
+        return m_deleteNetAdapterCmd;
+    }
+
+    void ConfigurationViewModel::AddVirtualDisk()
+    {
+        m_configuration->ScsiDevices.push_back(::NanaBox::ScsiDeviceConfiguration{});
+        auto&& device = m_configuration->ScsiDevices.back();
+        device.Type = ::NanaBox::ScsiDeviceType::VirtualDisk;
+        device.Enabled = true;
+
+        auto impl = winrt::make_self<implementation::ScsiDeviceViewModel>(&device);
+        m_scsiDevices.Append(*impl);
+    }
+    void ConfigurationViewModel::AddVirtualImage()
+    {
+        m_configuration->ScsiDevices.push_back(::NanaBox::ScsiDeviceConfiguration{});
+        auto&& device = m_configuration->ScsiDevices.back();
+        device.Type = ::NanaBox::ScsiDeviceType::VirtualImage;
+        device.Enabled = true;
+
+        auto impl = winrt::make_self<implementation::ScsiDeviceViewModel>(&device);
+        m_scsiDevices.Append(*impl);
+    }
+    void ConfigurationViewModel::DeleteScsiDevice(IInspectable item)
+    {
+        auto vm = item.try_as<NanaBox::ScsiDeviceViewModel>();
+        if (!vm) return;
+
+        uint32_t index;
+        if (!m_scsiDevices.IndexOf(vm, index)) return;
+
+        m_scsiDevices.RemoveAt(index);
+        auto iter = m_configuration->ScsiDevices.begin();
+        std::advance(iter, index);
+        m_configuration->ScsiDevices.erase(iter);
+    }
+    winrt::ICommand ConfigurationViewModel::DeleteScsiDeviceCommand()
+    {
+        return m_deleteScsiDeviceCmd;
     }
 
     winrt::event_token ConfigurationViewModel::PropertyChanged(PropertyChangedEventHandler const& handler)

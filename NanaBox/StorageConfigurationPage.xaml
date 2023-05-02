@@ -1,5 +1,6 @@
 ﻿<Page
     x:Class="NanaBox.StorageConfigurationPage"
+    x:Name="StoragePage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:NanaBox"
@@ -24,7 +25,8 @@
         </StackPanel>
         <StackPanel Grid.Column="2" Orientation="Horizontal">
           <Button Margin="0,0,8,0">[Browse]</Button>
-          <Button>[Delete]</Button>
+          <Button Command="{Binding ElementName=StoragePage, Path=ViewModel.DeleteScsiDeviceCommand}"
+                      CommandParameter="{x:Bind}">[Delete]</Button>
         </StackPanel>
       </Grid>
     </DataTemplate>
@@ -43,7 +45,8 @@
         <StackPanel Grid.Column="2" Orientation="Horizontal">
           <Button Margin="0,0,8,0">[Eject]</Button>
           <Button Margin="0,0,8,0">[Browse]</Button>
-          <Button>[Delete]</Button>
+          <Button Command="{Binding ElementName=StoragePage, Path=ViewModel.DeleteScsiDeviceCommand}"
+                      CommandParameter="{x:Bind}">[Delete]</Button>
         </StackPanel>
       </Grid>
     </DataTemplate>
@@ -61,8 +64,8 @@
       </Grid.ColumnDefinitions>
       <TextBlock Grid.Column="0" VerticalAlignment="Center">[Add Device]</TextBlock>
       <StackPanel Grid.Column="1" Orientation="Horizontal">
-        <Button Margin="0,0,8,0">[Add Disk]</Button>
-        <Button>[Add CD/DVD-ROM]</Button>
+        <Button Margin="0,0,8,0" Click="{x:Bind ViewModel.AddVirtualDisk}">[Add Disk]</Button>
+        <Button Click="{x:Bind ViewModel.AddVirtualImage}">[Add CD/DVD-ROM]</Button>
       </StackPanel>
     </Grid>
 

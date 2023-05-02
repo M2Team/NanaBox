@@ -44,12 +44,19 @@ namespace winrt::NanaBox::implementation
         IObservableVector<NanaBox::SelectOption> GuestTypeList();
         IObservableVector<NanaBox::SelectOption> ProcessorCountList();
 
-        ICommand SaveCommand();
+        void AddNetworkAdapter();
+        void AddVirtualDisk();
+        void AddVirtualImage();
+        ICommand DeleteNetworkAdapterCommand();
+        ICommand DeleteScsiDeviceCommand();
 
         winrt::event_token PropertyChanged(PropertyChangedEventHandler const& handler);
         void PropertyChanged(winrt::event_token const& token) noexcept;
 
     private:
+        void DeleteNetworkAdapter(IInspectable item);
+        void DeleteScsiDevice(IInspectable item);
+
         ::NanaBox::VirtualMachineConfiguration* m_configuration;
 
         hstring m_name;
@@ -61,7 +68,13 @@ namespace winrt::NanaBox::implementation
         NanaBox::GpuViewModel m_gpu{ nullptr };
         IObservableVector<NanaBox::NetworkAdapterViewModel> m_netAdapters{ nullptr };
         IObservableVector<NanaBox::ScsiDeviceViewModel> m_scsiDevices{ nullptr };
-        
+
+        ICommand m_addNetAdapterCmd{ nullptr };
+        ICommand m_deleteNetAdapterCmd{ nullptr };
+
+        ICommand m_addScsiDeviceCmd{ nullptr };
+        ICommand m_deleteScsiDeviceCmd{ nullptr };
+
         NanaBox::SelectOption m_guestType{ nullptr };
         NanaBox::SelectOption m_processorCount{ nullptr };
         IObservableVector<NanaBox::SelectOption> m_guestTypeList{ nullptr };

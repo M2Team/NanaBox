@@ -39,6 +39,10 @@
       <DependentUpon>BasicConfigurationPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
+    <ClCompile Include="BooleanToStringConverter.cpp">
+      <DependentUpon>BooleanToStringConverter.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
     <ClCompile Include="ComPortsViewModel.cpp">
       <DependentUpon>ComPortsViewModel.idl</DependentUpon>
       <SubType>Code</SubType>
@@ -87,6 +91,10 @@
       <DependentUpon>MinimalExpander.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
+    <ClCompile Include="RelayCommand.cpp">
+      <DependentUpon>RelayCommand.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
     <ClCompile Include="ScsiDeviceViewModel.cpp">
       <DependentUpon>ScsiDeviceViewModel.idl</DependentUpon>
       <SubType>Code</SubType>
@@ -127,6 +135,9 @@
       <DependentUpon>BasicConfigurationPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
+    <Midl Include="BooleanToStringConverter.idl">
+      <SubType>Designer</SubType>
+    </Midl>
     <Midl Include="ComPortsViewModel.idl">
       <SubType>Designer</SubType>
     </Midl>
@@ -157,6 +168,9 @@
       <SubType>Code</SubType>
     </Midl>
     <Midl Include="MinimalExpander.idl">
+      <SubType>Designer</SubType>
+    </Midl>
+    <Midl Include="RelayCommand.idl">
       <SubType>Designer</SubType>
     </Midl>
     <Midl Include="ScsiDeviceViewModel.idl">
@@ -190,6 +204,10 @@
   <ItemGroup>
     <ClInclude Include="BasicConfigurationPage.h">
       <DependentUpon>BasicConfigurationPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="BooleanToStringConverter.h">
+      <DependentUpon>BooleanToStringConverter.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="ComPortsViewModel.h">
@@ -236,6 +254,10 @@
     <ClInclude Include="NanaBoxResources.h" />
     <ClInclude Include="MinimalExpander.h">
       <DependentUpon>MinimalExpander.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="RelayCommand.h">
+      <DependentUpon>RelayCommand.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="ScsiDeviceViewModel.h">

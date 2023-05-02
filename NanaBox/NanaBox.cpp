@@ -1523,12 +1523,12 @@ int WINAPI wWinMain(
     if (ShowVirtualMachineConfig)
     {
         ConfigurationWindow = std::make_unique<NanaBox::ConfigurationWindow>();
-        if (!ConfigurationWindow->Initialize())
+        if (!ConfigurationWindow->Initialize(g_ConfigurationFilePath))
         {
             return -1;
         }
 
-        ConfigurationWindow->LoadConfiguration(g_ConfigurationFilePath);
+        //ConfigurationWindow->LoadConfiguration(g_ConfigurationFilePath);
         ConfigurationWindow->ShowWindow(nShowCmd);
         ConfigurationWindow->UpdateWindow();
     }

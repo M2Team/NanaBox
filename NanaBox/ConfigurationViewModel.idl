@@ -6,6 +6,7 @@ import "SelectOption.idl";
 
 namespace NanaBox
 {
+    [bindable]
     [default_interface]
     runtimeclass ConfigurationViewModel : Windows.UI.Xaml.Data.INotifyPropertyChanged
     {
@@ -29,6 +30,11 @@ namespace NanaBox
         Windows.Foundation.Collections.IObservableVector<SelectOption> GuestTypeList { get; };
         Windows.Foundation.Collections.IObservableVector<SelectOption> ProcessorCountList { get; };
         
-        Windows.UI.Xaml.Input.ICommand SaveCommand {get;};
+        void AddNetworkAdapter();
+        Windows.UI.Xaml.Input.ICommand DeleteNetworkAdapterCommand {get;};
+
+        void AddVirtualDisk();
+        void AddVirtualImage();
+        Windows.UI.Xaml.Input.ICommand DeleteScsiDeviceCommand {get;};
     }
 }

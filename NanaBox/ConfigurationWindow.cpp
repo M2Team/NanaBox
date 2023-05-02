@@ -43,11 +43,20 @@ void NanaBox::ConfigurationWindow::OnDestroy()
     ::PostQuitMessage(0);
 }
 
-bool NanaBox::ConfigurationWindow::Initialize()
+bool NanaBox::ConfigurationWindow::Initialize(std::filesystem::path const& path)
 {
     this->m_ConfigurationControl =
         winrt::make<winrt::NanaBox::implementation::ConfigurationWindowControl>();
-    
+
+    m_ConfigurationPath = path;
+    std::string ConfigurationFileContent = ::ReadAllTextFromUtf8TextFile(path);
+
+    this->m_Configuration = NanaBox::DeserializeConfiguration(
+        ConfigurationFileContent);
+    auto viewModel = winrt::make<winrt::NanaBox::implementation::ConfigurationViewModel>(
+        &this->m_Configuration);
+    this->m_ConfigurationControl.ViewModel(viewModel);
+
     if (!this->Create(
         nullptr,
         this->rcDefault,
@@ -62,17 +71,3 @@ bool NanaBox::ConfigurationWindow::Initialize()
 
     return true;
 }
-
-void NanaBox::ConfigurationWindow::LoadConfiguration(std::filesystem::path const& path)
-{
-    m_ConfigurationPath = path;
-
-    std::string ConfigurationFileContent = ::ReadAllTextFromUtf8TextFile(path);
-
-    this->m_Configuration = NanaBox::DeserializeConfiguration(
-        ConfigurationFileContent);
-    auto viewModel = winrt::make<winrt::NanaBox::implementation::ConfigurationViewModel>(
-        &this->m_Configuration);
-    this->m_ConfigurationControl.ViewModel(viewModel);
-}
-

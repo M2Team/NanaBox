@@ -1,0 +1,7 @@
+﻿namespace NanaBox
+{
+    [default_interface]
+    runtimeclass RelayCommand : Windows.UI.Xaml.Input.ICommand
+    {
+    }
+}

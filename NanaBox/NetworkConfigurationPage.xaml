@@ -1,5 +1,6 @@
 ﻿<Page
     x:Class="NanaBox.NetworkConfigurationPage"
+    x:Name="NetworkPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:NanaBox"
@@ -7,6 +8,13 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Margin="48, 24, 48, 0">
+  <Page.Resources>
+    <local:BooleanToStringConverter TrueValue="[Connected]" FalseValue="[Disconnected]" x:Key="BooleanToConnectStatusConverter"/>
+    <local:BooleanToStringConverter TrueValue="[Enabled]" FalseValue="[Disabled]" x:Key="BooleanToEnableStatusConverter"/>
+
+    <local:BooleanToStringConverter TrueValue="[Connect]" FalseValue="[Disconnect]" x:Key="BooleanToConnectButtonLabelConverter"/>
+    <local:BooleanToStringConverter TrueValue="[Enable]" FalseValue="[Disable]" x:Key="BooleanToEnableButtonLabelConverter"/>
+  </Page.Resources>
 
 
   <StackPanel Orientation="Vertical">
@@ -17,10 +25,10 @@
         <ColumnDefinition Width="Auto"/>
       </Grid.ColumnDefinitions>
       <TextBlock Grid.Column="0" VerticalAlignment="Center">[Add Network Adapter]</TextBlock>
-      <Button Grid.Column="1">[Add]</Button>
+      <Button Grid.Column="1" Click="{x:Bind ViewModel.AddNetworkAdapter}">[Add]</Button>
     </Grid>
 
-    <ItemsControl ItemsSource="{x:Bind ViewModel.NetworkAdapters}"                  
+    <ItemsControl ItemsSource="{x:Bind ViewModel.NetworkAdapters}"
                   Margin="0,24,0,0">
       <ItemsControl.ItemsPanel>
         <ItemsPanelTemplate>
@@ -37,11 +45,29 @@
             </Grid.ColumnDefinitions>
             <FontIcon Grid.Column="0" FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE839;"/>
             <StackPanel Grid.Column="1" VerticalAlignment="Center" Orientation="Vertical" Margin="16,0,0,0">
-              <TextBlock Text="{x:Bind EndpointId, Mode=OneWay}" FontSize="12" Foreground="{StaticResource SystemBaseMediumColor}"/>
-              <TextBlock Text="{x:Bind MacAddress, Mode=OneWay}" FontSize="12" Foreground="{StaticResource SystemBaseMediumColor}"/>
+              <TextBlock>
+                <Run>[Network]</Run>
+                <Run>|</Run>
+                <Run Text="{x:Bind Enabled, Mode=OneWay, Converter={StaticResource BooleanToEnableStatusConverter}}"/>
+                <Run>|</Run>
+                <Run Text="{x:Bind Connected, Mode=OneWay, Converter={StaticResource BooleanToConnectStatusConverter}}"/>
+              </TextBlock>
+              <TextBlock FontSize="12" Foreground="{StaticResource SystemBaseMediumColor}">
+                <Run>Endpoint:</Run>
+                <Run Text="{x:Bind EndpointId, Mode=OneWay}"></Run>
+              </TextBlock>
+              <TextBlock FontSize="12" Foreground="{StaticResource SystemBaseMediumColor}">
+                <Run>MAC Address:</Run>
+                <Run Text="{x:Bind MacAddress, Mode=OneWay}"></Run>
+              </TextBlock>
             </StackPanel>
             <StackPanel Grid.Column="2" Orientation="Horizontal">
-              <Button>[Delete]</Button>
+              <Button Margin="0,0,8,0"
+                      Content="{x:Bind Enabled, Mode=OneWay, Converter={StaticResource BooleanToEnableButtonLabelConverter}}"/>
+              <Button Margin="0,0,8,0"
+                      Content="{x:Bind Connected, Mode=OneWay, Converter={StaticResource BooleanToConnectButtonLabelConverter}}"/>
+              <Button Command="{Binding ElementName=NetworkPage, Path=ViewModel.DeleteNetworkAdapterCommand}"
+                      CommandParameter="{x:Bind}">[Delete]</Button>
             </StackPanel>
           </Grid>
         </DataTemplate>

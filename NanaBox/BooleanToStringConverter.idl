@@ -1,0 +1,10 @@
+﻿namespace NanaBox
+{    
+    [default_interface]
+    runtimeclass BooleanToStringConverter : Windows.UI.Xaml.Data.IValueConverter
+    {
+        BooleanToStringConverter();
+        String TrueValue;
+        String FalseValue;
+    }
+}

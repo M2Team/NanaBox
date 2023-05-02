@@ -47,9 +47,7 @@ namespace NanaBox
 
         void OnDestroy();
 
-        bool Initialize();
-
-        void LoadConfiguration(std::filesystem::path const& path);
+        bool Initialize(std::filesystem::path const& path);
     private:
 
         WTL::CIcon m_ApplicationIcon;

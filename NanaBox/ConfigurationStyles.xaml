@@ -9,7 +9,7 @@
     <Setter Target="CornerRadius" Value="{StaticResource ControlCornerRadius}"/>
     <Setter Target="Padding" Value="16"/>
     <Setter Target="Margin" Value="0,0,0,4"/>
-    <Setter Target="Height" Value="72px"/>
+    <Setter Target="MinHeight" Value="72"/>
   </Style>
 
   <Style TargetType="TextBox" x:Key="ConfigurationBlockTextBoxStyle" BasedOn="{StaticResource DefaultTextBoxStyle}">

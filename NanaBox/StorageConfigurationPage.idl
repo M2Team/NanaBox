@@ -2,6 +2,7 @@
 
 namespace NanaBox
 {
+    [bindable]
     [default_interface]
     runtimeclass StorageConfigurationPage : Windows.UI.Xaml.Controls.Page
     {

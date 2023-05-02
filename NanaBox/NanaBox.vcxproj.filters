@@ -138,6 +138,12 @@
     <Midl Include="ScsiDeviceDataTemplateSelector.idl">
       <Filter>ConfigurationUI\ViewModels</Filter>
     </Midl>
+    <Midl Include="RelayCommand.idl">
+      <Filter>ConfigurationUI\ViewModels</Filter>
+    </Midl>
+    <Midl Include="BooleanToStringConverter.idl">
+      <Filter>ConfigurationUI\ViewModels</Filter>
+    </Midl>
   </ItemGroup>
   <ItemGroup>
     <PRIResource Include="Strings\en\MainWindowExitNoticeWindow.resw">
