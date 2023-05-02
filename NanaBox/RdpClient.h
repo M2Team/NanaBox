@@ -112,6 +112,32 @@ namespace NanaBox
         winrt::com_ptr<IMsRdpDriveV2> m_Instance;
     };
 
+    struct RdpCamera
+    {
+    public:
+
+        RdpCamera(
+            winrt::com_ptr<IMsRdpCameraRedirConfig> const& Instance);
+
+        winrt::hstring FriendlyName();
+
+        winrt::hstring SymbolicLink();
+
+        winrt::hstring InstanceId();
+
+        winrt::hstring ParentInstanceId();
+
+        bool Redirected();
+        void Redirected(
+            bool const& Value);
+
+        bool DeviceExists();
+
+    private:
+
+        winrt::com_ptr<IMsRdpCameraRedirConfig> m_Instance;
+    };
+
     struct RdpClient : public winrt::implements<
         RdpClient,
         IMsTscAxEvents>
@@ -661,6 +687,11 @@ namespace NanaBox
         void RemoteApplicationArgs(
             winrt::hstring const& Value);
 
+        void ServerStartApp(
+            winrt::hstring const& AppUserModelId,
+            winrt::hstring const& Arguments,
+            bool const& ExpandEnvVarInArgumentsOnServer);
+
 #pragma endregion
 
 #pragma region Shell
@@ -832,6 +863,54 @@ namespace NanaBox
         bool AllowPromptingForCredentials();
         void AllowPromptingForCredentials(
             bool const& Value);
+
+        void SendLocation2D(
+            double Latitude,
+            double Longitude);
+
+        void SendLocation3D(
+            double Latitude,
+            double Longitude,
+            int Altitude);
+
+        void RescanCameras();
+
+        ULONG CameraCount();
+
+        NanaBox::RdpCamera CameraByIndex(
+            ULONG Index);
+
+        NanaBox::RdpCamera CameraBySymbolicLink(
+            winrt::hstring const& SymbolicLink);
+
+        NanaBox::RdpCamera CameraByInstanceId(
+            winrt::hstring const& InstanceId);
+
+        void AddCameraConfig(
+            winrt::hstring const& SymbolicLink,
+            bool const& Redirected);
+
+        bool RedirectCameraByDefault();
+        void RedirectCameraByDefault(
+            bool const& Value);
+
+        bool EncodeCameraVideo();
+        void EncodeCameraVideo(
+            bool const& Value);
+
+        CameraRedirEncodingQuality CameraEncodingQuality();
+        void CameraEncodingQuality(
+            CameraRedirEncodingQuality const& Value);
+
+        void DisableDpiCursorScalingForProcess();
+
+        bool CanSyncLocalClipboardToRemoteSession();
+
+        void SyncLocalClipboardToRemoteSession();
+
+        bool CanSyncRemoteClipboardToLocalSession();
+
+        void SyncRemoteClipboardToLocalSession();
 
 #pragma endregion
 
@@ -1026,17 +1105,19 @@ namespace NanaBox
 
     private:
 
-        winrt::com_ptr<IMsRdpClient9> m_RdpClient;
+        winrt::com_ptr<IMsRdpClient10> m_RdpClient;
         winrt::com_ptr<IMsRdpClientSecuredSettings2> m_SecuredSettings;
         winrt::com_ptr<IMsRdpClientAdvancedSettings8> m_AdvancedSettings;
         winrt::com_ptr<IMsRdpClientTransportSettings4> m_TransportSettings;
-        winrt::com_ptr<ITSRemoteProgram2> m_RemoteProgram;
+        winrt::com_ptr<ITSRemoteProgram3> m_RemoteProgram;
         winrt::com_ptr<IMsRdpClientShell> m_Shell;
         winrt::com_ptr<IMsRdpPreferredRedirectionInfo> m_RedirectionInfo;
         winrt::com_ptr<IMsRdpExtendedSettings> m_ExtendedSettings;
-        winrt::com_ptr<IMsRdpClientNonScriptable5> m_NonScriptable;
+        winrt::com_ptr<IMsRdpClientNonScriptable7> m_NonScriptable;
         winrt::com_ptr<IMsRdpDeviceCollection> m_DeviceCollection;
         winrt::com_ptr<IMsRdpDriveCollection> m_DriveCollection;
+        winrt::com_ptr<IMsRdpCameraRedirConfigCollection> m_CameraCollection;
+        winrt::com_ptr<IMsRdpClipboard> m_Clipboard;
         winrt::com_ptr<IConnectionPoint> m_ConnectionPoint;
         DWORD m_Cookie = 0;
         winrt::event<OnCallbackType> m_OnConnecting;

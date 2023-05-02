@@ -159,10 +159,79 @@ ULONG NanaBox::RdpDrive::DriveLetterIndex()
     return RawValue;
 }
 
+NanaBox::RdpCamera::RdpCamera(
+    winrt::com_ptr<IMsRdpCameraRedirConfig> const& Instance)
+    : m_Instance(Instance.as<IMsRdpCameraRedirConfig>())
+{
+
+}
+
+winrt::hstring NanaBox::RdpCamera::FriendlyName()
+{
+    winrt::bstr RawValue;
+    winrt::check_hresult(
+        this->m_Instance->get_FriendlyName(
+            RawValue.put()));
+    return winrt::hstring(RawValue.get());
+}
+
+winrt::hstring NanaBox::RdpCamera::SymbolicLink()
+{
+    winrt::bstr RawValue;
+    winrt::check_hresult(
+        this->m_Instance->get_SymbolicLink(
+            RawValue.put()));
+    return winrt::hstring(RawValue.get());
+}
+
+winrt::hstring NanaBox::RdpCamera::InstanceId()
+{
+    winrt::bstr RawValue;
+    winrt::check_hresult(
+        this->m_Instance->get_InstanceId(
+            RawValue.put()));
+    return winrt::hstring(RawValue.get());
+}
+
+winrt::hstring NanaBox::RdpCamera::ParentInstanceId()
+{
+    winrt::bstr RawValue;
+    winrt::check_hresult(
+        this->m_Instance->get_ParentInstanceId(
+            RawValue.put()));
+    return winrt::hstring(RawValue.get());
+}
+
+bool NanaBox::RdpCamera::Redirected()
+{
+    VARIANT_BOOL RawValue;
+    winrt::check_hresult(
+        this->m_Instance->get_Redirected(
+            &RawValue));
+    return RawValue;
+}
+
+void NanaBox::RdpCamera::Redirected(
+    bool const& Value)
+{
+    winrt::check_hresult(
+        this->m_Instance->put_Redirected(
+            Value ? VARIANT_TRUE : VARIANT_FALSE));
+}
+
+bool NanaBox::RdpCamera::DeviceExists()
+{
+    VARIANT_BOOL RawValue;
+    winrt::check_hresult(
+        this->m_Instance->get_DeviceExists(
+            &RawValue));
+    return RawValue;
+}
+
 NanaBox::RdpClient::RdpClient()
 {
-    this->m_RdpClient = winrt::create_instance<IMsRdpClient9>(
-        CLSID_MsRdpClient9NotSafeForScripting);
+    this->m_RdpClient = winrt::create_instance<IMsRdpClient10>(
+        CLSID_MsRdpClient10NotSafeForScripting);
 
     winrt::check_hresult(this->m_RdpClient->get_SecuredSettings3(
         this->m_SecuredSettings.put()));
@@ -173,7 +242,7 @@ NanaBox::RdpClient::RdpClient()
     winrt::check_hresult(this->m_RdpClient->get_TransportSettings4(
         this->m_TransportSettings.put()));
 
-    winrt::check_hresult(this->m_RdpClient->get_RemoteProgram2(
+    winrt::check_hresult(this->m_RdpClient->get_RemoteProgram3(
         this->m_RemoteProgram.put()));
 
     winrt::check_hresult(this->m_RdpClient->get_MsRdpClientShell(
@@ -186,7 +255,7 @@ NanaBox::RdpClient::RdpClient()
         this->m_RdpClient.as<IMsRdpExtendedSettings>();
 
     this->m_NonScriptable =
-        this->m_RdpClient.as<IMsRdpClientNonScriptable5>();
+        this->m_RdpClient.as<IMsRdpClientNonScriptable7>();
 
     winrt::check_hresult(
         this->m_NonScriptable->get_DeviceCollection(
@@ -195,6 +264,14 @@ NanaBox::RdpClient::RdpClient()
     winrt::check_hresult(
         this->m_NonScriptable->get_DriveCollection(
             this->m_DriveCollection.put()));
+
+    winrt::check_hresult(
+        this->m_NonScriptable->get_CameraRedirConfigCollection(
+            this->m_CameraCollection.put()));
+
+    winrt::check_hresult(
+        this->m_NonScriptable->get_Clipboard(
+            this->m_Clipboard.put()));
 
     winrt::com_ptr<IConnectionPointContainer> ConnectionPointContainer =
         this->m_RdpClient.as<IConnectionPointContainer>();
@@ -2386,6 +2463,24 @@ void NanaBox::RdpClient::RemoteApplicationArgs(
             RawValue.get()));
 }
 
+void NanaBox::RdpClient::ServerStartApp(
+    winrt::hstring const& AppUserModelId,
+    winrt::hstring const& Arguments,
+    bool const& ExpandEnvVarInArgumentsOnServer)
+{
+    winrt::bstr RawAppUserModelId;
+    RawAppUserModelId.attach(::SysAllocString(AppUserModelId.c_str()));
+    winrt::bstr RawArguments;
+    RawArguments.attach(::SysAllocString(Arguments.c_str()));
+    winrt::check_hresult(
+        this->m_RemoteProgram->ServerStartApp(
+            RawAppUserModelId.get(),
+            RawArguments.get(),
+            ExpandEnvVarInArgumentsOnServer
+            ? VARIANT_TRUE
+            : VARIANT_FALSE));
+}
+
 #pragma endregion
 
 #pragma region Shell
@@ -3013,6 +3108,181 @@ void NanaBox::RdpClient::AllowPromptingForCredentials(
     winrt::check_hresult(
         this->m_NonScriptable->put_AllowPromptingForCredentials(
             Value ? VARIANT_TRUE : VARIANT_FALSE));
+}
+
+void NanaBox::RdpClient::SendLocation2D(
+    double Latitude,
+    double Longitude)
+{
+    winrt::check_hresult(
+        this->m_NonScriptable->SendLocation2D(
+            Latitude,
+            Longitude));
+}
+
+void NanaBox::RdpClient::SendLocation3D(
+    double Latitude,
+    double Longitude,
+    int Altitude)
+{
+    winrt::check_hresult(
+        this->m_NonScriptable->SendLocation3D(
+            Latitude,
+            Longitude,
+            Altitude));
+}
+
+void NanaBox::RdpClient::RescanCameras()
+{
+    winrt::check_hresult(
+        this->m_CameraCollection->Rescan());
+}
+
+ULONG NanaBox::RdpClient::CameraCount()
+{
+    ULONG RawValue;
+    winrt::check_hresult(
+        this->m_CameraCollection->get_Count(
+            &RawValue));
+    return RawValue;
+}
+
+NanaBox::RdpCamera NanaBox::RdpClient::CameraByIndex(
+    ULONG Index)
+{
+    winrt::com_ptr<IMsRdpCameraRedirConfig> Value;
+    winrt::check_hresult(
+        this->m_CameraCollection->get_ByIndex(
+            Index,
+            Value.put()));
+    return NanaBox::RdpCamera(Value);
+}
+
+NanaBox::RdpCamera NanaBox::RdpClient::CameraBySymbolicLink(
+    winrt::hstring const& SymbolicLink)
+{
+    winrt::bstr RawSymbolicLink;
+    RawSymbolicLink.attach(::SysAllocString(SymbolicLink.c_str()));
+    winrt::com_ptr<IMsRdpCameraRedirConfig> Value;
+    winrt::check_hresult(
+        this->m_CameraCollection->get_BySymbolicLink(
+            RawSymbolicLink.get(),
+            Value.put()));
+    return NanaBox::RdpCamera(Value);
+}
+
+NanaBox::RdpCamera NanaBox::RdpClient::CameraByInstanceId(
+    winrt::hstring const& InstanceId)
+{
+    winrt::bstr RawInstanceId;
+    RawInstanceId.attach(::SysAllocString(InstanceId.c_str()));
+    winrt::com_ptr<IMsRdpCameraRedirConfig> Value;
+    winrt::check_hresult(
+        this->m_CameraCollection->get_ByInstanceId(
+            RawInstanceId.get(),
+            Value.put()));
+    return NanaBox::RdpCamera(Value);
+}
+
+void NanaBox::RdpClient::AddCameraConfig(
+    winrt::hstring const& SymbolicLink,
+    bool const& Redirected)
+{
+    winrt::bstr RawSymbolicLink;
+    RawSymbolicLink.attach(::SysAllocString(SymbolicLink.c_str()));
+    winrt::check_hresult(
+        this->m_CameraCollection->AddConfig(
+            RawSymbolicLink.get(),
+            Redirected
+            ? VARIANT_TRUE
+            : VARIANT_FALSE));
+}
+
+bool NanaBox::RdpClient::RedirectCameraByDefault()
+{
+    VARIANT_BOOL RawValue;
+    winrt::check_hresult(
+        this->m_CameraCollection->get_RedirectByDefault(
+            &RawValue));
+    return RawValue;
+}
+
+void NanaBox::RdpClient::RedirectCameraByDefault(
+    bool const& Value)
+{
+    winrt::check_hresult(
+        this->m_CameraCollection->put_RedirectByDefault(
+            Value ? VARIANT_TRUE : VARIANT_FALSE));
+}
+
+bool NanaBox::RdpClient::EncodeCameraVideo()
+{
+    VARIANT_BOOL RawValue;
+    winrt::check_hresult(
+        this->m_CameraCollection->get_EncodeVideo(
+            &RawValue));
+    return RawValue;
+}
+
+void NanaBox::RdpClient::EncodeCameraVideo(
+    bool const& Value)
+{
+    winrt::check_hresult(
+        this->m_CameraCollection->put_EncodeVideo(
+            Value ? VARIANT_TRUE : VARIANT_FALSE));
+}
+
+CameraRedirEncodingQuality NanaBox::RdpClient::CameraEncodingQuality()
+{
+    CameraRedirEncodingQuality RawValue;
+    winrt::check_hresult(
+        this->m_CameraCollection->get_EncodingQuality(
+            &RawValue));
+    return RawValue;
+}
+
+void NanaBox::RdpClient::CameraEncodingQuality(
+    CameraRedirEncodingQuality const& Value)
+{
+    winrt::check_hresult(
+        this->m_CameraCollection->put_EncodingQuality(
+            Value));
+}
+
+void NanaBox::RdpClient::DisableDpiCursorScalingForProcess()
+{
+    winrt::check_hresult(
+        this->m_NonScriptable->DisableDpiCursorScalingForProcess());
+}
+
+bool NanaBox::RdpClient::CanSyncLocalClipboardToRemoteSession()
+{
+    VARIANT_BOOL RawValue;
+    winrt::check_hresult(
+        this->m_Clipboard->CanSyncLocalClipboardToRemoteSession(
+            &RawValue));
+    return RawValue;
+}
+
+void NanaBox::RdpClient::SyncLocalClipboardToRemoteSession()
+{
+    winrt::check_hresult(
+        this->m_Clipboard->SyncLocalClipboardToRemoteSession());
+}
+
+bool NanaBox::RdpClient::CanSyncRemoteClipboardToLocalSession()
+{
+    VARIANT_BOOL RawValue;
+    winrt::check_hresult(
+        this->m_Clipboard->CanSyncRemoteClipboardToLocalSession(
+            &RawValue));
+    return RawValue;
+}
+
+void NanaBox::RdpClient::SyncRemoteClipboardToLocalSession()
+{
+    winrt::check_hresult(
+        this->m_Clipboard->SyncRemoteClipboardToLocalSession());
 }
 
 #pragma endregion

@@ -2053,48 +2053,40 @@ int WINAPI wWinMain(
                         AppBinaryPath / L"resources.pri",
                         TempBinaryPath / L"resources.pri");
 
-                    std::filesystem::copy_file(
-                        AppBinaryPath / L"Mile.Xaml.dll",
-                        TempBinaryPath / L"Mile.Xaml.dll");
+                std::filesystem::copy_file(
+                    AppBinaryPath / L"Mile.Xaml.Styles.SunValley.xbf",
+                    TempBinaryPath / L"Mile.Xaml.Styles.SunValley.xbf");
 
-                    std::filesystem::copy_file(
-                        AppBinaryPath / L"Mile.Xaml.Styles.SunValley.xbf",
-                        TempBinaryPath / L"Mile.Xaml.Styles.SunValley.xbf");
-
-                    std::filesystem::copy_file(
-                        AppBinaryPath / L"Mile.Xaml.winmd",
-                        TempBinaryPath / L"Mile.Xaml.winmd");
-
-                    TargetBinaryPath = TempBinaryPath;
-                }
-            }
-            catch (winrt::hresult_error const& ex)
-            {
-                ::TaskDialog(
-                    nullptr,
-                    nullptr,
-                    g_WindowTitle.data(),
-                    ex.message().c_str(),
-                    nullptr,
-                    TDCBF_OK_BUTTON,
-                    TD_ERROR_ICON,
-                    nullptr);
-                ::ExitProcess(ex.code());
-            }
-            catch (std::exception const& ex)
-            {
-                ::TaskDialog(
-                    nullptr,
-                    nullptr,
-                    g_WindowTitle.data(),
-                    winrt::to_hstring(ex.what()).c_str(),
-                    nullptr,
-                    TDCBF_OK_BUTTON,
-                    TD_ERROR_ICON,
-                    nullptr);
-                ::ExitProcess(static_cast<UINT>(-1));
+                TargetBinaryPath = TempBinaryPath;
             }
         }
+        catch (winrt::hresult_error const& ex)
+        {
+            ::TaskDialog(
+                nullptr,
+                nullptr,
+                g_WindowTitle.data(),
+                ex.message().c_str(),
+                nullptr,
+                TDCBF_OK_BUTTON,
+                TD_ERROR_ICON,
+                nullptr);
+            ::ExitProcess(ex.code());
+        }
+        catch (std::exception const& ex)
+        {
+            ::TaskDialog(
+                nullptr,
+                nullptr,
+                g_WindowTitle.data(),
+                winrt::to_hstring(ex.what()).c_str(),
+                nullptr,
+                TDCBF_OK_BUTTON,
+                TD_ERROR_ICON,
+                nullptr);
+            ::ExitProcess(static_cast<UINT>(-1));
+        }
+    }
 
         if (!::IsCurrentProcessElevated() || PackagedMode)
         {
@@ -2243,8 +2235,8 @@ int WINAPI wWinMain(
     std::filesystem::current_path(
         g_ConfigurationFilePath.parent_path());
 
-    winrt::NanaBox::App app =
-        winrt::make<winrt::NanaBox::implementation::App>();
+    winrt::com_ptr<winrt::NanaBox::implementation::App> app =
+        winrt::make_self<winrt::NanaBox::implementation::App>();
 
     WTL::CMessageLoop MessageLoop;
 
@@ -2295,7 +2287,7 @@ int WINAPI wWinMain(
     g_Module.RemoveMessageLoop();
     g_Module.Term();
 
-    app.Close();
+    app->Close();
 
     return Result;
 }

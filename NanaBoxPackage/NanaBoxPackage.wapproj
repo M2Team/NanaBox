@@ -42,7 +42,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NanaBox\NanaBox.vcxproj" />
+    <ProjectReference Include="..\NanaBox\NanaBox.vcxproj">
+      <Project>{BF54E51D-D562-4F07-8FE0-EF538B0A1628}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="..\Mile.Project.Windows\Mile.Project.Wap.targets" />
 </Project>
