@@ -13,6 +13,11 @@
     <ClCompile Include="VirtualMachineConfiguration.cpp">
       <Filter>VirtualMachineConfiguration</Filter>
     </ClCompile>
+    <ClCompile Include="ConfigurationWindow.cpp">
+      <Filter>ConfigurationUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils.cpp" />
+    <ClCompile Include="Environment.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="NanaBox.manifest" />
@@ -32,6 +37,11 @@
     <ClInclude Include="VirtualMachineConfiguration.h">
       <Filter>VirtualMachineConfiguration</Filter>
     </ClInclude>
+    <ClInclude Include="ConfigurationWindow.h">
+      <Filter>ConfigurationUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils.h" />
+    <ClInclude Include="Environment.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="RdpClient">

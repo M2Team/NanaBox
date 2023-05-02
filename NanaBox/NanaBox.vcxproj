@@ -47,6 +47,8 @@
       <DependentUpon>ConfigurationViewModel.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
+    <ClCompile Include="ConfigurationWindow.cpp" />
+    <ClCompile Include="Environment.cpp" />
     <ClCompile Include="GpuViewModel.cpp">
       <DependentUpon>GpuViewModel.idl</DependentUpon>
       <SubType>Code</SubType>
@@ -109,6 +111,7 @@
       <DependentUpon>ConfigurationWindowControl.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
+    <ClCompile Include="Utils.cpp" />
     <ClCompile Include="VirtualMachineConfiguration.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -193,10 +196,12 @@
       <DependentUpon>ComPortsViewModel.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
+    <ClInclude Include="ConfigurationWindow.h" />
     <ClInclude Include="ConfigurationViewModel.h">
       <DependentUpon>ConfigurationViewModel.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
+    <ClInclude Include="Environment.h" />
     <ClInclude Include="GpuViewModel.h">
       <DependentUpon>GpuViewModel.idl</DependentUpon>
       <SubType>Code</SubType>
@@ -253,6 +258,7 @@
       <DependentUpon>SystemConfigurationPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
+    <ClInclude Include="Utils.h" />
     <ClInclude Include="VirtualMachineConfiguration.h" />
     <ClInclude Include="ConfigurationWindowControl.h">
       <DependentUpon>ConfigurationWindowControl.xaml</DependentUpon>
