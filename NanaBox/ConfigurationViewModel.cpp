@@ -41,7 +41,7 @@ namespace winrt::NanaBox::implementation
         }
 
         m_guestType = nullptr;
-        {            
+        {
             for (auto&& item : m_guestTypeList)
             {
                 if (static_cast<::NanaBox::GuestType>(item.Value()) == m_configuration->GuestType)
@@ -51,7 +51,7 @@ namespace winrt::NanaBox::implementation
                 }
             }
         }
-        
+
         m_processorCount = nullptr;
         {
             for (auto&& item : m_processorCountList)
@@ -82,7 +82,7 @@ namespace winrt::NanaBox::implementation
             std::bind(&ConfigurationViewModel::DeleteNetworkAdapter, this, std::placeholders::_1)
         );
         m_deleteScsiDeviceCmd = winrt::make<implementation::RelayCommand>(
-            std::bind(&ConfigurationViewModel::DeleteScsiDevice, this, std::placeholders::_1)            
+            std::bind(&ConfigurationViewModel::DeleteScsiDevice, this, std::placeholders::_1)
         );
     }
 
@@ -101,7 +101,7 @@ namespace winrt::NanaBox::implementation
         {
             m_name = value;
             m_configuration->Name = winrt::to_string(value);
-            m_propertyChanged(*this, PropertyChangedEventArgs{ L"Name" });
+            this->PropertyChanged(*this, PropertyChangedEventArgs{ L"Name" });
         }
     }
 
@@ -112,10 +112,10 @@ namespace winrt::NanaBox::implementation
     void ConfigurationViewModel::GuestType(NanaBox::SelectOption const& value)
     {
         if (m_guestType != value)
-        {            
+        {
             m_guestType = value;
             m_configuration->GuestType = static_cast<::NanaBox::GuestType>(value.Value());
-            m_propertyChanged(*this, PropertyChangedEventArgs{ L"GuestType" });
+            this->PropertyChanged(*this, PropertyChangedEventArgs{ L"GuestType" });
         }
     }
 
@@ -126,10 +126,10 @@ namespace winrt::NanaBox::implementation
     void ConfigurationViewModel::ProcessorCount(NanaBox::SelectOption value)
     {
         if (m_processorCount != value)
-        {            
+        {
             m_processorCount = value;
             m_configuration->ProcessorCount = value.Value();
-            m_propertyChanged(*this, PropertyChangedEventArgs{ L"ProcessorCount" });
+            this->PropertyChanged(*this, PropertyChangedEventArgs{ L"ProcessorCount" });
         }
     }
 
@@ -142,7 +142,7 @@ namespace winrt::NanaBox::implementation
         if (m_configuration->MemorySize != value)
         {
             m_configuration->MemorySize = value;
-            m_propertyChanged(*this, PropertyChangedEventArgs{ L"MemorySize" });
+            this->PropertyChanged(*this, PropertyChangedEventArgs{ L"MemorySize" });
         }
     }
 
@@ -155,7 +155,7 @@ namespace winrt::NanaBox::implementation
         if (m_configuration->ExposeVirtualizationExtensions != value)
         {
             m_configuration->ExposeVirtualizationExtensions = value;
-            m_propertyChanged(*this, PropertyChangedEventArgs{ L"ExposeVirtualizationExtensions" });
+            this->PropertyChanged(*this, PropertyChangedEventArgs{ L"ExposeVirtualizationExtensions" });
         }
     }
 
@@ -169,7 +169,7 @@ namespace winrt::NanaBox::implementation
         {
             m_guestStateFile = value;
             m_configuration->GuestStateFile = winrt::to_string(value);
-            m_propertyChanged(*this, PropertyChangedEventArgs{ L"GuestStateFile" });
+            this->PropertyChanged(*this, PropertyChangedEventArgs{ L"GuestStateFile" });
         }
     }
 
@@ -183,7 +183,7 @@ namespace winrt::NanaBox::implementation
         {
             m_runtimeStateFile = value;
             m_configuration->RuntimeStateFile = winrt::to_string(value);
-            m_propertyChanged(*this, PropertyChangedEventArgs{ L"RuntimeStateFile" });
+            this->PropertyChanged(*this, PropertyChangedEventArgs{ L"RuntimeStateFile" });
         }
     }
 
@@ -197,7 +197,7 @@ namespace winrt::NanaBox::implementation
         {
             m_saveStateFile = value;
             m_configuration->SaveStateFile = winrt::to_string(value);
-            m_propertyChanged(*this, PropertyChangedEventArgs{ L"SaveStateFile" });
+            this->PropertyChanged(*this, PropertyChangedEventArgs{ L"SaveStateFile" });
         }
     }
 
@@ -291,14 +291,5 @@ namespace winrt::NanaBox::implementation
     winrt::ICommand ConfigurationViewModel::DeleteScsiDeviceCommand()
     {
         return m_deleteScsiDeviceCmd;
-    }
-
-    winrt::event_token ConfigurationViewModel::PropertyChanged(PropertyChangedEventHandler const& handler)
-    {
-        return m_propertyChanged.add(handler);
-    }
-    void ConfigurationViewModel::PropertyChanged(winrt::event_token const& token) noexcept
-    {
-        m_propertyChanged.remove(token);
     }
 }

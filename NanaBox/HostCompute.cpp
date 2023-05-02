@@ -264,30 +264,6 @@ void NanaBox::ComputeSystem::Modify(
         this->m_Operation);
 }
 
-winrt::event_token NanaBox::ComputeSystem::SystemExited(
-    winrt::delegate<winrt::hstring> const& Handler)
-{
-    return this->m_SystemExited.add(Handler);
-}
-
-void NanaBox::ComputeSystem::SystemExited(
-    winrt::event_token const& Token)
-{
-    this->m_SystemExited.remove(Token);
-}
-
-winrt::event_token NanaBox::ComputeSystem::SystemRdpEnhancedModeStateChanged(
-    winrt::delegate<> const& Handler)
-{
-    return this->m_SystemRdpEnhancedModeStateChanged.add(Handler);
-}
-
-void NanaBox::ComputeSystem::SystemRdpEnhancedModeStateChanged(
-    winrt::event_token const& Token)
-{
-    this->m_SystemRdpEnhancedModeStateChanged.remove(Token);
-}
-
 void CALLBACK NanaBox::ComputeSystem::ComputeSystemCallback(
     HCS_EVENT* Event,
     void* Context)
@@ -298,14 +274,14 @@ void CALLBACK NanaBox::ComputeSystem::ComputeSystemCallback(
     switch (Event->Type)
     {
     case HcsEventSystemExited:
-        Object->m_SystemExited(winrt::hstring(Event->EventData));
+        Object->SystemExited(winrt::hstring(Event->EventData));
         break;
     case HcsEventSystemCrashInitiated:
         break;
     case HcsEventSystemCrashReport:
         break;
     case HcsEventSystemRdpEnhancedModeStateChanged:
-        Object->m_SystemRdpEnhancedModeStateChanged();
+        Object->SystemRdpEnhancedModeStateChanged();
         break;
     case HcsEventSystemGuestConnectionClosed:
         break;

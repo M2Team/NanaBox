@@ -2,6 +2,13 @@
 
 #include "RelayCommand.g.h"
 
+#include <Mile.Helpers.CppWinRT.h>
+
+namespace winrt::Mile
+{
+    using namespace ::Mile;
+}
+
 #include <functional>
 
 namespace winrt
@@ -19,8 +26,8 @@ namespace winrt::NanaBox::implementation
 
         RelayCommand(std::function<void(winrt::IInspectable)> action);
 
-        winrt::event_token CanExecuteChanged(winrt::EventHandler<winrt::IInspectable> const& handler);
-        void CanExecuteChanged(winrt::event_token const& token) noexcept;
+        Mile::WinRT::Event<winrt::EventHandler<winrt::IInspectable>> CanExecuteChanged;
+
         bool CanExecute(winrt::IInspectable const& parameter);
         void Execute(winrt::IInspectable const& parameter);
 
@@ -28,6 +35,5 @@ namespace winrt::NanaBox::implementation
     private:
         std::function<void(winrt::IInspectable)> m_action;
         std::function<bool(winrt::IInspectable)> m_canExecute;
-        winrt::event<winrt::EventHandler<winrt::IInspectable>> m_canExecuteChanged;
     };
 }

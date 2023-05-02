@@ -25,7 +25,7 @@ namespace winrt::NanaBox::implementation
                 static_cast<uint32_t>(::NanaBox::UefiConsoleMode::ComPort2))
         });
 
-        m_consoleMode = nullptr;        
+        m_consoleMode = nullptr;
         for (auto&& item : m_consoleModeList)
         {
             if (static_cast<::NanaBox::UefiConsoleMode>(item.Value()) == m_comConfig->UefiConsole)
@@ -33,7 +33,7 @@ namespace winrt::NanaBox::implementation
                 m_consoleMode = item;
                 break;
             }
-        }        
+        }
 
     }
 
@@ -47,7 +47,7 @@ namespace winrt::NanaBox::implementation
         {
             m_consoleMode = value;
             m_comConfig->UefiConsole = static_cast<::NanaBox::UefiConsoleMode>(value.Value());
-            m_propertyChanged(*this, PropertyChangedEventArgs{ L"UefiConsoleMode" });
+            this->PropertyChanged(*this, PropertyChangedEventArgs{ L"UefiConsoleMode" });
         }
     }
 
@@ -61,7 +61,7 @@ namespace winrt::NanaBox::implementation
         {
             m_com1Path = value;
             m_comConfig->ComPort1 = winrt::to_string(value);
-            m_propertyChanged(*this, PropertyChangedEventArgs{ L"Com1RedirectPath" });
+            this->PropertyChanged(*this, PropertyChangedEventArgs{ L"Com1RedirectPath" });
         }
     }
 
@@ -75,21 +75,12 @@ namespace winrt::NanaBox::implementation
         {
             m_com2Path = value;
             m_comConfig->ComPort2 = winrt::to_string(value);
-            m_propertyChanged(*this, PropertyChangedEventArgs{ L"Com2RedirectPath" });
+            this->PropertyChanged(*this, PropertyChangedEventArgs{ L"Com2RedirectPath" });
         }
     }
 
     IObservableVector<NanaBox::SelectOption> ComPortsViewModel::UefiConsoleModeList()
     {
         return m_consoleModeList;
-    }
-
-    winrt::event_token ComPortsViewModel::PropertyChanged(PropertyChangedEventHandler const& handler)
-    {
-        return m_propertyChanged.add(handler);
-    }
-    void ComPortsViewModel::PropertyChanged(winrt::event_token const& token) noexcept
-    {
-        m_propertyChanged.remove(token);
     }
 }

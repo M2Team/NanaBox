@@ -438,7 +438,7 @@ int NanaBox::MainWindow::OnCreate(
 
     this->m_RdpClient->GrabFocusOnConnect(false);
 
-    this->m_RdpClient->OnRemoteDesktopSizeChange([this](
+    this->m_RdpClient->OnRemoteDesktopSizeChange.add([this](
         _In_ LONG Width,
         _In_ LONG Height)
     {
@@ -482,7 +482,7 @@ int NanaBox::MainWindow::OnCreate(
                 SWP_NOZORDER | SWP_NOACTIVATE);
         }
     });
-    this->m_RdpClient->OnLoginComplete([this]()
+    this->m_RdpClient->OnLoginComplete.add([this]()
     {
         if (this->m_RdpClientMode == RdpClientMode::EnhancedSession)
         {
@@ -490,7 +490,7 @@ int NanaBox::MainWindow::OnCreate(
             this->m_DisplayResolution = CSize();
         }
     });
-    this->m_RdpClient->OnDisconnected([this](
+    this->m_RdpClient->OnDisconnected.add([this](
         _In_ LONG DisconnectReason)
     {
         UNREFERENCED_PARAMETER(DisconnectReason);
@@ -539,7 +539,7 @@ int NanaBox::MainWindow::OnCreate(
             }
         }
     });
-    this->m_RdpClient->OnRequestGoFullScreen([this]()
+    this->m_RdpClient->OnRequestGoFullScreen.add([this]()
     {
         HMONITOR m_hMonitor = ::MonitorFromWindow(
             m_hWnd,
@@ -578,7 +578,7 @@ int NanaBox::MainWindow::OnCreate(
             &FullScreenRect,
             SWP_FRAMECHANGED | SWP_NOACTIVATE);
     });
-    this->m_RdpClient->OnRequestLeaveFullScreen([this]()
+    this->m_RdpClient->OnRequestLeaveFullScreen.add([this]()
     {
         m_RecommendedMainWindowControlHeight = m_MainWindowControlHeight;
         this->SetWindowLongPtrW(
@@ -589,11 +589,11 @@ int NanaBox::MainWindow::OnCreate(
             &this->m_RememberedMainWindowRect,
             SWP_NOACTIVATE);
     });
-    this->m_RdpClient->OnRequestContainerMinimize([this]()
+    this->m_RdpClient->OnRequestContainerMinimize.add([this]()
     {
         this->ShowWindow(SW_MINIMIZE);
     });
-    this->m_RdpClient->OnConfirmClose([this](
+    this->m_RdpClient->OnConfirmClose.add([this](
         VARIANT_BOOL* pfAllowClose)
     {
         // Set it FALSE because we don't want to close the connection before
@@ -1012,7 +1012,7 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
         winrt::to_hstring(
             NanaBox::MakeHcsConfiguration(this->m_Configuration)));
 
-    this->m_VirtualMachine->SystemExited([this](
+    this->m_VirtualMachine->SystemExited.add([this](
         winrt::hstring const& EventData)
     {
         UNREFERENCED_PARAMETER(EventData);
@@ -1029,7 +1029,7 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
         this->PostMessageW(WM_CLOSE);
     });
 
-    /*this->m_VirtualMachine->SystemRdpEnhancedModeStateChanged([this]()
+    /*this->m_VirtualMachine->SystemRdpEnhancedModeStateChanged.add([this]()
     {
         this->m_EnableEnhancedMode = !this->m_EnableEnhancedMode;
     });*/

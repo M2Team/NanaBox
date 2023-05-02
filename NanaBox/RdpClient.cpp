@@ -3289,390 +3289,6 @@ void NanaBox::RdpClient::SyncRemoteClipboardToLocalSession()
 
 #pragma region Events
 
-winrt::event_token NanaBox::RdpClient::OnConnecting(
-    NanaBox::OnCallbackType const& Handler)
-{
-    return this->m_OnConnecting.add(Handler);
-}
-
-void NanaBox::RdpClient::OnConnecting(
-    winrt::event_token const& Token)
-{
-    this->m_OnConnecting.remove(Token);
-}
-
-winrt::event_token NanaBox::RdpClient::OnConnected(
-    NanaBox::OnCallbackType const& Handler)
-{
-    return this->m_OnConnected.add(Handler);
-}
-
-void NanaBox::RdpClient::OnConnected(
-    winrt::event_token const& Token)
-{
-    this->m_OnConnected.remove(Token);
-}
-
-winrt::event_token NanaBox::RdpClient::OnLoginComplete(
-    NanaBox::OnCallbackType const& Handler)
-{
-    return this->m_OnLoginComplete.add(Handler);
-}
-
-void NanaBox::RdpClient::OnLoginComplete(
-    winrt::event_token const& Token)
-{
-    this->m_OnLoginComplete.remove(Token);
-}
-
-winrt::event_token NanaBox::RdpClient::OnDisconnected(
-    NanaBox::OnDisconnectedType const& Handler)
-{
-    return this->m_OnDisconnected.add(Handler);
-}
-
-void NanaBox::RdpClient::OnDisconnected(
-    winrt::event_token const& Token)
-{
-    this->m_OnDisconnected.remove(Token);
-}
-
-winrt::event_token NanaBox::RdpClient::OnEnterFullScreenMode(
-    NanaBox::OnCallbackType const& Handler)
-{
-    return this->m_OnEnterFullScreenMode.add(Handler);
-}
-
-void NanaBox::RdpClient::OnEnterFullScreenMode(
-    winrt::event_token const& Token)
-{
-    this->m_OnEnterFullScreenMode.remove(Token);
-}
-
-winrt::event_token NanaBox::RdpClient::OnLeaveFullScreenMode(
-    NanaBox::OnCallbackType const& Handler)
-{
-    return this->m_OnLeaveFullScreenMode.add(Handler);
-}
-
-void NanaBox::RdpClient::OnLeaveFullScreenMode(
-    winrt::event_token const& Token)
-{
-    this->m_OnLeaveFullScreenMode.remove(Token);
-}
-
-winrt::event_token NanaBox::RdpClient::OnChannelReceivedData(
-    NanaBox::OnChannelReceivedDataType const& Handler)
-{
-    return this->m_OnChannelReceivedData.add(Handler);
-}
-
-void NanaBox::RdpClient::OnChannelReceivedData(
-    winrt::event_token const& Token)
-{
-    this->m_OnChannelReceivedData.remove(Token);
-}
-
-winrt::event_token NanaBox::RdpClient::OnRequestGoFullScreen(
-    NanaBox::OnCallbackType const& Handler)
-{
-    return this->m_OnRequestGoFullScreen.add(Handler);
-}
-
-void NanaBox::RdpClient::OnRequestGoFullScreen(
-    winrt::event_token const& Token)
-{
-    this->m_OnRequestGoFullScreen.remove(Token);
-}
-
-winrt::event_token NanaBox::RdpClient::OnRequestLeaveFullScreen(
-    NanaBox::OnCallbackType const& Handler)
-{
-    return this->m_OnRequestLeaveFullScreen.add(Handler);
-}
-
-void NanaBox::RdpClient::OnRequestLeaveFullScreen(
-    winrt::event_token const& Token)
-{
-    this->m_OnRequestLeaveFullScreen.remove(Token);
-}
-
-winrt::event_token NanaBox::RdpClient::OnFatalError(
-    NanaBox::OnFatalErrorType const& Handler)
-{
-    return this->m_OnFatalError.add(Handler);
-}
-
-void NanaBox::RdpClient::OnFatalError(
-    winrt::event_token const& Token)
-{
-    this->m_OnFatalError.remove(Token);
-}
-
-winrt::event_token NanaBox::RdpClient::OnWarning(
-    NanaBox::OnWarningType const& Handler)
-{
-    return this->m_OnWarning.add(Handler);
-}
-
-void NanaBox::RdpClient::OnWarning(
-    winrt::event_token const& Token)
-{
-    this->m_OnWarning.remove(Token);
-}
-
-winrt::event_token NanaBox::RdpClient::OnRemoteDesktopSizeChange(
-    NanaBox::OnRemoteDesktopSizeChangeType const& Handler)
-{
-    return this->m_OnRemoteDesktopSizeChange.add(Handler);
-}
-
-void NanaBox::RdpClient::OnRemoteDesktopSizeChange(
-    winrt::event_token const& Token)
-{
-    this->m_OnRemoteDesktopSizeChange.remove(Token);
-}
-
-winrt::event_token NanaBox::RdpClient::OnIdleTimeoutNotification(
-    NanaBox::OnCallbackType const& Handler)
-{
-    return this->m_OnIdleTimeoutNotification.add(Handler);
-}
-
-void NanaBox::RdpClient::OnIdleTimeoutNotification(
-    winrt::event_token const& Token)
-{
-    this->m_OnIdleTimeoutNotification.remove(Token);
-}
-
-winrt::event_token NanaBox::RdpClient::OnRequestContainerMinimize(
-    NanaBox::OnCallbackType const& Handler)
-{
-    return this->m_OnRequestContainerMinimize.add(Handler);
-}
-
-void NanaBox::RdpClient::OnRequestContainerMinimize(
-    winrt::event_token const& Token)
-{
-    this->m_OnRequestContainerMinimize.remove(Token);
-}
-
-winrt::event_token NanaBox::RdpClient::OnConfirmClose(
-    NanaBox::OnConfirmCloseType const& Handler)
-{
-    return this->m_OnConfirmClose.add(Handler);
-}
-
-void NanaBox::RdpClient::OnConfirmClose(
-    winrt::event_token const& Token)
-{
-    this->m_OnConfirmClose.remove(Token);
-}
-
-winrt::event_token NanaBox::RdpClient::OnReceivedTSPublicKey(
-    NanaBox::OnReceivedTSPublicKeyType const& Handler)
-{
-    return this->m_OnReceivedTSPublicKey.add(Handler);
-}
-
-void NanaBox::RdpClient::OnReceivedTSPublicKey(
-    winrt::event_token const& Token)
-{
-    this->m_OnReceivedTSPublicKey.remove(Token);
-}
-
-winrt::event_token NanaBox::RdpClient::OnAutoReconnecting(
-    NanaBox::OnAutoReconnectingType const& Handler)
-{
-    return this->m_OnAutoReconnecting.add(Handler);
-}
-
-void NanaBox::RdpClient::OnAutoReconnecting(
-    winrt::event_token const& Token)
-{
-    this->m_OnAutoReconnecting.remove(Token);
-}
-
-winrt::event_token NanaBox::RdpClient::OnAuthenticationWarningDisplayed(
-    NanaBox::OnCallbackType const& Handler)
-{
-    return this->m_OnAuthenticationWarningDisplayed.add(Handler);
-}
-
-void NanaBox::RdpClient::OnAuthenticationWarningDisplayed(
-    winrt::event_token const& Token)
-{
-    this->m_OnAuthenticationWarningDisplayed.remove(Token);
-}
-
-winrt::event_token NanaBox::RdpClient::OnAuthenticationWarningDismissed(
-    NanaBox::OnCallbackType const& Handler)
-{
-    return this->m_OnAuthenticationWarningDismissed.add(Handler);
-}
-
-void NanaBox::RdpClient::OnAuthenticationWarningDismissed(
-    winrt::event_token const& Token)
-{
-    this->m_OnAuthenticationWarningDismissed.remove(Token);
-}
-
-winrt::event_token NanaBox::RdpClient::OnRemoteProgramResult(
-    NanaBox::OnRemoteProgramResultType const& Handler)
-{
-    return this->m_OnRemoteProgramResult.add(Handler);
-}
-
-void NanaBox::RdpClient::OnRemoteProgramResult(
-    winrt::event_token const& Token)
-{
-    this->m_OnRemoteProgramResult.remove(Token);
-}
-
-winrt::event_token NanaBox::RdpClient::OnRemoteProgramDisplayed(
-    NanaBox::OnRemoteProgramDisplayedType const& Handler)
-{
-    return this->m_OnRemoteProgramDisplayed.add(Handler);
-}
-
-void NanaBox::RdpClient::OnRemoteProgramDisplayed(
-    winrt::event_token const& Token)
-{
-    this->m_OnRemoteProgramDisplayed.remove(Token);
-}
-
-winrt::event_token NanaBox::RdpClient::OnRemoteWindowDisplayed(
-    NanaBox::OnRemoteWindowDisplayedType const& Handler)
-{
-    return this->m_OnRemoteWindowDisplayed.add(Handler);
-}
-
-void NanaBox::RdpClient::OnRemoteWindowDisplayed(
-    winrt::event_token const& Token)
-{
-    this->m_OnRemoteWindowDisplayed.remove(Token);
-}
-
-winrt::event_token NanaBox::RdpClient::OnLogonError(
-    NanaBox::OnLogonErrorType const& Handler)
-{
-    return this->m_OnLogonError.add(Handler);
-}
-
-void NanaBox::RdpClient::OnLogonError(
-    winrt::event_token const& Token)
-{
-    this->m_OnLogonError.remove(Token);
-}
-
-winrt::event_token NanaBox::RdpClient::OnFocusReleased(
-    NanaBox::OnFocusReleasedType const& Handler)
-{
-    return this->m_OnFocusReleased.add(Handler);
-}
-
-void NanaBox::RdpClient::OnFocusReleased(
-    winrt::event_token const& Token)
-{
-    this->m_OnFocusReleased.remove(Token);
-}
-
-winrt::event_token NanaBox::RdpClient::OnUserNameAcquired(
-    NanaBox::OnUserNameAcquiredType const& Handler)
-{
-    return this->m_OnUserNameAcquired.add(Handler);
-}
-
-void NanaBox::RdpClient::OnUserNameAcquired(
-    winrt::event_token const& Token)
-{
-    this->m_OnUserNameAcquired.remove(Token);
-}
-
-winrt::event_token NanaBox::RdpClient::OnMouseInputModeChanged(
-    NanaBox::OnMouseInputModeChangedType const& Handler)
-{
-    return this->m_OnMouseInputModeChanged.add(Handler);
-}
-
-void NanaBox::RdpClient::OnMouseInputModeChanged(
-    winrt::event_token const& Token)
-{
-    this->m_OnMouseInputModeChanged.remove(Token);
-}
-
-winrt::event_token NanaBox::RdpClient::OnServiceMessageReceived(
-    NanaBox::OnServiceMessageReceivedType const& Handler)
-{
-    return this->m_OnServiceMessageReceived.add(Handler);
-}
-
-void NanaBox::RdpClient::OnServiceMessageReceived(
-    winrt::event_token const& Token)
-{
-    this->m_OnServiceMessageReceived.remove(Token);
-}
-
-winrt::event_token NanaBox::RdpClient::OnConnectionBarPullDown(
-    NanaBox::OnCallbackType const& Handler)
-{
-    return this->m_OnConnectionBarPullDown.add(Handler);
-}
-
-void NanaBox::RdpClient::OnConnectionBarPullDown(
-    winrt::event_token const& Token)
-{
-    this->m_OnConnectionBarPullDown.remove(Token);
-}
-
-winrt::event_token NanaBox::RdpClient::OnNetworkStatusChanged(
-    NanaBox::OnNetworkStatusChangedType const& Handler)
-{
-    return this->m_OnNetworkStatusChanged.add(Handler);
-}
-
-void NanaBox::RdpClient::OnNetworkStatusChanged(
-    winrt::event_token const& Token)
-{
-    this->m_OnNetworkStatusChanged.remove(Token);
-}
-
-winrt::event_token NanaBox::RdpClient::OnDevicesButtonPressed(
-    NanaBox::OnCallbackType const& Handler)
-{
-    return this->m_OnDevicesButtonPressed.add(Handler);
-}
-
-void NanaBox::RdpClient::OnDevicesButtonPressed(
-    winrt::event_token const& Token)
-{
-    this->m_OnDevicesButtonPressed.remove(Token);
-}
-
-winrt::event_token NanaBox::RdpClient::OnAutoReconnected(
-    NanaBox::OnCallbackType const& Handler)
-{
-    return this->m_OnAutoReconnected.add(Handler);
-}
-
-void NanaBox::RdpClient::OnAutoReconnected(
-    winrt::event_token const& Token)
-{
-    this->m_OnAutoReconnected.remove(Token);
-}
-
-winrt::event_token NanaBox::RdpClient::OnAutoReconnecting2(
-    NanaBox::OnAutoReconnecting2Type const& Handler)
-{
-    return this->m_OnAutoReconnecting2.add(Handler);
-}
-
-void NanaBox::RdpClient::OnAutoReconnecting2(
-    winrt::event_token const& Token)
-{
-    this->m_OnAutoReconnecting2.remove(Token);
-}
-
 HRESULT STDMETHODCALLTYPE NanaBox::RdpClient::GetTypeInfoCount(
     _Out_ UINT* pctinfo)
 {
@@ -3729,97 +3345,97 @@ HRESULT STDMETHODCALLTYPE NanaBox::RdpClient::Invoke(
         {
         case MSTSCAXEVENTS_DISPID_CONNECTING:
         {
-            this->m_OnConnecting();
+            this->OnConnecting();
             break;
         }
         case MSTSCAXEVENTS_DISPID_CONNECTED:
         {
-            this->m_OnConnected();
+            this->OnConnected();
             break;
         }
         case MSTSCAXEVENTS_DISPID_LOGINCOMPLETE:
         {
-            this->m_OnLoginComplete();
+            this->OnLoginComplete();
             break;
         }
         case MSTSCAXEVENTS_DISPID_DISCONNECTED:
         {
-            this->m_OnDisconnected(
+            this->OnDisconnected(
                 pDispParams->rgvarg[0].lVal);
             break;
         }
         case MSTSCAXEVENTS_DISPID_ENTERFULLSCREENMODE:
         {
-            this->m_OnEnterFullScreenMode();
+            this->OnEnterFullScreenMode();
             break;
         }
         case MSTSCAXEVENTS_DISPID_LEAVEFULLSCREENMODE:
         {
-            this->m_OnLeaveFullScreenMode();
+            this->OnLeaveFullScreenMode();
             break;
         }
         case MSTSCAXEVENTS_DISPID_CHANNELRECEIVEDDATA:
         {
-            this->m_OnChannelReceivedData(
+            this->OnChannelReceivedData(
                 winrt::hstring(pDispParams->rgvarg[1].bstrVal),
                 winrt::hstring(pDispParams->rgvarg[0].bstrVal));
             break;
         }
         case MSTSCAXEVENTS_DISPID_REQUESTGOFULLSCREEN:
         {
-            this->m_OnRequestGoFullScreen();
+            this->OnRequestGoFullScreen();
             break;
         }
         case MSTSCAXEVENTS_DISPID_REQUESTLEAVEFULLSCREEN:
         {
-            this->m_OnRequestLeaveFullScreen();
+            this->OnRequestLeaveFullScreen();
             break;
         }
         case MSTSCAXEVENTS_DISPID_FATALERROR:
         {
-            this->m_OnFatalError(
+            this->OnFatalError(
                 pDispParams->rgvarg[0].lVal);
             break;
         }
         case MSTSCAXEVENTS_DISPID_WARNING:
         {
-            this->m_OnWarning(
+            this->OnWarning(
                 pDispParams->rgvarg[0].lVal);
             break;
         }
         case MSTSCAXEVENTS_DISPID_REMOTEDESKTOPSIZECHANGE:
         {
-            this->m_OnRemoteDesktopSizeChange(
+            this->OnRemoteDesktopSizeChange(
                 pDispParams->rgvarg[1].lVal,
                 pDispParams->rgvarg[0].lVal);
             break;
         }
         case MSTSCAXEVENTS_DISPID_IDLETIMEOUTNOTIFICATION:
         {
-            this->m_OnIdleTimeoutNotification();
+            this->OnIdleTimeoutNotification();
             break;
         }
         case MSTSCAXEVENTS_DISPID_REQUESTCONTAINERMINIMIZE:
         {
-            this->m_OnRequestContainerMinimize();
+            this->OnRequestContainerMinimize();
             break;
         }
         case MSTSCAXEVENTS_DISPID_CONFIRMCLOSE:
         {
-            this->m_OnConfirmClose(
+            this->OnConfirmClose(
                 pDispParams->rgvarg[0].pboolVal);
             break;
         }
         case MSTSCAXEVENTS_DISPID_RECEIVEDTSPUBLICKEY:
         {
-            this->m_OnReceivedTSPublicKey(
+            this->OnReceivedTSPublicKey(
                 winrt::hstring(pDispParams->rgvarg[1].bstrVal),
                 pDispParams->rgvarg[0].pboolVal);
             break;
         }
         case MSTSCAXEVENTS_DISPID_AUTORECONNECTING:
         {
-            this->m_OnAutoReconnecting(
+            this->OnAutoReconnecting(
                 pDispParams->rgvarg[2].lVal,
                 pDispParams->rgvarg[1].lVal,
                 reinterpret_cast<AutoReconnectContinueState*>(
@@ -3828,17 +3444,17 @@ HRESULT STDMETHODCALLTYPE NanaBox::RdpClient::Invoke(
         }
         case MSTSCAXEVENTS_DISPID_AUTHENTICATIONWARNINGDISPLAYED:
         {
-            this->m_OnAuthenticationWarningDisplayed();
+            this->OnAuthenticationWarningDisplayed();
             break;
         }
         case MSTSCAXEVENTS_DISPID_AUTHENTICATIONWARNINGDISMISSED:
         {
-            this->m_OnAuthenticationWarningDismissed();
+            this->OnAuthenticationWarningDismissed();
             break;
         }
         case MSTSCAXEVENTS_DISPID_REMOTEPROGRAMRESULT:
         {
-            this->m_OnRemoteProgramResult(
+            this->OnRemoteProgramResult(
                 winrt::hstring(pDispParams->rgvarg[2].bstrVal),
                 static_cast<RemoteProgramResult>(
                     pDispParams->rgvarg[1].lVal),
@@ -3847,14 +3463,14 @@ HRESULT STDMETHODCALLTYPE NanaBox::RdpClient::Invoke(
         }
         case MSTSCAXEVENTS_DISPID_REMOTEPROGRAMDISPLAYED:
         {
-            this->m_OnRemoteProgramDisplayed(
+            this->OnRemoteProgramDisplayed(
                 pDispParams->rgvarg[1].boolVal,
                 pDispParams->rgvarg[0].ulVal);
             break;
         }
         case MSTSCAXEVENTS_DISPID_REMOTEWINDOWDISPLAYED:
         {
-            this->m_OnRemoteWindowDisplayed(
+            this->OnRemoteWindowDisplayed(
                 pDispParams->rgvarg[2].boolVal,
                 reinterpret_cast<HWND>(pDispParams->rgvarg[1].byref),
                 static_cast<RemoteWindowDisplayedAttribute>(
@@ -3863,41 +3479,41 @@ HRESULT STDMETHODCALLTYPE NanaBox::RdpClient::Invoke(
         }
         case MSTSCAXEVENTS_DISPID_LOGONERROR:
         {
-            this->m_OnLogonError(
+            this->OnLogonError(
                 pDispParams->rgvarg[0].lVal);
             break;
         }
         case MSTSCAXEVENTS_DISPID_FOCUSRELEASED:
         {
-            this->m_OnFocusReleased(
+            this->OnFocusReleased(
                 pDispParams->rgvarg[0].uintVal);
             break;
         }
         case MSTSCAXEVENTS_DISPID_USERNAMEACQUIRED:
         {
-            this->m_OnUserNameAcquired(
+            this->OnUserNameAcquired(
                 winrt::hstring(pDispParams->rgvarg[0].bstrVal));
             break;
         }
         case MSTSCAXEVENTS_DISPID_MOUSEINPUTMODECHANGED:
         {
-            this->m_OnMouseInputModeChanged(
+            this->OnMouseInputModeChanged(
                 pDispParams->rgvarg[0].boolVal);
         }
         case MSTSCAXEVENTS_DISPID_SERVICEMESSAGERECEIVED:
         {
-            this->m_OnServiceMessageReceived(
+            this->OnServiceMessageReceived(
                 winrt::hstring(pDispParams->rgvarg[0].bstrVal));
             break;
         }
         case MSTSCAXEVENTS_DISPID_CONNECTIONBARPULLDOWN:
         {
-            this->m_OnConnectionBarPullDown();
+            this->OnConnectionBarPullDown();
             break;
         }
         case MSTSCAXEVENTS_DISPID_NETWORKSTATUSCHANGED:
         {
-            this->m_OnNetworkStatusChanged(
+            this->OnNetworkStatusChanged(
                 pDispParams->rgvarg[2].ulVal,
                 pDispParams->rgvarg[1].lVal,
                 pDispParams->rgvarg[0].lVal);
@@ -3905,17 +3521,17 @@ HRESULT STDMETHODCALLTYPE NanaBox::RdpClient::Invoke(
         }
         case MSTSCAXEVENTS_DISPID_DEVICESBUTTONPRESSED:
         {
-            this->m_OnDevicesButtonPressed();
+            this->OnDevicesButtonPressed();
             break;
         }
         case MSTSCAXEVENTS_DISPID_AUTORECONNECTED:
         {
-            this->m_OnAutoReconnected();
+            this->OnAutoReconnected();
             break;
         }
         case MSTSCAXEVENTS_DISPID_AUTORECONNECTING2:
         {
-            this->m_OnAutoReconnecting2(
+            this->OnAutoReconnecting2(
                 pDispParams->rgvarg[3].lVal,
                 pDispParams->rgvarg[2].boolVal,
                 pDispParams->rgvarg[1].lVal,

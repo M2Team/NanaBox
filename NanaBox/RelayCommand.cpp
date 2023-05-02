@@ -30,19 +30,8 @@ namespace winrt::NanaBox::implementation
         m_action(parameter);
     }
 
-    winrt::event_token RelayCommand::CanExecuteChanged(
-        winrt::EventHandler<winrt::IInspectable> const& handler)
-    {
-        return m_canExecuteChanged.add(handler);
-    }
-
-    void RelayCommand::CanExecuteChanged(winrt::event_token const& token) noexcept
-    {
-        m_canExecuteChanged.remove(token);
-    }
-
     void RelayCommand::RaiseCanExecuteChanged()
     {
-        m_canExecuteChanged(*this, nullptr);
+        this->CanExecuteChanged(*this, nullptr);
     }
 }

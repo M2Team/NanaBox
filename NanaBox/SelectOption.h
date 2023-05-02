@@ -2,6 +2,13 @@
 
 #include "SelectOption.g.h"
 
+#include <Mile.Helpers.CppWinRT.h>
+
+namespace winrt::Mile
+{
+    using namespace ::Mile;
+}
+
 namespace winrt
 {
     using Windows::Foundation::IInspectable;
@@ -20,12 +27,11 @@ namespace winrt::NanaBox::implementation
         uint32_t Value();
         void Value(uint32_t value);
 
-        winrt::event_token PropertyChanged(PropertyChangedEventHandler const& handler);
-        void PropertyChanged(winrt::event_token const& token) noexcept;
+        Mile::WinRT::Event<PropertyChangedEventHandler> PropertyChanged;
+
     private:
         hstring m_name;
         uint32_t m_value;
-        winrt::event<PropertyChangedEventHandler> m_propertyChanged;
     };
 }
 

@@ -3,6 +3,12 @@
 #include "VirtualMachineConfiguration.h"
 #include "NetworkAdapterViewModel.g.h"
 
+#include <Mile.Helpers.CppWinRT.h>
+
+namespace winrt::Mile
+{
+    using namespace ::Mile;
+}
 
 namespace winrt
 {
@@ -25,13 +31,11 @@ namespace winrt::NanaBox::implementation
         hstring EndpointId();
         void EndpointId(hstring const& value);
 
-        winrt::event_token PropertyChanged(PropertyChangedEventHandler const& handler);
-        void PropertyChanged(winrt::event_token const& token) noexcept;
+        Mile::WinRT::Event<PropertyChangedEventHandler> PropertyChanged;
 
     private:
         ::NanaBox::NetworkAdapterConfiguration* m_netAdapterConfig;
         hstring m_macAddress;
         hstring m_endpointId;
-        winrt::event<PropertyChangedEventHandler> m_propertyChanged;
     };
 }

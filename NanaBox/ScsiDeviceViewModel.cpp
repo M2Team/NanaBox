@@ -21,7 +21,7 @@ namespace winrt::NanaBox::implementation
         if (m_scsiConfig->Enabled != value)
         {
             m_scsiConfig->Enabled = value;
-            m_propertyChanged(*this, PropertyChangedEventArgs{ L"Enabled" });
+            this->PropertyChanged(*this, PropertyChangedEventArgs{ L"Enabled" });
         }
     }
 
@@ -35,7 +35,7 @@ namespace winrt::NanaBox::implementation
         if (m_scsiConfig->Type != newValue)
         {
             m_scsiConfig->Type = newValue;
-            m_propertyChanged(*this, PropertyChangedEventArgs{ L"DeviceType" });
+            this->PropertyChanged(*this, PropertyChangedEventArgs{ L"DeviceType" });
         }
     }
 
@@ -49,16 +49,7 @@ namespace winrt::NanaBox::implementation
         {
             m_path = value;
             m_scsiConfig->Path = winrt::to_string(value);
-            m_propertyChanged(*this, PropertyChangedEventArgs{ L"Path" });
+            this->PropertyChanged(*this, PropertyChangedEventArgs{ L"Path" });
         }
-    }
-
-    winrt::event_token ScsiDeviceViewModel::PropertyChanged(PropertyChangedEventHandler const& handler)
-    {
-        return m_propertyChanged.add(handler);
-    }
-    void ScsiDeviceViewModel::PropertyChanged(winrt::event_token const& token) noexcept
-    {
-        m_propertyChanged.remove(token);
     }
 }

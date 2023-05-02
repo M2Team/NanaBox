@@ -18,7 +18,7 @@ namespace winrt::NanaBox::implementation
         if (m_name != value)
         {
             m_name = value;
-            m_propertyChanged(*this, PropertyChangedEventArgs{ L"Name" });
+            this->PropertyChanged(*this, PropertyChangedEventArgs{ L"Name" });
         }
     }
 
@@ -31,16 +31,7 @@ namespace winrt::NanaBox::implementation
         if (m_value != value)
         {
             m_value = value;
-            m_propertyChanged(*this, PropertyChangedEventArgs{ L"Value" });
+            this->PropertyChanged(*this, PropertyChangedEventArgs{ L"Value" });
         }
-    }
-
-    winrt::event_token SelectOption::PropertyChanged(PropertyChangedEventHandler const& handler)
-    {
-        return m_propertyChanged.add(handler);
-    }
-    void SelectOption::PropertyChanged(winrt::event_token const& token) noexcept
-    {
-        m_propertyChanged.remove(token);
     }
 }

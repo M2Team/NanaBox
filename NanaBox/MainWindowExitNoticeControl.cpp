@@ -20,7 +20,7 @@ namespace winrt::NanaBox::implementation
         UNREFERENCED_PARAMETER(e);
 
         this->m_Status = NanaBox::MainWindowExitNoticeStatus::Suspend;
-        this->m_RequestCloseDialog();
+        this->RequestCloseDialog();
     }
 
     void MainWindowExitNoticeControl::PowerOffButtonClick(
@@ -31,7 +31,7 @@ namespace winrt::NanaBox::implementation
         UNREFERENCED_PARAMETER(e);
 
         this->m_Status = NanaBox::MainWindowExitNoticeStatus::PowerOff;
-        this->m_RequestCloseDialog();
+        this->RequestCloseDialog();
     }
 
     void MainWindowExitNoticeControl::CancelButtonClick(
@@ -41,23 +41,11 @@ namespace winrt::NanaBox::implementation
         UNREFERENCED_PARAMETER(sender);
         UNREFERENCED_PARAMETER(e);
 
-        this->m_RequestCloseDialog();
+        this->RequestCloseDialog();
     }
 
     NanaBox::MainWindowExitNoticeStatus MainWindowExitNoticeControl::Status()
     {
         return this->m_Status;
-    }
-
-    winrt::event_token MainWindowExitNoticeControl::RequestCloseDialog(
-        NanaBox::RequestSignalDelegate const& Handler)
-    {
-        return this->m_RequestCloseDialog.add(Handler);
-    }
-
-    void MainWindowExitNoticeControl::RequestCloseDialog(
-        winrt::event_token const& Token)
-    {
-        this->m_RequestCloseDialog.remove(Token);
     }
 }

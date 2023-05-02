@@ -23,6 +23,8 @@
 
 #include <winrt/Windows.Foundation.h>
 
+#include <Mile.Helpers.CppWinRT.h>
+
 namespace NanaBox
 {
     struct HcsOperationTraits
@@ -124,17 +126,8 @@ namespace NanaBox
         void Modify(
             winrt::hstring const& Configuration);
 
-        winrt::event_token SystemExited(
-            winrt::delegate<winrt::hstring> const& Handler);
-
-        void SystemExited(
-            winrt::event_token const& Token);
-
-        winrt::event_token SystemRdpEnhancedModeStateChanged(
-            winrt::delegate<> const& Handler);
-
-        void SystemRdpEnhancedModeStateChanged(
-            winrt::event_token const& Token);
+        Mile::WinRT::Event<winrt::delegate<winrt::hstring>> SystemExited;
+        Mile::WinRT::Event<winrt::delegate<>> SystemRdpEnhancedModeStateChanged;
 
     private:
 
@@ -144,9 +137,6 @@ namespace NanaBox
         static void CALLBACK ComputeSystemCallback(
             HCS_EVENT* Event,
             void* Context);
-
-        winrt::event<winrt::delegate<winrt::hstring>> m_SystemExited;
-        winrt::event<winrt::delegate<>> m_SystemRdpEnhancedModeStateChanged;
     };
 
     winrt::hstring HcsGetServiceProperties(

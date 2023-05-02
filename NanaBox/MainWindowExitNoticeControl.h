@@ -2,6 +2,13 @@
 
 #include "MainWindowExitNoticeControl.g.h"
 
+#include <Mile.Helpers.CppWinRT.h>
+
+namespace winrt::Mile
+{
+    using namespace ::Mile;
+}
+
 namespace winrt
 {
     using Windows::Foundation::IInspectable;
@@ -11,7 +18,7 @@ namespace winrt
 namespace winrt::NanaBox::implementation
 {
     using RequestSignalEvent =
-        winrt::event<NanaBox::RequestSignalDelegate>;
+        Mile::WinRT::Event<NanaBox::RequestSignalDelegate>;
 
     struct MainWindowExitNoticeControl : MainWindowExitNoticeControlT<
         MainWindowExitNoticeControl>
@@ -34,17 +41,11 @@ namespace winrt::NanaBox::implementation
 
         NanaBox::MainWindowExitNoticeStatus Status();
 
-        winrt::event_token RequestCloseDialog(
-            NanaBox::RequestSignalDelegate const& Handler);
-
-        void RequestCloseDialog(
-            winrt::event_token const& Token);
+        RequestSignalEvent RequestCloseDialog;
 
     private:
 
         NanaBox::MainWindowExitNoticeStatus m_Status;
-
-        RequestSignalEvent m_RequestCloseDialog;
     };
 }
 

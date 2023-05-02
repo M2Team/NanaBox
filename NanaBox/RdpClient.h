@@ -20,6 +20,8 @@
 #include <Unknwn.h>
 #include <winrt/Windows.Foundation.h>
 
+#include <Mile.Helpers.CppWinRT.h>
+
 #include "MsTscAx.h"
 
 namespace NanaBox
@@ -916,165 +918,38 @@ namespace NanaBox
 
 #pragma region Events
 
-        winrt::event_token OnConnecting(
-            OnCallbackType const& Handler);
-        void OnConnecting(
-            winrt::event_token const& Token);
-
-        winrt::event_token OnConnected(
-            OnCallbackType const& Handler);
-        void OnConnected(
-            winrt::event_token const& Token);
-
-        winrt::event_token OnLoginComplete(
-            OnCallbackType const& Handler);
-        void OnLoginComplete(
-            winrt::event_token const& Token);
-
-        winrt::event_token OnDisconnected(
-            OnDisconnectedType const& Handler);
-        void OnDisconnected(
-            winrt::event_token const& Token);
-
-        winrt::event_token OnEnterFullScreenMode(
-            OnCallbackType const& Handler);
-        void OnEnterFullScreenMode(
-            winrt::event_token const& Token);
-
-        winrt::event_token OnLeaveFullScreenMode(
-            OnCallbackType const& Handler);
-        void OnLeaveFullScreenMode(
-            winrt::event_token const& Token);
-
-        winrt::event_token OnChannelReceivedData(
-            OnChannelReceivedDataType const& Handler);
-        void OnChannelReceivedData(
-            winrt::event_token const& Token);
-
-        winrt::event_token OnRequestGoFullScreen(
-            OnCallbackType const& Handler);
-        void OnRequestGoFullScreen(
-            winrt::event_token const& Token);
-
-        winrt::event_token OnRequestLeaveFullScreen(
-            OnCallbackType const& Handler);
-        void OnRequestLeaveFullScreen(
-            winrt::event_token const& Token);
-
-        winrt::event_token OnFatalError(
-            OnFatalErrorType const& Handler);
-        void OnFatalError(
-            winrt::event_token const& Token);
-
-        winrt::event_token OnWarning(
-            OnWarningType const& Handler);
-        void OnWarning(
-            winrt::event_token const& Token);
-
-        winrt::event_token OnRemoteDesktopSizeChange(
-            OnRemoteDesktopSizeChangeType const& Handler);
-        void OnRemoteDesktopSizeChange(
-            winrt::event_token const& Token);
-
-        winrt::event_token OnIdleTimeoutNotification(
-            OnCallbackType const& Handler);
-        void OnIdleTimeoutNotification(
-            winrt::event_token const& Token);
-
-        winrt::event_token OnRequestContainerMinimize(
-            OnCallbackType const& Handler);
-        void OnRequestContainerMinimize(
-            winrt::event_token const& Token);
-
-        winrt::event_token OnConfirmClose(
-            OnConfirmCloseType const& Handler);
-        void OnConfirmClose(
-            winrt::event_token const& Token);
-
-        winrt::event_token OnReceivedTSPublicKey(
-            OnReceivedTSPublicKeyType const& Handler);
-        void OnReceivedTSPublicKey(
-            winrt::event_token const& Token);
-
-        winrt::event_token OnAutoReconnecting(
-            OnAutoReconnectingType const& Handler);
-        void OnAutoReconnecting(
-            winrt::event_token const& Token);
-
-        winrt::event_token OnAuthenticationWarningDisplayed(
-            OnCallbackType const& Handler);
-        void OnAuthenticationWarningDisplayed(
-            winrt::event_token const& Token);
-
-        winrt::event_token OnAuthenticationWarningDismissed(
-            OnCallbackType const& Handler);
-        void OnAuthenticationWarningDismissed(
-            winrt::event_token const& Token);
-
-        winrt::event_token OnRemoteProgramResult(
-            OnRemoteProgramResultType const& Handler);
-        void OnRemoteProgramResult(
-            winrt::event_token const& Token);
-
-        winrt::event_token OnRemoteProgramDisplayed(
-            OnRemoteProgramDisplayedType const& Handler);
-        void OnRemoteProgramDisplayed(
-            winrt::event_token const& Token);
-
-        winrt::event_token OnRemoteWindowDisplayed(
-            OnRemoteWindowDisplayedType const& Handler);
-        void OnRemoteWindowDisplayed(
-            winrt::event_token const& Token);
-
-        winrt::event_token OnLogonError(
-            OnLogonErrorType const& Handler);
-        void OnLogonError(
-            winrt::event_token const& Token);
-
-        winrt::event_token OnFocusReleased(
-            OnFocusReleasedType const& Handler);
-        void OnFocusReleased(
-            winrt::event_token const& Token);
-
-        winrt::event_token OnUserNameAcquired(
-            OnUserNameAcquiredType const& Handler);
-        void OnUserNameAcquired(
-            winrt::event_token const& Token);
-
-        winrt::event_token OnMouseInputModeChanged(
-            OnMouseInputModeChangedType const& Handler);
-        void OnMouseInputModeChanged(
-            winrt::event_token const& Token);
-
-        winrt::event_token OnServiceMessageReceived(
-            OnServiceMessageReceivedType const& Handler);
-        void OnServiceMessageReceived(
-            winrt::event_token const& Token);
-
-        winrt::event_token OnConnectionBarPullDown(
-            OnCallbackType const& Handler);
-        void OnConnectionBarPullDown(
-            winrt::event_token const& Token);
-
-        winrt::event_token OnNetworkStatusChanged(
-            OnNetworkStatusChangedType const& Handler);
-        void OnNetworkStatusChanged(
-            winrt::event_token const& Token);
-
-        winrt::event_token OnDevicesButtonPressed(
-            OnCallbackType const& Handler);
-        void OnDevicesButtonPressed(
-            winrt::event_token const& Token);
-
-        winrt::event_token OnAutoReconnected(
-            OnCallbackType const& Handler);
-        void OnAutoReconnected(
-            winrt::event_token const& Token);
-
-        winrt::event_token OnAutoReconnecting2(
-            OnAutoReconnecting2Type const& Handler);
-        void OnAutoReconnecting2(
-            winrt::event_token const& Token);
+        Mile::WinRT::Event<OnCallbackType> OnConnecting;
+        Mile::WinRT::Event<OnCallbackType> OnConnected;
+        Mile::WinRT::Event<OnCallbackType> OnLoginComplete;
+        Mile::WinRT::Event<OnDisconnectedType> OnDisconnected;
+        Mile::WinRT::Event<OnCallbackType> OnEnterFullScreenMode;
+        Mile::WinRT::Event<OnCallbackType> OnLeaveFullScreenMode;
+        Mile::WinRT::Event<OnChannelReceivedDataType> OnChannelReceivedData;
+        Mile::WinRT::Event<OnCallbackType> OnRequestGoFullScreen;
+        Mile::WinRT::Event<OnCallbackType> OnRequestLeaveFullScreen;
+        Mile::WinRT::Event<OnFatalErrorType> OnFatalError;
+        Mile::WinRT::Event<OnWarningType> OnWarning;
+        Mile::WinRT::Event<OnRemoteDesktopSizeChangeType> OnRemoteDesktopSizeChange;
+        Mile::WinRT::Event<OnCallbackType> OnIdleTimeoutNotification;
+        Mile::WinRT::Event<OnCallbackType> OnRequestContainerMinimize;
+        Mile::WinRT::Event<OnConfirmCloseType> OnConfirmClose;
+        Mile::WinRT::Event<OnReceivedTSPublicKeyType> OnReceivedTSPublicKey;
+        Mile::WinRT::Event<OnAutoReconnectingType> OnAutoReconnecting;
+        Mile::WinRT::Event<OnCallbackType> OnAuthenticationWarningDisplayed;
+        Mile::WinRT::Event<OnCallbackType> OnAuthenticationWarningDismissed;
+        Mile::WinRT::Event<OnRemoteProgramResultType> OnRemoteProgramResult;
+        Mile::WinRT::Event<OnRemoteProgramDisplayedType> OnRemoteProgramDisplayed;
+        Mile::WinRT::Event<OnRemoteWindowDisplayedType> OnRemoteWindowDisplayed;
+        Mile::WinRT::Event<OnLogonErrorType> OnLogonError;
+        Mile::WinRT::Event<OnFocusReleasedType> OnFocusReleased;
+        Mile::WinRT::Event<OnUserNameAcquiredType> OnUserNameAcquired;
+        Mile::WinRT::Event<OnMouseInputModeChangedType> OnMouseInputModeChanged;
+        Mile::WinRT::Event<OnServiceMessageReceivedType> OnServiceMessageReceived;
+        Mile::WinRT::Event<OnCallbackType> OnConnectionBarPullDown;
+        Mile::WinRT::Event<OnNetworkStatusChangedType> OnNetworkStatusChanged;
+        Mile::WinRT::Event<OnCallbackType> OnDevicesButtonPressed;
+        Mile::WinRT::Event<OnCallbackType> OnAutoReconnected;
+        Mile::WinRT::Event<OnAutoReconnecting2Type> OnAutoReconnecting2;
 
         HRESULT STDMETHODCALLTYPE GetTypeInfoCount(
             _Out_ UINT* pctinfo);
@@ -1120,38 +995,6 @@ namespace NanaBox
         winrt::com_ptr<IMsRdpClipboard> m_Clipboard;
         winrt::com_ptr<IConnectionPoint> m_ConnectionPoint;
         DWORD m_Cookie = 0;
-        winrt::event<OnCallbackType> m_OnConnecting;
-        winrt::event<OnCallbackType> m_OnConnected;
-        winrt::event<OnCallbackType> m_OnLoginComplete;
-        winrt::event<OnDisconnectedType> m_OnDisconnected;
-        winrt::event<OnCallbackType> m_OnEnterFullScreenMode;
-        winrt::event<OnCallbackType> m_OnLeaveFullScreenMode;
-        winrt::event<OnChannelReceivedDataType> m_OnChannelReceivedData;
-        winrt::event<OnCallbackType> m_OnRequestGoFullScreen;
-        winrt::event<OnCallbackType> m_OnRequestLeaveFullScreen;
-        winrt::event<OnFatalErrorType> m_OnFatalError;
-        winrt::event<OnWarningType> m_OnWarning;
-        winrt::event<OnRemoteDesktopSizeChangeType> m_OnRemoteDesktopSizeChange;
-        winrt::event<OnCallbackType> m_OnIdleTimeoutNotification;
-        winrt::event<OnCallbackType> m_OnRequestContainerMinimize;
-        winrt::event<OnConfirmCloseType> m_OnConfirmClose;
-        winrt::event<OnReceivedTSPublicKeyType> m_OnReceivedTSPublicKey;
-        winrt::event<OnAutoReconnectingType> m_OnAutoReconnecting;
-        winrt::event<OnCallbackType> m_OnAuthenticationWarningDisplayed;
-        winrt::event<OnCallbackType> m_OnAuthenticationWarningDismissed;
-        winrt::event<OnRemoteProgramResultType> m_OnRemoteProgramResult;
-        winrt::event<OnRemoteProgramDisplayedType> m_OnRemoteProgramDisplayed;
-        winrt::event<OnRemoteWindowDisplayedType> m_OnRemoteWindowDisplayed;
-        winrt::event<OnLogonErrorType> m_OnLogonError;
-        winrt::event<OnFocusReleasedType> m_OnFocusReleased;
-        winrt::event<OnUserNameAcquiredType> m_OnUserNameAcquired;
-        winrt::event<OnMouseInputModeChangedType> m_OnMouseInputModeChanged;
-        winrt::event<OnServiceMessageReceivedType> m_OnServiceMessageReceived;
-        winrt::event<OnCallbackType> m_OnConnectionBarPullDown;
-        winrt::event<OnNetworkStatusChangedType> m_OnNetworkStatusChanged;
-        winrt::event<OnCallbackType> m_OnDevicesButtonPressed;
-        winrt::event<OnCallbackType> m_OnAutoReconnected;
-        winrt::event<OnAutoReconnecting2Type> m_OnAutoReconnecting2;
     };
 }
 

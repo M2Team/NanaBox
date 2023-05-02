@@ -3,6 +3,13 @@
 #include "VirtualMachineConfiguration.h"
 #include "ScsiDeviceViewModel.g.h"
 
+#include <Mile.Helpers.CppWinRT.h>
+
+namespace winrt::Mile
+{
+    using namespace ::Mile;
+}
+
 namespace winrt
 {
     using Windows::UI::Xaml::Data::PropertyChangedEventArgs;
@@ -22,11 +29,10 @@ namespace winrt::NanaBox::implementation
         hstring Path();
         void Path(hstring const& value);
 
-        winrt::event_token PropertyChanged(PropertyChangedEventHandler const& handler);
-        void PropertyChanged(winrt::event_token const& token) noexcept;
+        Mile::WinRT::Event<PropertyChangedEventHandler> PropertyChanged;
+
     private:
         ::NanaBox::ScsiDeviceConfiguration* m_scsiConfig;
         hstring m_path;
-        winrt::event<PropertyChangedEventHandler> m_propertyChanged;
     };
 }

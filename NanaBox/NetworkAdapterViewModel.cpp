@@ -12,7 +12,7 @@ namespace winrt::NanaBox::implementation
         m_macAddress = winrt::to_hstring(m_netAdapterConfig->MacAddress);
         m_endpointId = winrt::to_hstring(m_netAdapterConfig->EndpointId);
     }
-    
+
     bool NetworkAdapterViewModel::Enabled()
     {
         return m_netAdapterConfig->Enabled;
@@ -22,7 +22,7 @@ namespace winrt::NanaBox::implementation
         if (m_netAdapterConfig->Enabled != value)
         {
             m_netAdapterConfig->Enabled = value;
-            m_propertyChanged(*this, PropertyChangedEventArgs{ L"Enabled" });
+            this->PropertyChanged(*this, PropertyChangedEventArgs{ L"Enabled" });
         }
     }
 
@@ -35,7 +35,7 @@ namespace winrt::NanaBox::implementation
         if (m_netAdapterConfig->Connected != value)
         {
             m_netAdapterConfig->Connected = value;
-            m_propertyChanged(*this, PropertyChangedEventArgs{ L"Connected" });
+            this->PropertyChanged(*this, PropertyChangedEventArgs{ L"Connected" });
         }
     }
 
@@ -49,7 +49,7 @@ namespace winrt::NanaBox::implementation
         {
             m_macAddress = value;
             m_netAdapterConfig->MacAddress = winrt::to_string(value);
-            m_propertyChanged(*this, PropertyChangedEventArgs{ L"MacAddress" });
+            this->PropertyChanged(*this, PropertyChangedEventArgs{ L"MacAddress" });
         }
     }
 
@@ -63,16 +63,7 @@ namespace winrt::NanaBox::implementation
         {
             m_endpointId = value;
             m_netAdapterConfig->EndpointId = winrt::to_string(value);
-            m_propertyChanged(*this, PropertyChangedEventArgs{ L"EndpointId" });
+            this->PropertyChanged(*this, PropertyChangedEventArgs{ L"EndpointId" });
         }
-    }
-
-    winrt::event_token NetworkAdapterViewModel::PropertyChanged(PropertyChangedEventHandler const& handler)
-    {
-        return m_propertyChanged.add(handler);
-    }
-    void NetworkAdapterViewModel::PropertyChanged(winrt::event_token const& token) noexcept
-    {
-        m_propertyChanged.remove(token);
     }
 }

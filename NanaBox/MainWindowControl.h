@@ -2,6 +2,13 @@
 
 #include "MainWindowControl.g.h"
 
+#include <Mile.Helpers.CppWinRT.h>
+
+namespace winrt::Mile
+{
+    using namespace ::Mile;
+}
+
 namespace winrt
 {
     using Windows::Foundation::IInspectable;
@@ -11,10 +18,10 @@ namespace winrt
 namespace winrt::NanaBox::implementation
 {
     using RequestSignalEvent =
-        winrt::event<NanaBox::RequestSignalDelegate>;
+        Mile::WinRT::Event<NanaBox::RequestSignalDelegate>;
 
     using RequestStateChangedEvent =
-        winrt::event<NanaBox::RequestStateChangedDelegate>;
+        Mile::WinRT::Event<NanaBox::RequestStateChangedDelegate>;
 
     struct MainWindowControl : MainWindowControlT<MainWindowControl>
     {
@@ -38,36 +45,10 @@ namespace winrt::NanaBox::implementation
             winrt::IInspectable const& sender,
             winrt::RoutedEventArgs const& e);
 
-        winrt::event_token RequestEnhancedSession(
-            NanaBox::RequestStateChangedDelegate const& Handler);
-
-        void RequestEnhancedSession(
-            winrt::event_token const& Token);
-
-        winrt::event_token RequestFullScreen(
-            NanaBox::RequestSignalDelegate const& Handler);
-
-        void RequestFullScreen(
-            winrt::event_token const& Token);
-
-        winrt::event_token RequestPauseVirtualMachine(
-            NanaBox::RequestStateChangedDelegate const& Handler);
-
-        void RequestPauseVirtualMachine(
-            winrt::event_token const& Token);
-
-        winrt::event_token RequestRestartVirtualMachine(
-            NanaBox::RequestSignalDelegate const& Handler);
-
-        void RequestRestartVirtualMachine(
-            winrt::event_token const& Token);
-
-    private:
-
-        RequestStateChangedEvent m_RequestEnhancedSession;
-        RequestSignalEvent m_RequestFullScreen;
-        RequestStateChangedEvent m_RequestPauseVirtualMachine;
-        RequestSignalEvent m_RequestRestartVirtualMachine;
+        RequestStateChangedEvent RequestEnhancedSession;
+        RequestSignalEvent RequestFullScreen;
+        RequestStateChangedEvent RequestPauseVirtualMachine;
+        RequestSignalEvent RequestRestartVirtualMachine;
     };
 }
 

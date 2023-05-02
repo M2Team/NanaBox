@@ -3,6 +3,13 @@
 #include "VirtualMachineConfiguration.h"
 #include "ConfigurationViewModel.g.h"
 
+#include <Mile.Helpers.CppWinRT.h>
+
+namespace winrt::Mile
+{
+    using namespace ::Mile;
+}
+
 namespace winrt
 {
     using Windows::Foundation::IInspectable;
@@ -50,8 +57,7 @@ namespace winrt::NanaBox::implementation
         ICommand DeleteNetworkAdapterCommand();
         ICommand DeleteScsiDeviceCommand();
 
-        winrt::event_token PropertyChanged(PropertyChangedEventHandler const& handler);
-        void PropertyChanged(winrt::event_token const& token) noexcept;
+        Mile::WinRT::Event<PropertyChangedEventHandler> PropertyChanged;
 
     private:
         void DeleteNetworkAdapter(IInspectable item);
@@ -79,8 +85,6 @@ namespace winrt::NanaBox::implementation
         NanaBox::SelectOption m_processorCount{ nullptr };
         IObservableVector<NanaBox::SelectOption> m_guestTypeList{ nullptr };
         IObservableVector<NanaBox::SelectOption> m_processorCountList{ nullptr };
-
-        winrt::event<PropertyChangedEventHandler> m_propertyChanged;
     };
 }
 

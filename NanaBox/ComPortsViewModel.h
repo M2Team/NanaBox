@@ -3,13 +3,20 @@
 #include "VirtualMachineConfiguration.h"
 #include "ComPortsViewModel.g.h"
 
+#include <Mile.Helpers.CppWinRT.h>
+
+namespace winrt::Mile
+{
+    using namespace ::Mile;
+}
+
 namespace winrt
 {
     using Windows::Foundation::IInspectable;
     using Windows::Foundation::Collections::IVector;
     using Windows::Foundation::Collections::IObservableVector;
     using Windows::UI::Xaml::Data::PropertyChangedEventArgs;
-    using Windows::UI::Xaml::Data::PropertyChangedEventHandler;    
+    using Windows::UI::Xaml::Data::PropertyChangedEventHandler;
 }
 
 namespace winrt::NanaBox::implementation
@@ -27,8 +34,7 @@ namespace winrt::NanaBox::implementation
 
         IObservableVector<NanaBox::SelectOption> UefiConsoleModeList();
 
-        winrt::event_token PropertyChanged(PropertyChangedEventHandler const& handler);
-        void PropertyChanged(winrt::event_token const& token) noexcept;
+        Mile::WinRT::Event<PropertyChangedEventHandler> PropertyChanged;
 
     private:
         ::NanaBox::ComPortsConfiguration* m_comConfig{ nullptr };
@@ -37,6 +43,5 @@ namespace winrt::NanaBox::implementation
         NanaBox::SelectOption m_consoleMode{ nullptr };
 
         IObservableVector<NanaBox::SelectOption> m_consoleModeList{ nullptr };
-        winrt::event<PropertyChangedEventHandler> m_propertyChanged;
     };
 }

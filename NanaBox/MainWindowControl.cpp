@@ -22,7 +22,7 @@ namespace winrt::NanaBox::implementation
     {
         UNREFERENCED_PARAMETER(e);
 
-        this->m_RequestEnhancedSession(winrt::unbox_value<bool>(
+        this->RequestEnhancedSession(winrt::unbox_value<bool>(
             sender.as<winrt::AppBarToggleButton>().IsChecked()));
     }
 
@@ -33,7 +33,7 @@ namespace winrt::NanaBox::implementation
         UNREFERENCED_PARAMETER(sender);
         UNREFERENCED_PARAMETER(e);
 
-        this->m_RequestFullScreen();
+        this->RequestFullScreen();
     }
 
     void MainWindowControl::PauseVirtualMachineButtonClick(
@@ -42,7 +42,7 @@ namespace winrt::NanaBox::implementation
     {
         UNREFERENCED_PARAMETER(e);
 
-        this->m_RequestPauseVirtualMachine(winrt::unbox_value<bool>(
+        this->RequestPauseVirtualMachine(winrt::unbox_value<bool>(
             sender.as<winrt::AppBarToggleButton>().IsChecked()));
     }
 
@@ -53,54 +53,6 @@ namespace winrt::NanaBox::implementation
         UNREFERENCED_PARAMETER(sender);
         UNREFERENCED_PARAMETER(e);
 
-        this->m_RequestRestartVirtualMachine();
-    }
-
-    winrt::event_token MainWindowControl::RequestEnhancedSession(
-        NanaBox::RequestStateChangedDelegate const& Handler)
-    {
-        return this->m_RequestEnhancedSession.add(Handler);
-    }
-
-    void MainWindowControl::RequestEnhancedSession(
-        winrt::event_token const& Token)
-    {
-        this->m_RequestEnhancedSession.remove(Token);
-    }
-
-    winrt::event_token MainWindowControl::RequestFullScreen(
-        NanaBox::RequestSignalDelegate const& Handler)
-    {
-        return this->m_RequestFullScreen.add(Handler);
-    }
-
-    void MainWindowControl::RequestFullScreen(
-        winrt::event_token const& Token)
-    {
-        this->m_RequestFullScreen.remove(Token);
-    }
-
-    winrt::event_token MainWindowControl::RequestPauseVirtualMachine(
-        NanaBox::RequestStateChangedDelegate const& Handler)
-    {
-        return this->m_RequestPauseVirtualMachine.add(Handler);
-    }
-
-    void MainWindowControl::RequestPauseVirtualMachine(
-        winrt::event_token const& Token)
-    {
-        this->m_RequestPauseVirtualMachine.remove(Token);
-    }
-
-    winrt::event_token MainWindowControl::RequestRestartVirtualMachine(
-        NanaBox::RequestSignalDelegate const& Handler)
-    {
-        return this->m_RequestRestartVirtualMachine.add(Handler);
-    }
-
-    void MainWindowControl::RequestRestartVirtualMachine(
-        winrt::event_token const& Token)
-    {
-        this->m_RequestRestartVirtualMachine.remove(Token);
+        this->RequestRestartVirtualMachine();
     }
 }
