@@ -424,6 +424,23 @@ int NanaBox::MainWindow::OnCreate(
 
     }
 
+    this->m_RdpClient->PerformanceFlags(
+        TS_PERF_ENABLE_ENHANCED_GRAPHICS |
+        TS_PERF_ENABLE_FONT_SMOOTHING |
+        TS_PERF_ENABLE_DESKTOP_COMPOSITION);
+
+    try
+    {
+        VARIANT Value;
+        Value.vt = VT_BOOL;
+        Value.boolVal = VARIANT_TRUE;
+        this->m_RdpClient->Property(L"EnableHardwareMode", Value);
+    }
+    catch (...)
+    {
+
+    }
+
     try
     {
         VARIANT Value;
