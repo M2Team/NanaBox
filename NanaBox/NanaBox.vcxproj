@@ -327,7 +327,7 @@
       <Version>2.0.617</Version>
     </PackageReference>
     <PackageReference Include="Mile.Windows.Helpers">
-      <Version>1.0.14</Version>
+      <Version>1.0.15</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
