@@ -5,7 +5,7 @@
  *
  * LICENSE:   The MIT License
  *
- * DEVELOPER: Mouri_Naruto (Mouri_Naruto AT Outlook.com)
+ * DEVELOPER: MouriNaruto (KurikoMouri@outlook.jp)
  */
 
 #ifndef NANABOX_RDPCLIENT
@@ -786,7 +786,7 @@ namespace NanaBox
 
         RdpDevice DeviceById(
             winrt::hstring const& DevInstanceId);
-        
+
         ULONG DeviceCount();
 
         void RescanDrives(
