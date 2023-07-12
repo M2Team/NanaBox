@@ -644,6 +644,43 @@ std::string NanaBox::MakeHcsConfiguration(
             ScsiController["Attachments"] = ScsiDevices;
             Devices["Scsi"]["NanaBox Scsi Controller"] = ScsiController;
         }
+
+        {
+            std::string ShareName = "HostDriverStore";
+            std::string SharePath = "C:\\Windows\\System32\\DriverStore";
+
+            {
+                nlohmann::json Current;
+                Current["Name"] = ShareName;
+                Current["Path"] = SharePath;
+
+                Current["Options"]["ReadOnly"] = true;
+                Current["Options"]["PseudoOplocks"] = true;
+                Current["Options"]["PseudoDirnotify"] = true;
+                Current["Options"]["SupportCloudFiles"] = true;
+
+                nlohmann::json SharedFolders;
+                SharedFolders.push_back(Current);
+                Devices["VirtualSmb"]["Shares"] = SharedFolders;
+            }
+
+            {
+                const std::uint32_t Plan9ShareFlagsReadOnly = 0x00000001;
+
+                const std::uint32_t Plan9SharePort = 50001;
+
+                nlohmann::json Current;
+                Current["Name"] = ShareName;
+                Current["AccessName"] = ShareName;
+                Current["Path"] = SharePath;
+                Current["Port"] = Plan9SharePort;
+                Current["Flags"] = Plan9ShareFlagsReadOnly;
+
+                nlohmann::json SharedFolders;
+                SharedFolders.push_back(Current);
+                Devices["Plan9"]["Shares"] = SharedFolders;
+            }
+        }
     }
     Result["VirtualMachine"]["Devices"] = Devices;
 
