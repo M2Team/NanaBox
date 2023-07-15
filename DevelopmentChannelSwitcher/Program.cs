@@ -84,6 +84,42 @@ namespace DevelopmentChannelSwitcher
                 FileUtilities.SaveTextToFileAsUtf8Bom(FilePath, Content);
             }
 
+            {
+                List<(string Release, string Preview)> ReplacementStringList =
+                new List<(string Release, string Preview)>();
+                ReplacementStringList.Add((
+                    "NanaBox.ico",
+                    "NanaBoxPreview.ico"));
+
+                string FilePath = string.Format(
+                    @"{0}\NanaBox\NanaBoxResources.rc",
+                    ProjectRootPath);
+
+                string Content = File.ReadAllText(
+                    FilePath,
+                    Encoding.Unicode);
+                foreach (var ReplacementStringItem in ReplacementStringList)
+                {
+                    if (Preview)
+                    {
+                        Content = Content.Replace(
+                            ReplacementStringItem.Release,
+                            ReplacementStringItem.Preview);
+                    }
+                    else
+                    {
+                        Content = Content.Replace(
+                            ReplacementStringItem.Preview,
+                            ReplacementStringItem.Release);
+                    }
+                }
+
+                File.WriteAllText(
+                    FilePath,
+                    Content,
+                    Encoding.Unicode);
+            }
+
             Console.WriteLine("Hello, World!");
             Console.ReadKey();
         }
