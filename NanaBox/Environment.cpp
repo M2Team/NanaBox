@@ -2,29 +2,7 @@
 
 #include <ShlObj.h>
 
-namespace winrt
-{
-    using Windows::ApplicationModel::Package;
-}
-
-
-bool IsPackagedMode()
-{
-    static bool CachedResult = ([]() -> bool
-        {
-            try
-            {
-                const auto CurrentPackage = winrt::Package::Current();
-                return true;
-            }
-            catch (...)
-            {
-                return false;
-            }
-        }());
-
-    return CachedResult;
-}
+#include <Mile.Helpers.CppWinRT.h>
 
 std::filesystem::path GetLocalStateFolderPath()
 {
@@ -44,7 +22,7 @@ std::filesystem::path GetLocalStateFolderPath()
                     nullptr,
                     &RawFolderPath));
                 FolderPath = std::filesystem::path(RawFolderPath);
-                if (!::IsPackagedMode())
+                if (!Mile::WinRT::IsPackagedMode())
                 {
                     FolderPath /= L"M2-Team\\NanaBox";
                 }
@@ -67,32 +45,4 @@ std::wstring GetCurrentProcessModulePath()
     Path.resize(::GetModuleFileNameW(
         nullptr, &Path[0], static_cast<DWORD>(Path.size())));
     return Path;
-}
-
-bool IsCurrentProcessElevated()
-{
-    bool Result = false;
-
-    HANDLE CurrentProcessAccessToken = nullptr;
-    if (::OpenProcessToken(
-        ::GetCurrentProcess(),
-        TOKEN_ALL_ACCESS,
-        &CurrentProcessAccessToken))
-    {
-        TOKEN_ELEVATION Information = { 0 };
-        DWORD Length = sizeof(Information);
-        if (::GetTokenInformation(
-            CurrentProcessAccessToken,
-            TOKEN_INFORMATION_CLASS::TokenElevation,
-            &Information,
-            Length,
-            &Length))
-        {
-            Result = Information.TokenIsElevated;
-        }
-
-        ::CloseHandle(CurrentProcessAccessToken);
-    }
-
-    return Result;
 }

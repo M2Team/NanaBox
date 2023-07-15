@@ -1297,7 +1297,7 @@ int WINAPI wWinMain(
         OptionsAndParameters,
         UnresolvedCommandLine);
 
-    bool PackagedMode = ::IsPackagedMode();
+    bool PackagedMode = Mile::WinRT::IsPackagedMode();
     std::filesystem::path TargetBinaryPath;
 
     bool ShowVirtualMachineConfig = false;
@@ -1377,7 +1377,7 @@ int WINAPI wWinMain(
         }
     }
 
-        if (!::IsCurrentProcessElevated() || PackagedMode)
+        if (!::MileIsCurrentProcessElevated() || PackagedMode)
         {
             try
             {
