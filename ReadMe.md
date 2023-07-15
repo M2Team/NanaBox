@@ -96,8 +96,8 @@ Reference documents for known issues:
   - [x] Add full screen support. (Suggested by Belleve.)
   - [x] Add localization for the NanaBox UI.
   - [x] Submit to the Windows Store.
-  - [ ] Add virtual machine creation UI and settings UI.
 - 1.x Series (Late 2023)
+  - [ ] Add virtual machine creation UI and settings UI.
   - [ ] Provide tool for Hyper-V vmcx migration. (Suggested by Belleve.)
   - [ ] Add support for setting RDP options with .rdp file. (Suggested by 
         awakecoding.)
