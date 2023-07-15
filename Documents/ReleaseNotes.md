@@ -1,5 +1,26 @@
 ﻿# NanaBox Release Notes
 
+**NanaBox 1.0 (1.0.???.0)**
+
+- Fix the background color issue when window size is bigger than the virtual
+  machine content or using the fullscreen mode.
+- Improve the background color policy when window size is bigger than the
+  virtual machine content in windowed mode for better user experience.
+  (Suggested by AndromedaMelody.)
+- Enable frame buffer redirection for reducing the overhead.
+- Enable redirect key combinations by default to improve the user experience.
+- Fix virtual machine instance network disconnection issue when starting the
+  same virtual machine instance repeatedly.
+- Improve the implementation of running with unpackaged mode in package mode
+  via using package's LocalState folder instead of user's Temp folder.
+- Improve the user experience when switching NanaBox instances via Windows
+  taskbar.
+- Update to Git submodule version of Mile.Project.Windows.
+- Update Mile.Windows.Helpers to 1.0.17.
+  (https://github.com/ProjectMile/Mile.Windows.Helpers/commits/main)
+- Update Mile.Xaml to 2.1.661.
+  (https://github.com/ProjectMile/Mile.Xaml/releases/tag/2.1.661.0)
+
 **NanaBox 1.0 Preview 2 (1.0.247.0)**
 
 - Fix access denied issue when virtual disk and image files located under any
