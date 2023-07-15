@@ -1,6 +1,6 @@
 ﻿# NanaBox Release Notes
 
-**NanaBox 1.0 (1.0.???.0)**
+**NanaBox 1.0 (1.0.471.0)**
 
 - Fix the background color issue when window size is bigger than the virtual
   machine content or using the fullscreen mode.

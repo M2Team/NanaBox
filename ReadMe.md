@@ -81,7 +81,7 @@ Reference documents for known issues:
 
 ## Development Roadmap
 
-- 1.0 Series (2023 Q2)
+- 1.0 (July 16, 2023)
   - [x] Based on Host Compute System API as virtualization backend.
   - [x] Add Hyper-V Enhanced Session Mode support for Windows Guests.
   - [x] Add Hyper-V GPU paravirtualization solution a.k.a GPU-PV support.
