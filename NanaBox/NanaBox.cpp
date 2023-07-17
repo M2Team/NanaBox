@@ -1301,14 +1301,14 @@ int WINAPI wWinMain(
     std::filesystem::path TargetBinaryPath;
 
     bool ShowVirtualMachineConfig = false;
-    /*if (!OptionsAndParameters.empty())
+    if (!OptionsAndParameters.empty())
     {
         auto iter = OptionsAndParameters.find(L"edit");
         if (iter != OptionsAndParameters.end())
         {
             ShowVirtualMachineConfig = true;
         }
-    }*/
+    }
 
     if (!ShowVirtualMachineConfig)
     {

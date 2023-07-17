@@ -31,7 +31,7 @@
         Icon="FullScreen"
         LabelPosition="Collapsed"
         ToolTipService.ToolTip="[Full Screen]" />
-      <!--<AppBarButton
+      <AppBarButton
         Width="40"
         AutomationProperties.Name="[Settings Button]"
         Icon="Setting"
@@ -78,7 +78,7 @@
             <ToggleMenuFlyoutItem Text="[Smart Cards Redirection]" />
           </MenuFlyout>
         </AppBarButton.Flyout>
-      </AppBarButton>-->
+      </AppBarButton>
       <AppBarSeparator />
       <AppBarToggleButton
         x:Uid="/MainWindow/PauseVirtualMachineButton"
