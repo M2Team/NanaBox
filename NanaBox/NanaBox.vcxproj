@@ -24,7 +24,7 @@
     <MileProjectLegalCopyright>© M2-Team and Contributors. All rights reserved.</MileProjectLegalCopyright>
     <MileProjectOriginalFilename>NanaBox.exe</MileProjectOriginalFilename>
     <MileProjectProductName>NanaBox</MileProjectProductName>
-    <MileProjectVersion>1.0.$([System.DateTime]::Today.Subtract($([System.DateTime]::Parse('2022-04-01'))).TotalDays).0</MileProjectVersion>
+    <MileProjectVersion>1.1.$([System.DateTime]::Today.Subtract($([System.DateTime]::Parse('2022-04-01'))).TotalDays).0</MileProjectVersion>
     <MileProjectVersionTag>Preview 1</MileProjectVersionTag>
   </PropertyGroup>
   <Import Project="..\Mile.Project.Windows\Mile.Project.Cpp.Default.props" />
