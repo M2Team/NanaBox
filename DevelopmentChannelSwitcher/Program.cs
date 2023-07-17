@@ -10,7 +10,7 @@ namespace DevelopmentChannelSwitcher
             string ProjectRootPath = GitRepository.GetRootPath();
             Console.WriteLine(ProjectRootPath);
 
-            bool Preview = false;
+            bool Preview = true;
 
             {
                 List<(string Release, string Preview)> ReplacementStringList =
