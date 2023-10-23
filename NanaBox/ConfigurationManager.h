@@ -20,6 +20,11 @@ namespace NanaBox
     void ComputeSystemUpdateGpu(
         winrt::com_ptr<ComputeSystem> const& Instance,
         GpuConfiguration const& Configuration);
+
+    void ComputeSystemAddNetworkAdapters(
+        winrt::com_ptr<ComputeSystem> const& Instance,
+        std::string const& Owner,
+        std::vector<NetworkAdapterConfiguration>& Configuration);
 }
 
 #endif // !NANABOX_CONFIGURATION_MANAGER
