@@ -10,8 +10,6 @@
 
 #include "ConfigurationManager.h"
 
-#include <json.hpp>
-
 #include "Utils.h"
 
 void NanaBox::ComputeSystemUpdateGpu(
@@ -252,5 +250,110 @@ void NanaBox::RemoteDesktopUpdateKeyboardConfiguration(
     {
         Configuration.FocusReleaseRightHotkey =
             Instance->HotKeyFocusReleaseRight();
+    }
+}
+
+void NanaBox::DeserializeKeyboardConfiguration(
+    nlohmann::json const& Input,
+    NanaBox::KeyboardConfiguration& Output)
+{
+    try
+    {
+        Output.RedirectKeyCombinations =
+            Input["RedirectKeyCombinations"].get<bool>();
+    }
+    catch (...)
+    {
+
+    }
+
+    try
+    {
+        Output.FullScreenHotkey =
+            Input["FullScreenHotkey"].get<bool>();
+    }
+    catch (...)
+    {
+
+    }
+
+    try
+    {
+        Output.CtrlEscHotkey =
+            Input["CtrlEscHotkey"].get<bool>();
+    }
+    catch (...)
+    {
+
+    }
+
+    try
+    {
+        Output.AltEscHotkey =
+            Input["AltEscHotkey"].get<bool>();
+    }
+    catch (...)
+    {
+
+    }
+
+    try
+    {
+        Output.AltTabHotkey =
+            Input["AltTabHotkey"].get<bool>();
+    }
+    catch (...)
+    {
+
+    }
+
+    try
+    {
+        Output.AltShiftTabHotkey =
+            Input["AltShiftTabHotkey"].get<bool>();
+    }
+    catch (...)
+    {
+
+    }
+
+    try
+    {
+        Output.AltSpaceHotkey =
+            Input["AltSpaceHotkey"].get<bool>();
+    }
+    catch (...)
+    {
+
+    }
+
+    try
+    {
+        Output.CtrlAltDelHotkey =
+            Input["CtrlAltDelHotkey"].get<bool>();
+    }
+    catch (...)
+    {
+
+    }
+
+    try
+    {
+        Output.FocusReleaseLeftHotkey =
+            Input["FocusReleaseLeftHotkey"].get<bool>();
+    }
+    catch (...)
+    {
+
+    }
+
+    try
+    {
+        Output.FocusReleaseRightHotkey =
+            Input["FocusReleaseRightHotkey"].get<bool>();
+    }
+    catch (...)
+    {
+
     }
 }

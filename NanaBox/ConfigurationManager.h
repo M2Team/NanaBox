@@ -16,6 +16,8 @@
 #include "HostCompute.h"
 #include "RdpClient.h"
 
+#include <json.hpp>
+
 namespace NanaBox
 {
     void ComputeSystemUpdateGpu(
@@ -30,6 +32,10 @@ namespace NanaBox
     void RemoteDesktopUpdateKeyboardConfiguration(
         winrt::com_ptr<RdpClient> const& Instance,
         KeyboardConfiguration& Configuration);
+
+    void DeserializeKeyboardConfiguration(
+        nlohmann::json const& Input,
+        KeyboardConfiguration& Output);
 }
 
 #endif // !NANABOX_CONFIGURATION_MANAGER
