@@ -51,9 +51,9 @@ void NanaBox::ComputeSystemUpdateGpu(
 }
 
 void NanaBox::ComputeSystemAddNetworkAdapters(
-    winrt::com_ptr<ComputeSystem> const& Instance,
+    winrt::com_ptr<NanaBox::ComputeSystem> const& Instance,
     std::string const& Owner,
-    std::vector<NetworkAdapterConfiguration>& Configuration)
+    std::vector<NanaBox::NetworkAdapterConfiguration>& Configuration)
 {
     NanaBox::HcnNetwork NetworkHandle = NanaBox::HcnOpenNetwork(
         NanaBox::DefaultSwitchId);
