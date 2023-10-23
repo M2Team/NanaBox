@@ -21,9 +21,6 @@ namespace NanaBox
     std::string SerializeConfiguration(
         VirtualMachineConfiguration const& Configuration);
 
-    std::string MakeHcsUpdateGpuRequest(
-        GpuConfiguration const& Value);
-
     std::string MakeHcsAddNetworkAdapterRequest(
         NetworkAdapterConfiguration const& Value);
 

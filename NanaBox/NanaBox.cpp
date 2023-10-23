@@ -17,6 +17,7 @@
 
 #include "RdpClient.h"
 #include "HostCompute.h"
+#include "ConfigurationManager.h"
 #include "VirtualMachineConfiguration.h"
 
 #include <cwchar>
@@ -988,8 +989,9 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
         }
     }
 
-    this->m_VirtualMachine->Modify(winrt::to_hstring(
-        NanaBox::MakeHcsUpdateGpuRequest(this->m_Configuration.Gpu)));
+    NanaBox::ComputeSystemUpdateGpu(
+        this->m_VirtualMachine,
+        this->m_Configuration.Gpu);
 
     this->m_VirtualMachineRunning = true;
 

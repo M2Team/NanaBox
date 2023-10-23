@@ -464,41 +464,6 @@ std::string NanaBox::SerializeConfiguration(
     return Result.dump(2);
 }
 
-std::string NanaBox::MakeHcsUpdateGpuRequest(
-    NanaBox::GpuConfiguration const& Value)
-{
-    nlohmann::json Result;
-
-    Result["ResourcePath"] = "VirtualMachine/ComputeTopology/Gpu";
-    Result["RequestType"] = "Update";
-
-    Result["Settings"]["AssignmentMode"] = "Disabled";
-    if (NanaBox::GpuAssignmentMode::Default == Value.AssignmentMode)
-    {
-        Result["Settings"]["AssignmentMode"] = "Default";
-    }
-    else if (NanaBox::GpuAssignmentMode::Mirror == Value.AssignmentMode)
-    {
-        Result["Settings"]["AssignmentMode"] = "Mirror";
-    }
-    else if (NanaBox::GpuAssignmentMode::List == Value.AssignmentMode)
-    {
-        if (!Value.SelectedDevices.empty())
-        {
-            Result["Settings"]["AssignmentMode"] = "List";
-            nlohmann::json Devices;
-            for (std::string const& Device : Value.SelectedDevices)
-            {
-                Devices[Device] = 0xffff;
-            }
-            Result["Settings"]["AssignmentRequest"] = Devices;
-        }
-    }
-    Result["Settings"]["AllowVendorExtension"] = true;
-
-    return Result.dump(2);
-}
-
 std::string NanaBox::MakeHcsAddNetworkAdapterRequest(
     NanaBox::NetworkAdapterConfiguration const& Value)
 {
