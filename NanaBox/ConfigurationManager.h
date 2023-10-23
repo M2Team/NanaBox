@@ -13,8 +13,13 @@
 
 #include "ConfigurationSpecification.h"
 
+#include "HostCompute.h"
+
 namespace NanaBox
 {
+    void ComputeSystemUpdateGpu(
+        winrt::com_ptr<ComputeSystem> const& Instance,
+        GpuConfiguration const& Configuration);
 }
 
 #endif // !NANABOX_CONFIGURATION_MANAGER
