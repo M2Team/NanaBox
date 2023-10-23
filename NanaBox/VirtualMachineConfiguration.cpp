@@ -464,28 +464,6 @@ std::string NanaBox::SerializeConfiguration(
     return Result.dump(2);
 }
 
-std::string NanaBox::MakeHcsAddNetworkAdapterRequest(
-    NanaBox::NetworkAdapterConfiguration const& Value)
-{
-    std::string ResourcePath =
-        "VirtualMachine/Devices/NetworkAdapters/" + Value.EndpointId;
-
-    nlohmann::json Result;
-
-    Result["ResourcePath"] = ResourcePath;
-    Result["RequestType"] = "Add";
-
-    if (!Value.Connected)
-    {
-        Result["Settings"]["ConnectionState"] = "Disabled";
-    }
-
-    Result["Settings"]["EndpointId"] = Value.EndpointId;
-    Result["Settings"]["MacAddress"] = Value.MacAddress;
-
-    return Result.dump(2);
-}
-
 std::string NanaBox::MakeHcsConfiguration(
     NanaBox::VirtualMachineConfiguration const& Configuration)
 {
