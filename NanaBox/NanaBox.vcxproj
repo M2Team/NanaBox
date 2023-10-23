@@ -47,6 +47,7 @@
       <DependentUpon>ComPortsViewModel.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
+    <ClCompile Include="ConfigurationManager.cpp" />
     <ClCompile Include="ConfigurationViewModel.cpp">
       <DependentUpon>ConfigurationViewModel.idl</DependentUpon>
       <SubType>Code</SubType>
@@ -214,6 +215,7 @@
       <DependentUpon>ComPortsViewModel.idl</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
+    <ClInclude Include="ConfigurationManager.h" />
     <ClInclude Include="ConfigurationSpecification.h" />
     <ClInclude Include="ConfigurationWindow.h" />
     <ClInclude Include="ConfigurationViewModel.h">
