@@ -1181,9 +1181,9 @@ void PrerequisiteCheck()
                 nullptr,
                 nullptr,
                 g_WindowTitle.data(),
-                ::GetLocalizedString(
+                Mile::WinRT::GetLocalizedString(
                     L"Messages/AccessDeniedInstructionText").c_str(),
-                ::GetLocalizedString(
+                Mile::WinRT::GetLocalizedString(
                     L"Messages/AccessDeniedContentText").c_str(),
                 TDCBF_OK_BUTTON,
                 TD_ERROR_ICON,
@@ -1195,9 +1195,9 @@ void PrerequisiteCheck()
                 nullptr,
                 nullptr,
                 g_WindowTitle.data(),
-                ::GetLocalizedString(
+                Mile::WinRT::GetLocalizedString(
                     L"Messages/HyperVNotAvailableInstructionText").c_str(),
-                ::GetLocalizedString(
+                Mile::WinRT::GetLocalizedString(
                     L"Messages/HyperVNotAvailableContentText").c_str(),
                 TDCBF_OK_BUTTON,
                 TD_ERROR_ICON,
@@ -1258,9 +1258,9 @@ void PrerequisiteCheck()
             nullptr,
             nullptr,
             g_WindowTitle.data(),
-            ::GetLocalizedString(
+            Mile::WinRT::GetLocalizedString(
                 L"Messages/VMMSNotAvailableInstructionText").c_str(),
-            ::GetLocalizedString(
+            Mile::WinRT::GetLocalizedString(
                 L"Messages/VMMSNotAvailableContentText").c_str(),
             TDCBF_OK_BUTTON,
             TD_ERROR_ICON,

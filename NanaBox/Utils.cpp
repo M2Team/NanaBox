@@ -402,34 +402,3 @@ void WriteAllTextToUtf8TextFile(
         &NumberOfBytesWritten,
         nullptr));
 }
-
-winrt::hstring GetLocalizedString(
-    winrt::hstring const& ResourcePath,
-    winrt::hstring const& FallbackString)
-{
-    try
-    {
-        winrt::ResourceMap CurrentResourceMap =
-            winrt::ResourceManager::Current().MainResourceMap();
-
-        if (CurrentResourceMap.HasKey(ResourcePath))
-        {
-            return CurrentResourceMap.Lookup(
-                ResourcePath).Candidates().GetAt(0).ValueAsString();
-        }
-        else
-        {
-            return FallbackString;
-        }
-    }
-    catch (...)
-    {
-        return FallbackString;
-    }
-}
-
-winrt::hstring GetLocalizedString(
-    winrt::hstring const& ResourcePath)
-{
-    return ::GetLocalizedString(ResourcePath, ResourcePath);
-}

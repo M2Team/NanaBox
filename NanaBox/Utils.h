@@ -35,9 +35,9 @@ void WriteAllTextToUtf8TextFile(
     std::wstring const& Path,
     std::string& Content);
 
-winrt::hstring GetLocalizedString(
-    winrt::hstring const& ResourcePath,
-    winrt::hstring const& FallbackString);
+#include <Mile.Helpers.CppWinRT.h>
 
-winrt::hstring GetLocalizedString(
-    winrt::hstring const& ResourcePath);
+namespace winrt::Mile
+{
+    using namespace ::Mile;
+}
