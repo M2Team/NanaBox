@@ -14,6 +14,7 @@
 #include "ConfigurationSpecification.h"
 
 #include "HostCompute.h"
+#include "RdpClient.h"
 
 namespace NanaBox
 {
@@ -25,6 +26,10 @@ namespace NanaBox
         winrt::com_ptr<ComputeSystem> const& Instance,
         std::string const& Owner,
         std::vector<NetworkAdapterConfiguration>& Configuration);
+
+    void RemoteDesktopUpdateKeyboardConfiguration(
+        winrt::com_ptr<RdpClient> const& Instance,
+        KeyboardConfiguration& Configuration);
 }
 
 #endif // !NANABOX_CONFIGURATION_MANAGER

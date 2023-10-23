@@ -139,3 +139,118 @@ void NanaBox::ComputeSystemAddNetworkAdapters(
         }
     }
 }
+
+void NanaBox::RemoteDesktopUpdateKeyboardConfiguration(
+    winrt::com_ptr<NanaBox::RdpClient> const& Instance,
+    NanaBox::KeyboardConfiguration& Configuration)
+{
+    try
+    {
+        Instance->KeyboardHookMode(
+            Configuration.RedirectKeyCombinations ? 1 : 2);
+    }
+    catch (...)
+    {
+        Configuration.RedirectKeyCombinations =
+            (Instance->KeyboardHookMode() == 1);
+    }
+
+    try
+    {
+        Instance->HotKeyFullScreen(
+            Configuration.FullScreenHotkey);
+    }
+    catch (...)
+    {
+        Configuration.FullScreenHotkey =
+            Instance->HotKeyFullScreen();
+    }
+
+    try
+    {
+        Instance->HotKeyCtrlEsc(
+            Configuration.CtrlEscHotkey);
+    }
+    catch (...)
+    {
+        Configuration.CtrlEscHotkey =
+            Instance->HotKeyCtrlEsc();
+    }
+
+    try
+    {
+        Instance->HotKeyAltEsc(
+            Configuration.AltEscHotkey);
+    }
+    catch (...)
+    {
+        Configuration.AltEscHotkey =
+            Instance->HotKeyAltEsc();
+    }
+
+    try
+    {
+        Instance->HotKeyAltTab(
+            Configuration.AltTabHotkey);
+    }
+    catch (...)
+    {
+        Configuration.AltTabHotkey =
+            Instance->HotKeyAltTab();
+    }
+
+    try
+    {
+        Instance->HotKeyAltShiftTab(
+            Configuration.AltShiftTabHotkey);
+    }
+    catch (...)
+    {
+        Configuration.AltShiftTabHotkey =
+            Instance->HotKeyAltShiftTab();
+    }
+
+    try
+    {
+        Instance->HotKeyAltSpace(
+            Configuration.AltSpaceHotkey);
+    }
+    catch (...)
+    {
+        Configuration.AltSpaceHotkey =
+            Instance->HotKeyAltSpace();
+    }
+
+    try
+    {
+        Instance->HotKeyCtrlAltDel(
+            Configuration.CtrlAltDelHotkey);
+    }
+    catch (...)
+    {
+        Configuration.CtrlAltDelHotkey =
+            Instance->HotKeyCtrlAltDel();
+    }
+
+    try
+    {
+        Instance->HotKeyFocusReleaseLeft(
+            Configuration.FocusReleaseLeftHotkey);
+    }
+    catch (...)
+    {
+        Configuration.FocusReleaseLeftHotkey =
+            Instance->HotKeyFocusReleaseLeft();
+    }
+
+    try
+    {
+        Instance->HotKeyFocusReleaseRight(
+            Configuration.FocusReleaseRightHotkey);
+    }
+    catch (...)
+    {
+        Configuration.FocusReleaseRightHotkey =
+            Instance->HotKeyFocusReleaseRight();
+    }
+}
