@@ -50,6 +50,7 @@
 #include "ConfigurationWindow.h"
 
 #include <Mile.Helpers.h>
+#include <Mile.Xaml.h>
 
 #include <dwmapi.h>
 #pragma comment(lib, "dwmapi.lib")
@@ -247,6 +248,14 @@ namespace NanaBox
         LONG_PTR m_RememberedMainWindowStyle;
 
         void InitializeVirtualMachine();
+
+        HWND CreateXamlDialog();
+
+        int ShowXamlDialog(
+            _In_ HWND WindowHandle,
+            _In_ int Width,
+            _In_ int Height,
+            _In_ LPVOID Content);
     };
 
 }
@@ -1165,6 +1174,109 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
     WindowTitle += g_WindowTitle;
     this->SetWindowTextW(WindowTitle.c_str());
     this->m_RdpClient->ConnectionBarText(WindowTitle.c_str());
+}
+
+HWND NanaBox::MainWindow::CreateXamlDialog()
+{
+    return ::CreateWindowExW(
+        WS_EX_STATICEDGE | WS_EX_DLGMODALFRAME,
+        L"Mile.Xaml.ContentWindow",
+        nullptr,
+        WS_CAPTION | WS_SYSMENU,
+        CW_USEDEFAULT,
+        0,
+        CW_USEDEFAULT,
+        0,
+        this->m_hWnd,
+        nullptr,
+        nullptr,
+        nullptr);
+}
+
+int NanaBox::MainWindow::ShowXamlDialog(
+    _In_ HWND WindowHandle,
+    _In_ int Width,
+    _In_ int Height,
+    _In_ LPVOID Content)
+{
+    if (!WindowHandle)
+    {
+        return -1;
+    }
+
+    if (FAILED(::MileAllowNonClientDefaultDrawingForWindow(
+        WindowHandle,
+        FALSE)))
+    {
+        return -1;
+    }
+
+    if (FAILED(::MileXamlSetXamlContentForContentWindow(
+        WindowHandle,
+        Content)))
+    {
+        return -1;
+    }
+
+    HMENU MenuHandle = ::GetSystemMenu(WindowHandle, FALSE);
+    if (MenuHandle)
+    {
+        ::RemoveMenu(MenuHandle, 0, MF_SEPARATOR);
+        ::RemoveMenu(MenuHandle, SC_RESTORE, MF_BYCOMMAND);
+        ::RemoveMenu(MenuHandle, SC_SIZE, MF_BYCOMMAND);
+        ::RemoveMenu(MenuHandle, SC_MINIMIZE, MF_BYCOMMAND);
+        ::RemoveMenu(MenuHandle, SC_MAXIMIZE, MF_BYCOMMAND);
+    }
+
+    UINT DpiValue = ::GetDpiForWindow(WindowHandle);
+
+    int ScaledWidth = ::MulDiv(Width, DpiValue, USER_DEFAULT_SCREEN_DPI);
+    int ScaledHeight = ::MulDiv(Height, DpiValue, USER_DEFAULT_SCREEN_DPI);
+
+    RECT ParentWindowRect;
+    ::GetWindowRect(this->m_hWnd, &ParentWindowRect);
+
+    int ParentWidth = ParentWindowRect.right - ParentWindowRect.left;
+    int ParentHeight = ParentWindowRect.bottom - ParentWindowRect.top;
+
+    ::SetWindowPos(
+        WindowHandle,
+        nullptr,
+        ParentWindowRect.left + ((ParentWidth - ScaledWidth) / 2),
+        ParentWindowRect.top + ((ParentHeight - ScaledHeight) / 2),
+        ScaledWidth,
+        ScaledHeight,
+        SWP_NOZORDER | SWP_NOACTIVATE);
+
+    ::ShowWindow(WindowHandle, SW_SHOW);
+    ::UpdateWindow(WindowHandle);
+
+    ::EnableWindow(this->m_hWnd, FALSE);
+
+    MSG Message;
+    while (::GetMessageW(&Message, nullptr, 0, 0))
+    {
+        // Workaround for capturing Alt+F4 in applications with XAML Islands.
+        // Reference: https://github.com/microsoft/microsoft-ui-xaml/issues/2408
+        if (Message.message == WM_SYSKEYDOWN && Message.wParam == VK_F4)
+        {
+            ::SendMessageW(
+                ::GetAncestor(Message.hwnd, GA_ROOT),
+                Message.message,
+                Message.wParam,
+                Message.lParam);
+
+            continue;
+        }
+
+        ::TranslateMessage(&Message);
+        ::DispatchMessageW(&Message);
+    }
+
+    ::EnableWindow(this->m_hWnd, TRUE);
+    ::SetActiveWindow(this->m_hWnd);
+
+    return static_cast<int>(Message.wParam);
 }
 
 void PrerequisiteCheck()
