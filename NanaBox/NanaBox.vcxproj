@@ -66,10 +66,6 @@
       <DependentUpon>MainWindowControl.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
-    <ClCompile Include="MainWindowExitNoticeControl.cpp">
-      <DependentUpon>MainWindowExitNoticeControl.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </ClCompile>
     <ClCompile Include="NanaBox.cpp" />
     <ClCompile Include="NetworkAdapterViewModel.cpp">
       <DependentUpon>NetworkAdapterViewModel.idl</DependentUpon>
@@ -121,6 +117,10 @@
     </ClCompile>
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="VirtualMachineConfiguration.cpp" />
+    <ClCompile Include="ExitConfirmationPage.cpp">
+      <DependentUpon>ExitConfirmationPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -156,10 +156,6 @@
       <DependentUpon>MainWindowControl.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
-    <Midl Include="MainWindowExitNoticeControl.idl">
-      <DependentUpon>MainWindowExitNoticeControl.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Midl>
     <Midl Include="NetworkAdapterViewModel.idl">
       <SubType>Designer</SubType>
     </Midl>
@@ -192,6 +188,10 @@
     </Midl>
     <Midl Include="ConfigurationWindowControl.idl">
       <DependentUpon>ConfigurationWindowControl.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Midl>
+    <Midl Include="ExitConfirmationPage.idl">
+      <DependentUpon>ExitConfirmationPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
   </ItemGroup>
@@ -231,10 +231,6 @@
     <ClInclude Include="HostCompute.h" />
     <ClInclude Include="MainWindowControl.h">
       <DependentUpon>MainWindowControl.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </ClInclude>
-    <ClInclude Include="MainWindowExitNoticeControl.h">
-      <DependentUpon>MainWindowExitNoticeControl.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="MsTscAx.h" />
@@ -286,6 +282,10 @@
       <DependentUpon>ConfigurationWindowControl.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
+    <ClInclude Include="ExitConfirmationPage.h">
+      <DependentUpon>ExitConfirmationPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Page Include="BasicConfigurationPage.xaml">
@@ -298,9 +298,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="MainWindowControl.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="MainWindowExitNoticeControl.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Include="MinimalExpanderStyles.xaml">
@@ -318,6 +315,9 @@
     <Page Include="ConfigurationWindowControl.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="ExitConfirmationPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="NanaBoxResources.rc" />
@@ -332,10 +332,10 @@
   </ItemGroup>
   <ItemGroup>
     <PRIResource Include="Strings\en\MainWindow.resw" />
-    <PRIResource Include="Strings\en\MainWindowExitNoticeWindow.resw" />
+    <PRIResource Include="Strings\en\ExitConfirmationPage.resw" />
     <PRIResource Include="Strings\en\Messages.resw" />
     <PRIResource Include="Strings\zh-Hans\MainWindow.resw" />
-    <PRIResource Include="Strings\zh-Hans\MainWindowExitNoticeWindow.resw" />
+    <PRIResource Include="Strings\zh-Hans\ExitConfirmationPage.resw" />
     <PRIResource Include="Strings\zh-Hans\Messages.resw" />
   </ItemGroup>
   <Import Project="..\Mile.Project.Windows\Mile.Project.Cpp.targets" />

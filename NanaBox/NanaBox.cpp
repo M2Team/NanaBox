@@ -36,7 +36,7 @@
 
 #include "App.h"
 #include "MainWindowControl.h"
-#include "MainWindowExitNoticeControl.h"
+#include "ExitConfirmationPage.h"
 
 #include <windows.ui.xaml.hosting.desktopwindowxamlsource.h>
 
@@ -81,85 +81,6 @@ namespace
 
     WTL::CAppModule g_Module;
     std::filesystem::path g_ConfigurationFilePath;
-}
-
-namespace NanaBox
-{
-    using winrt::NanaBox::MainWindowExitNoticeStatus;
-
-    class MainWindowExitNoticeWindow :
-        public ATL::CWindowImpl<MainWindowExitNoticeWindow>,
-        public WTL::CMessageFilter
-    {
-    public:
-
-        DECLARE_WND_SUPERCLASS(
-            L"NanaBox.MainWindowExitNoticeWindow",
-            L"Mile.Xaml.ContentWindow")
-
-        BEGIN_MSG_MAP(MainWindowExitNoticeWindow)
-            MSG_WM_CREATE(OnCreate)
-            MSG_WM_DESTROY(OnDestroy)
-        END_MSG_MAP()
-
-        virtual BOOL PreTranslateMessage(
-            MSG* pMsg);
-
-        int OnCreate(
-            LPCREATESTRUCT lpCreateStruct);
-
-        void OnDestroy();
-    };
-}
-
-BOOL NanaBox::MainWindowExitNoticeWindow::PreTranslateMessage(
-    MSG* pMsg)
-{
-    // Workaround for capturing Alt+F4 in applications with XAML Islands.
-    // Reference: https://github.com/microsoft/microsoft-ui-xaml/issues/2408
-    if (pMsg->message == WM_SYSKEYDOWN && pMsg->wParam == VK_F4)
-    {
-        ::SendMessageW(
-            ::GetAncestor(pMsg->hwnd, GA_ROOT),
-            pMsg->message,
-            pMsg->wParam,
-            pMsg->lParam);
-
-        return TRUE;
-    }
-
-    return FALSE;
-}
-
-int NanaBox::MainWindowExitNoticeWindow::OnCreate(
-    LPCREATESTRUCT lpCreateStruct)
-{
-    UNREFERENCED_PARAMETER(lpCreateStruct);
-
-    if (this->DefWindowProcW() != 0)
-    {
-        return -1;
-    }
-
-    {
-        HMENU MenuHandle = this->GetSystemMenu(FALSE);
-        if (MenuHandle)
-        {
-            ::RemoveMenu(MenuHandle, 0, MF_SEPARATOR);
-            ::RemoveMenu(MenuHandle, SC_RESTORE, MF_BYCOMMAND);
-            ::RemoveMenu(MenuHandle, SC_SIZE, MF_BYCOMMAND);
-            ::RemoveMenu(MenuHandle, SC_MINIMIZE, MF_BYCOMMAND);
-            ::RemoveMenu(MenuHandle, SC_MAXIMIZE, MF_BYCOMMAND);
-            ::RemoveMenu(MenuHandle, SC_TASKLIST, MF_BYCOMMAND);
-        }
-    }
-
-    return 0;
-}
-
-void NanaBox::MainWindowExitNoticeWindow::OnDestroy()
-{
-    ::PostQuitMessage(0);
 }
 
 namespace NanaBox
@@ -811,54 +732,23 @@ void NanaBox::MainWindow::OnClose()
     {
         this->DestroyWindow();
         return;
-    }
+    }  
 
-    const int Width = 400;
-    const int Height = 200;
-
-    UINT DpiValue = ::GetDpiForWindow(this->m_hWnd);
-
-    using MainWindowExitNoticeControlInstance =
-        winrt::NanaBox::implementation::MainWindowExitNoticeControl;
-
-    winrt::NanaBox::MainWindowExitNoticeControl Control =
-        winrt::make<MainWindowExitNoticeControlInstance>();
-
-    NanaBox::MainWindowExitNoticeWindow Window;
-    if (!Window.Create(
-        this->m_hWnd,
-        Window.rcDefault,
-        nullptr,
-        WS_CAPTION | WS_SYSMENU,
-        WS_EX_STATICEDGE | WS_EX_DLGMODALFRAME,
-        nullptr,
-        winrt::get_abi(Control)))
+    HWND WindowHandle = this->CreateXamlDialog();
+    if (!WindowHandle)
     {
         return;
     }
-    Control.RequestCloseDialog([&]()
+
+    winrt::NanaBox::ExitConfirmationPage Window =
+        winrt::make< winrt::NanaBox::implementation::ExitConfirmationPage>(
+            WindowHandle);
+    this->ShowXamlDialog(WindowHandle, 480, 320, winrt::get_abi(Window));
+
+
+    switch (Window.Status())
     {
-        Window.DestroyWindow();
-    });
-    Window.SetWindowPos(
-        nullptr,
-        0,
-        0,
-        ::MulDiv(Width, DpiValue, USER_DEFAULT_SCREEN_DPI),
-        ::MulDiv(Height, DpiValue, USER_DEFAULT_SCREEN_DPI),
-        SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE);
-    Window.CenterWindow(this->m_hWnd);
-    Window.ShowWindow(SW_SHOW);
-    Window.UpdateWindow();
-
-    WTL::CMessageLoop MessageLoop;
-    MessageLoop.AddMessageFilter(&Window);
-    this->EnableWindow(FALSE);
-    MessageLoop.Run();
-    this->EnableWindow(TRUE);
-    this->SetActiveWindow();
-
-    if (Control.Status() == NanaBox::MainWindowExitNoticeStatus::Suspend)
+    case winrt::NanaBox::ExitConfirmationStatus::Suspend:
     {
         this->m_VirtualMachine->Pause();
 
@@ -937,11 +827,18 @@ void NanaBox::MainWindow::OnClose()
                 g_ConfigurationFilePath,
                 ConfigurationFileContent);
         }
+
+        break;
     }
-    else if (Control.Status() == NanaBox::MainWindowExitNoticeStatus::PowerOff)
+    case winrt::NanaBox::ExitConfirmationStatus::PowerOff:
     {
         this->m_VirtualMachine->Pause();
         this->m_VirtualMachine->Terminate();
+
+        break;
+    }
+    default:
+        break;
     }
 }
 

@@ -1,0 +1,17 @@
+﻿namespace NanaBox
+{
+    enum ExitConfirmationStatus
+    {
+        Cancel = 0,
+        Suspend = 1,
+        PowerOff = 2
+    };
+
+    [default_interface]
+    runtimeclass ExitConfirmationPage : Windows.UI.Xaml.Controls.Page
+    {
+        ExitConfirmationPage();
+
+        ExitConfirmationStatus Status{ get; };
+    }
+}

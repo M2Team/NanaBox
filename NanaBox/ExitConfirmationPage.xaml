@@ -1,32 +1,33 @@
 ﻿<Page
-  x:Class="NanaBox.MainWindowExitNoticeControl"
+  x:Class="NanaBox.ExitConfirmationPage"
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:local="using:NanaBox"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   mc:Ignorable="d">
-  <Grid Margin="16">
+  <Grid>
     <Grid.RowDefinitions>
-      <RowDefinition Height="auto" />
-      <RowDefinition Height="16" />
       <RowDefinition Height="*" />
-      <RowDefinition Height="16" />
-      <RowDefinition Height="auto" />
+      <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
-    <TextBlock
-      x:Uid="/MainWindowExitNoticeWindow/TitleTextBlock"
-      Grid.Row="0"
-      FontSize="16"
-      Text="[The virtual machine is still powered on.]"
-      TextWrapping="Wrap" />
-    <TextBlock
-      x:Uid="/MainWindowExitNoticeWindow/ContentTextBlock"
-      Grid.Row="2"
-      FontSize="16"
-      Text="[You can suspend it for later use, or power it off now.]"
-      TextWrapping="Wrap" />
-    <Grid Grid.Row="4">
+    <StackPanel Grid.Row="0" Padding="24,0">
+      <TextBlock
+        x:Uid="/ExitConfirmationPage/GridTitleTextBlock"
+        Margin="0,0,0,12"
+        FontSize="24"
+        FontWeight="SemiBold"
+        Text="[The virtual machine is still powered on.]"
+        TextWrapping="Wrap" />
+      <TextBlock
+        x:Uid="/ExitConfirmationPage/ContentTextBlock"
+        Text="[You can suspend it for later use, or power it off now.]"
+        TextWrapping="Wrap" />
+    </StackPanel>
+    <Grid Grid.Row="1" Padding="24">
+      <Grid.Background>
+        <SolidColorBrush Opacity="0.2" Color="{ThemeResource SystemChromeHighColor}" />
+      </Grid.Background>
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="*" />
         <ColumnDefinition Width="8" />
@@ -40,7 +41,7 @@
         Click="SuspendButtonClick">
         <StackPanel Orientation="Horizontal">
           <SymbolIcon Margin="0,0,8,0" Symbol="Save" />
-          <TextBlock x:Uid="/MainWindowExitNoticeWindow/SuspendButtonTextBlock" Text="[Suspend]" />
+          <TextBlock x:Uid="/ExitConfirmationPage/SuspendButtonTextBlock" Text="[Suspend]" />
         </StackPanel>
       </Button>
       <Button
@@ -49,7 +50,7 @@
         Click="PowerOffButtonClick">
         <StackPanel Orientation="Horizontal">
           <SymbolIcon Margin="0,0,8,0" Symbol="Stop" />
-          <TextBlock x:Uid="/MainWindowExitNoticeWindow/PowerOffButtonTextBlock" Text="[Power Off]" />
+          <TextBlock x:Uid="/ExitConfirmationPage/PowerOffButtonTextBlock" Text="[Power Off]" />
         </StackPanel>
       </Button>
       <Button
@@ -60,7 +61,7 @@
         TabIndex="1">
         <StackPanel Orientation="Horizontal">
           <SymbolIcon Margin="0,0,8,0" Symbol="Cancel" />
-          <TextBlock x:Uid="/MainWindowExitNoticeWindow/CancelButtonTextBlock" Text="[Cancel]" />
+          <TextBlock x:Uid="/ExitConfirmationPage/CancelButtonTextBlock" Text="[Cancel]" />
         </StackPanel>
       </Button>
     </Grid>

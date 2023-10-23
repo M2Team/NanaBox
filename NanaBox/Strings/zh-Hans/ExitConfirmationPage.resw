@@ -118,23 +118,23 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="CancelButtonTextBlock.Text" xml:space="preserve">
-    <value>Cancel</value>
+    <value>取消</value>
     <comment>Cancel</comment>
   </data>
   <data name="ContentTextBlock.Text" xml:space="preserve">
-    <value>You can suspend it for later use, or power it off now.</value>
+    <value>你可以将其挂起以备后用或立即关闭虚拟机。</value>
     <comment>You can suspend it for later use, or power it off now.</comment>
   </data>
+  <data name="GridTitleTextBlock.Text" xml:space="preserve">
+    <value>虚拟机仍然处于开启状态。</value>
+    <comment>The virtual machine is still powered on.</comment>
+  </data>
   <data name="PowerOffButtonTextBlock.Text" xml:space="preserve">
-    <value>Power Off</value>
+    <value>关机</value>
     <comment>Power Off</comment>
   </data>
   <data name="SuspendButtonTextBlock.Text" xml:space="preserve">
-    <value>Suspend</value>
+    <value>挂起</value>
     <comment>Suspend</comment>
-  </data>
-  <data name="TitleTextBlock.Text" xml:space="preserve">
-    <value>The virtual machine is still powered on.</value>
-    <comment>The virtual machine is still powered on.</comment>
   </data>
 </root>

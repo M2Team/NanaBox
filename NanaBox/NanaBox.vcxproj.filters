@@ -83,7 +83,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="MainWindowControl.xaml" />
-    <Page Include="MainWindowExitNoticeControl.xaml" />
     <Page Include="MinimalExpanderStyles.xaml">
       <Filter>Controls</Filter>
     </Page>
@@ -108,6 +107,7 @@
     <Page Include="SystemConfigurationPage.xaml">
       <Filter>ConfigurationUI\Views</Filter>
     </Page>
+    <Page Include="ExitConfirmationPage.xaml" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="NanaBoxResources.rc" />
@@ -146,10 +146,10 @@
     </Midl>
   </ItemGroup>
   <ItemGroup>
-    <PRIResource Include="Strings\en\MainWindowExitNoticeWindow.resw">
+    <PRIResource Include="Strings\en\VirtualMachineExitConfirmationPage.resw">
       <Filter>Strings\en</Filter>
     </PRIResource>
-    <PRIResource Include="Strings\zh-Hans\MainWindowExitNoticeWindow.resw">
+    <PRIResource Include="Strings\zh-Hans\VirtualMachineExitConfirmationPage.resw">
       <Filter>Strings\zh-Hans</Filter>
     </PRIResource>
     <PRIResource Include="Strings\en\MainWindow.resw">
