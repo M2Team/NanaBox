@@ -36,6 +36,9 @@ namespace NanaBox
     void DeserializeKeyboardConfiguration(
         nlohmann::json const& Input,
         KeyboardConfiguration& Output);
+
+    nlohmann::json SerializeKeyboardConfiguration(
+        KeyboardConfiguration const& Input);
 }
 
 #endif // !NANABOX_CONFIGURATION_MANAGER

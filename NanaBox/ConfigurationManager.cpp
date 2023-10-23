@@ -357,3 +357,61 @@ void NanaBox::DeserializeKeyboardConfiguration(
 
     }
 }
+
+nlohmann::json NanaBox::SerializeKeyboardConfiguration(
+    NanaBox::KeyboardConfiguration const& Input)
+{
+    nlohmann::json Output;
+
+    if (!Input.RedirectKeyCombinations)
+    {
+        Output["RedirectKeyCombinations"] = false;
+    }
+
+    if (VK_CANCEL != Input.FullScreenHotkey)
+    {
+        Output["FullScreenHotkey"] = Input.FullScreenHotkey;
+    }
+
+    if (VK_HOME != Input.CtrlEscHotkey)
+    {
+        Output["CtrlEscHotkey"] = Input.CtrlEscHotkey;
+    }
+
+    if (VK_INSERT != Input.AltEscHotkey)
+    {
+        Output["AltEscHotkey"] = Input.AltEscHotkey;
+    }
+
+    if (VK_PRIOR != Input.AltTabHotkey)
+    {
+        Output["AltTabHotkey"] = Input.AltTabHotkey;
+    }
+
+    if (VK_NEXT != Input.AltShiftTabHotkey)
+    {
+        Output["AltShiftTabHotkey"] = Input.AltShiftTabHotkey;
+    }
+
+    if (VK_DELETE != Input.AltSpaceHotkey)
+    {
+        Output["AltSpaceHotkey"] = Input.AltSpaceHotkey;
+    }
+
+    if (VK_END != Input.CtrlAltDelHotkey)
+    {
+        Output["CtrlAltDelHotkey"] = Input.CtrlAltDelHotkey;
+    }
+
+    if (VK_LEFT != Input.FocusReleaseLeftHotkey)
+    {
+        Output["FocusReleaseLeftHotkey"] = Input.FocusReleaseLeftHotkey;
+    }
+
+    if (VK_RIGHT != Input.FocusReleaseRightHotkey)
+    {
+        Output["FocusReleaseRightHotkey"] = Input.FocusReleaseRightHotkey;
+    }
+
+    return Output;
+}
