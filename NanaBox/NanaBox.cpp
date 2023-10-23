@@ -115,7 +115,6 @@ namespace NanaBox
             MSG_WM_SIZE(OnSize)
             MSG_WM_SETFOCUS(OnSetFocus)
             MSG_WM_ACTIVATE(OnActivate)
-            MSG_WM_SETTINGCHANGE(OnSettingChange)
             MSG_WM_CLOSE(OnClose)
             MSG_WM_DESTROY(OnDestroy)
         END_MSG_MAP()
@@ -138,10 +137,6 @@ namespace NanaBox
             BOOL bMinimized,
             ATL::CWindow wndOther);
 
-        void OnSettingChange(
-            UINT uFlags,
-            LPCTSTR lpszSection);
-
         void OnClose();
 
         void OnDestroy();
@@ -151,7 +146,6 @@ namespace NanaBox
         WTL::CIcon m_ApplicationIcon;
         winrt::com_ptr<NanaBox::RdpClient> m_RdpClient;
         ATL::CAxWindow m_RdpClientWindow;
-        winrt::DesktopWindowXamlSource m_XamlSource;
         const int m_MainWindowControlHeight = 48;
         int m_RecommendedMainWindowControlHeight = m_MainWindowControlHeight;
         winrt::NanaBox::MainWindowControl m_MainWindowControl;
@@ -185,6 +179,11 @@ int NanaBox::MainWindow::OnCreate(
     LPCREATESTRUCT lpCreateStruct)
 {
     UNREFERENCED_PARAMETER(lpCreateStruct);
+
+    if (this->DefWindowProcW() != 0)
+    {
+        return -1;
+    }
 
     this->m_ApplicationIcon.LoadIconW(
         MAKEINTRESOURCE(IDI_NANABOX),
@@ -297,34 +296,12 @@ int NanaBox::MainWindow::OnCreate(
         this->m_RdpClient->Disconnect();
     });
 
-    winrt::com_ptr<IDesktopWindowXamlSourceNative> XamlSourceNative =
-        this->m_XamlSource.as<IDesktopWindowXamlSourceNative>();
-    winrt::check_hresult(
-        XamlSourceNative->AttachToWindow(this->m_hWnd));
-    this->m_XamlSource.Content(this->m_MainWindowControl);
-
-    HWND XamlWindowHandle = nullptr;
-    winrt::check_hresult(
-        XamlSourceNative->get_WindowHandle(&XamlWindowHandle));
-
-    // Focus on XAML Island host window for Acrylic brush support.
-    ::SetFocus(XamlWindowHandle);
-
-    winrt::FrameworkElement Content =
-        this->m_XamlSource.Content().try_as<winrt::FrameworkElement>();
-
-    MARGINS Margins = { -1 };
-    ::DwmExtendFrameIntoClientArea(this->m_hWnd, &Margins);
-
-    ::MileSetWindowSystemBackdropTypeAttribute(
+    if (FAILED(::MileXamlSetXamlContentForContentWindow(
         this->m_hWnd,
-        MILE_WINDOW_SYSTEM_BACKDROP_TYPE_MICA);
-
-    ::MileEnableImmersiveDarkModeForWindow(
-        this->m_hWnd,
-        (Content.ActualTheme() == winrt::ElementTheme::Dark
-            ? TRUE
-            : FALSE));
+        winrt::get_abi(this->m_MainWindowControl))))
+    {
+        return -1;
+    }
 
     this->m_RdpClient->EnableAutoReconnect(false);
     this->m_RdpClient->RelativeMouseMode(true);
@@ -622,6 +599,15 @@ void NanaBox::MainWindow::OnSize(
         return;
     }
 
+    winrt::DesktopWindowXamlSource XamlSource = nullptr;
+    winrt::copy_from_abi(
+        XamlSource,
+        ::GetPropW(this->m_hWnd, L"XamlWindowSource"));
+    if (!XamlSource)
+    {
+        return;
+    }
+
     UINT DpiValue = ::GetDpiForWindow(this->m_hWnd);
 
     this->m_RecommendedZoomLevel = ::MulDiv(
@@ -648,7 +634,7 @@ void NanaBox::MainWindow::OnSize(
         SWP_NOZORDER | SWP_NOACTIVATE);
 
     winrt::com_ptr<IDesktopWindowXamlSourceNative> XamlSourceNative =
-        this->m_XamlSource.as<IDesktopWindowXamlSourceNative>();
+        XamlSource.as<IDesktopWindowXamlSourceNative>();
 
     HWND XamlWindowHandle = nullptr;
     winrt::check_hresult(
@@ -698,32 +684,6 @@ void NanaBox::MainWindow::OnActivate(
     }
 
     this->m_RdpClientWindow.SetFocus();
-}
-
-void NanaBox::MainWindow::OnSettingChange(
-    UINT uFlags,
-    LPCTSTR lpszSection)
-{
-    UNREFERENCED_PARAMETER(uFlags);
-
-    if (lpszSection && 0 == std::wcscmp(
-        lpszSection,
-        L"ImmersiveColorSet"))
-    {
-        winrt::FrameworkElement Content =
-            this->m_XamlSource.Content().try_as<winrt::FrameworkElement>();
-        if (Content &&
-            winrt::VisualTreeHelper::GetParent(Content))
-        {
-            Content.RequestedTheme(winrt::ElementTheme::Default);
-
-            ::MileEnableImmersiveDarkModeForWindow(
-                this->m_hWnd,
-                (Content.ActualTheme() == winrt::ElementTheme::Dark
-                    ? TRUE
-                    : FALSE));
-        }
-    }
 }
 
 void NanaBox::MainWindow::OnClose()
