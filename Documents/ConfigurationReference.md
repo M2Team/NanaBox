@@ -87,6 +87,17 @@
   - RuntimeStateFile (String)
   - SaveStateFile (String)
   - ExposeVirtualizationExtensions (Boolean)
+  - Keyboard (Object Array)
+    - RedirectKeyCombinations (Boolean)
+    - FullScreenHotkey (Number)
+    - CtrlEscHotkey (Number)
+    - AltEscHotkey (Number)
+    - AltTabHotkey (Number)
+    - AltShiftTabHotkey (Number)
+    - AltSpaceHotkey (Number)
+    - CtrlAltDelHotkey (Number)
+    - FocusReleaseLeftHotkey (Number)
+    - FocusReleaseRightHotkey (Number)
 
 ### NanaBox
 
@@ -283,6 +294,130 @@ it true.
 
 Note: Some processors don't support exposing the virtualization extensions to
 the virtual machine.
+
+### Keyboard
+
+(Optional) Keyboard setting object array of virtual machine.
+
+Note: Available starting with NanaBox 1.1.
+
+#### RedirectKeyCombinations (Boolean)
+
+(Optional) Apply key combinations at the virtual machine if set it true, or
+apply key combinations to the virtual machine only when the host is running in
+full-screen mode.
+
+If you don't want to apply key combinations at the virtual machine, please set
+it false.
+
+Note: Available starting with NanaBox 1.1.
+
+#### FullScreenHotkey (Number)
+
+(Optional) Specifies the virtual-key code to add to CTRL+ALT to determine the
+hotkey replacement for switching to full-screen mode.
+
+Note: Available starting with NanaBox 1.1.
+
+Note: For more information about virtual-key code, please read 
+https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes.
+
+#### CtrlEscHotkey (Number)
+
+(Optional) Specifies the virtual-key code to add to ALT to determine the hotkey
+replacement for CTRL+ESC.
+
+Note: Available starting with NanaBox 1.1.
+
+Note: You need to use the decimal value of the virtual-key code.
+
+Note: For more information about virtual-key code, please read 
+https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes.
+
+#### AltEscHotkey (Number)
+
+(Optional) Specifies the virtual-key code to add to ALT to determine the hotkey
+replacement for ALT+ESC.
+
+Note: Available starting with NanaBox 1.1.
+
+Note: You need to use the decimal value of the virtual-key code.
+
+Note: For more information about virtual-key code, please read 
+https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes.
+
+#### AltTabHotkey (Number)
+
+(Optional) Specifies the virtual-key code to add to ALT to determine the hotkey
+replacement for ALT+TAB.
+
+Note: Available starting with NanaBox 1.1.
+
+Note: You need to use the decimal value of the virtual-key code.
+
+Note: For more information about virtual-key code, please read 
+https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes.
+
+#### AltShiftTabHotkey (Number)
+
+(Optional) Specifies the virtual-key code to add to ALT to determine the hotkey
+replacement for ALT+SHIFT+TAB.
+
+Note: Available starting with NanaBox 1.1.
+
+Note: You need to use the decimal value of the virtual-key code.
+
+Note: For more information about virtual-key code, please read 
+https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes.
+
+#### AltSpaceHotkey (Number)
+
+(Optional) Specifies the virtual-key code to add to ALT to determine the hotkey
+replacement for ALT+SPACE.
+
+Note: Available starting with NanaBox 1.1.
+
+Note: You need to use the decimal value of the virtual-key code.
+
+Note: For more information about virtual-key code, please read 
+https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes.
+
+#### CtrlAltDelHotkey (Number)
+
+(Optional) Specifies the virtual-key code to add to CTRL+ALT to determine the
+hotkey replacement for CTRL+ALT+DELETE, also called the secure attention
+sequence (SAS).
+
+Note: Available starting with NanaBox 1.1.
+
+Note: You need to use the decimal value of the virtual-key code.
+
+Note: For more information about virtual-key code, please read 
+https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes.
+
+#### FocusReleaseLeftHotkey (Number)
+
+(Optional) Specifies the virtual-key code to add to Ctrl+Alt to determine the
+hotkey replacement for Ctrl+Alt+Left Arrow.
+
+Note: Available starting with NanaBox 1.1.
+
+Note: You need to use the decimal value of the virtual-key code.
+
+Note: For more information about virtual-key code, please read 
+https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes.
+
+#### FocusReleaseRightHotkey (Number)
+
+(Optional) Specifies the virtual-key code to add to Ctrl+Alt to determine the
+hotkey replacement for Ctrl+Alt+Right Arrow.
+
+Note: Available starting with NanaBox 1.1.
+
+Note: You need to use the decimal value of the virtual-key code.
+
+Note: For more information about virtual-key code, please read 
+https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes.
 
 ## Samples
 

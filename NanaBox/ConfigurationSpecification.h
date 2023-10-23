@@ -155,8 +155,8 @@ namespace NanaBox
         std::string RuntimeStateFile;
         std::string SaveStateFile;
         bool ExposeVirtualizationExtensions = false;
+        KeyboardConfiguration Keyboard;
         VideoMonitorConfiguration VideoMonitor; // Not Implemented
-        KeyboardConfiguration Keyboard; // Not Implemented
         EnhancedSessionConfiguration EnhancedSession; // Not Implemented
     };
 }

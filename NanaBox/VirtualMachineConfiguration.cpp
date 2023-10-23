@@ -16,6 +16,8 @@
 
 #include <json.hpp>
 
+#include "ConfigurationManager.h"
+
 namespace NanaBox
 {
     NLOHMANN_JSON_SERIALIZE_ENUM(NanaBox::GuestType, {
@@ -360,6 +362,17 @@ NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
 
     }
 
+    try
+    {
+        NanaBox::DeserializeKeyboardConfiguration(
+            RootJson["Keyboard"],
+            Result.Keyboard);
+    }
+    catch (...)
+    {
+
+    }
+
     return Result;
 }
 
@@ -457,6 +470,10 @@ std::string NanaBox::SerializeConfiguration(
     {
         RootJson["ExposeVirtualizationExtensions"] =
             Configuration.ExposeVirtualizationExtensions;
+    }
+    {
+        RootJson["Keyboard"] = NanaBox::SerializeKeyboardConfiguration(
+            Configuration.Keyboard);
     }
 
     nlohmann::json Result;
@@ -588,7 +605,7 @@ std::string NanaBox::MakeHcsConfiguration(
             Devices["Scsi"]["NanaBox Scsi Controller"] = ScsiController;
         }
 
-        {
+        /*{
             std::string ShareName = "HostDriverStore";
             std::string SharePath = "C:\\Windows\\System32\\DriverStore";
 
@@ -623,7 +640,7 @@ std::string NanaBox::MakeHcsConfiguration(
                 SharedFolders.push_back(Current);
                 Devices["Plan9"]["Shares"] = SharedFolders;
             }
-        }
+        }*/
     }
     Result["VirtualMachine"]["Devices"] = Devices;
 
