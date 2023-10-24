@@ -559,8 +559,31 @@ std::string NanaBox::MakeHcsConfiguration(
         }
         Devices["ComPorts"] = ComPorts;
 
-        // Note: Skip Configuration.NetworkAdapters because add NetworkAdapters
-        // at runtime can make the implementation more simplified.
+        if (!Configuration.NetworkAdapters.empty())
+        {
+            nlohmann::json NetworkAdapters;
+            for (NanaBox::NetworkAdapterConfiguration const& NetworkAdapter
+                : Configuration.NetworkAdapters)
+            {
+                if (!NetworkAdapter.Enabled)
+                {
+                    continue;
+                }
+
+                nlohmann::json Current;
+
+                if (!NetworkAdapter.Connected)
+                {
+                    Current["ConnectionState"] = "Disabled";
+                }
+
+                Current["EndpointId"] = NetworkAdapter.EndpointId;
+                Current["MacAddress"] = NetworkAdapter.MacAddress;
+
+                NetworkAdapters[NetworkAdapter.EndpointId] = Current;
+            }
+            Devices["NetworkAdapters"] = NetworkAdapters;
+        }
 
         if (!Configuration.ScsiDevices.empty())
         {

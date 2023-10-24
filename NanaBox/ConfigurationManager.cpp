@@ -48,8 +48,7 @@ void NanaBox::ComputeSystemUpdateGpu(
     Instance->Modify(winrt::to_hstring(Result.dump()));
 }
 
-void NanaBox::ComputeSystemAddNetworkAdapters(
-    winrt::com_ptr<NanaBox::ComputeSystem> const& Instance,
+void NanaBox::ComputeSystemPrepareResourcesForNetworkAdapters(
     std::string const& Owner,
     std::vector<NanaBox::NetworkAdapterConfiguration>& Configuration)
 {
@@ -61,7 +60,8 @@ void NanaBox::ComputeSystemAddNetworkAdapters(
 
     if (!Configuration.empty())
     {
-        for (NanaBox::NetworkAdapterConfiguration& NetworkAdapter : Configuration)
+        for (NanaBox::NetworkAdapterConfiguration& NetworkAdapter
+            : Configuration)
         {
             if (!NetworkAdapter.Enabled)
             {
@@ -115,25 +115,6 @@ void NanaBox::ComputeSystemAddNetworkAdapters(
             nlohmann::json Properties = nlohmann::json::parse(winrt::to_string(
                 NanaBox::HcnQueryEndpointProperties(EndpointHandle)));
             NetworkAdapter.MacAddress = Properties["MacAddress"];
-
-
-            std::string ResourcePath = "VirtualMachine/Devices/NetworkAdapters/";
-            ResourcePath += NetworkAdapter.EndpointId;
-
-            nlohmann::json Result;
-
-            Result["ResourcePath"] = ResourcePath;
-            Result["RequestType"] = "Add";
-
-            if (!NetworkAdapter.Connected)
-            {
-                Result["Settings"]["ConnectionState"] = "Disabled";
-            }
-
-            Result["Settings"]["EndpointId"] = NetworkAdapter.EndpointId;
-            Result["Settings"]["MacAddress"] = NetworkAdapter.MacAddress;
-
-            Instance->Modify(winrt::to_hstring(Result.dump()));
         }
     }
 }

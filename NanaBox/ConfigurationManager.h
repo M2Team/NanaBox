@@ -24,8 +24,7 @@ namespace NanaBox
         winrt::com_ptr<ComputeSystem> const& Instance,
         GpuConfiguration const& Configuration);
 
-    void ComputeSystemAddNetworkAdapters(
-        winrt::com_ptr<ComputeSystem> const& Instance,
+    void ComputeSystemPrepareResourcesForNetworkAdapters(
         std::string const& Owner,
         std::vector<NetworkAdapterConfiguration>& Configuration);
 

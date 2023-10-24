@@ -889,6 +889,10 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
         }
     }
 
+    NanaBox::ComputeSystemPrepareResourcesForNetworkAdapters(
+        this->m_Configuration.Name,
+        this->m_Configuration.NetworkAdapters);
+
     this->m_VirtualMachine = winrt::make_self<NanaBox::ComputeSystem>(
         winrt::to_hstring(
             this->m_Configuration.Name),
@@ -918,11 +922,6 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
     });*/
 
     this->m_VirtualMachine->Start();
-
-    NanaBox::ComputeSystemAddNetworkAdapters(
-        this->m_VirtualMachine,
-        this->m_Configuration.Name,
-        this->m_Configuration.NetworkAdapters);
 
     NanaBox::ComputeSystemUpdateGpu(
         this->m_VirtualMachine,
