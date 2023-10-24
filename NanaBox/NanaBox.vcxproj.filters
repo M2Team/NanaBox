@@ -18,6 +18,9 @@
     </ClCompile>
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Environment.cpp" />
+    <ClCompile Include="ConfigurationManager.cpp">
+      <Filter>Configuration</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="NanaBox.manifest" />
@@ -42,6 +45,12 @@
     </ClInclude>
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Environment.h" />
+    <ClInclude Include="ConfigurationManager.h">
+      <Filter>Configuration</Filter>
+    </ClInclude>
+    <ClInclude Include="ConfigurationSpecification.h">
+      <Filter>Configuration</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="RdpClient">
@@ -73,6 +82,9 @@
     </Filter>
     <Filter Include="ConfigurationUI\Views">
       <UniqueIdentifier>{223bcb1e-b23e-41bb-b232-68f6d7a82f9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Configuration">
+      <UniqueIdentifier>{01956ecf-637f-42d1-88ed-39568f826832}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -146,12 +158,6 @@
     </Midl>
   </ItemGroup>
   <ItemGroup>
-    <PRIResource Include="Strings\en\VirtualMachineExitConfirmationPage.resw">
-      <Filter>Strings\en</Filter>
-    </PRIResource>
-    <PRIResource Include="Strings\zh-Hans\VirtualMachineExitConfirmationPage.resw">
-      <Filter>Strings\zh-Hans</Filter>
-    </PRIResource>
     <PRIResource Include="Strings\en\MainWindow.resw">
       <Filter>Strings\en</Filter>
     </PRIResource>
@@ -162,6 +168,12 @@
       <Filter>Strings\en</Filter>
     </PRIResource>
     <PRIResource Include="Strings\zh-Hans\Messages.resw">
+      <Filter>Strings\zh-Hans</Filter>
+    </PRIResource>
+    <PRIResource Include="Strings\en\ExitConfirmationPage.resw">
+      <Filter>Strings\en</Filter>
+    </PRIResource>
+    <PRIResource Include="Strings\zh-Hans\ExitConfirmationPage.resw">
       <Filter>Strings\zh-Hans</Filter>
     </PRIResource>
   </ItemGroup>
