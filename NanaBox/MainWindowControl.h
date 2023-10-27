@@ -2,6 +2,8 @@
 
 #include "MainWindowControl.g.h"
 
+#include <Windows.h>
+
 #include <Mile.Helpers.CppWinRT.h>
 
 namespace winrt::Mile
@@ -27,7 +29,10 @@ namespace winrt::NanaBox::implementation
     {
     public:
 
-        MainWindowControl();
+        MainWindowControl(
+            _In_ HWND WindowHandle = nullptr);
+
+        void InitializeComponent();
 
         void EnhancedSessionButtonClick(
             winrt::IInspectable const& sender,
@@ -49,6 +54,10 @@ namespace winrt::NanaBox::implementation
         RequestSignalEvent RequestFullScreen;
         RequestStateChangedEvent RequestPauseVirtualMachine;
         RequestSignalEvent RequestRestartVirtualMachine;
+
+    private:
+
+        HWND m_WindowHandle;
     };
 }
 

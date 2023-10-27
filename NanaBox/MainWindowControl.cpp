@@ -11,9 +11,16 @@ namespace winrt
 
 namespace winrt::NanaBox::implementation
 {
-    MainWindowControl::MainWindowControl()
+    MainWindowControl::MainWindowControl(
+        _In_ HWND WindowHandle) :
+        m_WindowHandle(WindowHandle)
     {
-        this->InitializeComponent();
+
+    }
+
+    void MainWindowControl::InitializeComponent()
+    {
+        MainWindowControlT::InitializeComponent();
     }
 
     void MainWindowControl::EnhancedSessionButtonClick(
