@@ -48,7 +48,6 @@
 #include "Utils.h"
 #include "Environment.h"
 #include "NanaBoxResources.h"
-#include "ConfigurationWindow.h"
 
 #include <Mile.Helpers.h>
 #include <Mile.Xaml.h>
@@ -1205,47 +1204,35 @@ int WINAPI wWinMain(
     bool PackagedMode = Mile::WinRT::IsPackagedMode();
     std::filesystem::path TargetBinaryPath;
 
-    bool ShowVirtualMachineConfig = false;
-    if (!OptionsAndParameters.empty())
+    if (PackagedMode)
     {
-        auto iter = OptionsAndParameters.find(L"edit");
-        if (iter != OptionsAndParameters.end())
+        try
         {
-            ShowVirtualMachineConfig = true;
-        }
-    }
-
-    if (!ShowVirtualMachineConfig)
-    {
-        if (PackagedMode)
-        {
-            try
+            std::filesystem::path AppBinaryPath;
             {
-                std::filesystem::path AppBinaryPath;
-                {
-                    std::wstring RawPath = ::GetCurrentProcessModulePath();
-                    std::wcsrchr(&RawPath[0], L'\\')[0] = L'\0';
-                    RawPath.resize(std::wcslen(RawPath.c_str()));
-                    AppBinaryPath = std::filesystem::absolute(RawPath);
-                }
+                std::wstring RawPath = ::GetCurrentProcessModulePath();
+                std::wcsrchr(&RawPath[0], L'\\')[0] = L'\0';
+                RawPath.resize(std::wcslen(RawPath.c_str()));
+                AppBinaryPath = std::filesystem::absolute(RawPath);
+            }
 
-                std::filesystem::path TempBinaryPath;
-                {
-                    TempBinaryPath = ::GetLocalStateFolderPath();
-                    GUID TempFolderGuid;
-                    winrt::check_hresult(::CoCreateGuid(&TempFolderGuid));
-                    TempBinaryPath /= ::FromGuid(TempFolderGuid).c_str();
-                }
+            std::filesystem::path TempBinaryPath;
+            {
+                TempBinaryPath = ::GetLocalStateFolderPath();
+                GUID TempFolderGuid;
+                winrt::check_hresult(::CoCreateGuid(&TempFolderGuid));
+                TempBinaryPath /= ::FromGuid(TempFolderGuid).c_str();
+            }
 
-                if (std::filesystem::create_directory(TempBinaryPath))
-                {
-                    std::filesystem::copy_file(
-                        AppBinaryPath / L"NanaBox.exe",
-                        TempBinaryPath / L"NanaBox.exe");
+            if (std::filesystem::create_directory(TempBinaryPath))
+            {
+                std::filesystem::copy_file(
+                    AppBinaryPath / L"NanaBox.exe",
+                    TempBinaryPath / L"NanaBox.exe");
 
-                    std::filesystem::copy_file(
-                        AppBinaryPath / L"resources.pri",
-                        TempBinaryPath / L"resources.pri");
+                std::filesystem::copy_file(
+                    AppBinaryPath / L"resources.pri",
+                    TempBinaryPath / L"resources.pri");
 
                 std::filesystem::copy_file(
                     AppBinaryPath / L"Mile.Xaml.Styles.SunValley.xbf",
@@ -1282,86 +1269,85 @@ int WINAPI wWinMain(
         }
     }
 
-        if (!::MileIsCurrentProcessElevated() || PackagedMode)
+    if (!::MileIsCurrentProcessElevated() || PackagedMode)
+    {
+        try
         {
-            try
+            if (PackagedMode && !TargetBinaryPath.empty())
             {
-                if (PackagedMode && !TargetBinaryPath.empty())
+                ApplicationName = TargetBinaryPath / L"NanaBox.exe";
+            }
+            else
+            {
+                ApplicationName = ::GetCurrentProcessModulePath();
+            }
+
+            std::wstring parameters;
+            for (auto&& item : OptionsAndParameters)
+            {
+                if (!item.second.empty())
                 {
-                    ApplicationName = TargetBinaryPath / L"NanaBox.exe";
+                    parameters.append(std::format(L"--{}={} ", item.first, item.second));
                 }
                 else
                 {
-                    ApplicationName = ::GetCurrentProcessModulePath();
-                }
-
-                std::wstring parameters;
-                for (auto&& item : OptionsAndParameters)
-                {
-                    if (!item.second.empty())
-                    {
-                        parameters.append(std::format(L"--{}={} ", item.first, item.second));
-                    }
-                    else
-                    {
-                        parameters.append(std::format(L"--{} ", item.first));
-                    }
-                }
-                parameters.append(UnresolvedCommandLine);
-
-                SHELLEXECUTEINFOW Information = { 0 };
-                Information.cbSize = sizeof(SHELLEXECUTEINFOW);
-                Information.fMask = SEE_MASK_NOCLOSEPROCESS;
-                Information.lpVerb = L"runas";
-                Information.nShow = nShowCmd;
-                Information.lpFile = ApplicationName.c_str();
-
-                Information.lpParameters = parameters.c_str();
-                winrt::check_bool(::ShellExecuteExW(&Information));
-                ::WaitForSingleObjectEx(Information.hProcess, INFINITE, FALSE);
-                ::CloseHandle(Information.hProcess);
-
-                if (PackagedMode && !TargetBinaryPath.empty())
-                {
-                    std::filesystem::remove_all(TargetBinaryPath);
+                    parameters.append(std::format(L"--{} ", item.first));
                 }
             }
-            catch (winrt::hresult_error const& ex)
+            parameters.append(UnresolvedCommandLine);
+
+            SHELLEXECUTEINFOW Information = { 0 };
+            Information.cbSize = sizeof(SHELLEXECUTEINFOW);
+            Information.fMask = SEE_MASK_NOCLOSEPROCESS;
+            Information.lpVerb = L"runas";
+            Information.nShow = nShowCmd;
+            Information.lpFile = ApplicationName.c_str();
+
+            Information.lpParameters = parameters.c_str();
+            winrt::check_bool(::ShellExecuteExW(&Information));
+            ::WaitForSingleObjectEx(Information.hProcess, INFINITE, FALSE);
+            ::CloseHandle(Information.hProcess);
+
+            if (PackagedMode && !TargetBinaryPath.empty())
             {
-                if (ex.code() != ::HRESULT_FROM_WIN32(ERROR_CANCELLED))
-                {
-                    ::TaskDialog(
-                        nullptr,
-                        nullptr,
-                        g_WindowTitle.data(),
-                        ex.message().c_str(),
-                        nullptr,
-                        TDCBF_OK_BUTTON,
-                        TD_ERROR_ICON,
-                        nullptr);
-                }
-
-                ::ExitProcess(ex.code());
+                std::filesystem::remove_all(TargetBinaryPath);
             }
-            catch (std::exception const& ex)
+        }
+        catch (winrt::hresult_error const& ex)
+        {
+            if (ex.code() != ::HRESULT_FROM_WIN32(ERROR_CANCELLED))
             {
                 ::TaskDialog(
                     nullptr,
                     nullptr,
                     g_WindowTitle.data(),
-                    winrt::to_hstring(ex.what()).c_str(),
+                    ex.message().c_str(),
                     nullptr,
                     TDCBF_OK_BUTTON,
                     TD_ERROR_ICON,
                     nullptr);
-                ::ExitProcess(static_cast<UINT>(-1));
             }
 
-            ::ExitProcess(0);
+            ::ExitProcess(ex.code());
+        }
+        catch (std::exception const& ex)
+        {
+            ::TaskDialog(
+                nullptr,
+                nullptr,
+                g_WindowTitle.data(),
+                winrt::to_hstring(ex.what()).c_str(),
+                nullptr,
+                TDCBF_OK_BUTTON,
+                TD_ERROR_ICON,
+                nullptr);
+            ::ExitProcess(static_cast<UINT>(-1));
         }
 
-        ::PrerequisiteCheck();
+        ::ExitProcess(0);
     }
+
+    ::PrerequisiteCheck();
 
     if (!UnresolvedCommandLine.empty())
     {
@@ -1439,36 +1425,18 @@ int WINAPI wWinMain(
     g_Module.Init(nullptr, hInstance);
     g_Module.AddMessageLoop(&MessageLoop);
 
-    std::unique_ptr<NanaBox::ConfigurationWindow> ConfigurationWindow = nullptr;
-    std::unique_ptr<NanaBox::MainWindow> MainWindow = nullptr;
-
-    if (ShowVirtualMachineConfig)
+    NanaBox::MainWindow MainWindow;
+    if (!MainWindow.Create(
+        nullptr,
+        MainWindow.rcDefault,
+        g_WindowTitle.data(),
+        WS_OVERLAPPEDWINDOW))
     {
-        ConfigurationWindow = std::make_unique<NanaBox::ConfigurationWindow>();
-        if (!ConfigurationWindow->Initialize(g_ConfigurationFilePath))
-        {
-            return -1;
-        }
-
-        //ConfigurationWindow->LoadConfiguration(g_ConfigurationFilePath);
-        ConfigurationWindow->ShowWindow(nShowCmd);
-        ConfigurationWindow->UpdateWindow();
+        return -1;
     }
-    else
-    {
-        MainWindow = std::make_unique<NanaBox::MainWindow>();
-        if (!MainWindow->Create(
-            nullptr,
-            MainWindow->rcDefault,
-            g_WindowTitle.data(),
-            WS_OVERLAPPEDWINDOW))
-        {
-            return -1;
-        }
 
-        MainWindow->ShowWindow(nShowCmd);
-        MainWindow->UpdateWindow();
-    }
+    MainWindow.ShowWindow(nShowCmd);
+    MainWindow.UpdateWindow();
 
     int Result = MessageLoop.Run();
 

@@ -7,8 +7,6 @@
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="ms-appx:///Mile.Xaml.Styles.SunValley.xbf" />
-        <ResourceDictionary Source="ms-appx:///MinimalExpanderStyles.xaml"/>
-        <ResourceDictionary Source="ms-appx:///ConfigurationStyles.xaml"/>
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
   </Application.Resources>

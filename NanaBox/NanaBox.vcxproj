@@ -35,47 +35,14 @@
     <Import Project="PropertySheet.props" />
   </ImportGroup>
   <ItemGroup>
-    <ClCompile Include="BasicConfigurationPage.cpp">
-      <DependentUpon>BasicConfigurationPage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </ClCompile>
-    <ClCompile Include="BooleanToStringConverter.cpp">
-      <DependentUpon>BooleanToStringConverter.idl</DependentUpon>
-      <SubType>Code</SubType>
-    </ClCompile>
-    <ClCompile Include="ComPortsViewModel.cpp">
-      <DependentUpon>ComPortsViewModel.idl</DependentUpon>
-      <SubType>Code</SubType>
-    </ClCompile>
     <ClCompile Include="ConfigurationManager.cpp" />
-    <ClCompile Include="ConfigurationViewModel.cpp">
-      <DependentUpon>ConfigurationViewModel.idl</DependentUpon>
-      <SubType>Code</SubType>
-    </ClCompile>
-    <ClCompile Include="ConfigurationWindow.cpp" />
     <ClCompile Include="Environment.cpp" />
-    <ClCompile Include="GpuViewModel.cpp">
-      <DependentUpon>GpuViewModel.idl</DependentUpon>
-      <SubType>Code</SubType>
-    </ClCompile>
-    <ClCompile Include="GraphicsConfigurationPage.cpp">
-      <DependentUpon>GraphicsConfigurationPage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </ClCompile>
     <ClCompile Include="HostCompute.cpp" />
     <ClCompile Include="MainWindowControl.cpp">
       <DependentUpon>MainWindowControl.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="NanaBox.cpp" />
-    <ClCompile Include="NetworkAdapterViewModel.cpp">
-      <DependentUpon>NetworkAdapterViewModel.idl</DependentUpon>
-      <SubType>Code</SubType>
-    </ClCompile>
-    <ClCompile Include="NetworkConfigurationPage.cpp">
-      <DependentUpon>NetworkConfigurationPage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </ClCompile>
     <ClCompile Include="RdpClient.cpp" />
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
     <ClCompile Include="pch.cpp">
@@ -83,38 +50,6 @@
     </ClCompile>
     <ClCompile Include="App.cpp">
       <DependentUpon>App.xaml</DependentUpon>
-    </ClCompile>
-    <ClCompile Include="MinimalExpander.cpp">
-      <DependentUpon>MinimalExpander.idl</DependentUpon>
-      <SubType>Code</SubType>
-    </ClCompile>
-    <ClCompile Include="RelayCommand.cpp">
-      <DependentUpon>RelayCommand.idl</DependentUpon>
-      <SubType>Code</SubType>
-    </ClCompile>
-    <ClCompile Include="ScsiDeviceViewModel.cpp">
-      <DependentUpon>ScsiDeviceViewModel.idl</DependentUpon>
-      <SubType>Code</SubType>
-    </ClCompile>
-    <ClCompile Include="SelectOption.cpp">
-      <DependentUpon>SelectOption.idl</DependentUpon>
-      <SubType>Code</SubType>
-    </ClCompile>
-    <ClCompile Include="StorageConfigurationPage.cpp">
-      <DependentUpon>StorageConfigurationPage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </ClCompile>
-    <ClCompile Include="ScsiDeviceDataTemplateSelector.cpp">
-      <DependentUpon>ScsiDeviceDataTemplateSelector.idl</DependentUpon>
-      <SubType>Code</SubType>
-    </ClCompile>
-    <ClCompile Include="SystemConfigurationPage.cpp">
-      <DependentUpon>SystemConfigurationPage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </ClCompile>
-    <ClCompile Include="ConfigurationWindowControl.cpp">
-      <DependentUpon>ConfigurationWindowControl.xaml</DependentUpon>
-      <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="VirtualMachineConfiguration.cpp" />
@@ -132,63 +67,9 @@
     <Midl Include="App.idl">
       <DependentUpon>App.xaml</DependentUpon>
     </Midl>
-    <Midl Include="BasicConfigurationPage.idl">
-      <DependentUpon>BasicConfigurationPage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Midl>
-    <Midl Include="BooleanToStringConverter.idl">
-      <SubType>Designer</SubType>
-    </Midl>
-    <Midl Include="ComPortsViewModel.idl">
-      <SubType>Designer</SubType>
-    </Midl>
-    <Midl Include="ConfigurationViewModel.idl">
-      <SubType>Designer</SubType>
-    </Midl>
     <Midl Include="DelegateTypes.idl" />
-    <Midl Include="GpuViewModel.idl">
-      <SubType>Designer</SubType>
-    </Midl>
-    <Midl Include="GraphicsConfigurationPage.idl">
-      <DependentUpon>GraphicsConfigurationPage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Midl>
     <Midl Include="MainWindowControl.idl">
       <DependentUpon>MainWindowControl.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Midl>
-    <Midl Include="NetworkAdapterViewModel.idl">
-      <SubType>Designer</SubType>
-    </Midl>
-    <Midl Include="NetworkConfigurationPage.idl">
-      <DependentUpon>NetworkConfigurationPage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Midl>
-    <Midl Include="MinimalExpander.idl">
-      <SubType>Designer</SubType>
-    </Midl>
-    <Midl Include="RelayCommand.idl">
-      <SubType>Designer</SubType>
-    </Midl>
-    <Midl Include="ScsiDeviceViewModel.idl">
-      <SubType>Designer</SubType>
-    </Midl>
-    <Midl Include="SelectOption.idl">
-      <SubType>Designer</SubType>
-    </Midl>
-    <Midl Include="StorageConfigurationPage.idl">
-      <DependentUpon>StorageConfigurationPage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Midl>
-    <Midl Include="ScsiDeviceDataTemplateSelector.idl">
-      <SubType>Designer</SubType>
-    </Midl>
-    <Midl Include="SystemConfigurationPage.idl">
-      <DependentUpon>SystemConfigurationPage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Midl>
-    <Midl Include="ConfigurationWindowControl.idl">
-      <DependentUpon>ConfigurationWindowControl.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
     <Midl Include="ExitConfirmationPage.idl">
@@ -203,119 +84,30 @@
     <Manifest Include="NanaBox.manifest" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BasicConfigurationPage.h">
-      <DependentUpon>BasicConfigurationPage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </ClInclude>
-    <ClInclude Include="BooleanToStringConverter.h">
-      <DependentUpon>BooleanToStringConverter.idl</DependentUpon>
-      <SubType>Code</SubType>
-    </ClInclude>
-    <ClInclude Include="ComPortsViewModel.h">
-      <DependentUpon>ComPortsViewModel.idl</DependentUpon>
-      <SubType>Code</SubType>
-    </ClInclude>
     <ClInclude Include="ConfigurationManager.h" />
     <ClInclude Include="ConfigurationSpecification.h" />
-    <ClInclude Include="ConfigurationWindow.h" />
-    <ClInclude Include="ConfigurationViewModel.h">
-      <DependentUpon>ConfigurationViewModel.idl</DependentUpon>
-      <SubType>Code</SubType>
-    </ClInclude>
     <ClInclude Include="Environment.h" />
-    <ClInclude Include="GpuViewModel.h">
-      <DependentUpon>GpuViewModel.idl</DependentUpon>
-      <SubType>Code</SubType>
-    </ClInclude>
-    <ClInclude Include="GraphicsConfigurationPage.h">
-      <DependentUpon>GraphicsConfigurationPage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </ClInclude>
     <ClInclude Include="HostCompute.h" />
     <ClInclude Include="MainWindowControl.h">
       <DependentUpon>MainWindowControl.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="MsTscAx.h" />
-    <ClInclude Include="NetworkAdapterViewModel.h">
-      <DependentUpon>NetworkAdapterViewModel.idl</DependentUpon>
-      <SubType>Code</SubType>
-    </ClInclude>
-    <ClInclude Include="NetworkConfigurationPage.h">
-      <DependentUpon>NetworkConfigurationPage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </ClInclude>
     <ClInclude Include="pch.h" />
     <ClInclude Include="RdpClient.h" />
     <ClInclude Include="App.h">
       <DependentUpon>App.xaml</DependentUpon>
     </ClInclude>
     <ClInclude Include="NanaBoxResources.h" />
-    <ClInclude Include="MinimalExpander.h">
-      <DependentUpon>MinimalExpander.idl</DependentUpon>
-      <SubType>Code</SubType>
-    </ClInclude>
-    <ClInclude Include="RelayCommand.h">
-      <DependentUpon>RelayCommand.idl</DependentUpon>
-      <SubType>Code</SubType>
-    </ClInclude>
-    <ClInclude Include="ScsiDeviceViewModel.h">
-      <DependentUpon>ScsiDeviceViewModel.idl</DependentUpon>
-      <SubType>Code</SubType>
-    </ClInclude>
-    <ClInclude Include="SelectOption.h">
-      <DependentUpon>SelectOption.idl</DependentUpon>
-      <SubType>Code</SubType>
-    </ClInclude>
-    <ClInclude Include="StorageConfigurationPage.h">
-      <DependentUpon>StorageConfigurationPage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </ClInclude>
-    <ClInclude Include="ScsiDeviceDataTemplateSelector.h">
-      <DependentUpon>ScsiDeviceDataTemplateSelector.idl</DependentUpon>
-      <SubType>Code</SubType>
-    </ClInclude>
-    <ClInclude Include="SystemConfigurationPage.h">
-      <DependentUpon>SystemConfigurationPage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </ClInclude>
     <ClInclude Include="Utils.h" />
     <ClInclude Include="VirtualMachineConfiguration.h" />
-    <ClInclude Include="ConfigurationWindowControl.h">
-      <DependentUpon>ConfigurationWindowControl.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </ClInclude>
     <ClInclude Include="ExitConfirmationPage.h">
       <DependentUpon>ExitConfirmationPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="BasicConfigurationPage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="ConfigurationStyles.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="GraphicsConfigurationPage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="MainWindowControl.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="MinimalExpanderStyles.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="NetworkConfigurationPage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="StorageConfigurationPage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SystemConfigurationPage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="ConfigurationWindowControl.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Include="ExitConfirmationPage.xaml">
