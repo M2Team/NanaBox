@@ -108,19 +108,6 @@ namespace NanaBox
         std::int32_t FocusReleaseRightHotkey = VK_RIGHT; // CTRL + ALT + ?
     };
 
-    struct DriveConfiguration
-    {
-        bool EnableRedirection = false;
-        std::string Name;
-    };
-
-    struct DeviceConfiguration
-    {
-        bool EnableRedirection = false;
-        std::string FriendlyName;
-        std::string DeviceInstanceId;
-    };
-
     struct EnhancedSessionConfiguration
     {
         bool RedirectAudio = true;
@@ -134,8 +121,8 @@ namespace NanaBox
         bool RedirectPOSDevices = false;
         bool RedirectDynamicDrives = false;
         bool RedirectDynamicDevices = false;
-        std::vector<DriveConfiguration> Drives; // Runtime Only
-        std::vector<DeviceConfiguration> Devices; // Runtime Only
+        std::vector<std::string> Drives;
+        std::vector<std::string> Devices;
     };
 
     struct VirtualMachineConfiguration
