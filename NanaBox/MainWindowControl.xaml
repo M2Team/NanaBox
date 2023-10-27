@@ -31,54 +31,6 @@
         Icon="FullScreen"
         LabelPosition="Collapsed"
         ToolTipService.ToolTip="[Full Screen]" />
-      <AppBarButton
-        Width="40"
-        AutomationProperties.Name="[Settings Button]"
-        Icon="Setting"
-        LabelPosition="Collapsed"
-        ToolTipService.ToolTip="[Settings]">
-        <AppBarButton.Flyout>
-          <MenuFlyout Placement="BottomEdgeAlignedLeft">
-            <MenuFlyoutItem Text="[Advanced Configurations]" />
-            <MenuFlyoutSeparator />
-            <MenuFlyoutSubItem Text="[Virtual Devices]">
-              <MenuFlyoutSubItem Icon="Accept" Text="[SCSI Image] - WinPE.iso">
-                <MenuFlyoutItem Text="[Disable]" />
-                <MenuFlyoutItem Text="[Change]" />
-              </MenuFlyoutSubItem>
-              <MenuFlyoutSubItem Text="[SCSI Image] - MinLin.iso">
-                <ToggleMenuFlyoutItem Text="[Enable]" />
-                <MenuFlyoutItem Text="[Change]" />
-              </MenuFlyoutSubItem>
-              <MenuFlyoutSubItem Icon="Accept" Text="[Network Adapter] - AB-CD-EF-12-34-56">
-                <MenuFlyoutItem Text="[Disable]" />
-              </MenuFlyoutSubItem>
-            </MenuFlyoutSubItem>
-            <MenuFlyoutSeparator />
-            <ToggleMenuFlyoutItem Text="[Audio Redirection]" />
-            <ToggleMenuFlyoutItem Text="[Audio Capture Redirection]" />
-            <MenuFlyoutSeparator />
-            <ToggleMenuFlyoutItem Text="[Clipboard Redirection]" />
-            <MenuFlyoutSeparator />
-            <ToggleMenuFlyoutItem Text="[Devices Redirection]" />
-            <ToggleMenuFlyoutItem Text="[Dynamic Devices Redirection]" />
-            <ToggleMenuFlyoutItem Text="[POS Devices Redirection]" />
-            <MenuFlyoutSubItem Text="[Redirected Devices]">
-              <ToggleMenuFlyoutItem Text="Mouri Sample Device" />
-            </MenuFlyoutSubItem>
-            <MenuFlyoutSeparator />
-            <ToggleMenuFlyoutItem Text="[Drives Redirection]" />
-            <ToggleMenuFlyoutItem Text="[Dynamic Drives Redirection]" />
-            <MenuFlyoutSubItem Text="[Redirected Drives]">
-              <ToggleMenuFlyoutItem Text="Windows (C:)" />
-            </MenuFlyoutSubItem>
-            <MenuFlyoutSeparator />
-            <ToggleMenuFlyoutItem Text="[Ports Redirection]" />
-            <MenuFlyoutSeparator />
-            <ToggleMenuFlyoutItem Text="[Smart Cards Redirection]" />
-          </MenuFlyout>
-        </AppBarButton.Flyout>
-      </AppBarButton>
       <AppBarSeparator />
       <AppBarToggleButton
         x:Uid="/MainWindow/PauseVirtualMachineButton"
@@ -96,6 +48,19 @@
         Icon="Refresh"
         LabelPosition="Collapsed"
         ToolTipService.ToolTip="[Restart Virtual Machine]" />
+      <AppBarSeparator />
+      <AppBarButton
+        Width="40"
+        AutomationProperties.Name="[Virtual Machine Settings Button]"
+        Icon="Setting"
+        LabelPosition="Collapsed"
+        ToolTipService.ToolTip="[Virtual Machine Settings]" />
+      <AppBarButton
+        Width="40"
+        AutomationProperties.Name="[Reload Virtual Machine Settings Button]"
+        Icon="Sync"
+        LabelPosition="Collapsed"
+        ToolTipService.ToolTip="[Reload Virtual Machine Settings]" />
     </CommandBar>
   </Grid>
 </Page>
