@@ -1,15 +1,8 @@
-﻿import "DelegateTypes.idl";
-
-namespace NanaBox
+﻿namespace NanaBox
 {
     [default_interface]
     runtimeclass MainWindowControl : Windows.UI.Xaml.Controls.Page
     {
         MainWindowControl();
-
-        event RequestStateChangedDelegate RequestEnhancedSession;
-        event RequestSignalDelegate RequestFullScreen;
-        event RequestStateChangedDelegate RequestPauseVirtualMachine;
-        event RequestSignalDelegate RequestRestartVirtualMachine;
     }
 }

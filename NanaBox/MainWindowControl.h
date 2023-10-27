@@ -17,14 +17,29 @@ namespace winrt
     using Windows::UI::Xaml::RoutedEventArgs;
 }
 
+namespace NanaBox
+{
+    namespace MainWindowCommands
+    {
+        enum
+        {
+            EnterBasicSession = 0x1001,
+            EnterEnhancedSession = 0x1002,
+            EnterFullScreen = 0x1003,
+            PauseVirtualMachine = 0x1004,
+            ResumeVirtualMachine = 0x1005,
+            RestartVirtualMachine = 0x1006,
+        };
+    }
+}
+
+namespace winrt::NanaBox
+{
+    using namespace ::NanaBox;
+}
+
 namespace winrt::NanaBox::implementation
 {
-    using RequestSignalEvent =
-        Mile::WinRT::Event<NanaBox::RequestSignalDelegate>;
-
-    using RequestStateChangedEvent =
-        Mile::WinRT::Event<NanaBox::RequestStateChangedDelegate>;
-
     struct MainWindowControl : MainWindowControlT<MainWindowControl>
     {
     public:
@@ -49,11 +64,6 @@ namespace winrt::NanaBox::implementation
         void RestartVirtualMachineButtonClick(
             winrt::IInspectable const& sender,
             winrt::RoutedEventArgs const& e);
-
-        RequestStateChangedEvent RequestEnhancedSession;
-        RequestSignalEvent RequestFullScreen;
-        RequestStateChangedEvent RequestPauseVirtualMachine;
-        RequestSignalEvent RequestRestartVirtualMachine;
 
     private:
 

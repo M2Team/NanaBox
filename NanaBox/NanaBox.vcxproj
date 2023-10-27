@@ -67,7 +67,6 @@
     <Midl Include="App.idl">
       <DependentUpon>App.xaml</DependentUpon>
     </Midl>
-    <Midl Include="DelegateTypes.idl" />
     <Midl Include="MainWindowControl.idl">
       <DependentUpon>MainWindowControl.xaml</DependentUpon>
       <SubType>Code</SubType>

@@ -83,9 +83,6 @@
     <ResourceCompile Include="NanaBoxResources.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Midl Include="DelegateTypes.idl" />
-  </ItemGroup>
-  <ItemGroup>
     <PRIResource Include="Strings\en\MainWindow.resw">
       <Filter>Strings\en</Filter>
     </PRIResource>

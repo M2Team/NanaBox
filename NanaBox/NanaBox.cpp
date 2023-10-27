@@ -111,6 +111,7 @@ namespace NanaBox
 
         BEGIN_MSG_MAP(MainWindow)
             MSG_WM_CREATE(OnCreate)
+            MSG_WM_COMMAND(OnCommand)
             MSG_WM_TIMER(OnTimer)
             MSG_WM_SIZE(OnSize)
             MSG_WM_SETFOCUS(OnSetFocus)
@@ -121,6 +122,11 @@ namespace NanaBox
 
         int OnCreate(
             LPCREATESTRUCT lpCreateStruct);
+
+        void OnCommand(
+            UINT uNotifyCode,
+            int nID,
+            ATL::CWindow wndCtl);
 
         void OnTimer(
             UINT_PTR nIDEvent);
@@ -249,52 +255,8 @@ int NanaBox::MainWindow::OnCreate(
     }
 
     this->m_MainWindowControl =
-        winrt::make<winrt::NanaBox::implementation::MainWindowControl>();
-    this->m_MainWindowControl.RequestEnhancedSession([this](
-        bool const& RequestState)
-    {
-        this->m_RdpClientMode =
-            RequestState
-            ? RdpClientMode::EnhancedSession
-            : RdpClientMode::BasicSession;
-        this->m_RdpClient->Disconnect();
-    });
-    this->m_MainWindowControl.RequestFullScreen([this]()
-    {
-        // If ZoomLevel doesn't equal 100, Basic Session Mode can't enter full screen.
-        if (this->m_RdpClientMode == RdpClientMode::BasicSession)
-        {
-            this->m_RecommendedZoomLevel = 100;
-            VARIANT RawZoomLevel;
-            RawZoomLevel.vt = VT_UI4;
-            RawZoomLevel.uintVal = this->m_RecommendedZoomLevel;
-            this->m_RdpClient->Property(
-                L"ZoomLevel",
-                RawZoomLevel);
-        }
-        this->m_RdpClient->FullScreen(true);
-    });
-    this->m_MainWindowControl.RequestPauseVirtualMachine([this](
-        bool const& RequestState)
-    {
-        if (RequestState)
-        {
-            this->m_VirtualMachine->Pause();
-        }
-        else
-        {
-            this->m_VirtualMachine->Resume();
-        }
-    });
-    this->m_MainWindowControl.RequestRestartVirtualMachine([this]()
-    {
-        this->m_VirtualMachineRestarting = true;
-        this->m_VirtualMachine->Terminate();
-        this->m_VirtualMachine = nullptr;
-
-        this->InitializeVirtualMachine();
-        this->m_RdpClient->Disconnect();
-    });
+        winrt::make<winrt::NanaBox::implementation::MainWindowControl>(
+            this->m_hWnd);
 
     if (FAILED(::MileXamlSetXamlContentForContentWindow(
         this->m_hWnd,
@@ -538,6 +500,79 @@ int NanaBox::MainWindow::OnCreate(
     this->m_RdpClientWindow.SetFocus();
 
     return 0;
+}
+
+void NanaBox::MainWindow::OnCommand(
+    UINT uNotifyCode,
+    int nID,
+    ATL::CWindow wndCtl)
+{
+    UNREFERENCED_PARAMETER(uNotifyCode);
+    UNREFERENCED_PARAMETER(wndCtl);
+
+    switch (nID)
+    {
+    case NanaBox::MainWindowCommands::EnterBasicSession:
+    {
+        this->m_RdpClientMode = RdpClientMode::BasicSession;
+
+        this->m_RdpClient->Disconnect();
+
+        break;
+    }
+    case NanaBox::MainWindowCommands::EnterEnhancedSession:
+    {
+        this->m_RdpClientMode = RdpClientMode::EnhancedSession;
+
+        this->m_RdpClient->Disconnect();
+
+        break;
+    }
+    case NanaBox::MainWindowCommands::EnterFullScreen:
+    {
+        // If ZoomLevel doesn't equal 100, Basic Session Mode can't enter full
+        // screen.
+        if (this->m_RdpClientMode == NanaBox::RdpClientMode::BasicSession)
+        {
+            this->m_RecommendedZoomLevel = 100;
+            VARIANT RawZoomLevel;
+            RawZoomLevel.vt = VT_UI4;
+            RawZoomLevel.uintVal = this->m_RecommendedZoomLevel;
+            this->m_RdpClient->Property(
+                L"ZoomLevel",
+                RawZoomLevel);
+        }
+
+        this->m_RdpClient->FullScreen(true);
+
+        break;
+    }
+    case NanaBox::MainWindowCommands::PauseVirtualMachine:
+    {
+        this->m_VirtualMachine->Pause();
+
+        break;
+    }
+    case NanaBox::MainWindowCommands::ResumeVirtualMachine:
+    {
+        this->m_VirtualMachine->Resume();
+
+        break;
+    }
+    case NanaBox::MainWindowCommands::RestartVirtualMachine:
+    {
+        this->m_VirtualMachineRestarting = true;
+        this->m_VirtualMachine->Terminate();
+        this->m_VirtualMachine = nullptr;
+
+        this->InitializeVirtualMachine();
+        this->m_RdpClient->Disconnect();
+
+        break;
+    }
+    default:
+        break;
+    }
 }
 
 void NanaBox::MainWindow::OnTimer(

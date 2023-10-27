@@ -1,7 +1,0 @@
-﻿namespace NanaBox
-{
-    delegate void RequestSignalDelegate();
-
-    delegate void RequestStateChangedDelegate(
-        Boolean RequestState);
-}

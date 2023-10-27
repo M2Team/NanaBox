@@ -29,8 +29,18 @@ namespace winrt::NanaBox::implementation
     {
         UNREFERENCED_PARAMETER(e);
 
-        this->RequestEnhancedSession(winrt::unbox_value<bool>(
-            sender.as<winrt::AppBarToggleButton>().IsChecked()));
+        ::PostMessageW(
+            this->m_WindowHandle,
+            WM_COMMAND,
+            (winrt::unbox_value<bool>(
+                sender.as<winrt::AppBarToggleButton>().IsChecked())
+                ? MAKEWPARAM(
+                    NanaBox::MainWindowCommands::EnterEnhancedSession,
+                    BN_CLICKED)
+                : MAKEWPARAM(
+                    NanaBox::MainWindowCommands::EnterBasicSession,
+                    BN_CLICKED)),
+            0);
     }
 
     void MainWindowControl::FullScreenButtonClick(
@@ -40,7 +50,13 @@ namespace winrt::NanaBox::implementation
         UNREFERENCED_PARAMETER(sender);
         UNREFERENCED_PARAMETER(e);
 
-        this->RequestFullScreen();
+        ::PostMessageW(
+            this->m_WindowHandle,
+            WM_COMMAND,
+            MAKEWPARAM(
+                NanaBox::MainWindowCommands::EnterFullScreen,
+                BN_CLICKED),
+            0);
     }
 
     void MainWindowControl::PauseVirtualMachineButtonClick(
@@ -49,8 +65,18 @@ namespace winrt::NanaBox::implementation
     {
         UNREFERENCED_PARAMETER(e);
 
-        this->RequestPauseVirtualMachine(winrt::unbox_value<bool>(
-            sender.as<winrt::AppBarToggleButton>().IsChecked()));
+        ::PostMessageW(
+            this->m_WindowHandle,
+            WM_COMMAND,
+            (winrt::unbox_value<bool>(
+                sender.as<winrt::AppBarToggleButton>().IsChecked())
+                ? MAKEWPARAM(
+                    NanaBox::MainWindowCommands::PauseVirtualMachine,
+                    BN_CLICKED)
+                : MAKEWPARAM(
+                    NanaBox::MainWindowCommands::ResumeVirtualMachine,
+                    BN_CLICKED)),
+            0);
     }
 
     void MainWindowControl::RestartVirtualMachineButtonClick(
@@ -60,6 +86,12 @@ namespace winrt::NanaBox::implementation
         UNREFERENCED_PARAMETER(sender);
         UNREFERENCED_PARAMETER(e);
 
-        this->RequestRestartVirtualMachine();
+        ::PostMessageW(
+            this->m_WindowHandle,
+            WM_COMMAND,
+            MAKEWPARAM(
+                NanaBox::MainWindowCommands::RestartVirtualMachine,
+                BN_CLICKED),
+            0);
     }
 }
