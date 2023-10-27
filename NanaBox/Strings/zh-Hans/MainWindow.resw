@@ -118,32 +118,32 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="EnhancedSessionButton.AutomationProperties.Name" xml:space="preserve">
-    <value>增强会话按钮</value>
-    <comment>Enhanced Session Button</comment>
+    <value>增强会话</value>
+    <comment>Enhanced Session</comment>
   </data>
   <data name="EnhancedSessionButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>增强会话</value>
     <comment>Enhanced Session</comment>
   </data>
   <data name="FullScreenButton.AutomationProperties.Name" xml:space="preserve">
-    <value>全屏按钮</value>
-    <comment>Full Screen Button</comment>
+    <value>全屏</value>
+    <comment>Full Screen</comment>
   </data>
   <data name="FullScreenButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>全屏</value>
     <comment>Full Screen</comment>
   </data>
   <data name="PauseVirtualMachineButton.AutomationProperties.Name" xml:space="preserve">
-    <value>暂停虚拟机按钮</value>
-    <comment>Pause Virtual Machine Button</comment>
+    <value>暂停虚拟机</value>
+    <comment>Pause Virtual Machine</comment>
   </data>
   <data name="PauseVirtualMachineButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>暂停虚拟机</value>
     <comment>Pause Virtual Machine</comment>
   </data>
   <data name="RestartVirtualMachineButton.AutomationProperties.Name" xml:space="preserve">
-    <value>重启虚拟机按钮</value>
-    <comment>Restart Virtual Machine Button</comment>
+    <value>重启虚拟机</value>
+    <comment>Restart Virtual Machine</comment>
   </data>
   <data name="RestartVirtualMachineButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>重启虚拟机</value>

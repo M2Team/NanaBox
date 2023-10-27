@@ -18,7 +18,7 @@
       <AppBarToggleButton
         x:Uid="/MainWindow/EnhancedSessionButton"
         Width="40"
-        AutomationProperties.Name="[Enhanced Session Button]"
+        AutomationProperties.Name="[Enhanced Session]"
         Click="EnhancedSessionButtonClick"
         Icon="NewWindow"
         LabelPosition="Collapsed"
@@ -26,7 +26,7 @@
       <AppBarButton
         x:Uid="/MainWindow/FullScreenButton"
         Width="40"
-        AutomationProperties.Name="[Full Screen Button]"
+        AutomationProperties.Name="[Full Screen]"
         Click="FullScreenButtonClick"
         Icon="FullScreen"
         LabelPosition="Collapsed"
@@ -35,7 +35,7 @@
       <AppBarToggleButton
         x:Uid="/MainWindow/PauseVirtualMachineButton"
         Width="40"
-        AutomationProperties.Name="[Pause Virtual Machine Button]"
+        AutomationProperties.Name="[Pause Virtual Machine]"
         Click="PauseVirtualMachineButtonClick"
         Icon="Pause"
         LabelPosition="Collapsed"
@@ -43,7 +43,7 @@
       <AppBarButton
         x:Uid="/MainWindow/RestartVirtualMachineButton"
         Width="40"
-        AutomationProperties.Name="[Restart Virtual Machine Button]"
+        AutomationProperties.Name="[Restart Virtual Machine]"
         Click="RestartVirtualMachineButtonClick"
         Icon="Refresh"
         LabelPosition="Collapsed"
@@ -51,13 +51,13 @@
       <AppBarSeparator />
       <AppBarButton
         Width="40"
-        AutomationProperties.Name="[Virtual Machine Settings Button]"
+        AutomationProperties.Name="[Virtual Machine Settings]"
         Icon="Setting"
         LabelPosition="Collapsed"
         ToolTipService.ToolTip="[Virtual Machine Settings]" />
       <AppBarButton
         Width="40"
-        AutomationProperties.Name="[Reload Virtual Machine Settings Button]"
+        AutomationProperties.Name="[Reload Virtual Machine Settings]"
         Icon="Sync"
         LabelPosition="Collapsed"
         ToolTipService.ToolTip="[Reload Virtual Machine Settings]" />

@@ -118,32 +118,32 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="EnhancedSessionButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Enhanced Session Button</value>
-    <comment>Enhanced Session Button</comment>
+    <value>Enhanced Session</value>
+    <comment>Enhanced Session</comment>
   </data>
   <data name="EnhancedSessionButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Enhanced Session</value>
     <comment>Enhanced Session</comment>
   </data>
   <data name="FullScreenButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Full Screen Button</value>
-    <comment>Full Screen Button</comment>
+    <value>Full Screen</value>
+    <comment>Full Screen</comment>
   </data>
   <data name="FullScreenButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Full Screen</value>
     <comment>Full Screen</comment>
   </data>
   <data name="PauseVirtualMachineButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Pause Virtual Machine Button</value>
-    <comment>Pause Virtual Machine Button</comment>
+    <value>Pause Virtual Machine</value>
+    <comment>Pause Virtual Machine</comment>
   </data>
   <data name="PauseVirtualMachineButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Pause Virtual Machine</value>
     <comment>Pause Virtual Machine</comment>
   </data>
   <data name="RestartVirtualMachineButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Restart Virtual Machine Button</value>
-    <comment>Restart Virtual Machine Button</comment>
+    <value>Restart Virtual Machine</value>
+    <comment>Restart Virtual Machine</comment>
   </data>
   <data name="RestartVirtualMachineButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Restart Virtual Machine</value>
