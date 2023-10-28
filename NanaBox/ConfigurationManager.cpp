@@ -396,3 +396,169 @@ nlohmann::json NanaBox::SerializeKeyboardConfiguration(
 
     return Output;
 }
+
+void NanaBox::DeserializeEnhancedSessionConfiguration(
+    nlohmann::json const& Input,
+    NanaBox::EnhancedSessionConfiguration& Output)
+{
+    try
+    {
+        Output.RedirectAudio =
+            Input["RedirectAudio"].get<bool>();
+    }
+    catch (...)
+    {
+
+    }
+
+    try
+    {
+        Output.RedirectAudioCapture =
+            Input["RedirectAudioCapture"].get<bool>();
+    }
+    catch (...)
+    {
+
+    }
+
+    try
+    {
+        Output.RedirectDrives =
+            Input["RedirectDrives"].get<bool>();
+    }
+    catch (...)
+    {
+
+    }
+
+    try
+    {
+        Output.RedirectPrinters =
+            Input["RedirectPrinters"].get<bool>();
+    }
+    catch (...)
+    {
+
+    }
+
+    try
+    {
+        Output.RedirectPorts =
+            Input["RedirectPorts"].get<bool>();
+    }
+    catch (...)
+    {
+
+    }
+
+    try
+    {
+        Output.RedirectSmartCards =
+            Input["RedirectSmartCards"].get<bool>();
+    }
+    catch (...)
+    {
+
+    }
+
+    try
+    {
+        Output.RedirectClipboard =
+            Input["RedirectClipboard"].get<bool>();
+    }
+    catch (...)
+    {
+
+    }
+
+    try
+    {
+        Output.RedirectDevices =
+            Input["RedirectDevices"].get<bool>();
+    }
+    catch (...)
+    {
+
+    }
+
+    try
+    {
+        Output.RedirectPOSDevices =
+            Input["RedirectPOSDevices"].get<bool>();
+    }
+    catch (...)
+    {
+
+    }
+
+    try
+    {
+        Output.RedirectDynamicDrives =
+            Input["RedirectDynamicDrives"].get<bool>();
+    }
+    catch (...)
+    {
+
+    }
+
+    try
+    {
+        Output.RedirectDynamicDevices =
+            Input["RedirectDynamicDevices"].get<bool>();
+    }
+    catch (...)
+    {
+
+    }
+
+    try
+    {
+        nlohmann::json Drives = Input["Drives"];
+
+        for (nlohmann::json const& Drive : Drives)
+        {
+            std::string DriveString = Drive.get<std::string>();
+            DriveString.resize(1);
+            DriveString[0] = std::toupper(DriveString[0]);      
+
+            if (DriveString[0] < 'A' || DriveString[0] > 'Z')
+            {
+                continue;
+            }
+
+            try
+            {
+                Output.Drives.push_back(DriveString);
+            }
+            catch (...)
+            {
+
+            }
+        }
+    }
+    catch (...)
+    {
+
+    }
+
+    try
+    {
+        nlohmann::json Devices = Input["Devices"];
+
+        for (nlohmann::json const& Device : Devices)
+        {
+            try
+            {
+                Output.Devices.push_back(Device.get<std::string>());
+            }
+            catch (...)
+            {
+
+            }
+        }
+    }
+    catch (...)
+    {
+
+    }
+}
