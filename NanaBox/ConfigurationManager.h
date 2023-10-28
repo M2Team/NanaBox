@@ -32,6 +32,10 @@ namespace NanaBox
         winrt::com_ptr<RdpClient> const& Instance,
         KeyboardConfiguration& Configuration);
 
+    void RemoteDesktopUpdateEnhancedSessionConfiguration(
+        winrt::com_ptr<RdpClient> const& Instance,
+        EnhancedSessionConfiguration& Configuration);
+
     void DeserializeKeyboardConfiguration(
         nlohmann::json const& Input,
         KeyboardConfiguration& Output);

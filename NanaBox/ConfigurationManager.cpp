@@ -234,6 +234,189 @@ void NanaBox::RemoteDesktopUpdateKeyboardConfiguration(
     }
 }
 
+void NanaBox::RemoteDesktopUpdateEnhancedSessionConfiguration(
+    winrt::com_ptr<NanaBox::RdpClient> const& Instance,
+    NanaBox::EnhancedSessionConfiguration& Configuration)
+{
+    try
+    {
+        Instance->AudioRedirectionMode(
+            Configuration.RedirectAudio ? 0 : 2);
+    }
+    catch (...)
+    {
+        Configuration.RedirectAudio =
+            (Instance->AudioRedirectionMode() == 0);
+    }
+
+
+    try
+    {
+        Instance->AudioCaptureRedirectionMode(
+            Configuration.RedirectAudioCapture);
+    }
+    catch (...)
+    {
+        Configuration.RedirectAudioCapture =
+            Instance->AudioCaptureRedirectionMode();
+    }
+
+    try
+    {
+        Instance->RedirectDrives(
+            Configuration.RedirectDrives);
+    }
+    catch (...)
+    {
+        Configuration.RedirectDrives =
+            Instance->RedirectDrives();
+    }
+
+    try
+    {
+        Instance->RedirectPrinters(
+            Configuration.RedirectPrinters);
+    }
+    catch (...)
+    {
+        Configuration.RedirectPrinters =
+            Instance->RedirectPrinters();
+    }
+
+    try
+    {
+        Instance->RedirectPorts(
+            Configuration.RedirectPorts);
+    }
+    catch (...)
+    {
+        Configuration.RedirectPorts =
+            Instance->RedirectPorts();
+    }
+
+    try
+    {
+        Instance->RedirectSmartCards(
+            Configuration.RedirectSmartCards);
+    }
+    catch (...)
+    {
+        Configuration.RedirectSmartCards =
+            Instance->RedirectSmartCards();
+    }
+
+    try
+    {
+        Instance->RedirectClipboard(
+            Configuration.RedirectClipboard);
+    }
+    catch (...)
+    {
+        Configuration.RedirectClipboard =
+            Instance->RedirectClipboard();
+    }
+
+    try
+    {
+        Instance->RedirectDevices(
+            Configuration.RedirectDevices);
+    }
+    catch (...)
+    {
+        Configuration.RedirectDevices =
+            Instance->RedirectDevices();
+    }
+
+    try
+    {
+        Instance->RedirectPOSDevices(
+            Configuration.RedirectPOSDevices);
+    }
+    catch (...)
+    {
+        Configuration.RedirectPOSDevices =
+            Instance->RedirectPOSDevices();
+    }
+
+    try
+    {
+        Instance->RedirectDynamicDrives(
+            Configuration.RedirectDynamicDrives);
+    }
+    catch (...)
+    {
+        Configuration.RedirectDynamicDrives =
+            Instance->RedirectDynamicDrives();
+    }
+
+    try
+    {
+        Instance->RedirectDynamicDevices(
+            Configuration.RedirectDynamicDevices);
+    }
+    catch (...)
+    {
+        Configuration.RedirectDynamicDevices =
+            Instance->RedirectDynamicDevices();
+    }
+
+    try
+    {
+        ULONG Count = Instance->DriveCount();
+        for (ULONG i = 0; i < Count; ++i)
+        {
+            try
+            {
+                NanaBox::RdpDrive Current = Instance->DriveByIndex(i);
+                for (std::string const& Drive : Configuration.Drives)
+                {
+                    if ((Drive[0] - 'A') == Current.DriveLetterIndex())
+                    {
+                        Current.RedirectionState(true);
+                        break;
+                    }
+                }
+            }
+            catch (...)
+            {
+
+            }
+        }
+    }
+    catch (...)
+    {
+
+    }
+
+    try
+    {
+        ULONG Count = Instance->DeviceCount();
+        for (ULONG i = 0; i < Count; ++i)
+        {
+            try
+            {
+                NanaBox::RdpDevice Current = Instance->DeviceByIndex(i);
+                for (std::string const& Device : Configuration.Devices)
+                {
+                    if (Device == winrt::to_string(Current.DeviceInstanceId()))
+                    {
+                        Current.RedirectionState(true);
+                        break;
+                    }
+                }
+            }
+            catch (...)
+            {
+
+            }
+        }
+    }
+    catch (...)
+    {
+
+    }
+}
+
 void NanaBox::DeserializeKeyboardConfiguration(
     nlohmann::json const& Input,
     NanaBox::KeyboardConfiguration& Output)
