@@ -42,6 +42,9 @@ namespace NanaBox
     void DeserializeEnhancedSessionConfiguration(
         nlohmann::json const& Input,
         EnhancedSessionConfiguration& Output);
+
+    nlohmann::json SerializeEnhancedSessionConfiguration(
+        EnhancedSessionConfiguration const& Input);
 }
 
 #endif // !NANABOX_CONFIGURATION_MANAGER

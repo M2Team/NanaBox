@@ -562,3 +562,95 @@ void NanaBox::DeserializeEnhancedSessionConfiguration(
 
     }
 }
+
+nlohmann::json NanaBox::SerializeEnhancedSessionConfiguration(
+    NanaBox::EnhancedSessionConfiguration const& Input)
+{
+    nlohmann::json Output;
+
+    if (!Input.RedirectAudio)
+    {
+        Output["RedirectAudio"] = false;
+    }
+
+    if (Input.RedirectAudioCapture)
+    {
+        Output["RedirectAudioCapture"] = true;
+    }
+
+    if (Input.RedirectDrives)
+    {
+        Output["RedirectDrives"] = true;
+    }
+
+    if (Input.RedirectPrinters)
+    {
+        Output["RedirectPrinters"] = true;
+    }
+
+    if (Input.RedirectPorts)
+    {
+        Output["RedirectPorts"] = true;
+    }
+
+    if (Input.RedirectSmartCards)
+    {
+        Output["RedirectSmartCards"] = true;
+    }
+
+    if (!Input.RedirectClipboard)
+    {
+        Output["RedirectClipboard"] = false;
+    }
+
+    if (Input.RedirectDevices)
+    {
+        Output["RedirectDevices"] = true;
+    }
+
+    if (Input.RedirectPOSDevices)
+    {
+        Output["RedirectPOSDevices"] = true;
+    }
+
+    if (Input.RedirectDynamicDrives)
+    {
+        Output["RedirectDynamicDrives"] = true;
+    }
+
+    if (Input.RedirectDynamicDevices)
+    {
+        Output["RedirectDynamicDevices"] = true;
+    }
+
+    if (!Input.Drives.empty())
+    {
+        nlohmann::json Drives;
+        for (std::string const& Drive : Input.Drives)
+        {
+            std::string DriveString = Drive;
+            DriveString.resize(1);
+            DriveString[0] = std::toupper(DriveString[0]);
+
+            if (DriveString[0] < 'A' || DriveString[0] > 'Z')
+            {
+                continue;
+            }
+
+            Drives.push_back(DriveString);
+        }
+        Output["Drives"] = Drives;
+    }
+
+    if (!Input.Devices.empty())
+    {
+        nlohmann::json Devices;
+        for (std::string const& Device : Input.Devices)
+        {
+            Devices.push_back(Device);
+        }
+        Output["Devices"] = Devices;
+    }
+
+    return Output;
+}
