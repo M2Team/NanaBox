@@ -373,6 +373,17 @@ NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
 
     }
 
+    try
+    {
+        NanaBox::DeserializeEnhancedSessionConfiguration(
+            RootJson["EnhancedSession"],
+            Result.EnhancedSession);
+    }
+    catch (...)
+    {
+
+    }
+
     return Result;
 }
 
@@ -472,8 +483,22 @@ std::string NanaBox::SerializeConfiguration(
             Configuration.ExposeVirtualizationExtensions;
     }
     {
-        RootJson["Keyboard"] = NanaBox::SerializeKeyboardConfiguration(
-            Configuration.Keyboard);
+        nlohmann::json Keyboard =
+            NanaBox::SerializeKeyboardConfiguration(
+                Configuration.Keyboard);
+        if (!Keyboard.empty())
+        {
+            RootJson["Keyboard"] = Keyboard;
+        } 
+    }
+    {
+        nlohmann::json EnhancedSession =
+            NanaBox::SerializeEnhancedSessionConfiguration(
+                Configuration.EnhancedSession);
+        if (!EnhancedSession.empty())
+        {
+            RootJson["EnhancedSession"] = EnhancedSession;
+        }
     }
 
     nlohmann::json Result;

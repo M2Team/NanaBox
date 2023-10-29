@@ -98,6 +98,20 @@
     - CtrlAltDelHotkey (Number)
     - FocusReleaseLeftHotkey (Number)
     - FocusReleaseRightHotkey (Number)
+  - EnhancedSession (Object Array)
+    - RedirectAudio (Boolean)
+    - RedirectAudioCapture (Boolean)
+    - RedirectDrives (Boolean)
+    - RedirectPrinters (Boolean)
+    - RedirectPorts (Boolean)
+    - RedirectSmartCards (Boolean)
+    - RedirectClipboard (Boolean)
+    - RedirectDevices (Boolean)
+    - RedirectPOSDevices (Boolean)
+    - RedirectDynamicDrives (Boolean)
+    - RedirectDynamicDevices (Boolean)
+    - Drives (String Array)
+    - Devices (String Array)
 
 ### NanaBox
 
@@ -173,8 +187,8 @@ Available values: "Disabled", "Default", "List" and "Mirror"
 
 #### SelectedDevices
 
-(Optional) The string array selected GPU used for paravirtualization of virtual
-machine.
+(Optional) The string array of selected GPUs used for paravirtualization of
+virtual machine.
 
 Note: Only valid in "List" GPU paravirtualization assignment mode.
 
@@ -301,7 +315,7 @@ the virtual machine.
 
 Note: Available starting with NanaBox 1.1.
 
-#### RedirectKeyCombinations (Boolean)
+#### RedirectKeyCombinations
 
 (Optional) Apply key combinations at the virtual machine if set it true, or
 apply key combinations to the virtual machine only when the host is running in
@@ -312,7 +326,7 @@ it false.
 
 Note: Available starting with NanaBox 1.1.
 
-#### FullScreenHotkey (Number)
+#### FullScreenHotkey
 
 (Optional) Specifies the virtual-key code to add to CTRL+ALT to determine the
 hotkey replacement for switching to full-screen mode.
@@ -322,7 +336,7 @@ Note: Available starting with NanaBox 1.1.
 Note: For more information about virtual-key code, please read 
 https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes.
 
-#### CtrlEscHotkey (Number)
+#### CtrlEscHotkey
 
 (Optional) Specifies the virtual-key code to add to ALT to determine the hotkey
 replacement for CTRL+ESC.
@@ -334,7 +348,7 @@ Note: You need to use the decimal value of the virtual-key code.
 Note: For more information about virtual-key code, please read 
 https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes.
 
-#### AltEscHotkey (Number)
+#### AltEscHotkey
 
 (Optional) Specifies the virtual-key code to add to ALT to determine the hotkey
 replacement for ALT+ESC.
@@ -346,7 +360,7 @@ Note: You need to use the decimal value of the virtual-key code.
 Note: For more information about virtual-key code, please read 
 https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes.
 
-#### AltTabHotkey (Number)
+#### AltTabHotkey
 
 (Optional) Specifies the virtual-key code to add to ALT to determine the hotkey
 replacement for ALT+TAB.
@@ -358,7 +372,7 @@ Note: You need to use the decimal value of the virtual-key code.
 Note: For more information about virtual-key code, please read 
 https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes.
 
-#### AltShiftTabHotkey (Number)
+#### AltShiftTabHotkey
 
 (Optional) Specifies the virtual-key code to add to ALT to determine the hotkey
 replacement for ALT+SHIFT+TAB.
@@ -370,7 +384,7 @@ Note: You need to use the decimal value of the virtual-key code.
 Note: For more information about virtual-key code, please read 
 https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes.
 
-#### AltSpaceHotkey (Number)
+#### AltSpaceHotkey
 
 (Optional) Specifies the virtual-key code to add to ALT to determine the hotkey
 replacement for ALT+SPACE.
@@ -382,7 +396,7 @@ Note: You need to use the decimal value of the virtual-key code.
 Note: For more information about virtual-key code, please read 
 https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes.
 
-#### CtrlAltDelHotkey (Number)
+#### CtrlAltDelHotkey
 
 (Optional) Specifies the virtual-key code to add to CTRL+ALT to determine the
 hotkey replacement for CTRL+ALT+DELETE, also called the secure attention
@@ -395,7 +409,7 @@ Note: You need to use the decimal value of the virtual-key code.
 Note: For more information about virtual-key code, please read 
 https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes.
 
-#### FocusReleaseLeftHotkey (Number)
+#### FocusReleaseLeftHotkey
 
 (Optional) Specifies the virtual-key code to add to Ctrl+Alt to determine the
 hotkey replacement for Ctrl+Alt+Left Arrow.
@@ -407,7 +421,7 @@ Note: You need to use the decimal value of the virtual-key code.
 Note: For more information about virtual-key code, please read 
 https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes.
 
-#### FocusReleaseRightHotkey (Number)
+#### FocusReleaseRightHotkey
 
 (Optional) Specifies the virtual-key code to add to Ctrl+Alt to determine the
 hotkey replacement for Ctrl+Alt+Right Arrow.
@@ -418,6 +432,106 @@ Note: You need to use the decimal value of the virtual-key code.
 
 Note: For more information about virtual-key code, please read 
 https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes.
+
+### EnhancedSession
+
+(Optional) Enhanced session setting object array of virtual machine.
+
+Note: Available starting with NanaBox 1.1.
+
+#### RedirectAudio
+
+(Optional) Redirect sounds from the virtual machine to the host if set it true.
+
+Note: Available starting with NanaBox 1.1.
+
+#### RedirectAudioCapture
+
+(Optional) Redirect audio capture from the host to the virtual machine if set it
+true.
+
+Note: Available starting with NanaBox 1.1.
+
+#### RedirectDrives
+
+(Optional) Redirect all disk drives from the host to the virtual machine if set
+it true.
+
+Note: Available starting with NanaBox 1.1.
+
+#### RedirectPrinters
+
+(Optional) Redirect all printers from the host to the virtual machine if set it
+true.
+
+Note: Available starting with NanaBox 1.1.
+
+#### RedirectPorts
+
+(Optional) Redirect all local ports (for example, COM and LPT) from the host to
+the virtual machine if set it true.
+
+Note: Available starting with NanaBox 1.1.
+
+#### RedirectSmartCards
+
+(Optional) Redirect all smart cards from the host to the virtual machine if set
+it true.
+
+Note: Available starting with NanaBox 1.1.
+
+#### RedirectClipboard
+
+(Optional) Redirect clipboard from the host to the virtual machine if set it
+true.
+
+Note: Available starting with NanaBox 1.1.
+
+#### RedirectDevices
+
+(Optional) Redirect all devices from the host to the virtual machine if set it
+true.
+
+Note: Available starting with NanaBox 1.1.
+
+#### RedirectPOSDevices
+
+(Optional) Redirect all Point of Service devices from the host to the virtual
+machine if set it true.
+
+Note: Available starting with NanaBox 1.1.
+
+#### RedirectDynamicDrives
+
+(Optional) Redirect all dynamically attached Plug and Play (PnP) drives that are
+enumerated while virtual machine running if set it true.
+
+Note: Available starting with NanaBox 1.1.
+
+#### RedirectDynamicDevices
+
+(Optional) Redirect all dynamically attached Plug and Play (PnP) devices that
+are enumerated while virtual machine running if set it true.
+
+Note: Available starting with NanaBox 1.1.
+
+#### Drives
+
+(Optional) The string array of selected disk drives used for redirection from
+the host to the virtual machine.
+
+Example value: "C"
+
+Note: Available starting with NanaBox 1.1.
+
+#### Devices
+
+(Optional) The string array of selected devices used for redirection from the
+host to the virtual machine.
+
+Example value: "USB\\VID_5986&PID_211C&MI_00\\6&218C4A3&0&0000"
+
+Note: Available starting with NanaBox 1.1.
 
 ## Samples
 

@@ -278,6 +278,10 @@ int NanaBox::MainWindow::OnCreate(
         this->m_RdpClient,
         m_Configuration.Keyboard);
 
+    NanaBox::RemoteDesktopUpdateEnhancedSessionConfiguration(
+        this->m_RdpClient,
+        m_Configuration.EnhancedSession);
+
     this->m_RdpClient->ContainerHandledFullScreen(true);
 
     try
