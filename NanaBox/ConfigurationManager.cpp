@@ -370,7 +370,8 @@ void NanaBox::RemoteDesktopUpdateEnhancedSessionConfiguration(
                 NanaBox::RdpDrive Current = Instance->DriveByIndex(i);
                 for (std::string const& Drive : Configuration.Drives)
                 {
-                    if ((Drive[0] - 'A') == Current.DriveLetterIndex())
+                    if ((Drive[0] - 'A') == static_cast<char>(
+                        Current.DriveLetterIndex()))
                     {
                         Current.RedirectionState(true);
                         break;
@@ -702,7 +703,7 @@ void NanaBox::DeserializeEnhancedSessionConfiguration(
         {
             std::string DriveString = Drive.get<std::string>();
             DriveString.resize(1);
-            DriveString[0] = std::toupper(DriveString[0]);      
+            DriveString[0] = static_cast<char>(std::toupper(DriveString[0]));
 
             if (DriveString[0] < 'A' || DriveString[0] > 'Z')
             {
@@ -813,7 +814,7 @@ nlohmann::json NanaBox::SerializeEnhancedSessionConfiguration(
         {
             std::string DriveString = Drive;
             DriveString.resize(1);
-            DriveString[0] = std::toupper(DriveString[0]);
+            DriveString[0] = static_cast<char>(std::toupper(DriveString[0]));
 
             if (DriveString[0] < 'A' || DriveString[0] > 'Z')
             {
