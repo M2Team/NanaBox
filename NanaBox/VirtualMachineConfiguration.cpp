@@ -52,10 +52,10 @@ NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
 {
     nlohmann::json ParsedJson = nlohmann::json::parse(Configuration);
 
-    nlohmann::json RootJson = ParsedJson["NanaBox"];
+    nlohmann::json RootJson = ParsedJson.at("NanaBox");
 
     if ("VirtualMachine" !=
-        RootJson["Type"].get<std::string>())
+        RootJson.at("Type").get<std::string>())
     {
         throw std::exception(
             "Invalid Virtual Machine Configuration");
@@ -66,7 +66,7 @@ NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
     try
     {
         Result.Version =
-            RootJson["Version"].get<std::uint32_t>();
+            RootJson.at("Version").get<std::uint32_t>();
     }
     catch (...)
     {
@@ -79,15 +79,15 @@ NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
     }
 
     Result.GuestType =
-        RootJson["GuestType"].get<NanaBox::GuestType>();
+        RootJson.at("GuestType").get<NanaBox::GuestType>();
 
     Result.Name =
-        RootJson["Name"].get<std::string>();
+        RootJson.at("Name").get<std::string>();
 
     try
     {
         Result.ProcessorCount =
-            RootJson["ProcessorCount"].get<std::uint32_t>();
+            RootJson.at("ProcessorCount").get<std::uint32_t>();
     }
     catch (...)
     {
@@ -98,7 +98,7 @@ NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
     try
     {
         Result.MemorySize =
-            RootJson["MemorySize"].get<std::uint32_t>();
+            RootJson.at("MemorySize").get<std::uint32_t>();
     }
     catch (...)
     {
@@ -107,7 +107,7 @@ NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
 
     try
     {
-        nlohmann::json ComPorts = RootJson["ComPorts"];
+        nlohmann::json ComPorts = RootJson.at("ComPorts");
 
         try
         {
@@ -146,14 +146,14 @@ NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
 
     try
     {
-        nlohmann::json Gpu = RootJson["Gpu"];
+        nlohmann::json Gpu = RootJson.at("Gpu");
 
         Result.Gpu.AssignmentMode =
-            Gpu["AssignmentMode"].get<NanaBox::GpuAssignmentMode>();
+            Gpu.at("AssignmentMode").get<NanaBox::GpuAssignmentMode>();
 
         try
         {
-            nlohmann::json SelectedDevices = Gpu["SelectedDevices"];
+            nlohmann::json SelectedDevices = Gpu.at("SelectedDevices");
 
             for (nlohmann::json const& SelectedDevice : SelectedDevices)
             {
@@ -191,7 +191,7 @@ NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
 
     try
     {
-        nlohmann::json NetworkAdapters = RootJson["NetworkAdapters"];
+        nlohmann::json NetworkAdapters = RootJson.at("NetworkAdapters");
 
         for (nlohmann::json const& NetworkAdapter : NetworkAdapters)
         {
@@ -254,7 +254,7 @@ NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
 
     try
     {
-        nlohmann::json ScsiDevices = RootJson["ScsiDevices"];
+        nlohmann::json ScsiDevices = RootJson.at("ScsiDevices");
 
         for (nlohmann::json const& ScsiDevice : ScsiDevices)
         {
@@ -305,7 +305,7 @@ NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
     try
     {
         Result.SecureBoot =
-            RootJson["SecureBoot"].get<bool>();
+            RootJson.at("SecureBoot").get<bool>();
     }
     catch (...)
     {
@@ -315,7 +315,7 @@ NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
     try
     {
         Result.Tpm =
-            RootJson["Tpm"].get<bool>();
+            RootJson.at("Tpm").get<bool>();
     }
     catch (...)
     {
@@ -325,7 +325,7 @@ NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
     try
     {
         Result.GuestStateFile =
-            RootJson["GuestStateFile"].get<std::string>();
+            RootJson.at("GuestStateFile").get<std::string>();
     }
     catch (...)
     {
@@ -335,7 +335,7 @@ NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
     try
     {
         Result.RuntimeStateFile =
-            RootJson["RuntimeStateFile"].get<std::string>();
+            RootJson.at("RuntimeStateFile").get<std::string>();
     }
     catch (...)
     {
@@ -345,7 +345,7 @@ NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
     try
     {
         Result.SaveStateFile =
-            RootJson["SaveStateFile"].get<std::string>();
+            RootJson.at("SaveStateFile").get<std::string>();
     }
     catch (...)
     {
@@ -355,7 +355,7 @@ NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
     try
     {
         Result.ExposeVirtualizationExtensions =
-            RootJson["ExposeVirtualizationExtensions"].get<bool>();
+            RootJson.at("ExposeVirtualizationExtensions").get<bool>();
     }
     catch (...)
     {
@@ -365,7 +365,7 @@ NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
     try
     {
         NanaBox::DeserializeKeyboardConfiguration(
-            RootJson["Keyboard"],
+            RootJson.at("Keyboard"),
             Result.Keyboard);
     }
     catch (...)
@@ -376,7 +376,7 @@ NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
     try
     {
         NanaBox::DeserializeEnhancedSessionConfiguration(
-            RootJson["EnhancedSession"],
+            RootJson.at("EnhancedSession"),
             Result.EnhancedSession);
     }
     catch (...)
