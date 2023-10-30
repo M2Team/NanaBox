@@ -425,7 +425,7 @@ void NanaBox::DeserializeKeyboardConfiguration(
     try
     {
         Output.RedirectKeyCombinations =
-            Input["RedirectKeyCombinations"].get<bool>();
+            Input.at("RedirectKeyCombinations").get<bool>();
     }
     catch (...)
     {
@@ -435,7 +435,7 @@ void NanaBox::DeserializeKeyboardConfiguration(
     try
     {
         Output.FullScreenHotkey =
-            Input["FullScreenHotkey"].get<bool>();
+            Input.at("FullScreenHotkey").get<bool>();
     }
     catch (...)
     {
@@ -445,7 +445,7 @@ void NanaBox::DeserializeKeyboardConfiguration(
     try
     {
         Output.CtrlEscHotkey =
-            Input["CtrlEscHotkey"].get<bool>();
+            Input.at("CtrlEscHotkey").get<bool>();
     }
     catch (...)
     {
@@ -455,7 +455,7 @@ void NanaBox::DeserializeKeyboardConfiguration(
     try
     {
         Output.AltEscHotkey =
-            Input["AltEscHotkey"].get<bool>();
+            Input.at("AltEscHotkey").get<bool>();
     }
     catch (...)
     {
@@ -465,7 +465,7 @@ void NanaBox::DeserializeKeyboardConfiguration(
     try
     {
         Output.AltTabHotkey =
-            Input["AltTabHotkey"].get<bool>();
+            Input.at("AltTabHotkey").get<bool>();
     }
     catch (...)
     {
@@ -475,7 +475,7 @@ void NanaBox::DeserializeKeyboardConfiguration(
     try
     {
         Output.AltShiftTabHotkey =
-            Input["AltShiftTabHotkey"].get<bool>();
+            Input.at("AltShiftTabHotkey").get<bool>();
     }
     catch (...)
     {
@@ -485,7 +485,7 @@ void NanaBox::DeserializeKeyboardConfiguration(
     try
     {
         Output.AltSpaceHotkey =
-            Input["AltSpaceHotkey"].get<bool>();
+            Input.at("AltSpaceHotkey").get<bool>();
     }
     catch (...)
     {
@@ -495,7 +495,7 @@ void NanaBox::DeserializeKeyboardConfiguration(
     try
     {
         Output.CtrlAltDelHotkey =
-            Input["CtrlAltDelHotkey"].get<bool>();
+            Input.at("CtrlAltDelHotkey").get<bool>();
     }
     catch (...)
     {
@@ -505,7 +505,7 @@ void NanaBox::DeserializeKeyboardConfiguration(
     try
     {
         Output.FocusReleaseLeftHotkey =
-            Input["FocusReleaseLeftHotkey"].get<bool>();
+            Input.at("FocusReleaseLeftHotkey").get<bool>();
     }
     catch (...)
     {
@@ -515,7 +515,7 @@ void NanaBox::DeserializeKeyboardConfiguration(
     try
     {
         Output.FocusReleaseRightHotkey =
-            Input["FocusReleaseRightHotkey"].get<bool>();
+            Input.at("FocusReleaseRightHotkey").get<bool>();
     }
     catch (...)
     {
@@ -588,7 +588,7 @@ void NanaBox::DeserializeEnhancedSessionConfiguration(
     try
     {
         Output.RedirectAudio =
-            Input["RedirectAudio"].get<bool>();
+            Input.at("RedirectAudio").get<bool>();
     }
     catch (...)
     {
@@ -598,7 +598,7 @@ void NanaBox::DeserializeEnhancedSessionConfiguration(
     try
     {
         Output.RedirectAudioCapture =
-            Input["RedirectAudioCapture"].get<bool>();
+            Input.at("RedirectAudioCapture").get<bool>();
     }
     catch (...)
     {
@@ -608,7 +608,7 @@ void NanaBox::DeserializeEnhancedSessionConfiguration(
     try
     {
         Output.RedirectDrives =
-            Input["RedirectDrives"].get<bool>();
+            Input.at("RedirectDrives").get<bool>();
     }
     catch (...)
     {
@@ -618,7 +618,7 @@ void NanaBox::DeserializeEnhancedSessionConfiguration(
     try
     {
         Output.RedirectPrinters =
-            Input["RedirectPrinters"].get<bool>();
+            Input.at("RedirectPrinters").get<bool>();
     }
     catch (...)
     {
@@ -628,7 +628,7 @@ void NanaBox::DeserializeEnhancedSessionConfiguration(
     try
     {
         Output.RedirectPorts =
-            Input["RedirectPorts"].get<bool>();
+            Input.at("RedirectPorts").get<bool>();
     }
     catch (...)
     {
@@ -638,7 +638,7 @@ void NanaBox::DeserializeEnhancedSessionConfiguration(
     try
     {
         Output.RedirectSmartCards =
-            Input["RedirectSmartCards"].get<bool>();
+            Input.at("RedirectSmartCards").get<bool>();
     }
     catch (...)
     {
@@ -648,7 +648,7 @@ void NanaBox::DeserializeEnhancedSessionConfiguration(
     try
     {
         Output.RedirectClipboard =
-            Input["RedirectClipboard"].get<bool>();
+            Input.at("RedirectClipboard").get<bool>();
     }
     catch (...)
     {
@@ -658,7 +658,7 @@ void NanaBox::DeserializeEnhancedSessionConfiguration(
     try
     {
         Output.RedirectDevices =
-            Input["RedirectDevices"].get<bool>();
+            Input.at("RedirectDevices").get<bool>();
     }
     catch (...)
     {
@@ -668,7 +668,7 @@ void NanaBox::DeserializeEnhancedSessionConfiguration(
     try
     {
         Output.RedirectPOSDevices =
-            Input["RedirectPOSDevices"].get<bool>();
+            Input.at("RedirectPOSDevices").get<bool>();
     }
     catch (...)
     {
@@ -678,7 +678,7 @@ void NanaBox::DeserializeEnhancedSessionConfiguration(
     try
     {
         Output.RedirectDynamicDrives =
-            Input["RedirectDynamicDrives"].get<bool>();
+            Input.at("RedirectDynamicDrives").get<bool>();
     }
     catch (...)
     {
@@ -688,7 +688,7 @@ void NanaBox::DeserializeEnhancedSessionConfiguration(
     try
     {
         Output.RedirectDynamicDevices =
-            Input["RedirectDynamicDevices"].get<bool>();
+            Input.at("RedirectDynamicDevices").get<bool>();
     }
     catch (...)
     {
@@ -697,7 +697,7 @@ void NanaBox::DeserializeEnhancedSessionConfiguration(
 
     try
     {
-        nlohmann::json Drives = Input["Drives"];
+        nlohmann::json Drives = Input.at("Drives");
 
         for (nlohmann::json const& Drive : Drives)
         {
@@ -727,7 +727,7 @@ void NanaBox::DeserializeEnhancedSessionConfiguration(
 
     try
     {
-        nlohmann::json Devices = Input["Devices"];
+        nlohmann::json Devices = Input.at("Devices");
 
         for (nlohmann::json const& Device : Devices)
         {
