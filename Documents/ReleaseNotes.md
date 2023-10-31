@@ -1,5 +1,13 @@
 ﻿# NanaBox Release Notes
 
+**NanaBox 1.1 (1.1.???.0)**
+
+- Refresh the exit confirmation window implementation.
+- Improve the stability after restoring virtual machine from suspend.
+- Add keyboard and enhanced session configuration support.
+- Improve the accessibility user experience.
+- Improve several implementations.
+
 **NanaBox 1.0 (1.0.471.0)**
 
 - Fix the background color issue when window size is bigger than the virtual
