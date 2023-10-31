@@ -81,30 +81,14 @@ Reference documents for known issues:
 
 ## Development Roadmap
 
-- 1.0 (July 16, 2023)
-  - [x] Based on Host Compute System API as virtualization backend.
-  - [x] Add Hyper-V Enhanced Session Mode support for Windows Guests.
-  - [x] Add Hyper-V GPU paravirtualization solution a.k.a GPU-PV support.
-  - [x] Add expose COM ports and physical drives to the virtual machine support.
-  - [x] Add enable Secure Boot for virtual machine support.
-  - [x] Add JSON based format to support portable virtual machine.
-  - [x] Packaging with MSIX for modern deployment experience.
-  - [x] Modernize the UI with XAML Islands with dark and light mode support. 
-        (Dynamic dark and light mode switching is supported for Windows 11 and 
-        later.)
-  - [x] Add full High DPI and partial Accessibility support.
-  - [x] Add full screen support. (Suggested by Belleve.)
-  - [x] Add localization for the NanaBox UI.
-  - [x] Submit to the Windows Store.
 - 1.x Series (Late 2023)
   - [ ] Add virtual machine creation UI and settings UI.
+- Future Series (T.B.D.)
   - [ ] Provide tool for Hyper-V vmcx migration. (Suggested by Belleve.)
   - [ ] Add support for setting RDP options with .rdp file. (Suggested by 
         awakecoding.)
   - [ ] Add support for connecting virtual machine with MsRdpEx from 
         Devolutions. (Suggested by awakecoding.)
-- Future Series (T.B.D.)
-  - Currently no new feature plans for this series.
 
 ## Documents
 
