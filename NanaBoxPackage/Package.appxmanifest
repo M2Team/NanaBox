@@ -7,7 +7,10 @@
   xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10"
   xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
   xmlns:uap4="http://schemas.microsoft.com/appx/manifest/uap/windows10/4"
-  IgnorableNamespaces="uap rescap desktop uap3 uap4">
+  xmlns:com="http://schemas.microsoft.com/appx/manifest/com/windows10"
+  xmlns:desktop4="http://schemas.microsoft.com/appx/manifest/desktop/windows10/4"
+  xmlns:desktop5="http://schemas.microsoft.com/appx/manifest/desktop/windows10/5"
+  IgnorableNamespaces="uap rescap desktop uap3 uap4 com desktop4 desktop5">
 
   <Identity
     Name="40174MouriNaruto.NanaBoxPreview"
@@ -76,6 +79,24 @@
             </uap:SupportedFileTypes>
           </uap3:FileTypeAssociation>
         </uap:Extension>
+        <desktop4:Extension Category="windows.fileExplorerContextMenus">
+          <desktop4:FileExplorerContextMenus>
+            <!--
+              Our verb name starts with "C" to work around a bug preventing our
+              shell menu from appearing in the classic context menu.
+            -->
+            <desktop5:ItemType Type="Directory\Background">
+              <desktop5:Verb Id="CNanaBoxShellExtension" Clsid="9466E986-013C-420E-876B-42E4744E9893" />
+            </desktop5:ItemType>
+          </desktop4:FileExplorerContextMenus>
+        </desktop4:Extension>
+        <com:Extension Category="windows.comServer">
+          <com:ComServer>
+            <com:SurrogateServer DisplayName="NanaBox Shell Extension">
+              <com:Class Id="9466E986-013C-420E-876B-42E4744E9893" Path="NanaBoxShellExtension.dll" ThreadingModel="STA"/>
+            </com:SurrogateServer>
+          </com:ComServer>
+        </com:Extension>
       </Extensions>
     </Application>
   </Applications>

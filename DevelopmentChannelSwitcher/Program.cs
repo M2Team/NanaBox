@@ -14,7 +14,7 @@ namespace DevelopmentChannelSwitcher
 
             {
                 List<(string Release, string Preview)> ReplacementStringList =
-                new List<(string Release, string Preview)>();
+                    new List<(string Release, string Preview)>();
                 ReplacementStringList.Add((
                     "DisplayName=\"NanaBox\"",
                     "DisplayName=\"NanaBox Preview\""));
@@ -24,9 +24,48 @@ namespace DevelopmentChannelSwitcher
                 ReplacementStringList.Add((
                     "<DisplayName>NanaBox</DisplayName>",
                     "<DisplayName>NanaBox Preview</DisplayName>"));
+                ReplacementStringList.Add((
+                    "AC0B3611-471C-4D75-B175-232BE1174B29",
+                    "9466E986-013C-420E-876B-42E4744E9893"));
 
                 string FilePath = string.Format(
                     @"{0}\NanaBoxPackage\Package.appxmanifest",
+                    ProjectRootPath);
+
+                string Content = File.ReadAllText(
+                    FilePath,
+                    Encoding.UTF8);
+                foreach (var ReplacementStringItem in ReplacementStringList)
+                {
+                    if (Preview)
+                    {
+                        Content = Content.Replace(
+                            ReplacementStringItem.Release,
+                            ReplacementStringItem.Preview);
+                    }
+                    else
+                    {
+                        Content = Content.Replace(
+                            ReplacementStringItem.Preview,
+                            ReplacementStringItem.Release);
+                    }
+                }
+
+                FileUtilities.SaveTextToFileAsUtf8Bom(FilePath, Content);
+            }
+
+            {
+                List<(string Release, string Preview)> ReplacementStringList =
+                    new List<(string Release, string Preview)>();
+                ReplacementStringList.Add((
+                    "return ::SHStrDupW(L\"NanaBox\", ppszName);",
+                    "return ::SHStrDupW(L\"NanaBox Preview\", ppszName);"));
+                ReplacementStringList.Add((
+                    "AC0B3611-471C-4D75-B175-232BE1174B29",
+                    "9466E986-013C-420E-876B-42E4744E9893"));
+
+                string FilePath = string.Format(
+                    @"{0}\NanaBoxShellExtension\NanaBoxShellExtension.cpp",
                     ProjectRootPath);
 
                 string Content = File.ReadAllText(
