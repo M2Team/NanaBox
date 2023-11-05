@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{900BC863-10DF-4C7F-9336-ACCBA9861680}</ProjectGuid>
+    <RootNamespace>NanaBoxShellExtension</RootNamespace>
+    <MileProjectType>DynamicLibrary</MileProjectType>
+    <MileProjectManifestFile>NanaBoxShellExtension.manifest</MileProjectManifestFile>
+    <WindowsTargetPlatformMinVersion>10.0.19041.0</WindowsTargetPlatformMinVersion>
+    <MileProjectEnableVCLTLSupport>true</MileProjectEnableVCLTLSupport>
+    <MileProjectEnableCppWinRTSupport>true</MileProjectEnableCppWinRTSupport>
+    <MileProjectUseProjectProperties>true</MileProjectUseProjectProperties>
+    <MileProjectCompanyName>M2-Team</MileProjectCompanyName>
+    <MileProjectFileDescription>NanaBox Shell Extension</MileProjectFileDescription>
+    <MileProjectInternalName>NanaBox</MileProjectInternalName>
+    <MileProjectLegalCopyright>© M2-Team and Contributors. All rights reserved.</MileProjectLegalCopyright>
+    <MileProjectOriginalFilename>NanaBoxShellExtension.dll</MileProjectOriginalFilename>
+    <MileProjectProductName>NanaBox</MileProjectProductName>
+    <MileProjectVersion>1.1.$([System.DateTime]::Today.Subtract($([System.DateTime]::Parse('2022-04-01'))).TotalDays).0</MileProjectVersion>
+    <MileProjectVersionTag>Preview 1</MileProjectVersionTag>
+  </PropertyGroup>
+  <Import Project="..\Mile.Project.Windows\Mile.Project.Platform.x64.props" />
+  <Import Project="..\Mile.Project.Windows\Mile.Project.Platform.ARM64.props" />
+  <Import Project="..\Mile.Project.Windows\Mile.Project.Cpp.Default.props" />
+  <Import Project="..\Mile.Project.Windows\Mile.Project.Cpp.props" />
+  <ItemDefinitionGroup>
+    <Link>
+      <ModuleDefinitionFile>NanaBoxShellExtension.def</ModuleDefinitionFile>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <None Include="NanaBoxShellExtension.def" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="NanaBoxShellExtension.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="NanaBoxShellExtension.manifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Mile.Windows.Helpers">
+      <Version>1.0.19</Version>
+    </PackageReference>
+  </ItemGroup>
+  <Import Project="..\Mile.Project.Windows\Mile.Project.Cpp.targets" />
+</Project>

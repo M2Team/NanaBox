@@ -9,7 +9,9 @@ Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "NanaBoxPackage", "NanaBoxPa
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MaintainerTools", "MaintainerTools", "{FAF74865-43A5-4D7D-B2EB-6F4440363FCF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevelopmentChannelSwitcher", "DevelopmentChannelSwitcher\DevelopmentChannelSwitcher.csproj", "{B6CA655E-6770-4F5F-9625-F130B0A97E2F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevelopmentChannelSwitcher", "DevelopmentChannelSwitcher\DevelopmentChannelSwitcher.csproj", "{B6CA655E-6770-4F5F-9625-F130B0A97E2F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NanaBoxShellExtension", "NanaBoxShellExtension\NanaBoxShellExtension.vcxproj", "{900BC863-10DF-4C7F-9336-ACCBA9861680}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,14 @@ Global
 		{B6CA655E-6770-4F5F-9625-F130B0A97E2F}.Release|ARM64.ActiveCfg = Release|Any CPU
 		{B6CA655E-6770-4F5F-9625-F130B0A97E2F}.Release|x64.ActiveCfg = Release|Any CPU
 		{B6CA655E-6770-4F5F-9625-F130B0A97E2F}.Release|x64.Build.0 = Release|Any CPU
+		{900BC863-10DF-4C7F-9336-ACCBA9861680}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{900BC863-10DF-4C7F-9336-ACCBA9861680}.Debug|ARM64.Build.0 = Debug|ARM64
+		{900BC863-10DF-4C7F-9336-ACCBA9861680}.Debug|x64.ActiveCfg = Debug|x64
+		{900BC863-10DF-4C7F-9336-ACCBA9861680}.Debug|x64.Build.0 = Debug|x64
+		{900BC863-10DF-4C7F-9336-ACCBA9861680}.Release|ARM64.ActiveCfg = Release|ARM64
+		{900BC863-10DF-4C7F-9336-ACCBA9861680}.Release|ARM64.Build.0 = Release|ARM64
+		{900BC863-10DF-4C7F-9336-ACCBA9861680}.Release|x64.ActiveCfg = Release|x64
+		{900BC863-10DF-4C7F-9336-ACCBA9861680}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
