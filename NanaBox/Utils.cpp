@@ -243,57 +243,10 @@ void SpiltCommandLineEx(
     }
 }
 
-winrt::hstring VFormatWindowsRuntimeString(
-    _In_z_ _Printf_format_string_ wchar_t const* const Format,
-    _In_z_ _Printf_format_string_ va_list ArgList)
-{
-    // Check the argument list.
-    if (Format)
-    {
-        // Get the length of the format result.
-        size_t nLength =
-            static_cast<size_t>(::_vscwprintf(Format, ArgList)) + 1;
-
-        // Allocate for the format result.
-        std::wstring Buffer(nLength + 1, L'\0');
-
-        // Format the string.
-        int nWritten = ::_vsnwprintf_s(
-            &Buffer[0],
-            Buffer.size(),
-            nLength,
-            Format,
-            ArgList);
-
-        if (nWritten > 0)
-        {
-            // If succeed, resize to fit and return result.
-            Buffer.resize(nWritten);
-            return winrt::hstring(Buffer);
-        }
-    }
-
-    // If failed, return an empty string.
-    return winrt::hstring();
-}
-
-winrt::hstring FormatWindowsRuntimeString(
-    _In_z_ _Printf_format_string_ wchar_t const* const Format,
-    ...)
-{
-    va_list ArgList;
-    va_start(ArgList, Format);
-    winrt::hstring Result = ::VFormatWindowsRuntimeString(
-        Format,
-        ArgList);
-    va_end(ArgList);
-    return Result;
-}
-
 winrt::hstring FromGuid(
     winrt::guid const& Value)
 {
-    return ::FormatWindowsRuntimeString(
+    return winrt::hstring(Mile::FormatWideString(
         L"%08x-%04hx-%04hx-%02hhx%02hhx-%02hhx%02hhx%02hhx%02hhx%02hhx%02hhx",
         Value.Data1,
         Value.Data2,
@@ -305,7 +258,7 @@ winrt::hstring FromGuid(
         Value.Data4[4],
         Value.Data4[5],
         Value.Data4[6],
-        Value.Data4[7]);
+        Value.Data4[7]));
 }
 
 std::size_t GetTextFileSize(

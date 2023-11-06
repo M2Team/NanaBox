@@ -17,14 +17,6 @@ void SpiltCommandLineEx(
     std::map<std::wstring, std::wstring>& OptionsAndParameters,
     std::wstring& UnresolvedCommandLine);
 
-winrt::hstring VFormatWindowsRuntimeString(
-    _In_z_ _Printf_format_string_ wchar_t const* const Format,
-    _In_z_ _Printf_format_string_ va_list ArgList);
-
-winrt::hstring FormatWindowsRuntimeString(
-    _In_z_ _Printf_format_string_ wchar_t const* const Format,
-    ...);
-
 winrt::hstring FromGuid(
     winrt::guid const& Value);
 
@@ -35,6 +27,7 @@ void WriteAllTextToUtf8TextFile(
     std::wstring const& Path,
     std::string& Content);
 
+#include <Mile.Helpers.CppBase.h>
 #include <Mile.Helpers.CppWinRT.h>
 
 namespace winrt::Mile
