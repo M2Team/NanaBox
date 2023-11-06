@@ -4,7 +4,6 @@
     <ProjectGuid>{900BC863-10DF-4C7F-9336-ACCBA9861680}</ProjectGuid>
     <RootNamespace>NanaBoxShellExtension</RootNamespace>
     <MileProjectType>DynamicLibrary</MileProjectType>
-    <MileProjectManifestFile>NanaBoxShellExtension.manifest</MileProjectManifestFile>
     <WindowsTargetPlatformMinVersion>10.0.19041.0</WindowsTargetPlatformMinVersion>
     <MileProjectEnableVCLTLSupport>true</MileProjectEnableVCLTLSupport>
     <MileProjectEnableCppWinRTSupport>true</MileProjectEnableCppWinRTSupport>
@@ -32,9 +31,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="NanaBoxShellExtension.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Manifest Include="NanaBoxShellExtension.manifest" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Mile.Windows.Helpers">
