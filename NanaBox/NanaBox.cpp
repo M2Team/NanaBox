@@ -1321,28 +1321,13 @@ int WINAPI wWinMain(
                 ApplicationName = ::GetCurrentProcessModulePath();
             }
 
-            std::wstring parameters;
-            for (auto&& item : OptionsAndParameters)
-            {
-                if (!item.second.empty())
-                {
-                    parameters.append(std::format(L"--{}={} ", item.first, item.second));
-                }
-                else
-                {
-                    parameters.append(std::format(L"--{} ", item.first));
-                }
-            }
-            parameters.append(UnresolvedCommandLine);
-
             SHELLEXECUTEINFOW Information = { 0 };
             Information.cbSize = sizeof(SHELLEXECUTEINFOW);
             Information.fMask = SEE_MASK_NOCLOSEPROCESS;
             Information.lpVerb = L"runas";
             Information.nShow = nShowCmd;
             Information.lpFile = ApplicationName.c_str();
-
-            Information.lpParameters = parameters.c_str();
+            Information.lpParameters = UnresolvedCommandLine.c_str();
             winrt::check_bool(::ShellExecuteExW(&Information));
             ::WaitForSingleObjectEx(Information.hProcess, INFINITE, FALSE);
             ::CloseHandle(Information.hProcess);
