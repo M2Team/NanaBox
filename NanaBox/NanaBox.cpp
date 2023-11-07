@@ -57,15 +57,7 @@
 
 namespace winrt
 {
-    using Windows::UI::Xaml::ElementTheme;
-    using Windows::UI::Xaml::FrameworkElement;
-    using Windows::UI::Xaml::FocusState;
-    using Windows::UI::Xaml::UIElement;
-    using Windows::UI::Xaml::Controls::Control;
     using Windows::UI::Xaml::Hosting::DesktopWindowXamlSource;
-    using Windows::UI::Xaml::Hosting::DesktopWindowXamlSourceTakeFocusRequestedEventArgs;
-    using Windows::UI::Xaml::Hosting::XamlSourceFocusNavigationReason;
-    using Windows::UI::Xaml::Media::VisualTreeHelper;
 }
 
 namespace
@@ -730,7 +722,7 @@ void NanaBox::MainWindow::OnClose()
     {
         this->DestroyWindow();
         return;
-    }  
+    }
 
     HWND WindowHandle = this->CreateXamlDialog();
     if (!WindowHandle)
