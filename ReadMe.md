@@ -59,6 +59,11 @@ requests and issues are welcome.**
 - Supported OS: Windows 10 Version 2004 (Build 19041) or later
 - Supported Platforms: x64 and ARM64
 
+Note: If you uninstalled the Remote Desktop Connection before, you need to
+reinstall it by following [these instructions].
+
+[these instructions]: https://learn.microsoft.com/en-us/windows-server/remote/remote-desktop-services/clients/uninstall-remote-desktop-connection
+
 ## Known issues
 
 - Due to Host Compute System API and Host Compute Network API limitations, 
