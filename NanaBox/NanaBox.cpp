@@ -213,31 +213,16 @@ int NanaBox::MainWindow::OnCreate(
     {
         this->InitializeVirtualMachine();
     }
-    catch (winrt::hresult_error const& ex)
+    catch (...)
     {
-        std::thread([ex]()
+        winrt::hresult_error Exception = Mile::WinRT::ToHResultError();
+        std::thread([Exception]()
         {
             ::TaskDialog(
                 nullptr,
                 nullptr,
                 g_WindowTitle.data(),
-                ex.message().c_str(),
-                nullptr,
-                TDCBF_OK_BUTTON,
-                TD_ERROR_ICON,
-                nullptr);
-        }).join();
-        return -1;
-    }
-    catch (std::exception const& ex)
-    {
-        std::thread([ex]()
-        {
-            ::TaskDialog(
-                nullptr,
-                nullptr,
-                g_WindowTitle.data(),
-                winrt::to_hstring(ex.what()).c_str(),
+                Exception.message().c_str(),
                 nullptr,
                 TDCBF_OK_BUTTON,
                 TD_ERROR_ICON,
@@ -775,17 +760,24 @@ void NanaBox::MainWindow::OnClose()
         }
         catch (winrt::hresult_error const& ex)
         {
-            std::filesystem::perms perms = std::filesystem::perms::none;
-            perms |= std::filesystem::perms::owner_write;
-            perms |= std::filesystem::perms::group_write;
-            perms |= std::filesystem::perms::others_write;
+            try
+            {
+                std::filesystem::perms perms = std::filesystem::perms::none;
+                perms |= std::filesystem::perms::owner_write;
+                perms |= std::filesystem::perms::group_write;
+                perms |= std::filesystem::perms::others_write;
 
-            std::filesystem::permissions(
-                SaveStateFile,
-                perms,
-                std::filesystem::perm_options::remove);
+                std::filesystem::permissions(
+                    SaveStateFile,
+                    perms,
+                    std::filesystem::perm_options::remove);
 
-            std::filesystem::remove(SaveStateFile);
+                std::filesystem::remove(SaveStateFile);
+            }
+            catch (...)
+            {
+
+            }
 
             this->m_Configuration.SaveStateFile.clear();
 
@@ -1110,46 +1102,37 @@ void PrerequisiteCheck()
     }
     catch (winrt::hresult_error const& ex)
     {
+        winrt::hstring InstructionText;
+        winrt::hstring ContentText;
+        
         if (ex.code() == HCS_E_ACCESS_DENIED)
         {
-            ::TaskDialog(
-                nullptr,
-                nullptr,
-                g_WindowTitle.data(),
-                Mile::WinRT::GetLocalizedString(
-                    L"Messages/AccessDeniedInstructionText").c_str(),
-                Mile::WinRT::GetLocalizedString(
-                    L"Messages/AccessDeniedContentText").c_str(),
-                TDCBF_OK_BUTTON,
-                TD_ERROR_ICON,
-                nullptr);
+            InstructionText = Mile::WinRT::GetLocalizedString(
+                L"Messages/AccessDeniedInstructionText");
+            ContentText = Mile::WinRT::GetLocalizedString(
+                L"Messages/AccessDeniedContentText");
         }
         else if (ex.code() == HCS_E_SERVICE_NOT_AVAILABLE)
         {
-            ::TaskDialog(
-                nullptr,
-                nullptr,
-                g_WindowTitle.data(),
-                Mile::WinRT::GetLocalizedString(
-                    L"Messages/HyperVNotAvailableInstructionText").c_str(),
-                Mile::WinRT::GetLocalizedString(
-                    L"Messages/HyperVNotAvailableContentText").c_str(),
-                TDCBF_OK_BUTTON,
-                TD_ERROR_ICON,
-                nullptr);
+            InstructionText = Mile::WinRT::GetLocalizedString(
+                L"Messages/HyperVNotAvailableInstructionText");
+            ContentText = Mile::WinRT::GetLocalizedString(
+                L"Messages/HyperVNotAvailableContentText");
         }
         else
         {
-            ::TaskDialog(
-                nullptr,
-                nullptr,
-                g_WindowTitle.data(),
-                ex.message().c_str(),
-                nullptr,
-                TDCBF_OK_BUTTON,
-                TD_ERROR_ICON,
-                nullptr);
+            InstructionText = ex.message();
         }
+
+        ::TaskDialog(
+            nullptr,
+            nullptr,
+            g_WindowTitle.data(),
+            InstructionText.c_str(),
+            ContentText.c_str(),
+            TDCBF_OK_BUTTON,
+            TD_ERROR_ICON,
+            nullptr);
 
         ::ExitProcess(ex.code());
     }
@@ -1272,31 +1255,19 @@ int WINAPI wWinMain(
                 TargetBinaryPath = TempBinaryPath;
             }
         }
-        catch (winrt::hresult_error const& ex)
+        catch (...)
         {
+            winrt::hresult_error Exception = Mile::WinRT::ToHResultError();
             ::TaskDialog(
                 nullptr,
                 nullptr,
                 g_WindowTitle.data(),
-                ex.message().c_str(),
+                Exception.message().c_str(),
                 nullptr,
                 TDCBF_OK_BUTTON,
                 TD_ERROR_ICON,
                 nullptr);
-            ::ExitProcess(ex.code());
-        }
-        catch (std::exception const& ex)
-        {
-            ::TaskDialog(
-                nullptr,
-                nullptr,
-                g_WindowTitle.data(),
-                winrt::to_hstring(ex.what()).c_str(),
-                nullptr,
-                TDCBF_OK_BUTTON,
-                TD_ERROR_ICON,
-                nullptr);
-            ::ExitProcess(static_cast<UINT>(-1));
+            ::ExitProcess(Exception.code());
         }
     }
 
@@ -1329,35 +1300,22 @@ int WINAPI wWinMain(
                 std::filesystem::remove_all(TargetBinaryPath);
             }
         }
-        catch (winrt::hresult_error const& ex)
+        catch (...)
         {
-            if (ex.code() != ::HRESULT_FROM_WIN32(ERROR_CANCELLED))
+            winrt::hresult_error Exception = Mile::WinRT::ToHResultError();
+            if (Exception.code() != ::HRESULT_FROM_WIN32(ERROR_CANCELLED))
             {
                 ::TaskDialog(
                     nullptr,
                     nullptr,
                     g_WindowTitle.data(),
-                    ex.message().c_str(),
+                    Exception.message().c_str(),
                     nullptr,
                     TDCBF_OK_BUTTON,
                     TD_ERROR_ICON,
                     nullptr);
             }
-
-            ::ExitProcess(ex.code());
-        }
-        catch (std::exception const& ex)
-        {
-            ::TaskDialog(
-                nullptr,
-                nullptr,
-                g_WindowTitle.data(),
-                winrt::to_hstring(ex.what()).c_str(),
-                nullptr,
-                TDCBF_OK_BUTTON,
-                TD_ERROR_ICON,
-                nullptr);
-            ::ExitProcess(static_cast<UINT>(-1));
+            ::ExitProcess(Exception.code());
         }
 
         ::ExitProcess(0);
