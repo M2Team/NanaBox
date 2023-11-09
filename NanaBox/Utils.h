@@ -6,10 +6,7 @@
 #include <string>
 #include <winrt/base.h>
 
-std::vector<std::wstring> SpiltCommandLine(
-    std::wstring const& CommandLine);
-
-void SpiltCommandLineEx(
+void SplitCommandLineEx(
     std::wstring const& CommandLine,
     std::vector<std::wstring> const& OptionPrefixes,
     std::vector<std::wstring> const& OptionParameterSeparators,

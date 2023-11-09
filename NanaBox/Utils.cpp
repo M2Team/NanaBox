@@ -6,139 +6,7 @@ namespace winrt
     using winrt::Windows::ApplicationModel::Resources::Core::ResourceMap;
 }
 
-std::vector<std::wstring> SpiltCommandLine(
-    std::wstring const& CommandLine)
-{
-    // Initialize the SplitArguments.
-    std::vector<std::wstring> SplitArguments;
-
-    wchar_t c = L'\0';
-    int copy_character;                   /* 1 = copy char to *args */
-    unsigned numslash;              /* num of backslashes seen */
-
-    std::wstring Buffer;
-    Buffer.reserve(CommandLine.size());
-
-    /* first scan the program name, copy it, and count the bytes */
-    wchar_t* p = const_cast<wchar_t*>(CommandLine.c_str());
-
-    // A quoted program name is handled here. The handling is much simpler than
-    // for other arguments. Basically, whatever lies between the leading
-    // double-quote and next one, or a terminal null character is simply
-    // accepted. Fancier handling is not required because the program name must
-    // be a legal NTFS/HPFS file name. Note that the double-quote characters
-    // are not copied, nor do they contribute to character_count.
-    bool InQuotes = false;
-    do
-    {
-        if (*p == L'"')
-        {
-            InQuotes = !InQuotes;
-            c = *p++;
-            continue;
-        }
-
-        // Copy character into argument:
-        Buffer.push_back(*p);
-
-        c = *p++;
-    } while (c != L'\0' && (InQuotes || (c != L' ' && c != L'\t')));
-
-    if (c == L'\0')
-    {
-        p--;
-    }
-    else
-    {
-        Buffer.resize(Buffer.size() - 1);
-    }
-
-    // Save te argument.
-    SplitArguments.push_back(Buffer);
-
-    InQuotes = false;
-
-    // Loop on each argument
-    for (;;)
-    {
-        if (*p)
-        {
-            while (*p == L' ' || *p == L'\t')
-                ++p;
-        }
-
-        // End of arguments
-        if (*p == L'\0')
-            break;
-
-        // Initialize the argument buffer.
-        Buffer.clear();
-
-        // Loop through scanning one argument:
-        for (;;)
-        {
-            copy_character = 1;
-
-            // Rules: 2N backslashes + " ==> N backslashes and begin/end quote
-            // 2N + 1 backslashes + " ==> N backslashes + literal " N
-            // backslashes ==> N backslashes
-            numslash = 0;
-
-            while (*p == L'\\')
-            {
-                // Count number of backslashes for use below
-                ++p;
-                ++numslash;
-            }
-
-            if (*p == L'"')
-            {
-                // if 2N backslashes before, start/end quote, otherwise copy
-                // literally:
-                if (numslash % 2 == 0)
-                {
-                    if (InQuotes && p[1] == L'"')
-                    {
-                        p++; // Double quote inside quoted string
-                    }
-                    else
-                    {
-                        // Skip first quote char and copy second:
-                        copy_character = 0; // Don't copy quote
-                        InQuotes = !InQuotes;
-                    }
-                }
-
-                numslash /= 2;
-            }
-
-            // Copy slashes:
-            while (numslash--)
-            {
-                Buffer.push_back(L'\\');
-            }
-
-            // If at end of arg, break loop:
-            if (*p == L'\0' || (!InQuotes && (*p == L' ' || *p == L'\t')))
-                break;
-
-            // Copy character into argument:
-            if (copy_character)
-            {
-                Buffer.push_back(*p);
-            }
-
-            ++p;
-        }
-
-        // Save te argument.
-        SplitArguments.push_back(Buffer);
-    }
-
-    return SplitArguments;
-}
-
-void SpiltCommandLineEx(
+void SplitCommandLineEx(
     std::wstring const& CommandLine,
     std::vector<std::wstring> const& OptionPrefixes,
     std::vector<std::wstring> const& OptionParameterSeparators,
@@ -151,7 +19,7 @@ void SpiltCommandLineEx(
     UnresolvedCommandLine.clear();
 
     size_t arg_size = 0;
-    for (auto& SplitArgument : ::SpiltCommandLine(CommandLine))
+    for (auto& SplitArgument : Mile::SplitCommandLineWideString(CommandLine))
     {
         // We need to process the application name at the beginning.
         if (ApplicationName.empty())

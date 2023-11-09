@@ -1104,7 +1104,7 @@ void PrerequisiteCheck()
     {
         winrt::hstring InstructionText;
         winrt::hstring ContentText;
-        
+
         if (ex.code() == HCS_E_ACCESS_DENIED)
         {
             InstructionText = Mile::WinRT::GetLocalizedString(
@@ -1175,7 +1175,7 @@ int WINAPI wWinMain(
     std::map<std::wstring, std::wstring> OptionsAndParameters;
     std::wstring UnresolvedCommandLine;
 
-    ::SpiltCommandLineEx(
+    ::SplitCommandLineEx(
         std::wstring(GetCommandLineW()),
         std::vector<std::wstring>{ L"-", L"/", L"--" },
         std::vector<std::wstring>{ L"=", L":" },
