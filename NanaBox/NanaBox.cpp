@@ -1137,40 +1137,8 @@ void PrerequisiteCheck()
         ::ExitProcess(ex.code());
     }
 
-    bool IsHyperVManagementServiceRunning = false;
-    {
-        SC_HANDLE ManagerHandle = ::OpenSCManagerW(
-            nullptr,
-            nullptr,
-            SC_MANAGER_CONNECT);
-        if (ManagerHandle)
-        {
-            SC_HANDLE ServiceHandle = ::OpenServiceW(
-                ManagerHandle,
-                L"vmms",
-                SERVICE_QUERY_STATUS);
-            if (ServiceHandle)
-            {
-                SERVICE_STATUS_PROCESS ServiceStatus = { 0 };
-                DWORD BytesNeeded = 0;
-                if (::QueryServiceStatusEx(
-                    ServiceHandle,
-                    SC_STATUS_PROCESS_INFO,
-                    reinterpret_cast<LPBYTE>(&ServiceStatus),
-                    sizeof(SERVICE_STATUS_PROCESS),
-                    &BytesNeeded))
-                {
-                    IsHyperVManagementServiceRunning =
-                        (SERVICE_RUNNING == ServiceStatus.dwCurrentState);
-                }
-
-                ::CloseServiceHandle(ServiceHandle);
-            }
-
-            ::CloseServiceHandle(ManagerHandle);
-        }
-    }
-    if (!IsHyperVManagementServiceRunning)
+    SERVICE_STATUS_PROCESS ServiceStatus = { 0 };
+    if (!::MileStartService(L"vmms", &ServiceStatus))
     {
         ::TaskDialog(
             nullptr,
