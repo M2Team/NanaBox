@@ -1171,6 +1171,13 @@ int WINAPI wWinMain(
     winrt::check_hresult(::SetCurrentProcessExplicitAppUserModelID(
         g_AppUserModelID.data()));
 
+    winrt::com_ptr<winrt::NanaBox::implementation::App> App =
+        winrt::make_self<winrt::NanaBox::implementation::App>();
+    auto ExitHandler = Mile::ScopeExitTaskHandler([&]()
+    {
+        App->Close();
+    });
+
     std::wstring ApplicationName;
     std::map<std::wstring, std::wstring> OptionsAndParameters;
     std::wstring UnresolvedCommandLine;
@@ -1357,9 +1364,6 @@ int WINAPI wWinMain(
     std::filesystem::current_path(
         g_ConfigurationFilePath.parent_path());
 
-    winrt::com_ptr<winrt::NanaBox::implementation::App> app =
-        winrt::make_self<winrt::NanaBox::implementation::App>();
-
     WTL::CMessageLoop MessageLoop;
 
     ATL::AtlAxWinInit();
@@ -1384,8 +1388,6 @@ int WINAPI wWinMain(
 
     g_Module.RemoveMessageLoop();
     g_Module.Term();
-
-    app->Close();
 
     return Result;
 }
