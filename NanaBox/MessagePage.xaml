@@ -28,14 +28,11 @@
         <ColumnDefinition Width="*" />
       </Grid.ColumnDefinitions>
       <Button
+        x:Uid="/MessagePage/ConfirmButton"
         HorizontalAlignment="Stretch"
         Click="ConfirmButtonClick"
-        TabIndex="1">
-        <StackPanel Orientation="Horizontal">
-          <SymbolIcon Margin="0,0,8,0" Symbol="Accept" />
-          <TextBlock x:Uid="/MessagePage/ConfirmButtonTextBlock" Text="[OK]" />
-        </StackPanel>
-      </Button>
+        Content="[Confirm]"
+        TabIndex="1" />
     </Grid>
   </Grid>
 </Page>

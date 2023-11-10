@@ -36,34 +36,25 @@
         <ColumnDefinition Width="*" />
       </Grid.ColumnDefinitions>
       <Button
+        x:Uid="/ExitConfirmationPage/SuspendButton"
         Grid.Column="0"
         HorizontalAlignment="Stretch"
-        Click="SuspendButtonClick">
-        <StackPanel Orientation="Horizontal">
-          <SymbolIcon Margin="0,0,8,0" Symbol="Save" />
-          <TextBlock x:Uid="/ExitConfirmationPage/SuspendButtonTextBlock" Text="[Suspend]" />
-        </StackPanel>
-      </Button>
+        Click="SuspendButtonClick"
+        Content="[Suspend]" />
       <Button
+        x:Uid="/ExitConfirmationPage/PowerOffButton"
         Grid.Column="2"
         HorizontalAlignment="Stretch"
-        Click="PowerOffButtonClick">
-        <StackPanel Orientation="Horizontal">
-          <SymbolIcon Margin="0,0,8,0" Symbol="Stop" />
-          <TextBlock x:Uid="/ExitConfirmationPage/PowerOffButtonTextBlock" Text="[Power Off]" />
-        </StackPanel>
-      </Button>
+        Click="PowerOffButtonClick"
+        Content="[Power Off]" />
       <Button
         x:Name="CancelButton"
+        x:Uid="/ExitConfirmationPage/CancelButton"
         Grid.Column="4"
         HorizontalAlignment="Stretch"
         Click="CancelButtonClick"
-        TabIndex="1">
-        <StackPanel Orientation="Horizontal">
-          <SymbolIcon Margin="0,0,8,0" Symbol="Cancel" />
-          <TextBlock x:Uid="/ExitConfirmationPage/CancelButtonTextBlock" Text="[Cancel]" />
-        </StackPanel>
-      </Button>
+        Content="[Cancel]"
+        TabIndex="1" />
     </Grid>
   </Grid>
 </Page>

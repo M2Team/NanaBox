@@ -117,7 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CancelButtonTextBlock.Text" xml:space="preserve">
+  <data name="CancelButton.Content" xml:space="preserve">
     <value>Cancel</value>
     <comment>Cancel</comment>
   </data>
@@ -129,11 +129,11 @@
     <value>The virtual machine is still powered on</value>
     <comment>The virtual machine is still powered on</comment>
   </data>
-  <data name="PowerOffButtonTextBlock.Text" xml:space="preserve">
+  <data name="PowerOffButton.Content" xml:space="preserve">
     <value>Power Off</value>
     <comment>Power Off</comment>
   </data>
-  <data name="SuspendButtonTextBlock.Text" xml:space="preserve">
+  <data name="SuspendButton.Content" xml:space="preserve">
     <value>Suspend</value>
     <comment>Suspend</comment>
   </data>

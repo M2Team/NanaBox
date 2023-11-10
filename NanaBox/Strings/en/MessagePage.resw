@@ -117,8 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ConfirmButtonTextBlock.Text" xml:space="preserve">
-    <value>OK</value>
-    <comment>OK</comment>
+  <data name="ConfirmButton.Content" xml:space="preserve">
+    <value>Confirm</value>
+    <comment>Confirm</comment>
   </data>
 </root>
