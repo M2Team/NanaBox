@@ -38,6 +38,7 @@
 #include "App.h"
 #include "MainWindowControl.h"
 #include "ExitConfirmationPage.h"
+#include "MessagePage.h"
 
 #include <windows.ui.xaml.hosting.desktopwindowxamlsource.h>
 
@@ -160,6 +161,37 @@ namespace
         ::SetActiveWindow(ParentWindowHandle);
 
         return static_cast<int>(Message.wParam);
+    }
+
+    void ShowMessageDialog(
+        _In_ HWND ParentWindowHandle,
+        _In_ winrt::hstring const& InstructionText,
+        _In_ winrt::hstring const& ContentText)
+    {
+        std::thread([=]()
+        {
+            winrt::check_hresult(::MileXamlThreadInitialize());
+
+            HWND WindowHandle = ::CreateXamlDialog(ParentWindowHandle);
+            if (!WindowHandle)
+            {
+                return;
+            }
+
+            winrt::NanaBox::MessagePage Window =
+                winrt::make<winrt::NanaBox::implementation::MessagePage>(
+                    WindowHandle,
+                    InstructionText,
+                    ContentText);
+            ::ShowXamlDialog(
+                WindowHandle,
+                480,
+                320,
+                winrt::get_abi(Window),
+                ParentWindowHandle);
+
+            winrt::check_hresult(::MileXamlThreadUninitialize());
+        }).join();
     }
 }
 
@@ -324,18 +356,10 @@ int NanaBox::MainWindow::OnCreate(
     catch (...)
     {
         winrt::hresult_error Exception = Mile::WinRT::ToHResultError();
-        std::thread([Exception]()
-        {
-            ::TaskDialog(
-                nullptr,
-                nullptr,
-                g_WindowTitle.data(),
-                Exception.message().c_str(),
-                nullptr,
-                TDCBF_OK_BUTTON,
-                TD_ERROR_ICON,
-                nullptr);
-        }).join();
+        ::ShowMessageDialog(
+            ::GetDesktopWindow(),
+            Exception.message(),
+            winrt::hstring());
         return -1;
     }
 
@@ -889,18 +913,10 @@ void NanaBox::MainWindow::OnClose()
 
             this->m_Configuration.SaveStateFile.clear();
 
-            std::thread([ex]()
-            {
-                ::TaskDialog(
-                    nullptr,
-                    nullptr,
-                    g_WindowTitle.data(),
-                    ex.message().c_str(),
-                    nullptr,
-                    TDCBF_OK_BUTTON,
-                    TD_ERROR_ICON,
-                    nullptr);
-            }).join();
+            ::ShowMessageDialog(
+                ::GetDesktopWindow(),
+                ex.message(),
+                winrt::hstring());
         }
 
         if (this->m_Configuration.SaveStateFile.empty())
@@ -1148,15 +1164,10 @@ void PrerequisiteCheck()
             InstructionText = ex.message();
         }
 
-        ::TaskDialog(
-            nullptr,
-            nullptr,
-            g_WindowTitle.data(),
-            InstructionText.c_str(),
-            ContentText.c_str(),
-            TDCBF_OK_BUTTON,
-            TD_ERROR_ICON,
-            nullptr);
+        ::ShowMessageDialog(
+            ::GetDesktopWindow(),
+            InstructionText,
+            ContentText);
 
         ::ExitProcess(ex.code());
     }
@@ -1164,17 +1175,12 @@ void PrerequisiteCheck()
     SERVICE_STATUS_PROCESS ServiceStatus = { 0 };
     if (!::MileStartService(L"vmms", &ServiceStatus))
     {
-        ::TaskDialog(
-            nullptr,
-            nullptr,
-            g_WindowTitle.data(),
+        ::ShowMessageDialog(
+            ::GetDesktopWindow(),
             Mile::WinRT::GetLocalizedString(
-                L"Messages/VMMSNotAvailableInstructionText").c_str(),
+                L"Messages/VMMSNotAvailableInstructionText"),
             Mile::WinRT::GetLocalizedString(
-                L"Messages/VMMSNotAvailableContentText").c_str(),
-            TDCBF_OK_BUTTON,
-            TD_ERROR_ICON,
-            nullptr);
+                L"Messages/VMMSNotAvailableContentText"));
         ::ExitProcess(winrt::hresult_no_interface().code());
     }
 
@@ -1257,15 +1263,10 @@ int WINAPI wWinMain(
         catch (...)
         {
             winrt::hresult_error Exception = Mile::WinRT::ToHResultError();
-            ::TaskDialog(
-                nullptr,
-                nullptr,
-                g_WindowTitle.data(),
-                Exception.message().c_str(),
-                nullptr,
-                TDCBF_OK_BUTTON,
-                TD_ERROR_ICON,
-                nullptr);
+            ::ShowMessageDialog(
+                ::GetDesktopWindow(),
+                Exception.message(),
+                winrt::hstring());
             ::ExitProcess(Exception.code());
         }
     }
@@ -1304,15 +1305,10 @@ int WINAPI wWinMain(
             winrt::hresult_error Exception = Mile::WinRT::ToHResultError();
             if (Exception.code() != ::HRESULT_FROM_WIN32(ERROR_CANCELLED))
             {
-                ::TaskDialog(
-                    nullptr,
-                    nullptr,
-                    g_WindowTitle.data(),
-                    Exception.message().c_str(),
-                    nullptr,
-                    TDCBF_OK_BUTTON,
-                    TD_ERROR_ICON,
-                    nullptr);
+                ::ShowMessageDialog(
+                    ::GetDesktopWindow(),
+                    Exception.message(),
+                    winrt::hstring());
             }
             ::ExitProcess(Exception.code());
         }
@@ -1370,15 +1366,10 @@ int WINAPI wWinMain(
         {
             if (ex.code() != ::HRESULT_FROM_WIN32(ERROR_CANCELLED))
             {
-                ::TaskDialog(
-                    nullptr,
-                    nullptr,
-                    g_WindowTitle.data(),
-                    ex.message().c_str(),
-                    nullptr,
-                    TDCBF_OK_BUTTON,
-                    TD_ERROR_ICON,
-                    nullptr);
+                ::ShowMessageDialog(
+                    ::GetDesktopWindow(),
+                    ex.message(),
+                    winrt::hstring());
             }
 
             ::ExitProcess(ex.code());

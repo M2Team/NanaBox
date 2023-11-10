@@ -78,6 +78,7 @@
   <ItemGroup>
     <Page Include="MainWindowControl.xaml" />
     <Page Include="ExitConfirmationPage.xaml" />
+    <Page Include="MessagePage.xaml" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="NanaBoxResources.rc" />
@@ -99,6 +100,12 @@
       <Filter>Strings\en</Filter>
     </PRIResource>
     <PRIResource Include="Strings\zh-Hans\ExitConfirmationPage.resw">
+      <Filter>Strings\zh-Hans</Filter>
+    </PRIResource>
+    <PRIResource Include="Strings\en\MessagePage.resw">
+      <Filter>Strings\en</Filter>
+    </PRIResource>
+    <PRIResource Include="Strings\zh-Hans\MessagePage.resw">
       <Filter>Strings\zh-Hans</Filter>
     </PRIResource>
   </ItemGroup>

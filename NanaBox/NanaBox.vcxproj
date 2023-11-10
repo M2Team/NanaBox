@@ -42,6 +42,10 @@
       <DependentUpon>MainWindowControl.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
+    <ClCompile Include="MessagePage.cpp">
+      <DependentUpon>MessagePage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
     <ClCompile Include="NanaBox.cpp" />
     <ClCompile Include="RdpClient.cpp" />
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
@@ -75,6 +79,10 @@
       <DependentUpon>ExitConfirmationPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
+    <Midl Include="MessagePage.idl">
+      <DependentUpon>MessagePage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Midl>
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
@@ -89,6 +97,10 @@
     <ClInclude Include="HostCompute.h" />
     <ClInclude Include="MainWindowControl.h">
       <DependentUpon>MainWindowControl.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
+    <ClInclude Include="MessagePage.h">
+      <DependentUpon>MessagePage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="MsTscAx.h" />
@@ -112,6 +124,9 @@
     <Page Include="ExitConfirmationPage.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="MessagePage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="NanaBoxResources.rc" />
@@ -127,9 +142,11 @@
   <ItemGroup>
     <PRIResource Include="Strings\en\MainWindow.resw" />
     <PRIResource Include="Strings\en\ExitConfirmationPage.resw" />
+    <PRIResource Include="Strings\en\MessagePage.resw" />
     <PRIResource Include="Strings\en\Messages.resw" />
     <PRIResource Include="Strings\zh-Hans\MainWindow.resw" />
     <PRIResource Include="Strings\zh-Hans\ExitConfirmationPage.resw" />
+    <PRIResource Include="Strings\zh-Hans\MessagePage.resw" />
     <PRIResource Include="Strings\zh-Hans\Messages.resw" />
   </ItemGroup>
   <Import Project="..\Mile.Project.Windows\Mile.Project.Cpp.targets" />
