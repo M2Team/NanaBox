@@ -117,25 +117,41 @@ namespace
         int ScaledWidth = ::MulDiv(Width, DpiValue, USER_DEFAULT_SCREEN_DPI);
         int ScaledHeight = ::MulDiv(Height, DpiValue, USER_DEFAULT_SCREEN_DPI);
 
-        RECT ParentWindowRect;
-        ::GetWindowRect(ParentWindowHandle, &ParentWindowRect);
+        RECT ParentRect = { 0 };
+        if (ParentWindowHandle)
+        {
+            ::GetWindowRect(ParentWindowHandle, &ParentRect);
+        }
+        else
+        {
+            HMONITOR MonitorHandle = ::MonitorFromWindow(
+                WindowHandle,
+                MONITOR_DEFAULTTONEAREST);
+            if (MonitorHandle)
+            {
+                MONITORINFO MonitorInfo;
+                MonitorInfo.cbSize = sizeof(MONITORINFO);
+                if (::GetMonitorInfoW(MonitorHandle, &MonitorInfo))
+                {
+                    ParentRect = MonitorInfo.rcWork;
+                }
+            }
+        }
 
-        int ParentWidth = ParentWindowRect.right - ParentWindowRect.left;
-        int ParentHeight = ParentWindowRect.bottom - ParentWindowRect.top;
+        int ParentWidth = ParentRect.right - ParentRect.left;
+        int ParentHeight = ParentRect.bottom - ParentRect.top;
 
         ::SetWindowPos(
             WindowHandle,
             nullptr,
-            ParentWindowRect.left + ((ParentWidth - ScaledWidth) / 2),
-            ParentWindowRect.top + ((ParentHeight - ScaledHeight) / 2),
+            ParentRect.left + ((ParentWidth - ScaledWidth) / 2),
+            ParentRect.top + ((ParentHeight - ScaledHeight) / 2),
             ScaledWidth,
             ScaledHeight,
             SWP_NOZORDER | SWP_NOACTIVATE);
 
         ::ShowWindow(WindowHandle, SW_SHOW);
         ::UpdateWindow(WindowHandle);
-
-        ::EnableWindow(ParentWindowHandle, FALSE);
 
         MSG Message;
         while (::GetMessageW(&Message, nullptr, 0, 0))
@@ -157,9 +173,6 @@ namespace
             ::DispatchMessageW(&Message);
         }
 
-        ::EnableWindow(ParentWindowHandle, TRUE);
-        ::SetActiveWindow(ParentWindowHandle);
-
         return static_cast<int>(Message.wParam);
     }
 
@@ -168,7 +181,7 @@ namespace
         _In_ winrt::hstring const& InstructionText,
         _In_ winrt::hstring const& ContentText)
     {
-        std::thread([=]()
+        std::thread([&]()
         {
             winrt::check_hresult(::MileXamlThreadInitialize());
 
@@ -357,7 +370,7 @@ int NanaBox::MainWindow::OnCreate(
     {
         winrt::hresult_error Exception = Mile::WinRT::ToHResultError();
         ::ShowMessageDialog(
-            ::GetDesktopWindow(),
+            nullptr,
             Exception.message(),
             winrt::hstring());
         return -1;
@@ -914,7 +927,7 @@ void NanaBox::MainWindow::OnClose()
             this->m_Configuration.SaveStateFile.clear();
 
             ::ShowMessageDialog(
-                ::GetDesktopWindow(),
+                nullptr,
                 ex.message(),
                 winrt::hstring());
         }
@@ -1126,12 +1139,19 @@ int NanaBox::MainWindow::ShowXamlDialog(
     _In_ int Height,
     _In_ LPVOID Content)
 {
-    return ::ShowXamlDialog(
+    ::EnableWindow(this->m_hWnd, FALSE);
+
+    int Result = ::ShowXamlDialog(
         WindowHandle,
         Width,
         Height,
         Content,
         this->m_hWnd);
+
+    ::EnableWindow(this->m_hWnd, TRUE);
+    ::SetActiveWindow(this->m_hWnd);
+
+    return Result;
 }
 
 void PrerequisiteCheck()
@@ -1165,7 +1185,7 @@ void PrerequisiteCheck()
         }
 
         ::ShowMessageDialog(
-            ::GetDesktopWindow(),
+            nullptr,
             InstructionText,
             ContentText);
 
@@ -1176,7 +1196,7 @@ void PrerequisiteCheck()
     if (!::MileStartService(L"vmms", &ServiceStatus))
     {
         ::ShowMessageDialog(
-            ::GetDesktopWindow(),
+            nullptr,
             Mile::WinRT::GetLocalizedString(
                 L"Messages/VMMSNotAvailableInstructionText"),
             Mile::WinRT::GetLocalizedString(
@@ -1264,7 +1284,7 @@ int WINAPI wWinMain(
         {
             winrt::hresult_error Exception = Mile::WinRT::ToHResultError();
             ::ShowMessageDialog(
-                ::GetDesktopWindow(),
+                nullptr,
                 Exception.message(),
                 winrt::hstring());
             ::ExitProcess(Exception.code());
@@ -1306,7 +1326,7 @@ int WINAPI wWinMain(
             if (Exception.code() != ::HRESULT_FROM_WIN32(ERROR_CANCELLED))
             {
                 ::ShowMessageDialog(
-                    ::GetDesktopWindow(),
+                    nullptr,
                     Exception.message(),
                     winrt::hstring());
             }
@@ -1367,7 +1387,7 @@ int WINAPI wWinMain(
             if (ex.code() != ::HRESULT_FROM_WIN32(ERROR_CANCELLED))
             {
                 ::ShowMessageDialog(
-                    ::GetDesktopWindow(),
+                    nullptr,
                     ex.message(),
                     winrt::hstring());
             }
