@@ -125,6 +125,10 @@
     <value>You do not have permission to run NanaBox.</value>
     <comment>You do not have permission to run NanaBox.</comment>
   </data>
+  <data name="ErrorInstructionText" xml:space="preserve">
+    <value>Error</value>
+    <comment>Error</comment>
+  </data>
   <data name="HyperVNotAvailableContentText" xml:space="preserve">
     <value>NanaBox requires the Hyper-V and Virtual Machine Platform features of Windows. Enable these features and then try running NanaBox again.</value>
     <comment>NanaBox requires the Hyper-V and Virtual Machine Platform features of Windows. Enable these features and then try running NanaBox again.</comment>

@@ -206,6 +206,19 @@ namespace
             winrt::check_hresult(::MileXamlThreadUninitialize());
         }).join();
     }
+
+    void ShowErrorMessageDialog(
+        _In_ winrt::hresult_error const& Exception)
+    {
+        ::ShowMessageDialog(
+            nullptr,
+            Mile::WinRT::GetLocalizedString(
+                L"Messages/ErrorInstructionText"),
+            winrt::hstring(Mile::FormatWideString(
+                L"[0x%08lX] - %s",
+                static_cast<HRESULT>(Exception.code()),
+                Exception.message().c_str())));
+    }
 }
 
 namespace winrt
@@ -368,11 +381,7 @@ int NanaBox::MainWindow::OnCreate(
     }
     catch (...)
     {
-        winrt::hresult_error Exception = Mile::WinRT::ToHResultError();
-        ::ShowMessageDialog(
-            nullptr,
-            Exception.message(),
-            winrt::hstring());
+        ::ShowErrorMessageDialog(Mile::WinRT::ToHResultError());
         return -1;
     }
 
@@ -926,10 +935,7 @@ void NanaBox::MainWindow::OnClose()
 
             this->m_Configuration.SaveStateFile.clear();
 
-            ::ShowMessageDialog(
-                nullptr,
-                ex.message(),
-                winrt::hstring());
+            ::ShowErrorMessageDialog(ex);
         }
 
         if (this->m_Configuration.SaveStateFile.empty())
@@ -1283,10 +1289,7 @@ int WINAPI wWinMain(
         catch (...)
         {
             winrt::hresult_error Exception = Mile::WinRT::ToHResultError();
-            ::ShowMessageDialog(
-                nullptr,
-                Exception.message(),
-                winrt::hstring());
+            ::ShowErrorMessageDialog(Exception);
             ::ExitProcess(Exception.code());
         }
     }
@@ -1325,10 +1328,7 @@ int WINAPI wWinMain(
             winrt::hresult_error Exception = Mile::WinRT::ToHResultError();
             if (Exception.code() != ::HRESULT_FROM_WIN32(ERROR_CANCELLED))
             {
-                ::ShowMessageDialog(
-                    nullptr,
-                    Exception.message(),
-                    winrt::hstring());
+                ::ShowErrorMessageDialog(Exception);
             }
             ::ExitProcess(Exception.code());
         }
@@ -1386,10 +1386,7 @@ int WINAPI wWinMain(
         {
             if (ex.code() != ::HRESULT_FROM_WIN32(ERROR_CANCELLED))
             {
-                ::ShowMessageDialog(
-                    nullptr,
-                    ex.message(),
-                    winrt::hstring());
+                ::ShowErrorMessageDialog(ex);
             }
 
             ::ExitProcess(ex.code());
