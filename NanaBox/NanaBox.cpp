@@ -181,7 +181,7 @@ namespace
         _In_ winrt::hstring const& InstructionText,
         _In_ winrt::hstring const& ContentText)
     {
-        std::thread([&]()
+        winrt::handle Thread = winrt::handle(Mile::CreateThread([&]()
         {
             winrt::check_hresult(::MileXamlThreadInitialize());
 
@@ -204,7 +204,8 @@ namespace
                 ParentWindowHandle);
 
             winrt::check_hresult(::MileXamlThreadUninitialize());
-        }).join();
+        }));
+        ::WaitForSingleObject(Thread.get(), INFINITE);
     }
 
     void ShowErrorMessageDialog(
