@@ -129,26 +129,12 @@ winrt::hstring FromGuid(
         Value.Data4[7]));
 }
 
-std::size_t GetTextFileSize(
-    winrt::file_handle const& FileHandle)
-{
-    FILE_STANDARD_INFO StandardInfo;
-
-    winrt::check_bool(::GetFileInformationByHandleEx(
-        FileHandle.get(),
-        FILE_INFO_BY_HANDLE_CLASS::FileStandardInfo,
-        &StandardInfo,
-        sizeof(FILE_STANDARD_INFO)));
-
-    return static_cast<std::size_t>(StandardInfo.EndOfFile.QuadPart);
-}
-
 std::string ReadAllTextFromUtf8TextFile(
     std::wstring const& Path)
 {
     winrt::file_handle FileHandle;
 
-    FileHandle.attach(::CreateFileW(
+    FileHandle.attach(::MileCreateFile(
         Path.c_str(),
         GENERIC_READ,
         FILE_SHARE_READ,
@@ -161,18 +147,20 @@ std::string ReadAllTextFromUtf8TextFile(
         winrt::throw_last_error();
     }
 
-    std::size_t FileSize = ::GetTextFileSize(FileHandle);
+    std::size_t FileSize = 0;
+    winrt::check_bool(::MileGetFileSizeByHandle(
+        FileHandle.get(),
+        &FileSize));
 
     std::string Content(FileSize, '\0');
 
     DWORD NumberOfBytesRead = 0;
 
-    winrt::check_bool(::ReadFile(
+    winrt::check_bool(::MileReadFile(
         FileHandle.get(),
         const_cast<char*>(Content.c_str()),
         static_cast<DWORD>(FileSize),
-        &NumberOfBytesRead,
-        nullptr));
+        &NumberOfBytesRead));
 
     if (!(FileSize > 3 &&
         Content[0] == '\xEF' &&
@@ -192,7 +180,7 @@ void WriteAllTextToUtf8TextFile(
 {
     winrt::file_handle FileHandle;
 
-    FileHandle.attach(::CreateFileW(
+    FileHandle.attach(::MileCreateFile(
         Path.c_str(),
         GENERIC_WRITE,
         FILE_SHARE_WRITE,
@@ -209,17 +197,15 @@ void WriteAllTextToUtf8TextFile(
 
     const std::string BOM = "\xEF\xBB\xBF";
 
-    winrt::check_bool(::WriteFile(
+    winrt::check_bool(::MileWriteFile(
         FileHandle.get(),
         BOM.c_str(),
         static_cast<DWORD>(BOM.size()),
-        &NumberOfBytesWritten,
-        nullptr));
+        &NumberOfBytesWritten));
 
-    winrt::check_bool(::WriteFile(
+    winrt::check_bool(::MileWriteFile(
         FileHandle.get(),
         Content.c_str(),
         static_cast<DWORD>(Content.size()),
-        &NumberOfBytesWritten,
-        nullptr));
+        &NumberOfBytesWritten));
 }
