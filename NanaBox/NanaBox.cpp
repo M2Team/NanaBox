@@ -890,20 +890,8 @@ void NanaBox::MainWindow::OnClose()
 
         std::filesystem::path SaveStateFile = std::filesystem::absolute(
             winrt::to_hstring(this->m_Configuration.SaveStateFile).c_str());
-        if (std::filesystem::exists(SaveStateFile))
-        {
-            std::filesystem::perms perms = std::filesystem::perms::none;
-            perms |= std::filesystem::perms::owner_write;
-            perms |= std::filesystem::perms::group_write;
-            perms |= std::filesystem::perms::others_write;
 
-            std::filesystem::permissions(
-                SaveStateFile,
-                perms,
-                std::filesystem::perm_options::remove);
-
-            std::filesystem::remove(SaveStateFile);
-        }
+        ::MileDeleteFileIgnoreReadonlyAttribute(SaveStateFile.c_str());
 
         nlohmann::json Options;
         Options["SaveType"] = "ToFile";
@@ -915,24 +903,7 @@ void NanaBox::MainWindow::OnClose()
         }
         catch (winrt::hresult_error const& ex)
         {
-            try
-            {
-                std::filesystem::perms perms = std::filesystem::perms::none;
-                perms |= std::filesystem::perms::owner_write;
-                perms |= std::filesystem::perms::group_write;
-                perms |= std::filesystem::perms::others_write;
-
-                std::filesystem::permissions(
-                    SaveStateFile,
-                    perms,
-                    std::filesystem::perm_options::remove);
-
-                std::filesystem::remove(SaveStateFile);
-            }
-            catch (...)
-            {
-
-            }
+            ::MileDeleteFileIgnoreReadonlyAttribute(SaveStateFile.c_str());
 
             this->m_Configuration.SaveStateFile.clear();
 
@@ -1099,20 +1070,8 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
     {
         std::filesystem::path SaveStateFile = std::filesystem::absolute(
             winrt::to_hstring(this->m_Configuration.SaveStateFile).c_str());
-        if (std::filesystem::exists(SaveStateFile))
-        {
-            std::filesystem::perms perms = std::filesystem::perms::none;
-            perms |= std::filesystem::perms::owner_write;
-            perms |= std::filesystem::perms::group_write;
-            perms |= std::filesystem::perms::others_write;
 
-            std::filesystem::permissions(
-                SaveStateFile,
-                perms,
-                std::filesystem::perm_options::remove);
-
-            std::filesystem::remove(SaveStateFile);
-        }
+        ::MileDeleteFileIgnoreReadonlyAttribute(SaveStateFile.c_str());
 
         this->m_Configuration.SaveStateFile.clear();
     }
