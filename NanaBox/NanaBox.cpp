@@ -1281,23 +1281,27 @@ int WINAPI wWinMain(
                 TempBinaryPath /= ::FromGuid(TempFolderGuid).c_str();
             }
 
-            if (std::filesystem::create_directory(TempBinaryPath))
-            {
-                std::filesystem::copy_file(
-                    AppBinaryPath / L"NanaBox.exe",
-                    TempBinaryPath / L"NanaBox.exe");
+            winrt::check_bool(::CreateDirectoryW(
+                TempBinaryPath.c_str(),
+                nullptr));
 
-                std::filesystem::copy_file(
-                    AppBinaryPath / L"resources.pri",
-                    TempBinaryPath / L"resources.pri");
+            winrt::check_bool(::CopyFileW(
+                (AppBinaryPath / L"NanaBox.exe").c_str(),
+                (TempBinaryPath / L"NanaBox.exe").c_str(),
+                FALSE));
 
-                std::filesystem::copy_file(
-                    AppBinaryPath / L"Mile.Xaml.Styles.SunValley.xbf",
-                    TempBinaryPath / L"Mile.Xaml.Styles.SunValley.xbf");
+            winrt::check_bool(::CopyFileW(
+                (AppBinaryPath / L"resources.pri").c_str(),
+                (TempBinaryPath / L"resources.pri").c_str(),
+                FALSE));
+
+            winrt::check_bool(::CopyFileW(
+                (AppBinaryPath / L"Mile.Xaml.Styles.SunValley.xbf").c_str(),
+                (TempBinaryPath / L"Mile.Xaml.Styles.SunValley.xbf").c_str(),
+                FALSE));
 
                 TargetBinaryPath = TempBinaryPath;
             }
-        }
         catch (...)
         {
             winrt::hresult_error Exception = Mile::WinRT::ToHResultError();
@@ -1332,16 +1336,23 @@ int WINAPI wWinMain(
 
             if (PackagedMode && !TargetBinaryPath.empty())
             {
-                std::filesystem::remove_all(TargetBinaryPath);
+                ::SimpleRemoveDirectory(TargetBinaryPath.c_str());
             }
         }
         catch (...)
         {
             winrt::hresult_error Exception = Mile::WinRT::ToHResultError();
+
             if (Exception.code() != ::HRESULT_FROM_WIN32(ERROR_CANCELLED))
             {
                 ::ShowErrorMessageDialog(Exception);
             }
+
+            if (PackagedMode && !TargetBinaryPath.empty())
+            {
+                ::SimpleRemoveDirectory(TargetBinaryPath.c_str());
+            }
+
             ::ExitProcess(Exception.code());
         }
 
