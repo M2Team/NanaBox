@@ -1416,8 +1416,7 @@ int WINAPI wWinMain(
         }
     }
 
-    std::filesystem::current_path(
-        g_ConfigurationFilePath.parent_path());
+    ::SetCurrentDirectoryW(g_ConfigurationFilePath.parent_path().c_str());
 
     WTL::CMessageLoop MessageLoop;
 
