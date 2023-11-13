@@ -56,6 +56,9 @@
 #include <dwmapi.h>
 #pragma comment(lib, "dwmapi.lib")
 
+#include <shlwapi.h>
+#pragma comment(lib, "Shlwapi.lib")
+
 namespace
 {
     HWND CreateXamlDialog(
@@ -968,7 +971,7 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
 
         std::filesystem::path Path = std::filesystem::absolute(
             winrt::to_hstring(ScsiDevice.Path).c_str());
-        if (std::filesystem::exists(Path))
+        if (::PathFileExistsW(Path.c_str()))
         {
             winrt::check_hresult(::HcsGrantVmAccess(
                 winrt::to_hstring(this->m_Configuration.Name).c_str(),
@@ -984,7 +987,7 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
     {
         std::filesystem::path GuestStateFile = std::filesystem::absolute(
             winrt::to_hstring(this->m_Configuration.GuestStateFile).c_str());
-        if (!std::filesystem::exists(GuestStateFile))
+        if (!::PathFileExistsW(GuestStateFile.c_str()))
         {
             winrt::check_hresult(::HcsCreateEmptyGuestStateFile(
                 GuestStateFile.c_str()));
@@ -1003,7 +1006,7 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
     {
         std::filesystem::path RuntimeStateFile = std::filesystem::absolute(
             winrt::to_hstring(this->m_Configuration.RuntimeStateFile).c_str());
-        if (!std::filesystem::exists(RuntimeStateFile))
+        if (!::PathFileExistsW(RuntimeStateFile.c_str()))
         {
             winrt::check_hresult(::HcsCreateEmptyRuntimeStateFile(
                 RuntimeStateFile.c_str()));
@@ -1018,7 +1021,7 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
     {
         std::filesystem::path SaveStateFile = std::filesystem::absolute(
             winrt::to_hstring(this->m_Configuration.SaveStateFile).c_str());
-        if (std::filesystem::exists(SaveStateFile))
+        if (::PathFileExistsW(SaveStateFile.c_str()))
         {
             winrt::check_hresult(::HcsGrantVmAccess(
                 winrt::to_hstring(this->m_Configuration.Name).c_str(),
