@@ -223,6 +223,55 @@ namespace
                 static_cast<HRESULT>(Exception.code()),
                 Exception.message().c_str())));
     }
+
+    void SimpleRemoveDirectory(
+        _In_ LPCWSTR RootPath)
+    {
+        HANDLE RootHandle = ::MileCreateFile(
+            RootPath,
+            SYNCHRONIZE |
+            FILE_LIST_DIRECTORY |
+            DELETE |
+            FILE_READ_ATTRIBUTES |
+            FILE_WRITE_ATTRIBUTES,
+            FILE_SHARE_READ | FILE_SHARE_WRITE,
+            nullptr,
+            OPEN_EXISTING,
+            FILE_FLAG_BACKUP_SEMANTICS | FILE_FLAG_OPEN_REPARSE_POINT,
+            nullptr);
+        if (RootHandle != INVALID_HANDLE_VALUE)
+        {
+            Mile::EnumerateFileByHandle(
+                RootHandle,
+                [&](
+                    _In_ PMILE_FILE_ENUMERATE_INFORMATION Information) -> BOOL
+            {
+                if (::MileIsDotsName(Information->FileName))
+                {
+                    return TRUE;
+                }
+
+                std::wstring CurrentPath = Mile::FormatWideString(
+                    L"%s\\%s",
+                    RootPath,
+                    Information->FileName);
+
+                if (Information->FileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+                {
+                    ::SimpleRemoveDirectory(CurrentPath.c_str());
+                    return TRUE;
+}
+
+                ::MileDeleteFileIgnoreReadonlyAttribute(CurrentPath.c_str());
+
+                return TRUE;
+            });
+
+            ::MileDeleteFileIgnoreReadonlyAttributeByHandle(RootHandle);
+
+            ::CloseHandle(RootHandle);
+        }
+    }
 }
 
 namespace winrt
