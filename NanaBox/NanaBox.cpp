@@ -480,6 +480,18 @@ int NanaBox::MainWindow::OnCreate(
 
     }
 
+    try
+    {
+        VARIANT Value;
+        Value.vt = VT_BOOL;
+        Value.boolVal = VARIANT_TRUE;
+        this->m_RdpClient->Property(L"AllowAxToContainerEvents", Value);
+    }
+    catch (...)
+    {
+
+    }
+
     this->m_RdpClient->PerformanceFlags(
         TS_PERF_ENABLE_ENHANCED_GRAPHICS |
         TS_PERF_ENABLE_FONT_SMOOTHING |
@@ -630,8 +642,10 @@ int NanaBox::MainWindow::OnCreate(
             ENUM_CURRENT_SETTINGS,
             &dm));
 
-        winrt::check_bool(this->GetWindowRect(&this->m_RememberedMainWindowRect));
-        this->m_RememberedMainWindowStyle = this->GetWindowLongPtrW(GWL_STYLE);
+        winrt::check_bool(this->GetWindowRect(
+            &this->m_RememberedMainWindowRect));
+        this->m_RememberedMainWindowStyle =
+            this->GetWindowLongPtrW(GWL_STYLE);
 
         RECT FullScreenRect;
         FullScreenRect.left = 0;
@@ -639,13 +653,15 @@ int NanaBox::MainWindow::OnCreate(
         FullScreenRect.right = dm.dmPelsWidth;
         FullScreenRect.bottom = dm.dmPelsHeight;
 
-        // Resize RdpClientWindow and hidden XamlIslands by OnSize method automatically calculate.
+        // Resize RdpClientWindow and hidden XamlIslands by OnSize method
+        // automatically calculate.
         m_RecommendedMainWindowControlHeight = 0;
 
         this->SetWindowLongPtrW(
             GWL_STYLE,
             WS_VISIBLE | WS_POPUP);
-        // SetWindowPos will send WM_SIZE, RDP Zoom will be re-enabled in Basic Session Mode.
+        // SetWindowPos will send WM_SIZE, RDP Zoom will be re-enabled in Basic
+        // Session Mode.
         this->SetWindowPos(
             HWND_TOP,
             &FullScreenRect,
