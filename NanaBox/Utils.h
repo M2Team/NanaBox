@@ -24,6 +24,9 @@ void WriteAllTextToUtf8TextFile(
     std::wstring const& Path,
     std::string& Content);
 
+std::wstring GetAbsolutePath(
+    std::wstring const& FileName);
+
 #include <Mile.Helpers.CppBase.h>
 #include <Mile.Helpers.CppWinRT.h>
 

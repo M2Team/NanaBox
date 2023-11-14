@@ -209,3 +209,16 @@ void WriteAllTextToUtf8TextFile(
         static_cast<DWORD>(Content.size()),
         &NumberOfBytesWritten));
 }
+
+std::wstring GetAbsolutePath(
+    std::wstring const& FileName)
+{
+    // 32767 is the maximum path length without the terminating null character.
+    std::wstring Path(32767, L'\0');
+    Path.resize(::GetFullPathNameW(
+        FileName.c_str(),
+        static_cast<DWORD>(Path.size()),
+        &Path[0],
+        nullptr));
+    return Path;
+}
