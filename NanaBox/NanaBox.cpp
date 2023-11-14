@@ -22,8 +22,6 @@
 
 #include <cwchar>
 
-#include <filesystem>
-
 #define _ATL_NO_AUTOMATIC_NAMESPACE
 #include <atlbase.h>
 #include <atlhost.h>
@@ -260,7 +258,7 @@ namespace
                 {
                     ::SimpleRemoveDirectory(CurrentPath.c_str());
                     return TRUE;
-}
+                }
 
                 ::MileDeleteFileIgnoreReadonlyAttribute(CurrentPath.c_str());
 
@@ -291,7 +289,7 @@ namespace
         L" (" MILE_PROJECT_DOT_VERSION_STRING L")";
 
     WTL::CAppModule g_Module;
-    std::filesystem::path g_ConfigurationFilePath;
+    std::wstring g_ConfigurationFilePath;
 }
 
 namespace NanaBox
@@ -956,8 +954,8 @@ void NanaBox::MainWindow::OnClose()
                 this->m_Configuration.Name + ".SaveState.vmrs";
         }
 
-        std::filesystem::path SaveStateFile = std::filesystem::absolute(
-            winrt::to_hstring(this->m_Configuration.SaveStateFile).c_str());
+        std::wstring SaveStateFile = ::GetAbsolutePath(Mile::ToWideString(
+            CP_UTF8, this->m_Configuration.SaveStateFile));
 
         ::MileDeleteFileIgnoreReadonlyAttribute(SaveStateFile.c_str());
 
@@ -1034,8 +1032,8 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
             break;
         }
 
-        std::filesystem::path Path = std::filesystem::absolute(
-            winrt::to_hstring(ScsiDevice.Path).c_str());
+        std::wstring Path = ::GetAbsolutePath(Mile::ToWideString(
+            CP_UTF8, ScsiDevice.Path));
         if (::PathFileExistsW(Path.c_str()))
         {
             winrt::check_hresult(::HcsGrantVmAccess(
@@ -1050,8 +1048,8 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
             this->m_Configuration.Name + ".vmgs";
     }
     {
-        std::filesystem::path GuestStateFile = std::filesystem::absolute(
-            winrt::to_hstring(this->m_Configuration.GuestStateFile).c_str());
+        std::wstring GuestStateFile = ::GetAbsolutePath(Mile::ToWideString(
+            CP_UTF8, this->m_Configuration.GuestStateFile));
         if (!::PathFileExistsW(GuestStateFile.c_str()))
         {
             winrt::check_hresult(::HcsCreateEmptyGuestStateFile(
@@ -1069,8 +1067,8 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
             this->m_Configuration.Name + ".vmrs";
     }
     {
-        std::filesystem::path RuntimeStateFile = std::filesystem::absolute(
-            winrt::to_hstring(this->m_Configuration.RuntimeStateFile).c_str());
+        std::wstring RuntimeStateFile = ::GetAbsolutePath(Mile::ToWideString(
+            CP_UTF8, this->m_Configuration.RuntimeStateFile));
         if (!::PathFileExistsW(RuntimeStateFile.c_str()))
         {
             winrt::check_hresult(::HcsCreateEmptyRuntimeStateFile(
@@ -1084,8 +1082,8 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
 
     if (!this->m_Configuration.SaveStateFile.empty())
     {
-        std::filesystem::path SaveStateFile = std::filesystem::absolute(
-            winrt::to_hstring(this->m_Configuration.SaveStateFile).c_str());
+        std::wstring SaveStateFile = ::GetAbsolutePath(Mile::ToWideString(
+            CP_UTF8, this->m_Configuration.SaveStateFile));
         if (::PathFileExistsW(SaveStateFile.c_str()))
         {
             winrt::check_hresult(::HcsGrantVmAccess(
@@ -1136,8 +1134,8 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
 
     if (!this->m_Configuration.SaveStateFile.empty())
     {
-        std::filesystem::path SaveStateFile = std::filesystem::absolute(
-            winrt::to_hstring(this->m_Configuration.SaveStateFile).c_str());
+        std::wstring SaveStateFile = ::GetAbsolutePath(Mile::ToWideString(
+            CP_UTF8, this->m_Configuration.SaveStateFile));
 
         ::MileDeleteFileIgnoreReadonlyAttribute(SaveStateFile.c_str());
 
@@ -1275,26 +1273,28 @@ int WINAPI wWinMain(
         UnresolvedCommandLine);
 
     bool PackagedMode = Mile::WinRT::IsPackagedMode();
-    std::filesystem::path TargetBinaryPath;
+    std::wstring TargetBinaryPath;
 
     if (PackagedMode)
     {
         try
         {
-            std::filesystem::path AppBinaryPath;
+            std::wstring AppBinaryPath;
             {
                 std::wstring RawPath = ::GetCurrentProcessModulePath();
                 std::wcsrchr(&RawPath[0], L'\\')[0] = L'\0';
                 RawPath.resize(std::wcslen(RawPath.c_str()));
-                AppBinaryPath = std::filesystem::absolute(RawPath);
+                AppBinaryPath = RawPath;
             }
 
-            std::filesystem::path TempBinaryPath;
+            std::wstring TempBinaryPath;
             {
-                TempBinaryPath = ::GetLocalStateFolderPath();
+                std::wstring RawPath = ::GetLocalStateFolderPath();
                 GUID TempFolderGuid;
                 winrt::check_hresult(::CoCreateGuid(&TempFolderGuid));
-                TempBinaryPath /= ::FromGuid(TempFolderGuid).c_str();
+                RawPath.append(L"\\");
+                RawPath.append(::FromGuid(TempFolderGuid));
+                TempBinaryPath = RawPath;
             }
 
             winrt::check_bool(::CreateDirectoryW(
@@ -1302,22 +1302,22 @@ int WINAPI wWinMain(
                 nullptr));
 
             winrt::check_bool(::CopyFileW(
-                (AppBinaryPath / L"NanaBox.exe").c_str(),
-                (TempBinaryPath / L"NanaBox.exe").c_str(),
+                (AppBinaryPath + L"\\NanaBox.exe").c_str(),
+                (TempBinaryPath + L"\\NanaBox.exe").c_str(),
                 FALSE));
 
             winrt::check_bool(::CopyFileW(
-                (AppBinaryPath / L"resources.pri").c_str(),
-                (TempBinaryPath / L"resources.pri").c_str(),
+                (AppBinaryPath + L"\\resources.pri").c_str(),
+                (TempBinaryPath + L"\\resources.pri").c_str(),
                 FALSE));
 
             winrt::check_bool(::CopyFileW(
-                (AppBinaryPath / L"Mile.Xaml.Styles.SunValley.xbf").c_str(),
-                (TempBinaryPath / L"Mile.Xaml.Styles.SunValley.xbf").c_str(),
+                (AppBinaryPath + L"\\Mile.Xaml.Styles.SunValley.xbf").c_str(),
+                (TempBinaryPath + L"\\Mile.Xaml.Styles.SunValley.xbf").c_str(),
                 FALSE));
 
-                TargetBinaryPath = TempBinaryPath;
-            }
+            TargetBinaryPath = TempBinaryPath;
+        }
         catch (...)
         {
             winrt::hresult_error Exception = Mile::WinRT::ToHResultError();
@@ -1332,7 +1332,7 @@ int WINAPI wWinMain(
         {
             if (PackagedMode && !TargetBinaryPath.empty())
             {
-                ApplicationName = TargetBinaryPath / L"NanaBox.exe";
+                ApplicationName = TargetBinaryPath + L"\\NanaBox.exe";
             }
             else
             {
@@ -1379,8 +1379,7 @@ int WINAPI wWinMain(
 
     if (!UnresolvedCommandLine.empty())
     {
-        g_ConfigurationFilePath = std::filesystem::absolute(
-            UnresolvedCommandLine);
+        g_ConfigurationFilePath = ::GetAbsolutePath(UnresolvedCommandLine);
     }
     else
     {
@@ -1432,7 +1431,12 @@ int WINAPI wWinMain(
         }
     }
 
-    ::SetCurrentDirectoryW(g_ConfigurationFilePath.parent_path().c_str());
+    {
+        std::wstring CurrentPath = g_ConfigurationFilePath;
+        std::wcsrchr(&CurrentPath[0], L'\\')[0] = L'\0';
+        CurrentPath.resize(std::wcslen(CurrentPath.c_str()));
+        ::SetCurrentDirectoryW(CurrentPath.c_str());
+    } 
 
     WTL::CMessageLoop MessageLoop;
 

@@ -12,11 +12,11 @@
 
 #include <winrt/Windows.Foundation.h>
 
-#include <filesystem>
-
 #include <json.hpp>
 
 #include "ConfigurationManager.h"
+
+#include "Utils.h"
 
 namespace NanaBox
 {
@@ -644,8 +644,11 @@ std::string NanaBox::MakeHcsConfiguration(
                 default:
                     continue;
                 }
-                Current["Path"] = winrt::to_string(std::filesystem::absolute(
-                    winrt::to_hstring(ScsiDevice.Path).c_str()).c_str());
+                Current["Path"] = Mile::ToString(
+                    CP_UTF8,
+                    ::GetAbsolutePath(Mile::ToWideString(
+                        CP_UTF8,
+                        ScsiDevice.Path)));
                 ScsiDevices[std::to_string(Count++)] = Current;
             }
             nlohmann::json ScsiController;
@@ -700,22 +703,31 @@ std::string NanaBox::MakeHcsConfiguration(
     if (!Configuration.GuestStateFile.empty())
     {
         Result["VirtualMachine"]["GuestState"]["GuestStateFilePath"] =
-            winrt::to_string(std::filesystem::absolute(winrt::to_hstring(
-                Configuration.GuestStateFile).c_str()).c_str());
+            Mile::ToString(
+                CP_UTF8,
+                ::GetAbsolutePath(Mile::ToWideString(
+                    CP_UTF8,
+                    Configuration.GuestStateFile)));
     }
 
     if (!Configuration.RuntimeStateFile.empty())
     {
         Result["VirtualMachine"]["GuestState"]["RuntimeStateFilePath"] =
-            winrt::to_string(std::filesystem::absolute(winrt::to_hstring(
-                Configuration.RuntimeStateFile).c_str()).c_str());
+            Mile::ToString(
+                CP_UTF8,
+                ::GetAbsolutePath(Mile::ToWideString(
+                    CP_UTF8,
+                    Configuration.RuntimeStateFile)));
     }
 
     if (!Configuration.SaveStateFile.empty())
     {
         Result["VirtualMachine"]["RestoreState"]["SaveStateFilePath"] =
-            winrt::to_string(std::filesystem::absolute(winrt::to_hstring(
-                Configuration.SaveStateFile).c_str()).c_str());
+            Mile::ToString(
+                CP_UTF8,
+                ::GetAbsolutePath(Mile::ToWideString(
+                    CP_UTF8,
+                    Configuration.SaveStateFile)));
     }
 
     return Result.dump(2);

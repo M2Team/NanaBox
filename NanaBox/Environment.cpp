@@ -2,38 +2,39 @@
 
 #include <ShlObj.h>
 
+#include <Mile.Helpers.Base.h>
 #include <Mile.Helpers.CppWinRT.h>
 
-std::filesystem::path GetLocalStateFolderPath()
+std::wstring GetLocalStateFolderPath()
 {
-    static std::filesystem::path CachedResult = ([]() -> std::filesystem::path
+    static std::wstring CachedResult = ([]() -> std::wstring
+    {
+        std::wstring FolderPath;
         {
-            std::filesystem::path FolderPath;
+            LPWSTR RawFolderPath = nullptr;
+            // KF_FLAG_FORCE_APP_DATA_REDIRECTION, when engaged, causes
+            // SHGetKnownFolderPath to return the new AppModel paths
+            // (Packages/xxx/RoamingState, etc.) for standard path requests.
+            // Using this flag allows us to avoid
+            // Windows.Storage.ApplicationData completely.
+            winrt::check_hresult(::SHGetKnownFolderPath(
+                FOLDERID_LocalAppData,
+                KF_FLAG_FORCE_APP_DATA_REDIRECTION,
+                nullptr,
+                &RawFolderPath));
+            FolderPath = std::wstring(RawFolderPath);
+            if (!Mile::WinRT::IsPackagedMode())
             {
-                LPWSTR RawFolderPath = nullptr;
-                // KF_FLAG_FORCE_APP_DATA_REDIRECTION, when engaged, causes
-                // SHGetKnownFolderPath to return the new AppModel paths
-                // (Packages/xxx/RoamingState, etc.) for standard path requests.
-                // Using this flag allows us to avoid
-                // Windows.Storage.ApplicationData completely.
-                winrt::check_hresult(::SHGetKnownFolderPath(
-                    FOLDERID_LocalAppData,
-                    KF_FLAG_FORCE_APP_DATA_REDIRECTION,
-                    nullptr,
-                    &RawFolderPath));
-                FolderPath = std::filesystem::path(RawFolderPath);
-                if (!Mile::WinRT::IsPackagedMode())
-                {
-                    FolderPath /= L"M2-Team\\NanaBox";
-                }
-                ::CoTaskMemFree(RawFolderPath);
+                FolderPath += L"\\M2-Team\\NanaBox";
             }
+            ::CoTaskMemFree(RawFolderPath);
+        }
 
-            // Create the directory if it doesn't exist.
-            std::filesystem::create_directories(FolderPath);
+        // Create the directory if it doesn't exist.
+        ::MileCreateDirectory(FolderPath.c_str());
 
-            return FolderPath;
-        }());
+        return FolderPath;
+    }());
 
     return CachedResult;
 }
