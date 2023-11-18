@@ -18,7 +18,13 @@
         FontSize="24"
         FontWeight="SemiBold"
         TextWrapping="Wrap" />
-      <TextBlock x:Name="ContentTextBlock" TextWrapping="Wrap" />
+      <ScrollViewer
+        MinWidth="300"
+        MaxHeight="140"
+        Margin="-12,0"
+        Padding="12,0">
+        <TextBlock x:Name="ContentTextBlock" TextWrapping="Wrap" />
+      </ScrollViewer>
     </StackPanel>
     <Grid Grid.Row="1" Padding="24">
       <Grid.Background>
