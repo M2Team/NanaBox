@@ -7,6 +7,8 @@
 namespace winrt
 {
     using Windows::Foundation::IInspectable;
+    using Windows::UI::Xaml::Controls::TextBox;
+    using Windows::UI::Xaml::Controls::TextBoxBeforeTextChangingEventArgs;
     using Windows::UI::Xaml::RoutedEventArgs;
 }
 
@@ -19,6 +21,14 @@ namespace winrt::NanaBox::implementation
             _In_ HWND WindowHandle = nullptr);
 
         void InitializeComponent();
+
+        void NaturalNumberTextBoxBeforeTextChanging(
+            winrt::TextBox const& sender,
+            winrt::TextBoxBeforeTextChangingEventArgs const& args);
+
+        void FileNameBrowseButtonClickHandler(
+            winrt::IInspectable const& sender,
+            winrt::RoutedEventArgs const& e);
 
         void CreateButtonClick(
             winrt::IInspectable const& sender,

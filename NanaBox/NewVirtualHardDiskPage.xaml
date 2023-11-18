@@ -37,15 +37,17 @@
         <Button
           x:Name="FileNameBrowseButton"
           Grid.Column="1"
+          Click="FileNameBrowseButtonClickHandler"
           Content="..." />
-        <!--  Click="FileNameBrowseButtonClickHandler"  -->
       </Grid>
       <TextBlock
         x:Uid="/NewVirtualHardDiskPage/SizeTextBlock"
         Padding="0,2"
         Text="Size (in bytes, at least 3 MiB and must be a multiple of 512)" />
-      <TextBox x:Name="SizeTextBox" />
-      <!--  BeforeTextChanging="IntegerNumberTextBoxBeforeTextChanging"  -->
+      <TextBox
+        x:Name="SizeTextBox"
+        BeforeTextChanging="NaturalNumberTextBoxBeforeTextChanging"
+        Text="0" />
     </StackPanel>
     <Grid Grid.Row="1" Padding="24">
       <Grid.Background>
