@@ -5,6 +5,10 @@
 
 #include <ShlObj.h>
 
+#include <initguid.h>
+#include <virtdisk.h>
+#pragma comment(lib,"virtdisk.lib")
+
 #include "MessagePage.h"
 
 void SplitCommandLineEx(
@@ -375,16 +379,23 @@ void ShowMessageDialog(
 }
 
 void ShowErrorMessageDialog(
+    _In_ HWND ParentWindowHandle,
     _In_ winrt::hresult_error const& Exception)
 {
     ::ShowMessageDialog(
-        nullptr,
+        ParentWindowHandle,
         Mile::WinRT::GetLocalizedString(
             L"Messages/ErrorInstructionText"),
         winrt::hstring(Mile::FormatWideString(
             L"[0x%08lX] - %s",
             static_cast<HRESULT>(Exception.code()),
             Exception.message().c_str())));
+}
+
+void ShowErrorMessageDialog(
+    _In_ winrt::hresult_error const& Exception)
+{
+    ::ShowErrorMessageDialog(nullptr, Exception);
 }
 
 void SimpleRemoveDirectory(
@@ -477,4 +488,30 @@ std::wstring GetCurrentProcessModulePath()
     Path.resize(::GetModuleFileNameW(
         nullptr, &Path[0], static_cast<DWORD>(Path.size())));
     return Path;
+}
+
+DWORD SimpleCreateVirtualDisk(
+    _In_ PCWSTR Path,
+    _In_ UINT64 Size,
+    _Out_ PHANDLE Handle)
+{
+    VIRTUAL_STORAGE_TYPE StorageType;
+    StorageType.DeviceId = VIRTUAL_STORAGE_TYPE_DEVICE_UNKNOWN;
+    StorageType.VendorId = VIRTUAL_STORAGE_TYPE_VENDOR_UNKNOWN;
+
+    CREATE_VIRTUAL_DISK_PARAMETERS Parameters;
+    std::memset(&Parameters, 0, sizeof(CREATE_VIRTUAL_DISK_PARAMETERS));
+    Parameters.Version = CREATE_VIRTUAL_DISK_VERSION_2;
+    Parameters.Version2.MaximumSize = Size;
+
+    return ::CreateVirtualDisk(
+        &StorageType,
+        Path,
+        VIRTUAL_DISK_ACCESS_NONE,
+        nullptr,
+        CREATE_VIRTUAL_DISK_FLAG_NONE,
+        0,
+        &Parameters,
+        nullptr,
+        Handle);
 }

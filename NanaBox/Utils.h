@@ -43,6 +43,10 @@ void ShowMessageDialog(
     _In_ winrt::hstring const& ContentText);
 
 void ShowErrorMessageDialog(
+    _In_ HWND ParentWindowHandle,
+    _In_ winrt::hresult_error const& Exception);
+
+void ShowErrorMessageDialog(
     _In_ winrt::hresult_error const& Exception);
 
 void SimpleRemoveDirectory(
@@ -51,6 +55,11 @@ void SimpleRemoveDirectory(
 std::wstring GetLocalStateFolderPath();
 
 std::wstring GetCurrentProcessModulePath();
+
+DWORD SimpleCreateVirtualDisk(
+    _In_ PCWSTR Path,
+    _In_ UINT64 Size,
+    _Out_ PHANDLE Handle);
 
 #include <Mile.Helpers.CppBase.h>
 #include <Mile.Helpers.CppWinRT.h>
