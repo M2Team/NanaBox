@@ -14,6 +14,8 @@ namespace winrt::NanaBox::implementation
 {
     struct MessagePage : MessagePageT<MessagePage>
     {
+    public:
+
         MessagePage(
             _In_ HWND WindowHandle = nullptr,
             _In_ winrt::hstring const& InstructionText = winrt::hstring(),

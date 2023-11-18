@@ -17,6 +17,8 @@ namespace winrt::NanaBox::implementation
     struct NewVirtualHardDiskPage :
         NewVirtualHardDiskPageT<NewVirtualHardDiskPage>
     {
+    public:
+
         NewVirtualHardDiskPage(
             _In_ HWND WindowHandle = nullptr);
 
