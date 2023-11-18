@@ -47,6 +47,10 @@
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="NanaBox.cpp" />
+    <ClCompile Include="NewVirtualHardDiskPage.cpp">
+      <DependentUpon>NewVirtualHardDiskPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
     <ClCompile Include="RdpClient.cpp" />
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
     <ClCompile Include="pch.cpp">
@@ -83,6 +87,10 @@
       <DependentUpon>MessagePage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
+    <Midl Include="NewVirtualHardDiskPage.idl">
+      <DependentUpon>NewVirtualHardDiskPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Midl>
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
@@ -104,6 +112,10 @@
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="MsTscAx.h" />
+    <ClInclude Include="NewVirtualHardDiskPage.h">
+      <DependentUpon>NewVirtualHardDiskPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="pch.h" />
     <ClInclude Include="RdpClient.h" />
     <ClInclude Include="App.h">
@@ -127,6 +139,9 @@
     <Page Include="MessagePage.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="NewVirtualHardDiskPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="NanaBoxResources.rc" />
@@ -144,10 +159,12 @@
     <PRIResource Include="Strings\en\ExitConfirmationPage.resw" />
     <PRIResource Include="Strings\en\MessagePage.resw" />
     <PRIResource Include="Strings\en\Messages.resw" />
+    <PRIResource Include="Strings\en\NewVirtualHardDiskPage.resw" />
     <PRIResource Include="Strings\zh-Hans\MainWindow.resw" />
     <PRIResource Include="Strings\zh-Hans\ExitConfirmationPage.resw" />
     <PRIResource Include="Strings\zh-Hans\MessagePage.resw" />
     <PRIResource Include="Strings\zh-Hans\Messages.resw" />
+    <PRIResource Include="Strings\zh-Hans\NewVirtualHardDiskPage.resw" />
   </ItemGroup>
   <Import Project="..\Mile.Project.Windows\Mile.Project.Cpp.targets" />
 </Project>
