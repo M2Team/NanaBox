@@ -35,6 +35,10 @@
     <Import Project="PropertySheet.props" />
   </ImportGroup>
   <ItemGroup>
+    <ClCompile Include="AboutPage.cpp">
+      <DependentUpon>AboutPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
     <ClCompile Include="ConfigurationManager.cpp" />
     <ClCompile Include="HostCompute.cpp" />
     <ClCompile Include="MainWindowControl.cpp">
@@ -75,6 +79,10 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Midl Include="AboutPage.idl">
+      <DependentUpon>AboutPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Midl>
     <Midl Include="App.idl">
       <DependentUpon>App.xaml</DependentUpon>
     </Midl>
@@ -106,6 +114,10 @@
     <Manifest Include="NanaBox.manifest" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AboutPage.h">
+      <DependentUpon>AboutPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="ConfigurationManager.h" />
     <ClInclude Include="ConfigurationSpecification.h" />
     <ClInclude Include="HostCompute.h" />
@@ -140,6 +152,9 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="AboutPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="MainWindowControl.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -168,12 +183,14 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <PRIResource Include="Strings\en\AboutPage.resw" />
     <PRIResource Include="Strings\en\MainWindow.resw" />
     <PRIResource Include="Strings\en\ExitConfirmationPage.resw" />
     <PRIResource Include="Strings\en\MessagePage.resw" />
     <PRIResource Include="Strings\en\Messages.resw" />
     <PRIResource Include="Strings\en\NewVirtualHardDiskPage.resw" />
     <PRIResource Include="Strings\en\QuickStartPage.resw" />
+    <PRIResource Include="Strings\zh-Hans\AboutPage.resw" />
     <PRIResource Include="Strings\zh-Hans\MainWindow.resw" />
     <PRIResource Include="Strings\zh-Hans\ExitConfirmationPage.resw" />
     <PRIResource Include="Strings\zh-Hans\MessagePage.resw" />
