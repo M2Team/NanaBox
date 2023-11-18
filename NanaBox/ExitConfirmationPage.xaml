@@ -48,7 +48,6 @@
         Click="PowerOffButtonClick"
         Content="[Power Off]" />
       <Button
-        x:Name="CancelButton"
         x:Uid="/ExitConfirmationPage/CancelButton"
         Grid.Column="4"
         HorizontalAlignment="Stretch"
