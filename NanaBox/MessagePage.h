@@ -24,6 +24,7 @@ namespace winrt::NanaBox::implementation
         void ConfirmButtonClick(
             winrt::IInspectable const& sender,
             winrt::RoutedEventArgs const& e);
+
     private:
 
         HWND m_WindowHandle;
