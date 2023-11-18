@@ -23,7 +23,7 @@
         x:Uid="/NewVirtualHardDiskPage/ContentTextBlock"
         Text="[You can create a VHD (up to 2040 GiB) or VHDX (up to 64 TiB, but not supported before Windows 8) dynamically expanding virtual hard disk with this dialog.]"
         TextWrapping="Wrap" />
-      <Grid>
+      <Grid Padding="0,2,0,0">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="*" />
           <ColumnDefinition Width="auto" />
@@ -40,7 +40,10 @@
           Content="..." />
         <!--  Click="FileNameBrowseButtonClickHandler"  -->
       </Grid>
-      <TextBlock x:Uid="/NewVirtualHardDiskPage/SizeTextBlock" Text="Size (in bytes, at least 3 MiB and must be a multiple of 512)" />
+      <TextBlock
+        x:Uid="/NewVirtualHardDiskPage/SizeTextBlock"
+        Padding="0,2"
+        Text="Size (in bytes, at least 3 MiB and must be a multiple of 512)" />
       <TextBox x:Name="SizeTextBox" />
       <!--  BeforeTextChanging="IntegerNumberTextBoxBeforeTextChanging"  -->
     </StackPanel>
