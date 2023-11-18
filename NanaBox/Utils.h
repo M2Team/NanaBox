@@ -27,6 +27,28 @@ void WriteAllTextToUtf8TextFile(
 std::wstring GetAbsolutePath(
     std::wstring const& FileName);
 
+HWND CreateXamlDialog(
+    _In_ HWND ParentWindowHandle);
+
+int ShowXamlDialog(
+    _In_ HWND WindowHandle,
+    _In_ int Width,
+    _In_ int Height,
+    _In_ LPVOID Content,
+    _In_ HWND ParentWindowHandle);
+
+void ShowMessageDialog(
+    _In_ HWND ParentWindowHandle,
+    _In_ winrt::hstring const& InstructionText,
+    _In_ winrt::hstring const& ContentText);
+
+void ShowErrorMessageDialog(
+    _In_ winrt::hresult_error const& Exception);
+
+void SimpleRemoveDirectory(
+    _In_ LPCWSTR RootPath);
+
+
 #include <Mile.Helpers.CppBase.h>
 #include <Mile.Helpers.CppWinRT.h>
 
