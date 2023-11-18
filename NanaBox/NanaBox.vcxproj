@@ -50,6 +50,10 @@
       <DependentUpon>NewVirtualHardDiskPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
+    <ClCompile Include="QuickStartPage.cpp">
+      <DependentUpon>QuickStartPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
     <ClCompile Include="RdpClient.cpp" />
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
     <ClCompile Include="pch.cpp">
@@ -90,6 +94,10 @@
       <DependentUpon>NewVirtualHardDiskPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
+    <Midl Include="QuickStartPage.idl">
+      <DependentUpon>QuickStartPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Midl>
   </ItemGroup>
   <ItemGroup>
     <None Include="PropertySheet.props" />
@@ -115,6 +123,10 @@
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="pch.h" />
+    <ClInclude Include="QuickStartPage.h">
+      <DependentUpon>QuickStartPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="RdpClient.h" />
     <ClInclude Include="App.h">
       <DependentUpon>App.xaml</DependentUpon>
@@ -140,6 +152,9 @@
     <Page Include="NewVirtualHardDiskPage.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="QuickStartPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="NanaBoxResources.rc" />
@@ -158,11 +173,13 @@
     <PRIResource Include="Strings\en\MessagePage.resw" />
     <PRIResource Include="Strings\en\Messages.resw" />
     <PRIResource Include="Strings\en\NewVirtualHardDiskPage.resw" />
+    <PRIResource Include="Strings\en\QuickStartPage.resw" />
     <PRIResource Include="Strings\zh-Hans\MainWindow.resw" />
     <PRIResource Include="Strings\zh-Hans\ExitConfirmationPage.resw" />
     <PRIResource Include="Strings\zh-Hans\MessagePage.resw" />
     <PRIResource Include="Strings\zh-Hans\Messages.resw" />
     <PRIResource Include="Strings\zh-Hans\NewVirtualHardDiskPage.resw" />
+    <PRIResource Include="Strings\zh-Hans\QuickStartPage.resw" />
   </ItemGroup>
   <Import Project="..\Mile.Project.Windows\Mile.Project.Cpp.targets" />
 </Project>

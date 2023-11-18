@@ -78,6 +78,7 @@
     <Page Include="ExitConfirmationPage.xaml" />
     <Page Include="MessagePage.xaml" />
     <Page Include="NewVirtualHardDiskPage.xaml" />
+    <Page Include="QuickStartPage.xaml" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="NanaBoxResources.rc" />
@@ -111,6 +112,12 @@
       <Filter>Strings\en</Filter>
     </PRIResource>
     <PRIResource Include="Strings\zh-Hans\NewVirtualHardDiskPage.resw">
+      <Filter>Strings\zh-Hans</Filter>
+    </PRIResource>
+    <PRIResource Include="Strings\en\QuickStartPage.resw">
+      <Filter>Strings\en</Filter>
+    </PRIResource>
+    <PRIResource Include="Strings\zh-Hans\QuickStartPage.resw">
       <Filter>Strings\zh-Hans</Filter>
     </PRIResource>
   </ItemGroup>
