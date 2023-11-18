@@ -48,6 +48,9 @@ void ShowErrorMessageDialog(
 void SimpleRemoveDirectory(
     _In_ LPCWSTR RootPath);
 
+std::wstring GetLocalStateFolderPath();
+
+std::wstring GetCurrentProcessModulePath();
 
 #include <Mile.Helpers.CppBase.h>
 #include <Mile.Helpers.CppWinRT.h>

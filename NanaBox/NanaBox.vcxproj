@@ -36,7 +36,6 @@
   </ImportGroup>
   <ItemGroup>
     <ClCompile Include="ConfigurationManager.cpp" />
-    <ClCompile Include="Environment.cpp" />
     <ClCompile Include="HostCompute.cpp" />
     <ClCompile Include="MainWindowControl.cpp">
       <DependentUpon>MainWindowControl.xaml</DependentUpon>
@@ -101,7 +100,6 @@
   <ItemGroup>
     <ClInclude Include="ConfigurationManager.h" />
     <ClInclude Include="ConfigurationSpecification.h" />
-    <ClInclude Include="Environment.h" />
     <ClInclude Include="HostCompute.h" />
     <ClInclude Include="MainWindowControl.h">
       <DependentUpon>MainWindowControl.xaml</DependentUpon>

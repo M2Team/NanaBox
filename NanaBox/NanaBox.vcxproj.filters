@@ -14,7 +14,6 @@
       <Filter>VirtualMachineConfiguration</Filter>
     </ClCompile>
     <ClCompile Include="Utils.cpp" />
-    <ClCompile Include="Environment.cpp" />
     <ClCompile Include="ConfigurationManager.cpp">
       <Filter>Configuration</Filter>
     </ClCompile>
@@ -38,7 +37,6 @@
       <Filter>VirtualMachineConfiguration</Filter>
     </ClInclude>
     <ClInclude Include="Utils.h" />
-    <ClInclude Include="Environment.h" />
     <ClInclude Include="ConfigurationManager.h">
       <Filter>Configuration</Filter>
     </ClInclude>

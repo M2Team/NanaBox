@@ -44,7 +44,6 @@
 #include <Mile.Project.Version.h>
 
 #include "Utils.h"
-#include "Environment.h"
 #include "NanaBoxResources.h"
 
 #include <Mile.Helpers.h>
