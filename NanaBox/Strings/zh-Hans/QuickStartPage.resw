@@ -125,6 +125,10 @@
     <value>关于 NanaBox</value>
     <comment>About NanaBox</comment>
   </data>
+  <data name="ConfigurationFileTypeName" xml:space="preserve">
+    <value>NanaBox 虚拟机配置</value>
+    <comment>NanaBox Virtual Machine Configuration</comment>
+  </data>
   <data name="CreateVirtualHardDiskButton.AutomationProperties.Name" xml:space="preserve">
     <value>创建虚拟磁盘</value>
     <comment>Create Virtual Hard Disk</comment>

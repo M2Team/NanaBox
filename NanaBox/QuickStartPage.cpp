@@ -72,10 +72,15 @@ namespace winrt::NanaBox::implementation
             Flags |= FOS_DONTADDTORECENT;
             winrt::check_hresult(FileDialog->SetOptions(Flags));
 
-            static constexpr COMDLG_FILTERSPEC SupportedFileTypes[] =
+            std::wstring FileTypeName = Mile::FormatWideString(
+                L"%s (*.7b)",
+                Mile::WinRT::GetLocalizedString(
+                    L"QuickStartPage/ConfigurationFileTypeName").c_str());
+
+            static COMDLG_FILTERSPEC SupportedFileTypes[] =
             {
                 {
-                    L"NanaBox Configuration File (*.7b)",
+                    FileTypeName.c_str(),
                     L"*.7b"
                 }
             };
