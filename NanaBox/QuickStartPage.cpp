@@ -101,14 +101,4 @@ namespace winrt::NanaBox::implementation
 
         ::ShowAboutDialog(this->m_WindowHandle);
     }
-
-    void QuickStartPage::ExitButtonClick(
-        winrt::IInspectable const& sender,
-        winrt::RoutedEventArgs const& e)
-    {
-        UNREFERENCED_PARAMETER(sender);
-        UNREFERENCED_PARAMETER(e);
-
-        ::DestroyWindow(this->m_WindowHandle);
-    }
 }

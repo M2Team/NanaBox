@@ -117,31 +117,47 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AboutButton.Content" xml:space="preserve">
+  <data name="AboutButton.AutomationProperties.Name" xml:space="preserve">
     <value>About NanaBox</value>
     <comment>About NanaBox</comment>
   </data>
-  <data name="CreateVirtualHardDiskButton.Content" xml:space="preserve">
+  <data name="AboutButtonTextBlock.Text" xml:space="preserve">
+    <value>About NanaBox</value>
+    <comment>About NanaBox</comment>
+  </data>
+  <data name="CreateVirtualHardDiskButton.AutomationProperties.Name" xml:space="preserve">
     <value>Create Virtual Hard Disk</value>
     <comment>Create Virtual Hard Disk</comment>
   </data>
-  <data name="CreateVirtualMachineButton.Content" xml:space="preserve">
+  <data name="CreateVirtualHardDiskButtonTextBlock.Text" xml:space="preserve">
+    <value>Create Virtual Hard Disk</value>
+    <comment>Create Virtual Hard Disk</comment>
+  </data>
+  <data name="CreateVirtualMachineButton.AutomationProperties.Name" xml:space="preserve">
     <value>Create Virtual Machine</value>
     <comment>Create Virtual Machine</comment>
   </data>
-  <data name="DocumentationButton.Content" xml:space="preserve">
+  <data name="CreateVirtualMachineButtonTextBlock.Text" xml:space="preserve">
+    <value>Create Virtual Machine</value>
+    <comment>Create Virtual Machine</comment>
+  </data>
+  <data name="DocumentationButton.AutomationProperties.Name" xml:space="preserve">
     <value>Configuration File Reference Documentation</value>
     <comment>Configuration File Reference Documentation</comment>
   </data>
-  <data name="ExitButton.Content" xml:space="preserve">
-    <value>Exit NanaBox</value>
-    <comment>Exit NanaBox</comment>
+  <data name="DocumentationButtonTextBlock.Text" xml:space="preserve">
+    <value>Configuration File Reference Documentation</value>
+    <comment>Configuration File Reference Documentation</comment>
   </data>
   <data name="GridTitleTextBlock.Text" xml:space="preserve">
     <value>Welcome to NanaBox</value>
     <comment>Welcome to NanaBox</comment>
   </data>
-  <data name="LaunchVirtualMachineButton.Content" xml:space="preserve">
+  <data name="LaunchVirtualMachineButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Launch Virtual Machine</value>
+    <comment>Launch Virtual Machine</comment>
+  </data>
+  <data name="LaunchVirtualMachineButtonTextBlock.Text" xml:space="preserve">
     <value>Launch Virtual Machine</value>
     <comment>Launch Virtual Machine</comment>
   </data>

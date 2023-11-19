@@ -41,10 +41,6 @@ namespace winrt::NanaBox::implementation
             winrt::IInspectable const& sender,
             winrt::RoutedEventArgs const& e);
 
-        void ExitButtonClick(
-            winrt::IInspectable const& sender,
-            winrt::RoutedEventArgs const& e);
-
     private:
 
         HWND m_WindowHandle;
