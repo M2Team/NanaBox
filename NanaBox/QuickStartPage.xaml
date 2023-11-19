@@ -39,36 +39,42 @@
         Grid.Row="0"
         HorizontalAlignment="Stretch"
         VerticalAlignment="Stretch"
+        Click="LaunchVirtualMachineButtonClick"
         Content="[Launch Virtual Machine]" />
       <Button
         x:Uid="/QuickStartPage/CreateVirtualMachineButton"
         Grid.Row="2"
         HorizontalAlignment="Stretch"
         VerticalAlignment="Stretch"
+        Click="CreateVirtualMachineButtonClick"
         Content="[Create Virtual Machine]" />
       <Button
         x:Uid="/QuickStartPage/CreateVirtualHardDiskButton"
         Grid.Row="4"
         HorizontalAlignment="Stretch"
         VerticalAlignment="Stretch"
+        Click="CreateVirtualHardDiskButtonClick"
         Content="[Create Virtual Hard Disk]" />
       <Button
         x:Uid="/QuickStartPage/DocumentationButton"
         Grid.Row="6"
         HorizontalAlignment="Stretch"
         VerticalAlignment="Stretch"
+        Click="DocumentationButtonClick"
         Content="[Configuration File Reference Documentation]" />
       <Button
         x:Uid="/QuickStartPage/AboutButton"
         Grid.Row="8"
         HorizontalAlignment="Stretch"
         VerticalAlignment="Stretch"
+        Click="AboutButtonClick"
         Content="[About NanaBox]" />
       <Button
         x:Uid="/QuickStartPage/ExitButton"
         Grid.Row="10"
         HorizontalAlignment="Stretch"
         VerticalAlignment="Stretch"
+        Click="ExitButtonClick"
         Content="[Exit NanaBox]" />
     </Grid>
   </Grid>

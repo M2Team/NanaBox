@@ -48,4 +48,77 @@ namespace winrt::NanaBox::implementation
     {
         QuickStartPageT::InitializeComponent();
     }
+
+    void QuickStartPage::LaunchVirtualMachineButtonClick(
+        winrt::IInspectable const& sender,
+        winrt::RoutedEventArgs const& e)
+    {
+        UNREFERENCED_PARAMETER(sender);
+        UNREFERENCED_PARAMETER(e);
+    }
+
+    void QuickStartPage::CreateVirtualMachineButtonClick(
+        winrt::IInspectable const& sender,
+        winrt::RoutedEventArgs const& e)
+    {
+        UNREFERENCED_PARAMETER(sender);
+        UNREFERENCED_PARAMETER(e);
+    }
+
+    void QuickStartPage::CreateVirtualHardDiskButtonClick(
+        winrt::IInspectable const& sender,
+        winrt::RoutedEventArgs const& e)
+    {
+        UNREFERENCED_PARAMETER(sender);
+        UNREFERENCED_PARAMETER(e);
+
+        ::EnableWindow(this->m_WindowHandle, FALSE);
+
+        ::ShowNewVirtualHardDiskDialog(this->m_WindowHandle);
+
+        ::EnableWindow(this->m_WindowHandle, TRUE);
+        ::SetActiveWindow(this->m_WindowHandle);
+    }
+
+    void QuickStartPage::DocumentationButtonClick(
+        winrt::IInspectable const& sender,
+        winrt::RoutedEventArgs const& e)
+    {
+        UNREFERENCED_PARAMETER(sender);
+        UNREFERENCED_PARAMETER(e);
+
+        SHELLEXECUTEINFOW ExecInfo = { 0 };
+        ExecInfo.cbSize = sizeof(SHELLEXECUTEINFOW);
+        ExecInfo.lpVerb = L"open";
+        ExecInfo.lpFile =
+            L"https://github.com/M2Team/NanaBox/"
+            L"blob/main/Documents/ConfigurationReference.md";
+        ExecInfo.nShow = SW_SHOWNORMAL;
+        ::ShellExecuteExW(&ExecInfo);
+    }
+
+    void QuickStartPage::AboutButtonClick(
+        winrt::IInspectable const& sender,
+        winrt::RoutedEventArgs const& e)
+    {
+        UNREFERENCED_PARAMETER(sender);
+        UNREFERENCED_PARAMETER(e);
+
+        ::EnableWindow(this->m_WindowHandle, FALSE);
+
+        ::ShowAboutDialog(this->m_WindowHandle);
+
+        ::EnableWindow(this->m_WindowHandle, TRUE);
+        ::SetActiveWindow(this->m_WindowHandle);
+    }
+
+    void QuickStartPage::ExitButtonClick(
+        winrt::IInspectable const& sender,
+        winrt::RoutedEventArgs const& e)
+    {
+        UNREFERENCED_PARAMETER(sender);
+        UNREFERENCED_PARAMETER(e);
+
+        ::DestroyWindow(this->m_WindowHandle);
+    }
 }
