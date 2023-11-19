@@ -161,14 +161,6 @@ namespace NanaBox
         LONG_PTR m_RememberedMainWindowStyle;
 
         void InitializeVirtualMachine();
-
-        HWND CreateXamlDialog();
-
-        int ShowXamlDialog(
-            _In_ HWND WindowHandle,
-            _In_ int Width,
-            _In_ int Height,
-            _In_ LPVOID Content);
     };
 
 }
@@ -713,7 +705,7 @@ void NanaBox::MainWindow::OnClose()
         return;
     }
 
-    HWND WindowHandle = this->CreateXamlDialog();
+    HWND WindowHandle = ::CreateXamlDialog(this->m_hWnd);
     if (!WindowHandle)
     {
         return;
@@ -722,7 +714,12 @@ void NanaBox::MainWindow::OnClose()
     winrt::NanaBox::ExitConfirmationPage Window =
         winrt::make< winrt::NanaBox::implementation::ExitConfirmationPage>(
             WindowHandle);
-    this->ShowXamlDialog(WindowHandle, 480, 320, winrt::get_abi(Window));
+    ::ShowXamlDialog(
+        WindowHandle,
+        480,
+        320,
+        winrt::get_abi(Window),
+        this->m_hWnd);
 
 
     switch (Window.Status())
@@ -941,32 +938,6 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
     WindowTitle += g_WindowTitle;
     this->SetWindowTextW(WindowTitle.c_str());
     this->m_RdpClient->ConnectionBarText(WindowTitle.c_str());
-}
-
-HWND NanaBox::MainWindow::CreateXamlDialog()
-{
-    return ::CreateXamlDialog(this->m_hWnd);
-}
-
-int NanaBox::MainWindow::ShowXamlDialog(
-    _In_ HWND WindowHandle,
-    _In_ int Width,
-    _In_ int Height,
-    _In_ LPVOID Content)
-{
-    ::EnableWindow(this->m_hWnd, FALSE);
-
-    int Result = ::ShowXamlDialog(
-        WindowHandle,
-        Width,
-        Height,
-        Content,
-        this->m_hWnd);
-
-    ::EnableWindow(this->m_hWnd, TRUE);
-    ::SetActiveWindow(this->m_hWnd);
-
-    return Result;
 }
 
 void PrerequisiteCheck()

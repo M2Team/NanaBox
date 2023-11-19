@@ -72,12 +72,7 @@ namespace winrt::NanaBox::implementation
         UNREFERENCED_PARAMETER(sender);
         UNREFERENCED_PARAMETER(e);
 
-        ::EnableWindow(this->m_WindowHandle, FALSE);
-
         ::ShowNewVirtualHardDiskDialog(this->m_WindowHandle);
-
-        ::EnableWindow(this->m_WindowHandle, TRUE);
-        ::SetActiveWindow(this->m_WindowHandle);
     }
 
     void QuickStartPage::DocumentationButtonClick(
@@ -104,12 +99,7 @@ namespace winrt::NanaBox::implementation
         UNREFERENCED_PARAMETER(sender);
         UNREFERENCED_PARAMETER(e);
 
-        ::EnableWindow(this->m_WindowHandle, FALSE);
-
         ::ShowAboutDialog(this->m_WindowHandle);
-
-        ::EnableWindow(this->m_WindowHandle, TRUE);
-        ::SetActiveWindow(this->m_WindowHandle);
     }
 
     void QuickStartPage::ExitButtonClick(

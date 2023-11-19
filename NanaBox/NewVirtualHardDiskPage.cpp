@@ -134,8 +134,6 @@ namespace winrt::NanaBox::implementation
 
         winrt::handle(Mile::CreateThread([=]()
         {
-            ::EnableWindow(this->m_WindowHandle, FALSE);
-
             HANDLE DiskHandle = INVALID_HANDLE_VALUE;
 
             DWORD Error = ::SimpleCreateVirtualDisk(
@@ -161,9 +159,6 @@ namespace winrt::NanaBox::implementation
                     this->m_WindowHandle,
                     winrt::hresult_error(HRESULT_FROM_WIN32(Error)));
             }
-
-            ::EnableWindow(this->m_WindowHandle, TRUE);
-            ::SetActiveWindow(this->m_WindowHandle);
         }));
     }
 

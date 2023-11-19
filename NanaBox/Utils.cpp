@@ -260,6 +260,19 @@ int ShowXamlDialog(
         return -1;
     }
 
+    if (ParentWindowHandle)
+    {
+        ::EnableWindow(ParentWindowHandle, FALSE);
+    }
+    auto ExitHandler = Mile::ScopeExitTaskHandler([&]()
+    {
+        if (ParentWindowHandle)
+        {
+            ::EnableWindow(ParentWindowHandle, TRUE);
+            ::SetActiveWindow(ParentWindowHandle);
+        }
+    });
+
     if (FAILED(::MileAllowNonClientDefaultDrawingForWindow(
         WindowHandle,
         FALSE)))
@@ -521,7 +534,7 @@ DWORD SimpleCreateVirtualDisk(
 winrt::handle ShowAboutDialog(
     _In_ HWND ParentWindowHandle)
 {
-    return winrt::handle(Mile::CreateThread([&]()
+    return winrt::handle(Mile::CreateThread([=]()
     {
         winrt::check_hresult(::MileXamlThreadInitialize());
 
@@ -548,7 +561,7 @@ winrt::handle ShowAboutDialog(
 winrt::handle ShowNewVirtualHardDiskDialog(
     _In_ HWND ParentWindowHandle)
 {
-    return winrt::handle(Mile::CreateThread([&]()
+    return winrt::handle(Mile::CreateThread([=]()
     {
         winrt::check_hresult(::MileXamlThreadInitialize());
 
