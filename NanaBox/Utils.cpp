@@ -231,7 +231,7 @@ std::wstring GetAbsolutePath(
 }
 
 HWND CreateXamlDialog(
-    _In_ HWND ParentWindowHandle)
+    _In_opt_ HWND ParentWindowHandle)
 {
     return ::CreateWindowExW(
         WS_EX_STATICEDGE | WS_EX_DLGMODALFRAME,
@@ -249,7 +249,7 @@ HWND CreateXamlDialog(
 }
 
 int ShowXamlDialog(
-    _In_ HWND WindowHandle,
+    _In_opt_ HWND WindowHandle,
     _In_ int Width,
     _In_ int Height,
     _In_ LPVOID Content,
@@ -349,7 +349,7 @@ int ShowXamlDialog(
 }
 
 void ShowMessageDialog(
-    _In_ HWND ParentWindowHandle,
+    _In_opt_ HWND ParentWindowHandle,
     _In_ winrt::hstring const& InstructionText,
     _In_ winrt::hstring const& ContentText)
 {
@@ -381,7 +381,7 @@ void ShowMessageDialog(
 }
 
 void ShowErrorMessageDialog(
-    _In_ HWND ParentWindowHandle,
+    _In_opt_ HWND ParentWindowHandle,
     _In_ winrt::hresult_error const& Exception)
 {
     ::ShowMessageDialog(
