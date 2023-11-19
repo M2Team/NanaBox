@@ -36,6 +36,7 @@
 #include "App.h"
 #include "MainWindowControl.h"
 #include "ExitConfirmationPage.h"
+#include "QuickStartPage.h"
 
 #include <windows.ui.xaml.hosting.desktopwindowxamlsource.h>
 
@@ -1013,6 +1014,43 @@ int WINAPI wWinMain(
     {
         App->Close();
     });
+
+    /*{
+        HWND WindowHandle = ::CreateWindowExW(
+            WS_EX_STATICEDGE | WS_EX_DLGMODALFRAME,
+            L"Mile.Xaml.ContentWindow",
+            nullptr,
+            WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX,
+            CW_USEDEFAULT,
+            0,
+            CW_USEDEFAULT,
+            0,
+            nullptr,
+            nullptr,
+            nullptr,
+            nullptr);
+        if (!WindowHandle)
+        {
+            return -1;
+        }
+
+        if (FAILED(::MileAllowNonClientDefaultDrawingForWindow(
+            WindowHandle,
+            FALSE)))
+        {
+            return -1;
+        }
+
+        winrt::NanaBox::QuickStartPage Window =
+            winrt::make<winrt::NanaBox::implementation::QuickStartPage>(
+                WindowHandle);
+        ::ShowXamlDialog(
+            WindowHandle,
+            460,
+            460,
+            winrt::get_abi(Window),
+            nullptr);
+    }*/
 
     std::wstring ApplicationName;
     std::map<std::wstring, std::wstring> OptionsAndParameters;
