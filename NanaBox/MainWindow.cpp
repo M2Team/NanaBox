@@ -1,6 +1,7 @@
 ﻿#include "pch.h"
 
 #include "MainWindow.h"
+#include "ExitConfirmationPage.h"
 
 #include <Mile.Xaml.h>
 
@@ -9,6 +10,7 @@
 
 #include <windows.ui.xaml.hosting.desktopwindowxamlsource.h>
 
+#include "VirtualMachineConfiguration.h"
 #include "Utils.h"
 
 #include "NanaBoxResources.h"
@@ -16,6 +18,13 @@
 namespace winrt
 {
     using Windows::UI::Xaml::Hosting::DesktopWindowXamlSource;
+}
+
+NanaBox::MainWindow::MainWindow(
+    std::wstring const& ConfigurationFilePath) :
+    m_ConfigurationFilePath(ConfigurationFilePath)
+{
+
 }
 
 int NanaBox::MainWindow::OnCreate(
@@ -574,4 +583,246 @@ void NanaBox::MainWindow::OnActivate(
     }
 
     this->m_RdpClientWindow.SetFocus();
+}
+
+void NanaBox::MainWindow::OnClose()
+{
+    if (!this->m_VirtualMachineRunning)
+    {
+        this->DestroyWindow();
+        return;
+    }
+
+    HWND WindowHandle = ::CreateXamlDialog(this->m_hWnd);
+    if (!WindowHandle)
+    {
+        return;
+    }
+
+    winrt::NanaBox::ExitConfirmationPage Window =
+        winrt::make<winrt::NanaBox::implementation::ExitConfirmationPage>(
+            WindowHandle);
+    ::ShowXamlDialog(
+        WindowHandle,
+        480,
+        320,
+        winrt::get_abi(Window),
+        this->m_hWnd);
+
+
+    switch (Window.Status())
+    {
+    case winrt::NanaBox::ExitConfirmationStatus::Suspend:
+    {
+        this->m_VirtualMachine->Pause();
+
+        if (this->m_Configuration.SaveStateFile.empty())
+        {
+            this->m_Configuration.SaveStateFile =
+                this->m_Configuration.Name + ".SaveState.vmrs";
+        }
+
+        std::wstring SaveStateFile = ::GetAbsolutePath(Mile::ToWideString(
+            CP_UTF8, this->m_Configuration.SaveStateFile));
+
+        ::MileDeleteFileIgnoreReadonlyAttribute(SaveStateFile.c_str());
+
+        nlohmann::json Options;
+        Options["SaveType"] = "ToFile";
+        Options["SaveStateFilePath"] = winrt::to_string(SaveStateFile.c_str());
+
+        try
+        {
+            this->m_VirtualMachine->Save(winrt::to_hstring(Options.dump()));
+        }
+        catch (winrt::hresult_error const& ex)
+        {
+            ::MileDeleteFileIgnoreReadonlyAttribute(SaveStateFile.c_str());
+
+            this->m_Configuration.SaveStateFile.clear();
+
+            ::ShowErrorMessageDialog(ex);
+        }
+
+        if (this->m_Configuration.SaveStateFile.empty())
+        {
+            this->m_VirtualMachine->Resume();
+        }
+        else
+        {
+            this->m_VirtualMachine->Terminate();
+
+            std::string ConfigurationFileContent =
+                NanaBox::SerializeConfiguration(this->m_Configuration);
+            ::WriteAllTextToUtf8TextFile(
+                this->m_ConfigurationFilePath,
+                ConfigurationFileContent);
+        }
+
+        break;
+    }
+    case winrt::NanaBox::ExitConfirmationStatus::PowerOff:
+    {
+        this->m_VirtualMachine->Pause();
+        this->m_VirtualMachine->Terminate();
+
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+void NanaBox::MainWindow::OnDestroy()
+{
+    this->KillTimer(
+        NanaBox::MainWindowTimerEvents::SyncDisplaySettings);
+
+    this->m_RdpClientWindow.DestroyWindow();
+    this->m_RdpClient = nullptr;
+
+    ::PostQuitMessage(0);
+}
+
+void NanaBox::MainWindow::InitializeVirtualMachine()
+{
+    std::string ConfigurationFileContent = ::ReadAllTextFromUtf8TextFile(
+        this->m_ConfigurationFilePath);
+
+    this->m_Configuration = NanaBox::DeserializeConfiguration(
+        ConfigurationFileContent);
+
+    for (NanaBox::ScsiDeviceConfiguration& ScsiDevice
+        : this->m_Configuration.ScsiDevices)
+    {
+        if (ScsiDevice.Type == NanaBox::ScsiDeviceType::PhysicalDevice)
+        {
+            break;
+        }
+
+        std::wstring Path = ::GetAbsolutePath(Mile::ToWideString(
+            CP_UTF8, ScsiDevice.Path));
+        if (::PathFileExistsW(Path.c_str()))
+        {
+            winrt::check_hresult(::HcsGrantVmAccess(
+                winrt::to_hstring(this->m_Configuration.Name).c_str(),
+                Path.c_str()));
+        }
+    }
+
+    if (this->m_Configuration.GuestStateFile.empty())
+    {
+        this->m_Configuration.GuestStateFile =
+            this->m_Configuration.Name + ".vmgs";
+    }
+    {
+        std::wstring GuestStateFile = ::GetAbsolutePath(Mile::ToWideString(
+            CP_UTF8, this->m_Configuration.GuestStateFile));
+        if (!::PathFileExistsW(GuestStateFile.c_str()))
+        {
+            winrt::check_hresult(::HcsCreateEmptyGuestStateFile(
+                GuestStateFile.c_str()));
+        }
+
+        winrt::check_hresult(::HcsGrantVmAccess(
+            winrt::to_hstring(this->m_Configuration.Name).c_str(),
+            GuestStateFile.c_str()));
+    }
+
+    if (this->m_Configuration.RuntimeStateFile.empty())
+    {
+        this->m_Configuration.RuntimeStateFile =
+            this->m_Configuration.Name + ".vmrs";
+    }
+    {
+        std::wstring RuntimeStateFile = ::GetAbsolutePath(Mile::ToWideString(
+            CP_UTF8, this->m_Configuration.RuntimeStateFile));
+        if (!::PathFileExistsW(RuntimeStateFile.c_str()))
+        {
+            winrt::check_hresult(::HcsCreateEmptyRuntimeStateFile(
+                RuntimeStateFile.c_str()));
+        }
+
+        winrt::check_hresult(::HcsGrantVmAccess(
+            winrt::to_hstring(this->m_Configuration.Name).c_str(),
+            RuntimeStateFile.c_str()));
+    }
+
+    if (!this->m_Configuration.SaveStateFile.empty())
+    {
+        std::wstring SaveStateFile = ::GetAbsolutePath(Mile::ToWideString(
+            CP_UTF8, this->m_Configuration.SaveStateFile));
+        if (::PathFileExistsW(SaveStateFile.c_str()))
+        {
+            winrt::check_hresult(::HcsGrantVmAccess(
+                winrt::to_hstring(this->m_Configuration.Name).c_str(),
+                SaveStateFile.c_str()));
+        }
+    }
+
+    NanaBox::ComputeSystemPrepareResourcesForNetworkAdapters(
+        this->m_Configuration.Name,
+        this->m_Configuration.NetworkAdapters);
+
+    this->m_VirtualMachine = winrt::make_self<NanaBox::ComputeSystem>(
+        winrt::to_hstring(
+            this->m_Configuration.Name),
+        winrt::to_hstring(
+            NanaBox::MakeHcsConfiguration(this->m_Configuration)));
+
+    this->m_VirtualMachine->SystemExited.add([this](
+        winrt::hstring const& EventData)
+    {
+        UNREFERENCED_PARAMETER(EventData);
+
+        if (this->m_VirtualMachineRestarting)
+        {
+            this->m_VirtualMachineRestarting = false;
+            return;
+        }
+
+        this->m_VirtualMachineRunning = false;
+        this->m_RdpClient->DisableEventsDispatcher();
+        ::SleepEx(200, FALSE);
+        this->PostMessageW(WM_CLOSE);
+    });
+
+    /*this->m_VirtualMachine->SystemRdpEnhancedModeStateChanged.add([this]()
+    {
+        this->m_EnableEnhancedMode = !this->m_EnableEnhancedMode;
+    });*/
+
+    this->m_VirtualMachine->Start();
+
+    NanaBox::ComputeSystemUpdateGpu(
+        this->m_VirtualMachine,
+        this->m_Configuration.Gpu);
+
+    this->m_VirtualMachineRunning = true;
+
+    if (!this->m_Configuration.SaveStateFile.empty())
+    {
+        std::wstring SaveStateFile = ::GetAbsolutePath(Mile::ToWideString(
+            CP_UTF8, this->m_Configuration.SaveStateFile));
+
+        ::MileDeleteFileIgnoreReadonlyAttribute(SaveStateFile.c_str());
+
+        this->m_Configuration.SaveStateFile.clear();
+    }
+
+    ConfigurationFileContent =
+        NanaBox::SerializeConfiguration(this->m_Configuration);
+    ::WriteAllTextToUtf8TextFile(
+        this->m_ConfigurationFilePath,
+        ConfigurationFileContent);
+
+    nlohmann::json Properties = nlohmann::json::parse(
+        winrt::to_string(this->m_VirtualMachine->GetProperties()));
+    this->m_VirtualMachineGuid = Properties["RuntimeId"];
+
+    std::wstring WindowTitle = Mile::FormatWideString(
+        L"%s - NanaBox",
+        Mile::ToWideString(CP_UTF8, this->m_Configuration.Name).c_str());
+    this->SetWindowTextW(WindowTitle.c_str());
+    this->m_RdpClient->ConnectionBarText(WindowTitle.c_str());
 }

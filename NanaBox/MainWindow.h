@@ -52,6 +52,9 @@ namespace NanaBox
             MSG_WM_DESTROY(OnDestroy)
         END_MSG_MAP()
 
+        MainWindow(
+            std::wstring const& ConfigurationFilePath);
+
         int OnCreate(
             LPCREATESTRUCT lpCreateStruct);
 
@@ -87,6 +90,7 @@ namespace NanaBox
         const int m_MainWindowControlHeight = 48;
         int m_RecommendedMainWindowControlHeight = m_MainWindowControlHeight;
         winrt::NanaBox::MainWindowControl m_MainWindowControl;
+        std::wstring m_ConfigurationFilePath;
         NanaBox::VirtualMachineConfiguration m_Configuration;
         winrt::com_ptr<NanaBox::ComputeSystem> m_VirtualMachine;
         std::string m_VirtualMachineGuid;
