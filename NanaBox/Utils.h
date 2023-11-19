@@ -61,6 +61,12 @@ DWORD SimpleCreateVirtualDisk(
     _In_ UINT64 Size,
     _Out_ PHANDLE Handle);
 
+winrt::handle ShowAboutDialog(
+    _In_ HWND ParentWindowHandle);
+
+winrt::handle ShowNewVirtualHardDiskDialog(
+    _In_ HWND ParentWindowHandle);
+
 #include <Mile.Helpers.CppBase.h>
 #include <Mile.Helpers.CppWinRT.h>
 

@@ -10,6 +10,8 @@
 #pragma comment(lib,"virtdisk.lib")
 
 #include "MessagePage.h"
+#include "AboutPage.h"
+#include "NewVirtualHardDiskPage.h"
 
 void SplitCommandLineEx(
     std::wstring const& CommandLine,
@@ -514,4 +516,58 @@ DWORD SimpleCreateVirtualDisk(
         &Parameters,
         nullptr,
         Handle);
+}
+
+winrt::handle ShowAboutDialog(
+    _In_ HWND ParentWindowHandle)
+{
+    return winrt::handle(Mile::CreateThread([&]()
+    {
+        winrt::check_hresult(::MileXamlThreadInitialize());
+
+        HWND WindowHandle = ::CreateXamlDialog(ParentWindowHandle);
+        if (!WindowHandle)
+        {
+            return;
+        }
+
+        winrt::NanaBox::AboutPage Window =
+            winrt::make<winrt::NanaBox::implementation::AboutPage>(
+                WindowHandle);
+        ::ShowXamlDialog(
+            WindowHandle,
+            480,
+            320,
+            winrt::get_abi(Window),
+            ParentWindowHandle);
+
+        winrt::check_hresult(::MileXamlThreadUninitialize());
+    }));
+}
+
+winrt::handle ShowNewVirtualHardDiskDialog(
+    _In_ HWND ParentWindowHandle)
+{
+    return winrt::handle(Mile::CreateThread([&]()
+    {
+        winrt::check_hresult(::MileXamlThreadInitialize());
+
+        HWND WindowHandle = ::CreateXamlDialog(ParentWindowHandle);
+        if (!WindowHandle)
+        {
+            return;
+        }
+
+        winrt::NanaBox::NewVirtualHardDiskPage Window =
+            winrt::make<winrt::NanaBox::implementation::NewVirtualHardDiskPage>(
+                WindowHandle);
+        ::ShowXamlDialog(
+            WindowHandle,
+            480,
+            320,
+            winrt::get_abi(Window),
+            ParentWindowHandle);
+
+        winrt::check_hresult(::MileXamlThreadUninitialize());
+    }));
 }
