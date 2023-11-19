@@ -248,7 +248,7 @@ HWND CreateXamlDialog(
         nullptr);
 }
 
-int ShowXamlDialog(
+int ShowXamlWindow(
     _In_opt_ HWND WindowHandle,
     _In_ int Width,
     _In_ int Height,
@@ -260,41 +260,11 @@ int ShowXamlDialog(
         return -1;
     }
 
-    if (ParentWindowHandle)
-    {
-        ::EnableWindow(ParentWindowHandle, FALSE);
-    }
-    auto ExitHandler = Mile::ScopeExitTaskHandler([&]()
-    {
-        if (ParentWindowHandle)
-        {
-            ::EnableWindow(ParentWindowHandle, TRUE);
-            ::SetActiveWindow(ParentWindowHandle);
-        }
-    });
-
-    if (FAILED(::MileAllowNonClientDefaultDrawingForWindow(
-        WindowHandle,
-        FALSE)))
-    {
-        return -1;
-    }
-
     if (FAILED(::MileXamlSetXamlContentForContentWindow(
         WindowHandle,
         Content)))
     {
         return -1;
-    }
-
-    HMENU MenuHandle = ::GetSystemMenu(WindowHandle, FALSE);
-    if (MenuHandle)
-    {
-        ::RemoveMenu(MenuHandle, 0, MF_SEPARATOR);
-        ::RemoveMenu(MenuHandle, SC_RESTORE, MF_BYCOMMAND);
-        ::RemoveMenu(MenuHandle, SC_SIZE, MF_BYCOMMAND);
-        ::RemoveMenu(MenuHandle, SC_MINIMIZE, MF_BYCOMMAND);
-        ::RemoveMenu(MenuHandle, SC_MAXIMIZE, MF_BYCOMMAND);
     }
 
     UINT DpiValue = ::GetDpiForWindow(WindowHandle);
@@ -359,6 +329,56 @@ int ShowXamlDialog(
     }
 
     return static_cast<int>(Message.wParam);
+}
+
+int ShowXamlDialog(
+    _In_opt_ HWND WindowHandle,
+    _In_ int Width,
+    _In_ int Height,
+    _In_ LPVOID Content,
+    _In_ HWND ParentWindowHandle)
+{
+    if (!WindowHandle)
+    {
+        return -1;
+    }
+
+    if (FAILED(::MileAllowNonClientDefaultDrawingForWindow(
+        WindowHandle,
+        FALSE)))
+    {
+        return -1;
+    }
+
+    HMENU MenuHandle = ::GetSystemMenu(WindowHandle, FALSE);
+    if (MenuHandle)
+    {
+        ::RemoveMenu(MenuHandle, 0, MF_SEPARATOR);
+        ::RemoveMenu(MenuHandle, SC_RESTORE, MF_BYCOMMAND);
+        ::RemoveMenu(MenuHandle, SC_SIZE, MF_BYCOMMAND);
+        ::RemoveMenu(MenuHandle, SC_MINIMIZE, MF_BYCOMMAND);
+        ::RemoveMenu(MenuHandle, SC_MAXIMIZE, MF_BYCOMMAND);
+    }
+
+    if (ParentWindowHandle)
+    {
+        ::EnableWindow(ParentWindowHandle, FALSE);
+    }
+
+    int Result = ::ShowXamlWindow(
+        WindowHandle,
+        Width,
+        Height,
+        Content,
+        ParentWindowHandle);
+
+    if (ParentWindowHandle)
+    {
+        ::EnableWindow(ParentWindowHandle, TRUE);
+        ::SetActiveWindow(ParentWindowHandle);
+    }
+
+    return Result;
 }
 
 void ShowMessageDialog(
