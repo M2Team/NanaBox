@@ -2,9 +2,15 @@
 
 **NanaBox 1.1 (1.1.???.0)**
 
+- Add the Quick Start user experience based on XAML.
+- Add the Create Virtual Hard Disk user experience based on XAML.
+- Modernize the message report window based on XAML.
+- Enhance the main window toolbar.
 - Refresh the exit confirmation window implementation.
 - Improve the stability after restoring virtual machine from suspend.
 - Add keyboard and enhanced session configuration support.
+- Improve the running as the unpackage mode implementation.
+- Improve the implementation of prerequisite check.
 - Improve the accessibility user experience.
 - Improve several implementations.
 
