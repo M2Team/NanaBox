@@ -375,6 +375,7 @@ int ShowXamlDialog(
     if (ParentWindowHandle)
     {
         ::EnableWindow(ParentWindowHandle, TRUE);
+        ::SetForegroundWindow(ParentWindowHandle);
         ::SetActiveWindow(ParentWindowHandle);
     }
 

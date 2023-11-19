@@ -110,43 +110,6 @@ int WINAPI wWinMain(
         App->Close();
     });
 
-    /*{
-        HWND WindowHandle = ::CreateWindowExW(
-            WS_EX_STATICEDGE | WS_EX_DLGMODALFRAME,
-            L"Mile.Xaml.ContentWindow",
-            nullptr,
-            WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX,
-            CW_USEDEFAULT,
-            0,
-            CW_USEDEFAULT,
-            0,
-            nullptr,
-            nullptr,
-            nullptr,
-            nullptr);
-        if (!WindowHandle)
-        {
-            return -1;
-        }
-
-        if (FAILED(::MileAllowNonClientDefaultDrawingForWindow(
-            WindowHandle,
-            FALSE)))
-        {
-            return -1;
-        }
-
-        winrt::NanaBox::QuickStartPage Window =
-            winrt::make<winrt::NanaBox::implementation::QuickStartPage>(
-                WindowHandle);
-        ::ShowXamlDialog(
-            WindowHandle,
-            460,
-            460,
-            winrt::get_abi(Window),
-            nullptr);
-    }*/
-
     std::wstring ApplicationName;
     std::map<std::wstring, std::wstring> OptionsAndParameters;
     std::wstring UnresolvedCommandLine;
@@ -272,51 +235,44 @@ int WINAPI wWinMain(
     }
     else
     {
-        try
+        HWND WindowHandle = ::CreateWindowExW(
+            WS_EX_STATICEDGE | WS_EX_DLGMODALFRAME,
+            L"Mile.Xaml.ContentWindow",
+            nullptr,
+            WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX,
+            CW_USEDEFAULT,
+            0,
+            CW_USEDEFAULT,
+            0,
+            nullptr,
+            nullptr,
+            nullptr,
+            nullptr);
+        if (!WindowHandle)
         {
-            winrt::com_ptr<IFileDialog> FileDialog =
-                winrt::create_instance<IFileDialog>(CLSID_FileOpenDialog);
-
-            DWORD Flags = 0;
-            winrt::check_hresult(FileDialog->GetOptions(&Flags));
-            Flags |= FOS_FORCEFILESYSTEM;
-            Flags |= FOS_NOCHANGEDIR;
-            Flags |= FOS_DONTADDTORECENT;
-            winrt::check_hresult(FileDialog->SetOptions(Flags));
-
-            static constexpr COMDLG_FILTERSPEC SupportedFileTypes[] =
-            {
-                {
-                    L"NanaBox Configuration File (*.7b)",
-                    L"*.7b"
-                }
-            };
-            winrt::check_hresult(FileDialog->SetFileTypes(
-                ARRAYSIZE(SupportedFileTypes),
-                SupportedFileTypes));
-            winrt::check_hresult(FileDialog->SetFileTypeIndex(1));
-            winrt::check_hresult(FileDialog->SetDefaultExtension(L"7b"));
-
-            winrt::check_hresult(FileDialog->Show(nullptr));
-
-            winrt::com_ptr<IShellItem> Result;
-            winrt::check_hresult(FileDialog->GetResult(Result.put()));
-
-            PWSTR FilePath = nullptr;
-            winrt::check_hresult(Result->GetDisplayName(
-                SIGDN_FILESYSPATH,
-                &FilePath));
-            ConfigurationFilePath = FilePath;
-            ::CoTaskMemFree(FilePath);
+            return -1;
         }
-        catch (winrt::hresult_error const& ex)
-        {
-            if (ex.code() != ::HRESULT_FROM_WIN32(ERROR_CANCELLED))
-            {
-                ::ShowErrorMessageDialog(ex);
-            }
 
-            ::ExitProcess(ex.code());
+        if (FAILED(::MileAllowNonClientDefaultDrawingForWindow(
+            WindowHandle,
+            FALSE)))
+        {
+            return -1;
+        }
+
+        winrt::NanaBox::QuickStartPage Window =
+            winrt::make<winrt::NanaBox::implementation::QuickStartPage>(
+                WindowHandle,
+                &ConfigurationFilePath);
+        ::ShowXamlWindow(
+            WindowHandle,
+            460,
+            460,
+            winrt::get_abi(Window),
+            nullptr);
+        if (ConfigurationFilePath.empty())
+        {
+            return 0;
         }
     }
 

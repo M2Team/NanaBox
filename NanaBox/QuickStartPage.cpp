@@ -8,14 +8,18 @@
 
 #include "NanaBoxResources.h"
 
+#include <ShlObj.h>
+
 using namespace winrt;
 using namespace Windows::UI::Xaml;
 
 namespace winrt::NanaBox::implementation
 {
     QuickStartPage::QuickStartPage(
-        _In_ HWND WindowHandle) :
-        m_WindowHandle(WindowHandle)
+        _In_ HWND WindowHandle,
+        _Out_opt_ std::wstring* ConfigurationFilePath) :
+        m_WindowHandle(WindowHandle),
+        m_ConfigurationFilePath(ConfigurationFilePath)
     {
         ::SetWindowTextW(
             this->m_WindowHandle,
@@ -55,6 +59,59 @@ namespace winrt::NanaBox::implementation
     {
         UNREFERENCED_PARAMETER(sender);
         UNREFERENCED_PARAMETER(e);
+
+        try
+        {
+            winrt::com_ptr<IFileDialog> FileDialog =
+                winrt::create_instance<IFileDialog>(CLSID_FileOpenDialog);
+
+            DWORD Flags = 0;
+            winrt::check_hresult(FileDialog->GetOptions(&Flags));
+            Flags |= FOS_FORCEFILESYSTEM;
+            Flags |= FOS_NOCHANGEDIR;
+            Flags |= FOS_DONTADDTORECENT;
+            winrt::check_hresult(FileDialog->SetOptions(Flags));
+
+            static constexpr COMDLG_FILTERSPEC SupportedFileTypes[] =
+            {
+                {
+                    L"NanaBox Configuration File (*.7b)",
+                    L"*.7b"
+                }
+            };
+            winrt::check_hresult(FileDialog->SetFileTypes(
+                ARRAYSIZE(SupportedFileTypes),
+                SupportedFileTypes));
+            winrt::check_hresult(FileDialog->SetFileTypeIndex(1));
+            winrt::check_hresult(FileDialog->SetDefaultExtension(L"7b"));
+
+            winrt::check_hresult(FileDialog->Show(this->m_WindowHandle));
+
+            winrt::com_ptr<IShellItem> Result;
+            winrt::check_hresult(FileDialog->GetResult(Result.put()));
+
+            PWSTR FilePath = nullptr;
+            winrt::check_hresult(Result->GetDisplayName(
+                SIGDN_FILESYSPATH,
+                &FilePath));
+            if (this->m_ConfigurationFilePath)
+            {
+                *this->m_ConfigurationFilePath = FilePath;
+            }
+            ::CoTaskMemFree(FilePath);
+        }
+        catch (...)
+        {
+
+        }
+
+        if (this->m_ConfigurationFilePath)
+        {
+            if (!this->m_ConfigurationFilePath->empty())
+            {
+                ::DestroyWindow(this->m_WindowHandle);
+            }
+        }
     }
 
     void QuickStartPage::CreateVirtualMachineButtonClick(

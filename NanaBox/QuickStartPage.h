@@ -4,6 +4,8 @@
 
 #include <Windows.h>
 
+#include <string>
+
 namespace winrt
 {
     using Windows::Foundation::IInspectable;
@@ -17,7 +19,8 @@ namespace winrt::NanaBox::implementation
     public:
 
         QuickStartPage(
-            _In_ HWND WindowHandle = nullptr);
+            _In_ HWND WindowHandle = nullptr,
+            _Out_opt_ std::wstring* ConfigurationFilePath = nullptr);
 
         void InitializeComponent();
 
@@ -44,6 +47,7 @@ namespace winrt::NanaBox::implementation
     private:
 
         HWND m_WindowHandle;
+        std::wstring* m_ConfigurationFilePath;
     };
 }
 
