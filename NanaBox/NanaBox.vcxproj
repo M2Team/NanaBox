@@ -41,6 +41,7 @@
     </ClCompile>
     <ClCompile Include="ConfigurationManager.cpp" />
     <ClCompile Include="HostCompute.cpp" />
+    <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="MainWindowControl.cpp">
       <DependentUpon>MainWindowControl.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -121,6 +122,7 @@
     <ClInclude Include="ConfigurationManager.h" />
     <ClInclude Include="ConfigurationSpecification.h" />
     <ClInclude Include="HostCompute.h" />
+    <ClInclude Include="MainWindow.h" />
     <ClInclude Include="MainWindowControl.h">
       <DependentUpon>MainWindowControl.xaml</DependentUpon>
       <SubType>Code</SubType>
