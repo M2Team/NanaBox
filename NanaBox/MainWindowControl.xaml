@@ -50,17 +50,46 @@
         ToolTipService.ToolTip="[Restart Virtual Machine]" />
       <AppBarSeparator />
       <AppBarButton
+        x:Uid="/MainWindow/VirtualMachineSettingsButton"
         Width="40"
         AutomationProperties.Name="[Virtual Machine Settings]"
+        Click="VirtualMachineSettingsButtonClick"
         Icon="Setting"
         LabelPosition="Collapsed"
         ToolTipService.ToolTip="[Virtual Machine Settings]" />
       <AppBarButton
+        x:Uid="/MainWindow/ReloadVirtualMachineSettingsButton"
         Width="40"
         AutomationProperties.Name="[Reload Virtual Machine Settings]"
+        Click="ReloadVirtualMachineSettingsButtonClick"
         Icon="Sync"
         LabelPosition="Collapsed"
         ToolTipService.ToolTip="[Reload Virtual Machine Settings]" />
+      <AppBarSeparator />
+      <AppBarButton
+        x:Uid="/MainWindow/CreateVirtualHardDiskButtonButton"
+        Width="40"
+        AutomationProperties.Name="[Create Virtual Hard Disk]"
+        Click="CreateVirtualHardDiskButtonClick"
+        Icon="Add"
+        LabelPosition="Collapsed"
+        ToolTipService.ToolTip="[Create Virtual Hard Disk]" />
+      <AppBarButton
+        x:Uid="/MainWindow/DocumentationButton"
+        Width="40"
+        AutomationProperties.Name="[Configuration File Reference Documentation]"
+        Click="DocumentationButtonClick"
+        Icon="Link"
+        LabelPosition="Collapsed"
+        ToolTipService.ToolTip="[Configuration File Reference Documentation]" />
+      <AppBarButton
+        x:Uid="/MainWindow/AboutButton"
+        Width="40"
+        AutomationProperties.Name="[About NanaBox]"
+        Click="AboutButtonClick"
+        Icon="Help"
+        LabelPosition="Collapsed"
+        ToolTipService.ToolTip="[About NanaBox]" />
     </CommandBar>
   </Grid>
 </Page>

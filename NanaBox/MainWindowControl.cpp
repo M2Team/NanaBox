@@ -94,4 +94,84 @@ namespace winrt::NanaBox::implementation
                 BN_CLICKED),
             0);
     }
+
+    void MainWindowControl::VirtualMachineSettingsButtonClick(
+        winrt::IInspectable const& sender,
+        winrt::RoutedEventArgs const& e)
+    {
+        UNREFERENCED_PARAMETER(sender);
+        UNREFERENCED_PARAMETER(e);
+
+        ::PostMessageW(
+            this->m_WindowHandle,
+            WM_COMMAND,
+            MAKEWPARAM(
+                NanaBox::MainWindowCommands::VirtualMachineSettings,
+                BN_CLICKED),
+            0);
+    }
+
+    void MainWindowControl::ReloadVirtualMachineSettingsButtonClick(
+        winrt::IInspectable const& sender,
+        winrt::RoutedEventArgs const& e)
+    {
+        UNREFERENCED_PARAMETER(sender);
+        UNREFERENCED_PARAMETER(e);
+
+        ::PostMessageW(
+            this->m_WindowHandle,
+            WM_COMMAND,
+            MAKEWPARAM(
+                NanaBox::MainWindowCommands::ReloadVirtualMachineSettings,
+                BN_CLICKED),
+            0);
+    }
+
+    void MainWindowControl::CreateVirtualHardDiskButtonClick(
+        winrt::IInspectable const& sender,
+        winrt::RoutedEventArgs const& e)
+    {
+        UNREFERENCED_PARAMETER(sender);
+        UNREFERENCED_PARAMETER(e);
+
+        ::PostMessageW(
+            this->m_WindowHandle,
+            WM_COMMAND,
+            MAKEWPARAM(
+                NanaBox::MainWindowCommands::CreateVirtualHardDisk,
+                BN_CLICKED),
+            0);
+    }
+
+    void MainWindowControl::DocumentationButtonClick(
+        winrt::IInspectable const& sender,
+        winrt::RoutedEventArgs const& e)
+    {
+        UNREFERENCED_PARAMETER(sender);
+        UNREFERENCED_PARAMETER(e);
+
+        ::PostMessageW(
+            this->m_WindowHandle,
+            WM_COMMAND,
+            MAKEWPARAM(
+                NanaBox::MainWindowCommands::Documentation,
+                BN_CLICKED),
+            0);
+    }
+
+    void MainWindowControl::AboutButtonClick(
+        winrt::IInspectable const& sender,
+        winrt::RoutedEventArgs const& e)
+    {
+        UNREFERENCED_PARAMETER(sender);
+        UNREFERENCED_PARAMETER(e);
+
+        ::PostMessageW(
+            this->m_WindowHandle,
+            WM_COMMAND,
+            MAKEWPARAM(
+                NanaBox::MainWindowCommands::About,
+                BN_CLICKED),
+            0);
+    }
 }

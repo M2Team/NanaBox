@@ -82,14 +82,7 @@ namespace winrt::NanaBox::implementation
         UNREFERENCED_PARAMETER(sender);
         UNREFERENCED_PARAMETER(e);
 
-        SHELLEXECUTEINFOW ExecInfo = { 0 };
-        ExecInfo.cbSize = sizeof(SHELLEXECUTEINFOW);
-        ExecInfo.lpVerb = L"open";
-        ExecInfo.lpFile =
-            L"https://github.com/M2Team/NanaBox/"
-            L"blob/main/Documents/ConfigurationReference.md";
-        ExecInfo.nShow = SW_SHOWNORMAL;
-        ::ShellExecuteExW(&ExecInfo);
+        ::LaunchDocumentation();
     }
 
     void QuickStartPage::AboutButtonClick(

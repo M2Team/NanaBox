@@ -400,6 +400,32 @@ void NanaBox::MainWindow::OnCommand(
 
         break;
     }
+    case NanaBox::MainWindowCommands::VirtualMachineSettings:
+    {
+        break;
+    }
+    case NanaBox::MainWindowCommands::ReloadVirtualMachineSettings:
+    {
+        break;
+    }
+    case NanaBox::MainWindowCommands::CreateVirtualHardDisk:
+    {
+        ::ShowNewVirtualHardDiskDialog(this->m_hWnd);
+
+        break;
+    }
+    case NanaBox::MainWindowCommands::Documentation:
+    {
+        ::LaunchDocumentation();
+
+        break;
+    }
+    case NanaBox::MainWindowCommands::About:
+    {
+        ::ShowAboutDialog(this->m_hWnd);
+
+        break;
+    }
     default:
         break;
     }

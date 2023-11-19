@@ -604,3 +604,15 @@ winrt::handle ShowNewVirtualHardDiskDialog(
         winrt::check_hresult(::MileXamlThreadUninitialize());
     }));
 }
+
+BOOL LaunchDocumentation()
+{
+    SHELLEXECUTEINFOW ExecInfo = { 0 };
+    ExecInfo.cbSize = sizeof(SHELLEXECUTEINFOW);
+    ExecInfo.lpVerb = L"open";
+    ExecInfo.lpFile =
+        L"https://github.com/M2Team/NanaBox/"
+        L"blob/main/Documents/ConfigurationReference.md";
+    ExecInfo.nShow = SW_SHOWNORMAL;
+    return ::ShellExecuteExW(&ExecInfo);
+}

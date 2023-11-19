@@ -74,6 +74,8 @@ winrt::handle ShowAboutDialog(
 winrt::handle ShowNewVirtualHardDiskDialog(
     _In_ HWND ParentWindowHandle);
 
+BOOL LaunchDocumentation();
+
 #include <Mile.Helpers.CppBase.h>
 #include <Mile.Helpers.CppWinRT.h>
 

@@ -29,6 +29,11 @@ namespace NanaBox
             PauseVirtualMachine = 0x1004,
             ResumeVirtualMachine = 0x1005,
             RestartVirtualMachine = 0x1006,
+            VirtualMachineSettings = 0x1007,
+            ReloadVirtualMachineSettings = 0x1008,
+            CreateVirtualHardDisk = 0x1009,
+            Documentation = 0x100A,
+            About = 0x100B,
         };
     }
 }
@@ -62,6 +67,26 @@ namespace winrt::NanaBox::implementation
             winrt::RoutedEventArgs const& e);
 
         void RestartVirtualMachineButtonClick(
+            winrt::IInspectable const& sender,
+            winrt::RoutedEventArgs const& e);
+
+        void VirtualMachineSettingsButtonClick(
+            winrt::IInspectable const& sender,
+            winrt::RoutedEventArgs const& e);
+
+        void ReloadVirtualMachineSettingsButtonClick(
+            winrt::IInspectable const& sender,
+            winrt::RoutedEventArgs const& e);
+
+        void CreateVirtualHardDiskButtonClick(
+            winrt::IInspectable const& sender,
+            winrt::RoutedEventArgs const& e);
+
+        void DocumentationButtonClick(
+            winrt::IInspectable const& sender,
+            winrt::RoutedEventArgs const& e);
+
+        void AboutButtonClick(
             winrt::IInspectable const& sender,
             winrt::RoutedEventArgs const& e);
 

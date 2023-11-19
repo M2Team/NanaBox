@@ -46,10 +46,6 @@ namespace
         L"_" MILE_PROJECT_DOT_VERSION_STRING
         L"_" MILE_PROJECT_BUILD_DATE_STRING;
 
-    const std::wstring_view g_WindowTitle =
-        L"NanaBox " MILE_PROJECT_VERSION_STRING
-        L" (" MILE_PROJECT_DOT_VERSION_STRING L")";
-
     WTL::CAppModule g_Module;
     std::wstring g_ConfigurationFilePath;
 }
@@ -289,10 +285,9 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
         winrt::to_string(this->m_VirtualMachine->GetProperties()));
     this->m_VirtualMachineGuid = Properties["RuntimeId"];
 
-    std::wstring WindowTitle =
-        winrt::to_hstring(this->m_Configuration.Name).c_str();
-    WindowTitle += L" - ";
-    WindowTitle += g_WindowTitle;
+    std::wstring WindowTitle = Mile::FormatWideString(
+        L"%s - NanaBox",
+        Mile::ToWideString(CP_UTF8, this->m_Configuration.Name).c_str());
     this->SetWindowTextW(WindowTitle.c_str());
     this->m_RdpClient->ConnectionBarText(WindowTitle.c_str());
 }
@@ -597,7 +592,7 @@ int WINAPI wWinMain(
     if (!MainWindow.Create(
         nullptr,
         MainWindow.rcDefault,
-        g_WindowTitle.data(),
+        L"NanaBox",
         WS_OVERLAPPEDWINDOW))
     {
         return -1;

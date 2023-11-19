@@ -117,6 +117,30 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AboutButton.AutomationProperties.Name" xml:space="preserve">
+    <value>About NanaBox</value>
+    <comment>About NanaBox</comment>
+  </data>
+  <data name="AboutButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>About NanaBox</value>
+    <comment>About NanaBox</comment>
+  </data>
+  <data name="CreateVirtualHardDiskButtonButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Create Virtual Hard Disk</value>
+    <comment>Create Virtual Hard Disk</comment>
+  </data>
+  <data name="CreateVirtualHardDiskButtonButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Create Virtual Hard Disk</value>
+    <comment>Create Virtual Hard Disk</comment>
+  </data>
+  <data name="DocumentationButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Configuration File Reference Documentation</value>
+    <comment>Configuration File Reference Documentation</comment>
+  </data>
+  <data name="DocumentationButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Configuration File Reference Documentation</value>
+    <comment>Configuration File Reference Documentation</comment>
+  </data>
   <data name="EnhancedSessionButton.AutomationProperties.Name" xml:space="preserve">
     <value>Enhanced Session</value>
     <comment>Enhanced Session</comment>
@@ -141,6 +165,14 @@
     <value>Pause Virtual Machine</value>
     <comment>Pause Virtual Machine</comment>
   </data>
+  <data name="ReloadVirtualMachineSettingsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Reload Virtual Machine Settings</value>
+    <comment>Reload Virtual Machine Settings</comment>
+  </data>
+  <data name="ReloadVirtualMachineSettingsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Reload Virtual Machine Settings</value>
+    <comment>Reload Virtual Machine Settings</comment>
+  </data>
   <data name="RestartVirtualMachineButton.AutomationProperties.Name" xml:space="preserve">
     <value>Restart Virtual Machine</value>
     <comment>Restart Virtual Machine</comment>
@@ -148,5 +180,13 @@
   <data name="RestartVirtualMachineButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Restart Virtual Machine</value>
     <comment>Restart Virtual Machine</comment>
+  </data>
+  <data name="VirtualMachineSettingsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Virtual Machine Settings</value>
+    <comment>Virtual Machine Settings</comment>
+  </data>
+  <data name="VirtualMachineSettingsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Virtual Machine Settings</value>
+    <comment>Virtual Machine Settings</comment>
   </data>
 </root>
