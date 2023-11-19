@@ -5,6 +5,8 @@
 
 #include <Mile.Xaml.h>
 
+#include <ShlObj.h>
+
 #include <dwmapi.h>
 #pragma comment(lib, "dwmapi.lib")
 
@@ -411,6 +413,11 @@ void NanaBox::MainWindow::OnCommand(
     }
     case NanaBox::MainWindowCommands::VirtualMachineSettings:
     {
+        OPENASINFO OpenAsInfo = { 0 };
+        OpenAsInfo.pcszFile = this->m_ConfigurationFilePath.c_str();
+        OpenAsInfo.oaifInFlags = OAIF_EXEC;
+        ::SHOpenWithDialog(this->m_hWnd, &OpenAsInfo);
+
         break;
     }
     case NanaBox::MainWindowCommands::ReloadVirtualMachineSettings:
