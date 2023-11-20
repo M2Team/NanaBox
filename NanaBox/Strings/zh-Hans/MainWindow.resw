@@ -181,6 +181,14 @@
     <value>重启虚拟机</value>
     <comment>Restart Virtual Machine</comment>
   </data>
+  <data name="SettingsContentText" xml:space="preserve">
+    <value>点击确定后会弹出打开方式对话框，你可以选择你喜爱的编辑器去按照配置文件参考文档编辑你的虚拟机配置文件。</value>
+    <comment>The "Open With" dialog will pop up after you clicking "Confirm", you can choose your favorite editor to follow the "Configuration File Reference Documentation" to edit your virtual machine configuration file.</comment>
+  </data>
+  <data name="SettingsInstructionText" xml:space="preserve">
+    <value>虚拟机设置提示</value>
+    <comment>Virtual Machine Settings Notice</comment>
+  </data>
   <data name="VirtualMachineSettingsButton.AutomationProperties.Name" xml:space="preserve">
     <value>虚拟机设置</value>
     <comment>Virtual Machine Settings</comment>

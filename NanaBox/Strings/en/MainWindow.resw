@@ -181,6 +181,14 @@
     <value>Restart Virtual Machine</value>
     <comment>Restart Virtual Machine</comment>
   </data>
+  <data name="SettingsContentText" xml:space="preserve">
+    <value>The "Open With" dialog will pop up after you clicking "Confirm", you can choose your favorite editor to follow the "Configuration File Reference Documentation" to edit your virtual machine configuration file.</value>
+    <comment>The "Open With" dialog will pop up after you clicking "Confirm", you can choose your favorite editor to follow the "Configuration File Reference Documentation" to edit your virtual machine configuration file.</comment>
+  </data>
+  <data name="SettingsInstructionText" xml:space="preserve">
+    <value>Virtual Machine Settings Notice</value>
+    <comment>Virtual Machine Settings Notice</comment>
+  </data>
   <data name="VirtualMachineSettingsButton.AutomationProperties.Name" xml:space="preserve">
     <value>Virtual Machine Settings</value>
     <comment>Virtual Machine Settings</comment>

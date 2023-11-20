@@ -413,10 +413,25 @@ void NanaBox::MainWindow::OnCommand(
     }
     case NanaBox::MainWindowCommands::VirtualMachineSettings:
     {
-        OPENASINFO OpenAsInfo = { 0 };
-        OpenAsInfo.pcszFile = this->m_ConfigurationFilePath.c_str();
-        OpenAsInfo.oaifInFlags = OAIF_EXEC;
-        ::SHOpenWithDialog(this->m_hWnd, &OpenAsInfo);
+        winrt::handle(Mile::CreateThread([=]()
+        {
+            winrt::hstring SettingsInstructionText =
+                Mile::WinRT::GetLocalizedString(
+                    L"MainWindow/SettingsInstructionText");
+            winrt::hstring SettingsContentText =
+                Mile::WinRT::GetLocalizedString(
+                    L"MainWindow/SettingsContentText");
+
+            ::ShowMessageDialog(
+                this->m_hWnd,
+                SettingsInstructionText.c_str(),
+                SettingsContentText.c_str());
+
+            OPENASINFO OpenAsInfo = { 0 };
+            OpenAsInfo.pcszFile = this->m_ConfigurationFilePath.c_str();
+            OpenAsInfo.oaifInFlags = OAIF_EXEC;
+            ::SHOpenWithDialog(this->m_hWnd, &OpenAsInfo);
+        }));
 
         break;
     }
