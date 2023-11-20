@@ -13,6 +13,8 @@
 - Improve the running as the unpackage mode implementation.
 - Improve the implementation of prerequisite check.
 - Improve the accessibility user experience.
+- Remove the Shell New Submenu support because we have the new Create Virtual
+  Machine user experience.
 - Improve several implementations.
 
 **NanaBox 1.0 (1.0.471.0)**

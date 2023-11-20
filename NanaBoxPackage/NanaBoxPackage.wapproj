@@ -35,11 +35,6 @@
     <PRIResource Include="Strings\**\*">
       <Link>Strings\%(RecursiveDir)%(FileName)%(Extension)</Link>
     </PRIResource>
-    <!-- New Virtual Machine Template -->
-    <Content Include="NewVirtualMachineTemplate.7b">
-      <DeploymentContent>true</DeploymentContent>
-      <Link>Assets\NewVirtualMachineTemplate.7b</Link>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NanaBox\NanaBox.vcxproj">

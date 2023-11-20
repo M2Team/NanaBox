@@ -6,8 +6,7 @@
   xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
   xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10"
   xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
-  xmlns:uap4="http://schemas.microsoft.com/appx/manifest/uap/windows10/4"
-  IgnorableNamespaces="uap rescap desktop uap3 uap4">
+  IgnorableNamespaces="uap rescap desktop uap3">
 
   <Identity
     Name="40174MouriNaruto.NanaBoxPreview"
@@ -70,9 +69,7 @@
             <uap:Logo>Assets\ConfigurationFile.png</uap:Logo>
             <uap:DisplayName>ms-resource:PackageResources/ConfigurationFileTypeDisplayName</uap:DisplayName>
             <uap:SupportedFileTypes>
-              <uap:FileType
-                uap4:ShellNewFileName="Assets\NewVirtualMachineTemplate.7b"
-                uap4:ShellNewDisplayName="ms-resource:PackageResources/ConfigurationFileTypeDisplayName">.7b</uap:FileType>
+              <uap:FileType>.7b</uap:FileType>
             </uap:SupportedFileTypes>
           </uap3:FileTypeAssociation>
         </uap:Extension>
