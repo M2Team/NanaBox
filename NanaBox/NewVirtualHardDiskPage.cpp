@@ -80,14 +80,11 @@ namespace winrt::NanaBox::implementation
                 ARRAYSIZE(SupportedFileTypes), SupportedFileTypes));
 
             // Note: The array is 1-indexed
-            winrt::check_hresult(
-                FileDialog->SetFileTypeIndex(1));
+            winrt::check_hresult(FileDialog->SetFileTypeIndex(1));
 
-            winrt::check_hresult(
-                FileDialog->SetDefaultExtension(L"vhdx"));
+            winrt::check_hresult(FileDialog->SetDefaultExtension(L"vhdx"));
 
-            winrt::check_hresult(
-                FileDialog->Show(this->m_WindowHandle));
+            winrt::check_hresult(FileDialog->Show(this->m_WindowHandle));
 
             winrt::hstring FilePath;
             {
