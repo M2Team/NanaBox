@@ -3,6 +3,7 @@
 **NanaBox 1.1 (1.1.???.0)**
 
 - Add the Quick Start user experience based on XAML.
+- Add the Create Virtual Machine user experience based on XAML.
 - Add the Create Virtual Hard Disk user experience based on XAML.
 - Modernize the message report window based on XAML.
 - Enhance the main window toolbar.

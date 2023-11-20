@@ -129,6 +129,10 @@
     <value>NanaBox Virtual Machine Configuration</value>
     <comment>NanaBox Virtual Machine Configuration</comment>
   </data>
+  <data name="ConfigurationNameTip" xml:space="preserve">
+    <value>Change to the unique name of virtual machine you want.</value>
+    <comment>Change to the unique name of virtual machine you want.</comment>
+  </data>
   <data name="CreateVirtualHardDiskButton.AutomationProperties.Name" xml:space="preserve">
     <value>Create Virtual Hard Disk</value>
     <comment>Create Virtual Hard Disk</comment>
@@ -164,5 +168,21 @@
   <data name="LaunchVirtualMachineButtonTextBlock.Text" xml:space="preserve">
     <value>Launch Virtual Machine</value>
     <comment>Launch Virtual Machine</comment>
+  </data>
+  <data name="SuccessContentText" xml:space="preserve">
+    <value>The virtual machine configuration file template at %s has been successfully created. The "Open With" dialog will pop up after you clicking "Confirm", you can choose your favorite editor to follow the "Configuration File Reference Documentation" to edit your virtual machine configuration file.</value>
+    <comment>The virtual machine configuration file template at %s has been successfully created. The "Open With" dialog will pop up after you clicking "Confirm", you can choose your favorite editor to follow the "Configuration File Reference Documentation" to edit your virtual machine configuration file.</comment>
+  </data>
+  <data name="SuccessInstructionText" xml:space="preserve">
+    <value>Create Virtual Machine Configuration Completed</value>
+    <comment>Create Virtual Machine Configuration Completed</comment>
+  </data>
+  <data name="VirtualDiskPathTip" xml:space="preserve">
+    <value>Change to the file path of the virtual disk you want.</value>
+    <comment>Change to the file path of the virtual disk you want.</comment>
+  </data>
+  <data name="VirtualImagePathTip" xml:space="preserve">
+    <value>Change to the file path of the virtual image you want.</value>
+    <comment>Change to the file path of the virtual image you want.</comment>
   </data>
 </root>

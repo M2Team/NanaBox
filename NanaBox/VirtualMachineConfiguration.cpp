@@ -434,8 +434,14 @@ std::string NanaBox::SerializeConfiguration(
             nlohmann::json Current;
             Current["Enabled"] = NetworkAdapter.Enabled;
             Current["Connected"] = NetworkAdapter.Connected;
-            Current["MacAddress"] = NetworkAdapter.MacAddress;
-            Current["EndpointId"] = NetworkAdapter.EndpointId;
+            if (!NetworkAdapter.MacAddress.empty())
+            {
+                Current["MacAddress"] = NetworkAdapter.MacAddress;
+            }
+            if (!NetworkAdapter.EndpointId.empty())
+            {
+                Current["EndpointId"] = NetworkAdapter.EndpointId;
+            }
             NetworkAdapters.push_back(Current);
         }
         RootJson["NetworkAdapters"] = NetworkAdapters;

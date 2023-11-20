@@ -129,6 +129,10 @@
     <value>NanaBox 虚拟机配置</value>
     <comment>NanaBox Virtual Machine Configuration</comment>
   </data>
+  <data name="ConfigurationNameTip" xml:space="preserve">
+    <value>更改为您想要的用于虚拟机的唯一名称。</value>
+    <comment>Change to the unique name of virtual machine you want.</comment>
+  </data>
   <data name="CreateVirtualHardDiskButton.AutomationProperties.Name" xml:space="preserve">
     <value>创建虚拟磁盘</value>
     <comment>Create Virtual Hard Disk</comment>
@@ -164,5 +168,21 @@
   <data name="LaunchVirtualMachineButtonTextBlock.Text" xml:space="preserve">
     <value>启动虚拟机</value>
     <comment>Launch Virtual Machine</comment>
+  </data>
+  <data name="SuccessContentText" xml:space="preserve">
+    <value>位于 %s 的虚拟机配置文件模板已成功创建。点击确定后会弹出打开方式对话框，你可以选择你喜爱的编辑器去按照配置文件参考文档编辑你的虚拟机配置文件。</value>
+    <comment>The virtual machine configuration file template at %s has been successfully created. The "Open With" dialog will pop up after you clicking "Confirm", you can choose your favorite editor to follow the "Configuration File Reference Documentation" to edit your virtual machine configuration file.</comment>
+  </data>
+  <data name="SuccessInstructionText" xml:space="preserve">
+    <value>创建虚拟机配置已完成</value>
+    <comment>Create Virtual Machine Configuration Completed</comment>
+  </data>
+  <data name="VirtualDiskPathTip" xml:space="preserve">
+    <value>更改为您想要的用于虚拟磁盘文件的路径。</value>
+    <comment>Change to the file path of the virtual disk you want.</comment>
+  </data>
+  <data name="VirtualImagePathTip" xml:space="preserve">
+    <value>更改为您想要的用于虚拟映像文件的路径。</value>
+    <comment>Change to the file path of the virtual image you want.</comment>
   </data>
 </root>
