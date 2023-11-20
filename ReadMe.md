@@ -59,11 +59,6 @@ requests and issues are welcome.**
 - Supported OS: Windows 10 Version 2004 (Build 19041) or later
 - Supported Platforms: x64 and ARM64
 
-Note: If you uninstalled the Remote Desktop Connection before, you need to
-reinstall it by following [these instructions].
-
-[these instructions]: https://learn.microsoft.com/en-us/windows-server/remote/remote-desktop-services/clients/uninstall-remote-desktop-connection
-
 ## Known issues
 
 - Due to Host Compute System API and Host Compute Network API limitations, 
@@ -74,6 +69,8 @@ reinstall it by following [these instructions].
   - NanaBox needs elevated privilege via UAC.
   - The automatic switch between Enhanced Session Mode and Basic Session Mode
     won't be implemented.
+  - You shouldn't put your virtual machine configuration file at the root of
+    the drive, or you will meet the access denied error.
 - The virtual machine creation UI and settings UI is not implemented.
 - You may meet the UI frozen when lost the focus from the Settings menu in the
   NanaBox main window (the popup windows created by XAML Islands) unless switch
