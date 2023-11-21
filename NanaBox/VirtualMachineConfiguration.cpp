@@ -560,11 +560,13 @@ std::string NanaBox::MakeHcsConfiguration(
         nlohmann::json ComPorts;
         if (!Configuration.ComPorts.ComPort1.empty())
         {
-            ComPorts["0"]["NamedPipe"] = Configuration.ComPorts.ComPort1;
+            ComPorts["0"] = NanaBox::MakeHcsComPortConfiguration(
+                Configuration.ComPorts.ComPort1);
         }
         if (!Configuration.ComPorts.ComPort2.empty())
         {
-            ComPorts["1"]["NamedPipe"] = Configuration.ComPorts.ComPort2;
+            ComPorts["1"] = NanaBox::MakeHcsComPortConfiguration(
+                Configuration.ComPorts.ComPort2);
         }
         Devices["ComPorts"] = ComPorts;
 

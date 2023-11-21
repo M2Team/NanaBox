@@ -12,6 +12,16 @@
 
 #include "Utils.h"
 
+nlohmann::json NanaBox::MakeHcsComPortConfiguration(
+    std::string const& NamedPipe)
+{
+    nlohmann::json Result;
+
+    Result["NamedPipe"] = NamedPipe;
+
+    return Result;
+}
+
 void NanaBox::ComputeSystemUpdateGpu(
     winrt::com_ptr<NanaBox::ComputeSystem> const& Instance,
     NanaBox::GpuConfiguration const& Configuration)
