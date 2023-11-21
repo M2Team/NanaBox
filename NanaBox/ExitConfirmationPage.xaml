@@ -17,11 +17,11 @@
         Margin="0,0,0,12"
         FontSize="24"
         FontWeight="SemiBold"
-        Text="[The virtual machine is still powered on.]"
+        Text="[The virtual machine is still powered on]"
         TextWrapping="Wrap" />
       <TextBlock
         x:Uid="/ExitConfirmationPage/ContentTextBlock"
-        Text="[You can suspend it for later use, or power it off now.]"
+        Text="[You can suspend it for later use, or power it off now]"
         TextWrapping="Wrap" />
     </StackPanel>
     <Grid Grid.Row="1" Padding="24">
