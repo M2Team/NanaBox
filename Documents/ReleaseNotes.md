@@ -11,6 +11,7 @@
 - Improve the stability after restoring virtual machine from suspend.
 - Add keyboard and enhanced session configuration support.
 - Improve the running as the unpackage mode implementation.
+- Improve the virtual machine session mode switching implementation.
 - Improve the implementation of prerequisite check.
 - Improve the accessibility user experience.
 - Remove the Shell New Submenu support because we have the new Create Virtual

@@ -86,6 +86,7 @@ void NanaBox::MainWindow::OnCommand(
     case NanaBox::MainWindowCommands::EnterBasicSession:
     {
         this->m_RdpClientMode = RdpClientMode::BasicSession;
+        this->m_NeedRdpClientModeChange = true;
 
         this->m_RdpClient->Disconnect();
 
@@ -94,6 +95,7 @@ void NanaBox::MainWindow::OnCommand(
     case NanaBox::MainWindowCommands::EnterEnhancedSession:
     {
         this->m_RdpClientMode = RdpClientMode::EnhancedSession;
+        this->m_NeedRdpClientModeChange = true;
 
         this->m_RdpClient->Disconnect();
 
@@ -640,40 +642,35 @@ void NanaBox::MainWindow::RdpClientOnDisconnected(
 
     if (this->m_VirtualMachineRunning)
     {
-        try
+        if (this->m_NeedRdpClientModeChange)
         {
-            std::string PCB = this->m_VirtualMachineGuid;
-            if (this->m_RdpClientMode == RdpClientMode::EnhancedSession)
+            try
             {
-                PCB += ";EnhancedMode=1";
+                this->RdpClientUninitialize();
+                this->RdpClientInitialize();
 
-                this->m_RdpClient->DesktopWidth(
-                    this->m_RecommendedDisplayResolution.cx);
-                this->m_RdpClient->DesktopHeight(
-                    this->m_RecommendedDisplayResolution.cy);
-
-                VARIANT RawZoomLevel;
-                RawZoomLevel.vt = VT_UI4;
-                RawZoomLevel.uintVal = 100;
-                this->m_RdpClient->Property(
-                    L"ZoomLevel",
-                    RawZoomLevel);
+                // Ensure the UI layout will be refreshed via sending WM_SIZE
+                // message directly. It's OK because we don't use wParam and
+                // lParam in WM_SIZE message.
+                this->SendMessageW(WM_SIZE);
             }
-            else if (this->m_RdpClientMode == RdpClientMode::BasicSession)
+            catch (...)
             {
-                VARIANT RawZoomLevel;
-                RawZoomLevel.vt = VT_UI4;
-                RawZoomLevel.uintVal = this->m_RecommendedZoomLevel;
-                this->m_RdpClient->Property(
-                    L"ZoomLevel",
-                    RawZoomLevel);
+
             }
-            this->m_RdpClient->PCB(winrt::to_hstring(PCB));
-            this->m_RdpClient->Connect();
+
+            this->m_NeedRdpClientModeChange = false;
         }
-        catch (...)
+        else
         {
+            try
+            {
+                this->m_RdpClient->Connect();
+            }
+            catch (...)
+            {
 
+            }
         }
     }
 }
@@ -863,6 +860,18 @@ void NanaBox::MainWindow::RdpClientInitialize()
     this->m_RdpClient->Server(L"localhost");
     this->m_RdpClient->RDPPort(2179);
     this->m_RdpClient->MinInputSendInterval(20);
+
+    std::string PCB = this->m_VirtualMachineGuid;
+    if (this->m_RdpClientMode == RdpClientMode::EnhancedSession)
+    {
+        PCB += ";EnhancedMode=1";
+
+        this->m_RdpClient->DesktopWidth(
+            this->m_RecommendedDisplayResolution.cx);
+        this->m_RdpClient->DesktopHeight(
+            this->m_RecommendedDisplayResolution.cy);
+    }
+    this->m_RdpClient->PCB(winrt::to_hstring(PCB));
 
     this->m_RdpClient->Connect();
 

@@ -97,6 +97,7 @@ namespace NanaBox
         bool m_VirtualMachineRunning = false;
         bool m_VirtualMachineRestarting = false;
         RdpClientMode m_RdpClientMode = RdpClientMode::BasicSession;
+        bool m_NeedRdpClientModeChange = false;
         CSize m_RecommendedDisplayResolution = CSize(1024, 768);
         std::uint32_t m_RecommendedZoomLevel = 100;
         CSize m_DisplayResolution = CSize(1024, 768);
