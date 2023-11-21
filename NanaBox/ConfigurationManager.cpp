@@ -22,6 +22,21 @@ nlohmann::json NanaBox::MakeHcsComPortConfiguration(
     return Result;
 }
 
+nlohmann::json NanaBox::MakeHcsNetworkAdapterConfiguration(
+    NanaBox::NetworkAdapterConfiguration const& Configuration)
+{
+    nlohmann::json Result;
+
+    if (!Configuration.Connected)
+    {
+        Result["ConnectionState"] = "Disabled";
+    }
+    Result["EndpointId"] = Configuration.EndpointId;
+    Result["MacAddress"] = Configuration.MacAddress;
+
+    return Result;
+}
+
 void NanaBox::ComputeSystemUpdateMemorySize(
     winrt::com_ptr<NanaBox::ComputeSystem> const& Instance,
     std::uint64_t const& MemorySize)

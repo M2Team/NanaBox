@@ -576,17 +576,8 @@ std::string NanaBox::MakeHcsConfiguration(
             for (NanaBox::NetworkAdapterConfiguration const& NetworkAdapter
                 : Configuration.NetworkAdapters)
             {
-                nlohmann::json Current;
-
-                if (!NetworkAdapter.Connected)
-                {
-                    Current["ConnectionState"] = "Disabled";
-                }
-
-                Current["EndpointId"] = NetworkAdapter.EndpointId;
-                Current["MacAddress"] = NetworkAdapter.MacAddress;
-
-                NetworkAdapters[NetworkAdapter.EndpointId] = Current;
+                NetworkAdapters[NetworkAdapter.EndpointId] =
+                    NanaBox::MakeHcsNetworkAdapterConfiguration(NetworkAdapter);
             }
             Devices["NetworkAdapters"] = NetworkAdapters;
         }
