@@ -31,6 +31,10 @@ namespace NanaBox
         winrt::com_ptr<ComputeSystem> const& Instance,
         ComPortsConfiguration const& Configuration);
 
+    void ComputeSystemUpdateComPort2(
+        winrt::com_ptr<ComputeSystem> const& Instance,
+        ComPortsConfiguration const& Configuration);
+
     void ComputeSystemUpdateGpu(
         winrt::com_ptr<ComputeSystem> const& Instance,
         GpuConfiguration const& Configuration);

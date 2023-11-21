@@ -54,6 +54,25 @@ void NanaBox::ComputeSystemUpdateComPort1(
     }
 }
 
+void NanaBox::ComputeSystemUpdateComPort2(
+    winrt::com_ptr<NanaBox::ComputeSystem> const& Instance,
+    NanaBox::ComPortsConfiguration const& Configuration)
+{
+    if (!Configuration.ComPort2.empty())
+    {
+        nlohmann::json Result;
+
+        Result["ResourcePath"] = Mile::FormatString(
+            "VirtualMachine/Devices/ComPorts/%d",
+            1);
+        Result["RequestType"] = "Update";
+        Result["Settings"] = NanaBox::MakeHcsComPortConfiguration(
+            Configuration.ComPort2);
+
+        Instance->Modify(winrt::to_hstring(Result.dump()));
+    }
+}
+
 void NanaBox::ComputeSystemUpdateGpu(
     winrt::com_ptr<NanaBox::ComputeSystem> const& Instance,
     NanaBox::GpuConfiguration const& Configuration)
