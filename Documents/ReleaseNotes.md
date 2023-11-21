@@ -12,6 +12,7 @@
 - Add keyboard and enhanced session configuration support.
 - Remove some unnecessary configuration options.
   - `Enabled` option in `NetworkAdapters` configuration.
+  - `Enabled` option in `ScsiDevices` configuration.
 - Improve the running as the unpackage mode implementation.
 - Improve the virtual machine session mode switching implementation.
 - Improve the implementation of prerequisite check.

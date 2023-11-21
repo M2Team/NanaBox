@@ -252,16 +252,6 @@ NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
 
             try
             {
-                Current.Enabled =
-                    ScsiDevice.at("Enabled").get<bool>();
-            }
-            catch (...)
-            {
-
-            }
-
-            try
-            {
                 Current.Type =
                     ScsiDevice.at("Type").get<NanaBox::ScsiDeviceType>();
             }
@@ -442,7 +432,6 @@ std::string NanaBox::SerializeConfiguration(
             : Configuration.ScsiDevices)
         {
             nlohmann::json Current;
-            Current["Enabled"] = ScsiDevice.Enabled;
             Current["Type"] = ScsiDevice.Type;
             if (!ScsiDevice.Path.empty())
             {
@@ -607,11 +596,6 @@ std::string NanaBox::MakeHcsConfiguration(
             for (NanaBox::ScsiDeviceConfiguration const& ScsiDevice
                 : Configuration.ScsiDevices)
             {
-                if (!ScsiDevice.Enabled)
-                {
-                    continue;
-                }
-
                 nlohmann::json Current;
 
                 switch (ScsiDevice.Type)

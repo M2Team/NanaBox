@@ -35,12 +35,10 @@
         ],
         "ScsiDevices": [
             {
-                "Enabled": true,
                 "Type": "VirtualDisk",
                 "Path": "Test.vhdx"
             },
             {
-                "Enabled": true,
                 "Type": "VirtualImage",
                 "Path": ""
             }
@@ -76,7 +74,6 @@
     - MacAddress (String)
     - EndpointId (String)
   - ScsiDevices  (Object Array)
-    - Enabled (Boolean)
     - Type (String)
     - Path (String)
   - SecureBoot (Boolean)
@@ -223,10 +220,6 @@ Example value: "f2288275-6c30-47d4-bc24-293fa9c9cb12"
 ### ScsiDevices
 
 The SCSI devices setting object array of virtual machine.
-
-#### Enabled
-
-Enable the current SCSI device if set it true.
 
 #### Type
 
@@ -555,12 +548,10 @@ Note: Available starting with NanaBox 1.1.
     "RuntimeStateFile": "TestVM.vmrs",
     "ScsiDevices": [
       {
-        "Enabled": true,
         "Path": "Windows 11.vhdx",
         "Type": "VirtualDisk"
       },
       {
-        "Enabled": true,
         "Type": "VirtualImage"
       }
     ],
@@ -597,12 +588,10 @@ Note: Available starting with NanaBox 1.1.
     "ProcessorCount": 2,
     "ScsiDevices": [
       {
-        "Enabled": true,
         "Path": "D:\\NanaBox VM\\UbuntuVM\\UbuntuVM.vhdx",
         "Type": "VirtualDisk"
       },
       {
-        "Enabled": true,
         "Path": "D:\\Updates\\ubuntu-22.04-desktop-amd64.iso",
         "Type": "VirtualImage"
       }
@@ -641,7 +630,6 @@ Note: Available starting with NanaBox 1.1.
     "RuntimeStateFile": "UefiTestVM.vmrs",
     "ScsiDevices": [
       {
-        "Enabled": true,
         "Path": "D:\\NanaBox VM\\UEFIDebugDisk.vhdx",
         "Type": "VirtualDisk"
       }

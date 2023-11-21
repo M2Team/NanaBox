@@ -77,7 +77,6 @@ namespace NanaBox
 
     struct ScsiDeviceConfiguration
     {
-        bool Enabled = false;
         ScsiDeviceType Type;
         std::string Path;
     };

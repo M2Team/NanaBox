@@ -209,7 +209,6 @@ namespace winrt::NanaBox::implementation
                 }
                 {
                     NanaBox::ScsiDeviceConfiguration ScsiDevice;
-                    ScsiDevice.Enabled = true;
                     ScsiDevice.Type = NanaBox::ScsiDeviceType::VirtualDisk;
                     ScsiDevice.Path = winrt::to_string(
                         Mile::WinRT::GetLocalizedString(
@@ -218,7 +217,6 @@ namespace winrt::NanaBox::implementation
                 }
                 {
                     NanaBox::ScsiDeviceConfiguration ScsiDevice;
-                    ScsiDevice.Enabled = true;
                     ScsiDevice.Type = NanaBox::ScsiDeviceType::VirtualImage;
                     ScsiDevice.Path = winrt::to_string(
                         Mile::WinRT::GetLocalizedString(
