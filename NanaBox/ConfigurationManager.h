@@ -23,6 +23,10 @@ namespace NanaBox
     nlohmann::json MakeHcsComPortConfiguration(
         std::string const& NamedPipe);
 
+    void ComputeSystemUpdateMemorySize(
+        winrt::com_ptr<ComputeSystem> const& Instance,
+        std::uint64_t const& MemorySize);
+
     void ComputeSystemUpdateGpu(
         winrt::com_ptr<ComputeSystem> const& Instance,
         GpuConfiguration const& Configuration);

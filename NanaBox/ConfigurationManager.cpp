@@ -22,6 +22,19 @@ nlohmann::json NanaBox::MakeHcsComPortConfiguration(
     return Result;
 }
 
+void NanaBox::ComputeSystemUpdateMemorySize(
+    winrt::com_ptr<NanaBox::ComputeSystem> const& Instance,
+    std::uint64_t const& MemorySize)
+{
+    nlohmann::json Result;
+
+    Result["ResourcePath"] = "VirtualMachine/ComputeTopology/Memory/SizeInMB";
+    Result["RequestType"] = "Update";
+    Result["Settings"] = MemorySize;
+
+    Instance->Modify(winrt::to_hstring(Result.dump()));
+}
+
 void NanaBox::ComputeSystemUpdateGpu(
     winrt::com_ptr<NanaBox::ComputeSystem> const& Instance,
     NanaBox::GpuConfiguration const& Configuration)
