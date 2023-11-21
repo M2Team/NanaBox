@@ -1,0 +1,8 @@
+﻿namespace NanaBox
+{
+    [default_interface]
+    runtimeclass ReloadConfirmationPage : Windows.UI.Xaml.Controls.Page
+    {
+        ReloadConfirmationPage();
+    }
+}
