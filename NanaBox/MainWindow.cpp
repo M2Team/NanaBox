@@ -48,33 +48,6 @@ int NanaBox::MainWindow::OnCreate(
     this->SetIcon(this->m_ApplicationIcon, TRUE);
     this->SetIcon(this->m_ApplicationIcon, FALSE);
 
-    this->m_RdpClient = winrt::make_self<NanaBox::RdpClient>();
-
-    this->m_RdpClient->EnableEventsDispatcher();
-
-    if (!this->m_RdpClientWindow.Create(
-        this->m_hWnd,
-        this->m_RdpClientWindow.rcDefault,
-        nullptr,
-        WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN))
-    {
-        return -1;
-    }
-
-    winrt::check_hresult(this->m_RdpClientWindow.AttachControl(
-        this->m_RdpClient->RawControl().get(),
-        nullptr));
-
-    try
-    {
-        this->InitializeVirtualMachine();
-    }
-    catch (...)
-    {
-        ::ShowErrorMessageDialog(Mile::WinRT::ToHResultError());
-        return -1;
-    }
-
     this->m_MainWindowControl =
         winrt::make<winrt::NanaBox::implementation::MainWindowControl>(
             this->m_hWnd);
@@ -86,259 +59,16 @@ int NanaBox::MainWindow::OnCreate(
         return -1;
     }
 
-    this->m_RdpClient->EnableAutoReconnect(false);
-    this->m_RdpClient->RelativeMouseMode(true);
-    this->m_RdpClient->AuthenticationServiceClass(
-        L"Microsoft Virtual Console Service");
-
-    this->m_RdpClient->AuthenticationLevel(0);
-    this->m_RdpClient->EnableCredSspSupport(true);
-    this->m_RdpClient->NegotiateSecurityLayer(false);
-
-    NanaBox::RemoteDesktopUpdateKeyboardConfiguration(
-        this->m_RdpClient,
-        m_Configuration.Keyboard);
-
-    NanaBox::RemoteDesktopUpdateEnhancedSessionConfiguration(
-        this->m_RdpClient,
-        m_Configuration.EnhancedSession);
-
-    this->m_RdpClient->ContainerHandledFullScreen(true);
-
     try
     {
-        VARIANT Value;
-        Value.vt = VT_BOOL;
-        Value.boolVal = VARIANT_TRUE;
-        this->m_RdpClient->Property(L"DisableCredentialsDelegation", Value);
+        this->InitializeVirtualMachine();
+        this->RdpClientInitialize();
     }
     catch (...)
     {
-
+        ::ShowErrorMessageDialog(Mile::WinRT::ToHResultError());
+        return -1;
     }
-
-    try
-    {
-        VARIANT Value;
-        Value.vt = VT_BOOL;
-        Value.boolVal = VARIANT_TRUE;
-        this->m_RdpClient->Property(L"AllowAxToContainerEvents", Value);
-    }
-    catch (...)
-    {
-
-    }
-
-    this->m_RdpClient->PerformanceFlags(
-        TS_PERF_ENABLE_ENHANCED_GRAPHICS |
-        TS_PERF_ENABLE_FONT_SMOOTHING |
-        TS_PERF_ENABLE_DESKTOP_COMPOSITION);
-
-    try
-    {
-        VARIANT Value;
-        Value.vt = VT_BOOL;
-        Value.boolVal = VARIANT_TRUE;
-        this->m_RdpClient->Property(L"EnableHardwareMode", Value);
-    }
-    catch (...)
-    {
-
-    }
-
-    try
-    {
-        VARIANT Value;
-        Value.vt = VT_BOOL;
-        Value.boolVal = VARIANT_TRUE;
-        this->m_RdpClient->Property(L"EnableFrameBufferRedirection", Value);
-    }
-    catch (...)
-    {
-
-    }
-
-    this->m_RdpClient->GrabFocusOnConnect(false);
-
-    this->m_RdpClient->OnRemoteDesktopSizeChange.add([this](
-        _In_ LONG Width,
-        _In_ LONG Height)
-    {
-        if (this->m_RdpClientMode == RdpClientMode::BasicSession)
-        {
-            if (this->IsZoomed())
-            {
-                return;
-            }
-
-            this->m_DisplayResolution = CSize(Width, Height);
-
-            UINT DpiValue = ::GetDpiForWindow(this->m_hWnd);
-
-            RECT WindowRect;
-            winrt::check_bool(this->GetWindowRect(&WindowRect));
-            {
-                int WindowWidth = 0;
-                WindowWidth += this->m_DisplayResolution.cx;
-                int WindowHeight = this->m_RecommendedMainWindowControlHeight;
-                WindowHeight += this->m_DisplayResolution.cy;
-
-                RECT ClientRect;
-                winrt::check_bool(this->GetClientRect(&ClientRect));
-
-                WindowRect.right -= ClientRect.right;
-                WindowRect.bottom -= ClientRect.bottom;
-                WindowRect.right += ::MulDiv(
-                    WindowWidth,
-                    DpiValue,
-                    USER_DEFAULT_SCREEN_DPI);
-                WindowRect.bottom += ::MulDiv(
-                    WindowHeight,
-                    DpiValue,
-                    USER_DEFAULT_SCREEN_DPI);
-            }
-
-            this->SetWindowPos(
-                nullptr,
-                &WindowRect,
-                SWP_NOZORDER | SWP_NOACTIVATE);
-        }
-    });
-    this->m_RdpClient->OnLoginComplete.add([this]()
-    {
-        if (this->m_RdpClientMode == RdpClientMode::EnhancedSession)
-        {
-            this->m_RdpClientMode = RdpClientMode::EnhancedVideoSyncedSession;
-            this->m_DisplayResolution = CSize();
-        }
-    });
-    this->m_RdpClient->OnDisconnected.add([this](
-        _In_ LONG DisconnectReason)
-    {
-        UNREFERENCED_PARAMETER(DisconnectReason);
-
-        if (this->m_RdpClientMode == RdpClientMode::EnhancedVideoSyncedSession)
-        {
-            this->m_RdpClientMode = RdpClientMode::EnhancedSession;
-        }
-
-        if (this->m_VirtualMachineRunning)
-        {
-            try
-            {
-                std::string PCB = this->m_VirtualMachineGuid;
-                if (this->m_RdpClientMode == RdpClientMode::EnhancedSession)
-                {
-                    PCB += ";EnhancedMode=1";
-
-                    this->m_RdpClient->DesktopWidth(
-                        this->m_RecommendedDisplayResolution.cx);
-                    this->m_RdpClient->DesktopHeight(
-                        this->m_RecommendedDisplayResolution.cy);
-
-                    VARIANT RawZoomLevel;
-                    RawZoomLevel.vt = VT_UI4;
-                    RawZoomLevel.uintVal = 100;
-                    this->m_RdpClient->Property(
-                        L"ZoomLevel",
-                        RawZoomLevel);
-                }
-                else if (this->m_RdpClientMode == RdpClientMode::BasicSession)
-                {
-                    VARIANT RawZoomLevel;
-                    RawZoomLevel.vt = VT_UI4;
-                    RawZoomLevel.uintVal = this->m_RecommendedZoomLevel;
-                    this->m_RdpClient->Property(
-                        L"ZoomLevel",
-                        RawZoomLevel);
-                }
-                this->m_RdpClient->PCB(winrt::to_hstring(PCB));
-                this->m_RdpClient->Connect();
-            }
-            catch (...)
-            {
-
-            }
-        }
-    });
-    this->m_RdpClient->OnRequestGoFullScreen.add([this]()
-    {
-        HMONITOR m_hMonitor = ::MonitorFromWindow(
-            m_hWnd,
-            MONITOR_DEFAULTTONULL);
-        winrt::check_pointer(m_hMonitor);
-        MONITORINFOEX mi;
-        mi.cbSize = sizeof(MONITORINFOEX);
-        winrt::check_bool(::GetMonitorInfoW(
-            m_hMonitor,
-            &mi));
-        DEVMODE dm;
-        dm.dmSize = sizeof(DEVMODE);
-        winrt::check_bool(::EnumDisplaySettingsW(
-            mi.szDevice,
-            ENUM_CURRENT_SETTINGS,
-            &dm));
-
-        winrt::check_bool(this->GetWindowRect(
-            &this->m_RememberedMainWindowRect));
-        this->m_RememberedMainWindowStyle =
-            this->GetWindowLongPtrW(GWL_STYLE);
-
-        RECT FullScreenRect;
-        FullScreenRect.left = 0;
-        FullScreenRect.top = 0;
-        FullScreenRect.right = dm.dmPelsWidth;
-        FullScreenRect.bottom = dm.dmPelsHeight;
-
-        // Resize RdpClientWindow and hidden XamlIslands by OnSize method
-        // automatically calculate.
-        m_RecommendedMainWindowControlHeight = 0;
-
-        this->SetWindowLongPtrW(
-            GWL_STYLE,
-            WS_VISIBLE | WS_POPUP);
-        // SetWindowPos will send WM_SIZE, RDP Zoom will be re-enabled in Basic
-        // Session Mode.
-        this->SetWindowPos(
-            HWND_TOP,
-            &FullScreenRect,
-            SWP_FRAMECHANGED | SWP_NOACTIVATE);
-    });
-    this->m_RdpClient->OnRequestLeaveFullScreen.add([this]()
-    {
-        m_RecommendedMainWindowControlHeight = m_MainWindowControlHeight;
-        this->SetWindowLongPtrW(
-            GWL_STYLE,
-            this->m_RememberedMainWindowStyle);
-        this->SetWindowPos(
-            nullptr,
-            &this->m_RememberedMainWindowRect,
-            SWP_NOACTIVATE);
-    });
-    this->m_RdpClient->OnRequestContainerMinimize.add([this]()
-    {
-        this->ShowWindow(SW_MINIMIZE);
-    });
-    this->m_RdpClient->OnConfirmClose.add([this](
-        VARIANT_BOOL* pfAllowClose)
-    {
-        // Set it FALSE because we don't want to close the connection before
-        // making decisions in the close confirmation dialog.
-        *pfAllowClose = VARIANT_FALSE;
-        this->PostMessageW(WM_CLOSE);
-    });
-
-    this->SetTimer(
-        NanaBox::MainWindowTimerEvents::SyncDisplaySettings,
-        200);
-
-    this->m_RdpClient->Server(L"localhost");
-    this->m_RdpClient->RDPPort(2179);
-    this->m_RdpClient->MinInputSendInterval(20);
-
-    this->m_RdpClient->Connect();
-
-    this->m_RdpClientWindow.SetFocus();
 
     return 0;
 }
@@ -697,11 +427,7 @@ void NanaBox::MainWindow::OnClose()
 
 void NanaBox::MainWindow::OnDestroy()
 {
-    this->KillTimer(
-        NanaBox::MainWindowTimerEvents::SyncDisplaySettings);
-
-    this->m_RdpClientWindow.DestroyWindow();
-    this->m_RdpClient = nullptr;
+    this->RdpClientUninitialize();
 
     ::PostQuitMessage(0);
 }
@@ -842,9 +568,312 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
         winrt::to_string(this->m_VirtualMachine->GetProperties()));
     this->m_VirtualMachineGuid = Properties["RuntimeId"];
 
-    std::wstring WindowTitle = Mile::FormatWideString(
+    this->m_WindowTitle = Mile::FormatWideString(
         L"%s - NanaBox",
         Mile::ToWideString(CP_UTF8, this->m_Configuration.Name).c_str());
-    this->SetWindowTextW(WindowTitle.c_str());
-    this->m_RdpClient->ConnectionBarText(WindowTitle.c_str());
+    this->SetWindowTextW(this->m_WindowTitle.c_str());
+}
+
+void NanaBox::MainWindow::RdpClientOnRemoteDesktopSizeChange(
+    _In_ LONG Width,
+    _In_ LONG Height)
+{
+    if (this->m_RdpClientMode == RdpClientMode::BasicSession)
+    {
+        if (this->IsZoomed())
+        {
+            return;
+        }
+
+        this->m_DisplayResolution = CSize(Width, Height);
+
+        UINT DpiValue = ::GetDpiForWindow(this->m_hWnd);
+
+        RECT WindowRect;
+        winrt::check_bool(this->GetWindowRect(&WindowRect));
+        {
+            int WindowWidth = 0;
+            WindowWidth += this->m_DisplayResolution.cx;
+            int WindowHeight = this->m_RecommendedMainWindowControlHeight;
+            WindowHeight += this->m_DisplayResolution.cy;
+
+            RECT ClientRect;
+            winrt::check_bool(this->GetClientRect(&ClientRect));
+
+            WindowRect.right -= ClientRect.right;
+            WindowRect.bottom -= ClientRect.bottom;
+            WindowRect.right += ::MulDiv(
+                WindowWidth,
+                DpiValue,
+                USER_DEFAULT_SCREEN_DPI);
+            WindowRect.bottom += ::MulDiv(
+                WindowHeight,
+                DpiValue,
+                USER_DEFAULT_SCREEN_DPI);
+        }
+
+        this->SetWindowPos(
+            nullptr,
+            &WindowRect,
+            SWP_NOZORDER | SWP_NOACTIVATE);
+    }
+}
+
+void NanaBox::MainWindow::RdpClientOnLoginComplete()
+{
+    if (this->m_RdpClientMode == RdpClientMode::EnhancedSession)
+    {
+        this->m_RdpClientMode = RdpClientMode::EnhancedVideoSyncedSession;
+        this->m_DisplayResolution = CSize();
+    }
+}
+
+void NanaBox::MainWindow::RdpClientOnDisconnected(
+    _In_ LONG DisconnectReason)
+{
+    UNREFERENCED_PARAMETER(DisconnectReason);
+
+    if (this->m_RdpClientMode == RdpClientMode::EnhancedVideoSyncedSession)
+    {
+        this->m_RdpClientMode = RdpClientMode::EnhancedSession;
+    }
+
+    if (this->m_VirtualMachineRunning)
+    {
+        try
+        {
+            std::string PCB = this->m_VirtualMachineGuid;
+            if (this->m_RdpClientMode == RdpClientMode::EnhancedSession)
+            {
+                PCB += ";EnhancedMode=1";
+
+                this->m_RdpClient->DesktopWidth(
+                    this->m_RecommendedDisplayResolution.cx);
+                this->m_RdpClient->DesktopHeight(
+                    this->m_RecommendedDisplayResolution.cy);
+
+                VARIANT RawZoomLevel;
+                RawZoomLevel.vt = VT_UI4;
+                RawZoomLevel.uintVal = 100;
+                this->m_RdpClient->Property(
+                    L"ZoomLevel",
+                    RawZoomLevel);
+            }
+            else if (this->m_RdpClientMode == RdpClientMode::BasicSession)
+            {
+                VARIANT RawZoomLevel;
+                RawZoomLevel.vt = VT_UI4;
+                RawZoomLevel.uintVal = this->m_RecommendedZoomLevel;
+                this->m_RdpClient->Property(
+                    L"ZoomLevel",
+                    RawZoomLevel);
+            }
+            this->m_RdpClient->PCB(winrt::to_hstring(PCB));
+            this->m_RdpClient->Connect();
+        }
+        catch (...)
+        {
+
+        }
+    }
+}
+
+void NanaBox::MainWindow::RdpClientOnRequestGoFullScreen()
+{
+    HMONITOR MonitorHandle = ::MonitorFromWindow(
+        this->m_hWnd,
+        MONITOR_DEFAULTTONULL);
+    winrt::check_pointer(MonitorHandle);
+    MONITORINFOEX MonitorInfo;
+    MonitorInfo.cbSize = sizeof(MONITORINFOEX);
+    winrt::check_bool(::GetMonitorInfoW(
+        MonitorHandle,
+        &MonitorInfo));
+    DEVMODE DevMode;
+    DevMode.dmSize = sizeof(DEVMODE);
+    winrt::check_bool(::EnumDisplaySettingsW(
+        MonitorInfo.szDevice,
+        ENUM_CURRENT_SETTINGS,
+        &DevMode));
+
+    winrt::check_bool(this->GetWindowRect(
+        &this->m_RememberedMainWindowRect));
+    this->m_RememberedMainWindowStyle =
+        this->GetWindowLongPtrW(GWL_STYLE);
+
+    RECT FullScreenRect;
+    FullScreenRect.left = 0;
+    FullScreenRect.top = 0;
+    FullScreenRect.right = DevMode.dmPelsWidth;
+    FullScreenRect.bottom = DevMode.dmPelsHeight;
+
+    // Resize RDP client window and hide the XAML control window by calculating
+    // in OnSize method automatically.
+    this->m_RecommendedMainWindowControlHeight = 0;
+
+    this->SetWindowLongPtrW(
+        GWL_STYLE,
+        WS_VISIBLE | WS_POPUP);
+    // SetWindowPos will send WM_SIZE, RDP Zooming will be re-enabled in Basic
+    // Session Mode.
+    this->SetWindowPos(
+        HWND_TOP,
+        &FullScreenRect,
+        SWP_FRAMECHANGED | SWP_NOACTIVATE);
+}
+
+void NanaBox::MainWindow::RdpClientOnRequestLeaveFullScreen()
+{
+    this->m_RecommendedMainWindowControlHeight =
+        this->m_MainWindowControlHeight;
+    this->SetWindowLongPtrW(
+        GWL_STYLE,
+        this->m_RememberedMainWindowStyle);
+    this->SetWindowPos(
+        nullptr,
+        &this->m_RememberedMainWindowRect,
+        SWP_NOACTIVATE);
+}
+
+void NanaBox::MainWindow::RdpClientOnRequestContainerMinimize()
+{
+    this->ShowWindow(SW_MINIMIZE);
+}
+
+void NanaBox::MainWindow::RdpClientOnConfirmClose(
+    _Out_ VARIANT_BOOL* pfAllowClose)
+{
+    // Set it FALSE because we don't want to close the connection before making
+    // decisions in the close confirmation dialog.
+    *pfAllowClose = VARIANT_FALSE;
+    this->PostMessageW(WM_CLOSE);
+}
+
+void NanaBox::MainWindow::RdpClientInitialize()
+{
+    this->m_RdpClient = winrt::make_self<NanaBox::RdpClient>();
+
+    this->m_RdpClient->EnableEventsDispatcher();
+
+    winrt::check_pointer(this->m_RdpClientWindow.Create(
+        this->m_hWnd,
+        this->m_RdpClientWindow.rcDefault,
+        nullptr,
+        WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN));
+
+    winrt::check_hresult(this->m_RdpClientWindow.AttachControl(
+        this->m_RdpClient->RawControl().get(),
+        nullptr));
+
+    this->m_RdpClient->ConnectionBarText(this->m_WindowTitle.c_str());
+
+    this->m_RdpClient->EnableAutoReconnect(false);
+    this->m_RdpClient->RelativeMouseMode(true);
+    this->m_RdpClient->AuthenticationServiceClass(
+        L"Microsoft Virtual Console Service");
+
+    this->m_RdpClient->AuthenticationLevel(0);
+    this->m_RdpClient->EnableCredSspSupport(true);
+    this->m_RdpClient->NegotiateSecurityLayer(false);
+
+    NanaBox::RemoteDesktopUpdateKeyboardConfiguration(
+        this->m_RdpClient,
+        m_Configuration.Keyboard);
+
+    NanaBox::RemoteDesktopUpdateEnhancedSessionConfiguration(
+        this->m_RdpClient,
+        m_Configuration.EnhancedSession);
+
+    this->m_RdpClient->ContainerHandledFullScreen(true);
+
+    try
+    {
+        VARIANT Value;
+        Value.vt = VT_BOOL;
+        Value.boolVal = VARIANT_TRUE;
+        this->m_RdpClient->Property(L"DisableCredentialsDelegation", Value);
+    }
+    catch (...)
+    {
+
+    }
+
+    try
+    {
+        VARIANT Value;
+        Value.vt = VT_BOOL;
+        Value.boolVal = VARIANT_TRUE;
+        this->m_RdpClient->Property(L"AllowAxToContainerEvents", Value);
+    }
+    catch (...)
+    {
+
+    }
+
+    this->m_RdpClient->PerformanceFlags(
+        TS_PERF_ENABLE_ENHANCED_GRAPHICS |
+        TS_PERF_ENABLE_FONT_SMOOTHING |
+        TS_PERF_ENABLE_DESKTOP_COMPOSITION);
+
+    try
+    {
+        VARIANT Value;
+        Value.vt = VT_BOOL;
+        Value.boolVal = VARIANT_TRUE;
+        this->m_RdpClient->Property(L"EnableHardwareMode", Value);
+    }
+    catch (...)
+    {
+
+    }
+
+    try
+    {
+        VARIANT Value;
+        Value.vt = VT_BOOL;
+        Value.boolVal = VARIANT_TRUE;
+        this->m_RdpClient->Property(L"EnableFrameBufferRedirection", Value);
+    }
+    catch (...)
+    {
+
+    }
+
+    this->m_RdpClient->GrabFocusOnConnect(false);
+
+    this->m_RdpClient->OnRemoteDesktopSizeChange.add(
+        { this, &NanaBox::MainWindow::RdpClientOnRemoteDesktopSizeChange });
+    this->m_RdpClient->OnLoginComplete.add(
+        { this, &NanaBox::MainWindow::RdpClientOnLoginComplete });
+    this->m_RdpClient->OnDisconnected.add(
+        { this, &NanaBox::MainWindow::RdpClientOnDisconnected });
+    this->m_RdpClient->OnRequestGoFullScreen.add(
+        { this, &NanaBox::MainWindow::RdpClientOnRequestGoFullScreen });
+    this->m_RdpClient->OnRequestLeaveFullScreen.add(
+        { this, &NanaBox::MainWindow::RdpClientOnRequestLeaveFullScreen });
+    this->m_RdpClient->OnRequestContainerMinimize.add(
+        { this, &NanaBox::MainWindow::RdpClientOnRequestContainerMinimize });
+    this->m_RdpClient->OnConfirmClose.add(
+        { this, &NanaBox::MainWindow::RdpClientOnConfirmClose });
+
+    this->SetTimer(
+        NanaBox::MainWindowTimerEvents::SyncDisplaySettings,
+        200);
+
+    this->m_RdpClient->Server(L"localhost");
+    this->m_RdpClient->RDPPort(2179);
+    this->m_RdpClient->MinInputSendInterval(20);
+
+    this->m_RdpClient->Connect();
+
+    this->m_RdpClientWindow.SetFocus();
+}
+
+void NanaBox::MainWindow::RdpClientUninitialize()
+{
+    this->KillTimer(
+        NanaBox::MainWindowTimerEvents::SyncDisplaySettings);
+
+    this->m_RdpClientWindow.DestroyWindow();
+    this->m_RdpClient = nullptr;
 }

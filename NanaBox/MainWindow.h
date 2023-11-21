@@ -103,7 +103,30 @@ namespace NanaBox
         UINT64 m_SyncDisplaySettingsCheckPoint = 0;
         RECT m_RememberedMainWindowRect;
         LONG_PTR m_RememberedMainWindowStyle;
+        std::wstring m_WindowTitle;
 
         void InitializeVirtualMachine();
+
+        void RdpClientOnRemoteDesktopSizeChange(
+            _In_ LONG Width,
+            _In_ LONG Height);
+
+        void RdpClientOnLoginComplete();
+
+        void RdpClientOnDisconnected(
+            _In_ LONG DisconnectReason);
+
+        void RdpClientOnRequestGoFullScreen();
+
+        void RdpClientOnRequestLeaveFullScreen();
+
+        void RdpClientOnRequestContainerMinimize();
+
+        void RdpClientOnConfirmClose(
+            _Out_ VARIANT_BOOL* pfAllowClose);
+
+        void RdpClientInitialize();
+
+        void RdpClientUninitialize();
     };
 }
