@@ -201,16 +201,6 @@ NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
 
                 try
                 {
-                    Current.Enabled =
-                        NetworkAdapter.at("Enabled").get<bool>();
-                }
-                catch (...)
-                {
-
-                }
-
-                try
-                {
                     Current.Connected =
                         NetworkAdapter.at("Connected").get<bool>();
                 }
@@ -432,7 +422,6 @@ std::string NanaBox::SerializeConfiguration(
             : Configuration.NetworkAdapters)
         {
             nlohmann::json Current;
-            Current["Enabled"] = NetworkAdapter.Enabled;
             Current["Connected"] = NetworkAdapter.Connected;
             if (!NetworkAdapter.MacAddress.empty())
             {
@@ -596,11 +585,6 @@ std::string NanaBox::MakeHcsConfiguration(
             for (NanaBox::NetworkAdapterConfiguration const& NetworkAdapter
                 : Configuration.NetworkAdapters)
             {
-                if (!NetworkAdapter.Enabled)
-                {
-                    continue;
-                }
-
                 nlohmann::json Current;
 
                 if (!NetworkAdapter.Connected)

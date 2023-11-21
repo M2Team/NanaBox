@@ -205,7 +205,6 @@ namespace winrt::NanaBox::implementation
                 {
                     NanaBox::NetworkAdapterConfiguration NetworkAdapter;
                     NetworkAdapter.Connected = true;
-                    NetworkAdapter.Enabled = true;
                     Configuration.NetworkAdapters.push_back(NetworkAdapter);
                 }
                 {

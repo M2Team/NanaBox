@@ -28,7 +28,6 @@
         },     
         "NetworkAdapters": [
             {
-                "Enabled": true,
                 "Connected": true,
                 "MacAddress": "00-15-5D-64-2F-AB",
                 "EndpointId": "f2288275-6c30-47d4-bc24-293fa9c9cb12"
@@ -73,7 +72,6 @@
     - AssignmentMode (String)
     - SelectedDevices (String Array)
   - NetworkAdapters (Object Array)
-    - Enabled (Boolean)
     - Connected (Boolean)
     - MacAddress (String)
     - EndpointId (String)
@@ -199,10 +197,6 @@ Example value: "\\\\?\\PCI#VEN_10DE&DEV_1C82&SUBSYS_11BF1B4C&REV_A1#4&38ab2860&0
 ### NetworkAdapters
 
 The network adapters setting object array of virtual machine.
-
-#### Enabled
-
-Enable the current network adapter if set it true.
 
 #### Connected
 
@@ -553,7 +547,6 @@ Note: Available starting with NanaBox 1.1.
     "NetworkAdapters": [
       {
         "Connected": true,
-        "Enabled": true,
         "EndpointId": "cd67ed54-c64d-4c98-bc0a-6d5f38ca43ce",
         "MacAddress": "00-15-5D-64-2F-AB"
       }
@@ -597,7 +590,6 @@ Note: Available starting with NanaBox 1.1.
     "NetworkAdapters": [
       {
         "Connected": true,
-        "Enabled": true,
         "EndpointId": "594f35de-4d8e-4173-8e9f-00f2b372d2f4",
         "MacAddress": "00-15-5D-47-EB-71"
       }
@@ -641,7 +633,6 @@ Note: Available starting with NanaBox 1.1.
     "NetworkAdapters": [
       {
         "Connected": true,
-        "Enabled": true,
         "EndpointId": "d811c915-5421-4e31-afbf-5db608e7ad24",
         "MacAddress": "00-15-5D-47-EB-0D"
       }

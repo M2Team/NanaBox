@@ -63,11 +63,6 @@ void NanaBox::ComputeSystemPrepareResourcesForNetworkAdapters(
         for (NanaBox::NetworkAdapterConfiguration& NetworkAdapter
             : Configuration)
         {
-            if (!NetworkAdapter.Enabled)
-            {
-                continue;
-            }
-
             GUID EndpointId;
             try
             {

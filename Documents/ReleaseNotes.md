@@ -10,6 +10,8 @@
 - Refresh the exit confirmation window implementation.
 - Improve the stability after restoring virtual machine from suspend.
 - Add keyboard and enhanced session configuration support.
+- Remove some unnecessary configuration options.
+  - `Enabled` option in `NetworkAdapters` configuration.
 - Improve the running as the unpackage mode implementation.
 - Improve the virtual machine session mode switching implementation.
 - Improve the implementation of prerequisite check.
