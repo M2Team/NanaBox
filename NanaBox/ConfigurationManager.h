@@ -26,6 +26,9 @@ namespace NanaBox
     nlohmann::json MakeHcsNetworkAdapterConfiguration(
         NetworkAdapterConfiguration const& Configuration);
 
+    nlohmann::json MakeHcsScsiDeviceConfiguration(
+        ScsiDeviceConfiguration const& Configuration);
+
     void ComputeSystemUpdateMemorySize(
         winrt::com_ptr<ComputeSystem> const& Instance,
         std::uint64_t const& MemorySize);

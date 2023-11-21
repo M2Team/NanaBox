@@ -589,34 +589,8 @@ std::string NanaBox::MakeHcsConfiguration(
             for (NanaBox::ScsiDeviceConfiguration const& ScsiDevice
                 : Configuration.ScsiDevices)
             {
-                nlohmann::json Current;
-
-                switch (ScsiDevice.Type)
-                {
-                case NanaBox::ScsiDeviceType::VirtualDisk:
-                {
-                    Current["Type"] = "VirtualDisk";
-                    break;
-                }
-                case NanaBox::ScsiDeviceType::VirtualImage:
-                {
-                    Current["Type"] = "Iso";
-                    break;
-                }
-                case NanaBox::ScsiDeviceType::PhysicalDevice:
-                {
-                    Current["Type"] = "PassThru";
-                    break;
-                }
-                default:
-                    continue;
-                }
-                Current["Path"] = Mile::ToString(
-                    CP_UTF8,
-                    ::GetAbsolutePath(Mile::ToWideString(
-                        CP_UTF8,
-                        ScsiDevice.Path)));
-                ScsiDevices[std::to_string(Count++)] = Current;
+                ScsiDevices[std::to_string(Count++)] =
+                    NanaBox::MakeHcsScsiDeviceConfiguration(ScsiDevice);
             }
             nlohmann::json ScsiController;
             ScsiController["Attachments"] = ScsiDevices;

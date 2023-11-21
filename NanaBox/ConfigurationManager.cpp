@@ -37,6 +37,41 @@ nlohmann::json NanaBox::MakeHcsNetworkAdapterConfiguration(
     return Result;
 }
 
+nlohmann::json NanaBox::MakeHcsScsiDeviceConfiguration(
+    NanaBox::ScsiDeviceConfiguration const& Configuration)
+{
+    nlohmann::json Result;
+
+    switch (Configuration.Type)
+    {
+    case NanaBox::ScsiDeviceType::VirtualDisk:
+    {
+        Result["Type"] = "VirtualDisk";
+        break;
+    }
+    case NanaBox::ScsiDeviceType::VirtualImage:
+    {
+        Result["Type"] = "Iso";
+        break;
+    }
+    case NanaBox::ScsiDeviceType::PhysicalDevice:
+    {
+        Result["Type"] = "PassThru";
+        break;
+    }
+    default:
+        Result["Type"] = "";
+        break;
+    }
+    Result["Path"] = Mile::ToString(
+        CP_UTF8,
+        ::GetAbsolutePath(Mile::ToWideString(
+            CP_UTF8,
+            Configuration.Path)));
+
+    return Result;
+}
+
 void NanaBox::ComputeSystemUpdateMemorySize(
     winrt::com_ptr<NanaBox::ComputeSystem> const& Instance,
     std::uint64_t const& MemorySize)
