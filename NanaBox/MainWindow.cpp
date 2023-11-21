@@ -12,7 +12,6 @@
 
 #include <windows.ui.xaml.hosting.desktopwindowxamlsource.h>
 
-#include "VirtualMachineConfiguration.h"
 #include "Utils.h"
 
 #include "NanaBoxResources.h"

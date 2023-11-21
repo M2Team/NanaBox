@@ -29,6 +29,9 @@ namespace NanaBox
     nlohmann::json MakeHcsScsiDeviceConfiguration(
         ScsiDeviceConfiguration const& Configuration);
 
+    VirtualMachineConfiguration DeserializeConfiguration(
+        std::string const& Configuration);
+
     void ComputeSystemUpdateMemorySize(
         winrt::com_ptr<ComputeSystem> const& Instance,
         std::uint64_t const& MemorySize);
@@ -82,6 +85,12 @@ namespace NanaBox
 
     nlohmann::json SerializeEnhancedSessionConfiguration(
         EnhancedSessionConfiguration const& Input);
+
+    std::string SerializeConfiguration(
+        VirtualMachineConfiguration const& Configuration);
+
+    std::string MakeHcsConfiguration(
+        VirtualMachineConfiguration const& Configuration);
 }
 
 #endif // !NANABOX_CONFIGURATION_MANAGER

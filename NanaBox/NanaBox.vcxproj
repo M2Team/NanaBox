@@ -68,7 +68,6 @@
       <DependentUpon>App.xaml</DependentUpon>
     </ClCompile>
     <ClCompile Include="Utils.cpp" />
-    <ClCompile Include="VirtualMachineConfiguration.cpp" />
     <ClCompile Include="ExitConfirmationPage.cpp">
       <DependentUpon>ExitConfirmationPage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -147,7 +146,6 @@
     </ClInclude>
     <ClInclude Include="NanaBoxResources.h" />
     <ClInclude Include="Utils.h" />
-    <ClInclude Include="VirtualMachineConfiguration.h" />
     <ClInclude Include="ExitConfirmationPage.h">
       <DependentUpon>ExitConfirmationPage.xaml</DependentUpon>
       <SubType>Code</SubType>

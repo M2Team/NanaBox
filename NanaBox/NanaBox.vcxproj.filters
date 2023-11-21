@@ -10,13 +10,11 @@
     </ClCompile>
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
     <ClCompile Include="pch.cpp" />
-    <ClCompile Include="VirtualMachineConfiguration.cpp">
-      <Filter>VirtualMachineConfiguration</Filter>
-    </ClCompile>
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="ConfigurationManager.cpp">
       <Filter>Configuration</Filter>
     </ClCompile>
+    <ClCompile Include="MainWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="NanaBox.manifest" />
@@ -33,9 +31,6 @@
     </ClInclude>
     <ClInclude Include="NanaBoxResources.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="VirtualMachineConfiguration.h">
-      <Filter>VirtualMachineConfiguration</Filter>
-    </ClInclude>
     <ClInclude Include="Utils.h" />
     <ClInclude Include="ConfigurationManager.h">
       <Filter>Configuration</Filter>
@@ -43,6 +38,7 @@
     <ClInclude Include="ConfigurationSpecification.h">
       <Filter>Configuration</Filter>
     </ClInclude>
+    <ClInclude Include="MainWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="RdpClient">
@@ -50,9 +46,6 @@
     </Filter>
     <Filter Include="HostCompute">
       <UniqueIdentifier>{e489b7f6-6f4d-47c2-b821-915b5528c4e8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="VirtualMachineConfiguration">
-      <UniqueIdentifier>{80460fc0-e997-49cc-848e-d24bb72e5521}</UniqueIdentifier>
     </Filter>
     <Filter Include="Strings">
       <UniqueIdentifier>{1cdb8d5a-8e9a-4f86-a8aa-f2817908b2d8}</UniqueIdentifier>

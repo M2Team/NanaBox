@@ -10,7 +10,7 @@
 
 #include <ShlObj.h>
 
-#include "VirtualMachineConfiguration.h"
+#include "ConfigurationManager.h"
 
 namespace winrt::NanaBox
 {
