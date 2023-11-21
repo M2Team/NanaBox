@@ -88,6 +88,22 @@ void NanaBox::ComputeSystemUpdateComPort2(
     }
 }
 
+void NanaBox::ComputeSystemAddNetworkAdapter(
+    winrt::com_ptr<NanaBox::ComputeSystem> const& Instance,
+    NanaBox::NetworkAdapterConfiguration const& Configuration)
+{
+    nlohmann::json Result;
+
+    Result["ResourcePath"] = Mile::FormatString(
+        "VirtualMachine/Devices/NetworkAdapters/%s",
+        Configuration.EndpointId.c_str());
+    Result["RequestType"] = "Add";
+    Result["Settings"] = NanaBox::MakeHcsNetworkAdapterConfiguration(
+        Configuration);
+
+    Instance->Modify(winrt::to_hstring(Result.dump()));
+}
+
 void NanaBox::ComputeSystemUpdateGpu(
     winrt::com_ptr<NanaBox::ComputeSystem> const& Instance,
     NanaBox::GpuConfiguration const& Configuration)
