@@ -61,6 +61,11 @@ namespace NanaBox
         std::uint32_t const& DeviceID,
         ScsiDeviceConfiguration const& Configuration);
 
+    void ComputeSystemUpdateScsiDevice(
+        winrt::com_ptr<ComputeSystem> const& Instance,
+        std::uint32_t const& DeviceID,
+        ScsiDeviceConfiguration const& Configuration);
+
     void ComputeSystemUpdateGpu(
         winrt::com_ptr<ComputeSystem> const& Instance,
         GpuConfiguration const& Configuration);

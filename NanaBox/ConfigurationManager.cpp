@@ -363,6 +363,22 @@ void NanaBox::ComputeSystemAddScsiDevice(
     Instance->Modify(winrt::to_hstring(Result.dump()));
 }
 
+void NanaBox::ComputeSystemUpdateScsiDevice(
+    winrt::com_ptr<NanaBox::ComputeSystem> const& Instance,
+    std::uint32_t const& DeviceID,
+    NanaBox::ScsiDeviceConfiguration const& Configuration)
+{
+    nlohmann::json Result;
+
+    Result["ResourcePath"] = Mile::FormatString(
+        "VirtualMachine/Devices/Scsi/NanaBox Scsi Controller/Attachments/%d",
+        DeviceID);
+    Result["RequestType"] = "Update";
+    Result["Settings"] = NanaBox::MakeHcsScsiDeviceConfiguration(Configuration);
+
+    Instance->Modify(winrt::to_hstring(Result.dump()));
+}
+
 void NanaBox::ComputeSystemUpdateGpu(
     winrt::com_ptr<NanaBox::ComputeSystem> const& Instance,
     NanaBox::GpuConfiguration const& Configuration)
