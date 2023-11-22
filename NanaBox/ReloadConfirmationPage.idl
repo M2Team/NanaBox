@@ -1,8 +1,16 @@
 ﻿namespace NanaBox
 {
+    enum ReloadConfirmationStatus
+    {
+        Cancel = 0,
+        Reload = 1
+    };
+
     [default_interface]
     runtimeclass ReloadConfirmationPage : Windows.UI.Xaml.Controls.Page
     {
         ReloadConfirmationPage();
+
+        ReloadConfirmationStatus Status{ get; };
     }
 }

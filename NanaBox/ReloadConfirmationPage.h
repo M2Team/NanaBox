@@ -30,9 +30,12 @@ namespace winrt::NanaBox::implementation
             winrt::IInspectable const& sender,
             winrt::RoutedEventArgs const& e);
 
+        NanaBox::ReloadConfirmationStatus Status();
+
     private:
 
         HWND m_WindowHandle;
+        NanaBox::ReloadConfirmationStatus m_Status;
     };
 }
 

@@ -13,7 +13,8 @@ namespace winrt::NanaBox::implementation
 {
     ReloadConfirmationPage::ReloadConfirmationPage(
         _In_ HWND WindowHandle) :
-        m_WindowHandle(WindowHandle)
+        m_WindowHandle(WindowHandle),
+        m_Status(NanaBox::ReloadConfirmationStatus::Cancel)
     {
         ::SetWindowTextW(
             this->m_WindowHandle,
@@ -32,6 +33,9 @@ namespace winrt::NanaBox::implementation
     {
         UNREFERENCED_PARAMETER(sender);
         UNREFERENCED_PARAMETER(e);
+
+        this->m_Status = NanaBox::ReloadConfirmationStatus::Reload;
+        ::DestroyWindow(this->m_WindowHandle);
     }
 
     void ReloadConfirmationPage::CancelButtonClick(
@@ -42,5 +46,10 @@ namespace winrt::NanaBox::implementation
         UNREFERENCED_PARAMETER(e);
 
         ::DestroyWindow(this->m_WindowHandle);
+    }
+
+    NanaBox::ReloadConfirmationStatus ReloadConfirmationPage::Status()
+    {
+        return this->m_Status;
     }
 }

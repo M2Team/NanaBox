@@ -9,7 +9,10 @@
 - Enhance the main window toolbar.
 - Refresh the exit confirmation window implementation.
 - Improve the stability after restoring virtual machine from suspend.
-- Add keyboard and enhanced session configuration support.
+- Add keyboard and enhanced session configuration support and you can modify
+  these settings at runtime.
+- Add support for modifying memory size, COM port named pipe, GPU-PV, network 
+  adapter, SCSI controller settings at runtime.
 - Remove some unnecessary configuration options.
   - `Enabled` option in `NetworkAdapters` configuration.
   - `Enabled` option in `ScsiDevices` configuration.

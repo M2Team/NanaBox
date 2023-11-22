@@ -108,6 +108,8 @@ namespace NanaBox
 
         void InitializeVirtualMachine();
 
+        void TryReloadVirtualMachine();
+
         void RdpClientOnRemoteDesktopSizeChange(
             _In_ LONG Width,
             _In_ LONG Height);

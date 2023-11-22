@@ -73,7 +73,7 @@
     - Connected (Boolean)
     - MacAddress (String)
     - EndpointId (String)
-  - ScsiDevices  (Object Array)
+  - ScsiDevices (Object Array)
     - Type (String)
     - Path (String)
   - SecureBoot (Boolean)
@@ -148,6 +148,8 @@ The memory size of virtual machine, in MB.
 
 Example value: 2048
 
+Note: You can update the memory size at runtime starting with NanaBox 1.1.
+
 ### ComPorts
 
 The COM ports setting object of virtual machine.
@@ -164,15 +166,22 @@ Available values: "Disabled", "Default", "ComPort1" and "ComPort2"
 
 Example value: "\\\\.\\pipe\\vmpipe1"
 
+Note: You can update the named pipe path at runtime starting with NanaBox 1.1.
+
 #### ComPort2
 
 (Optional) The named pipe path of guest COM2 of virtual machine.
 
 Example value: "\\\\.\\pipe\\vmpipe2"
 
+Note: You can update the named pipe path at runtime starting with NanaBox 1.1.
+
 ### Gpu
 
 The GPU paravirtualization setting object of virtual machine.
+
+Note: You can update GPU paravirtualization setting at runtime starting with
+NanaBox 1.1.
 
 #### AssignmentMode
 
@@ -194,6 +203,9 @@ Example value: "\\\\?\\PCI#VEN_10DE&DEV_1C82&SUBSYS_11BF1B4C&REV_A1#4&38ab2860&0
 ### NetworkAdapters
 
 The network adapters setting object array of virtual machine.
+
+Note: You can add, remove and update network adapters at runtime starting with
+NanaBox 1.1.
 
 #### Connected
 
@@ -220,6 +232,8 @@ Example value: "f2288275-6c30-47d4-bc24-293fa9c9cb12"
 ### ScsiDevices
 
 The SCSI devices setting object array of virtual machine.
+
+Note: You can add and update SCSI devices at runtime starting with NanaBox 1.1.
 
 #### Type
 
@@ -300,7 +314,8 @@ the virtual machine.
 
 (Optional) Keyboard setting object array of virtual machine.
 
-Note: Available starting with NanaBox 1.1.
+Note: Available starting with NanaBox 1.1 and you can modify these settings at
+runtime.
 
 #### RedirectKeyCombinations
 
@@ -311,14 +326,16 @@ full-screen mode.
 If you don't want to apply key combinations at the virtual machine, please set
 it false.
 
-Note: Available starting with NanaBox 1.1.
+Note: Available starting with NanaBox 1.1 and you can modify these settings at
+runtime.
 
 #### FullScreenHotkey
 
 (Optional) Specifies the virtual-key code to add to CTRL+ALT to determine the
 hotkey replacement for switching to full-screen mode.
 
-Note: Available starting with NanaBox 1.1.
+Note: Available starting with NanaBox 1.1 and you can modify these settings at
+runtime.
 
 Note: For more information about virtual-key code, please read 
 https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes.
@@ -328,7 +345,8 @@ https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes.
 (Optional) Specifies the virtual-key code to add to ALT to determine the hotkey
 replacement for CTRL+ESC.
 
-Note: Available starting with NanaBox 1.1.
+Note: Available starting with NanaBox 1.1 and you can modify these settings at
+runtime.
 
 Note: You need to use the decimal value of the virtual-key code.
 
@@ -340,7 +358,8 @@ https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes.
 (Optional) Specifies the virtual-key code to add to ALT to determine the hotkey
 replacement for ALT+ESC.
 
-Note: Available starting with NanaBox 1.1.
+Note: Available starting with NanaBox 1.1 and you can modify these settings at
+runtime.
 
 Note: You need to use the decimal value of the virtual-key code.
 
@@ -352,7 +371,8 @@ https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes.
 (Optional) Specifies the virtual-key code to add to ALT to determine the hotkey
 replacement for ALT+TAB.
 
-Note: Available starting with NanaBox 1.1.
+Note: Available starting with NanaBox 1.1 and you can modify these settings at
+runtime.
 
 Note: You need to use the decimal value of the virtual-key code.
 
@@ -364,7 +384,8 @@ https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes.
 (Optional) Specifies the virtual-key code to add to ALT to determine the hotkey
 replacement for ALT+SHIFT+TAB.
 
-Note: Available starting with NanaBox 1.1.
+Note: Available starting with NanaBox 1.1 and you can modify these settings at
+runtime.
 
 Note: You need to use the decimal value of the virtual-key code.
 
@@ -376,7 +397,8 @@ https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes.
 (Optional) Specifies the virtual-key code to add to ALT to determine the hotkey
 replacement for ALT+SPACE.
 
-Note: Available starting with NanaBox 1.1.
+Note: Available starting with NanaBox 1.1 and you can modify these settings at
+runtime.
 
 Note: You need to use the decimal value of the virtual-key code.
 
@@ -389,7 +411,8 @@ https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes.
 hotkey replacement for CTRL+ALT+DELETE, also called the secure attention
 sequence (SAS).
 
-Note: Available starting with NanaBox 1.1.
+Note: Available starting with NanaBox 1.1 and you can modify these settings at
+runtime.
 
 Note: You need to use the decimal value of the virtual-key code.
 
@@ -401,7 +424,8 @@ https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes.
 (Optional) Specifies the virtual-key code to add to Ctrl+Alt to determine the
 hotkey replacement for Ctrl+Alt+Left Arrow.
 
-Note: Available starting with NanaBox 1.1.
+Note: Available starting with NanaBox 1.1 and you can modify these settings at
+runtime.
 
 Note: You need to use the decimal value of the virtual-key code.
 
@@ -413,7 +437,8 @@ https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes.
 (Optional) Specifies the virtual-key code to add to Ctrl+Alt to determine the
 hotkey replacement for Ctrl+Alt+Right Arrow.
 
-Note: Available starting with NanaBox 1.1.
+Note: Available starting with NanaBox 1.1 and you can modify these settings at
+runtime.
 
 Note: You need to use the decimal value of the virtual-key code.
 
@@ -424,83 +449,95 @@ https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes.
 
 (Optional) Enhanced session setting object array of virtual machine.
 
-Note: Available starting with NanaBox 1.1.
+Note: Available starting with NanaBox 1.1 and you can modify these settings at
+runtime.
 
 #### RedirectAudio
 
 (Optional) Redirect sounds from the virtual machine to the host if set it true.
 
-Note: Available starting with NanaBox 1.1.
+Note: Available starting with NanaBox 1.1 and you can modify these settings at
+runtime.
 
 #### RedirectAudioCapture
 
 (Optional) Redirect audio capture from the host to the virtual machine if set it
 true.
 
-Note: Available starting with NanaBox 1.1.
+Note: Available starting with NanaBox 1.1 and you can modify these settings at
+runtime.
 
 #### RedirectDrives
 
 (Optional) Redirect all disk drives from the host to the virtual machine if set
 it true.
 
-Note: Available starting with NanaBox 1.1.
+Note: Available starting with NanaBox 1.1 and you can modify these settings at
+runtime.
 
 #### RedirectPrinters
 
 (Optional) Redirect all printers from the host to the virtual machine if set it
 true.
 
-Note: Available starting with NanaBox 1.1.
+Note: Available starting with NanaBox 1.1 and you can modify these settings at
+runtime.
 
 #### RedirectPorts
 
 (Optional) Redirect all local ports (for example, COM and LPT) from the host to
 the virtual machine if set it true.
 
-Note: Available starting with NanaBox 1.1.
+Note: Available starting with NanaBox 1.1 and you can modify these settings at
+runtime.
 
 #### RedirectSmartCards
 
 (Optional) Redirect all smart cards from the host to the virtual machine if set
 it true.
 
-Note: Available starting with NanaBox 1.1.
+Note: Available starting with NanaBox 1.1 and you can modify these settings at
+runtime.
 
 #### RedirectClipboard
 
 (Optional) Redirect clipboard from the host to the virtual machine if set it
 true.
 
-Note: Available starting with NanaBox 1.1.
+Note: Available starting with NanaBox 1.1 and you can modify these settings at
+runtime.
 
 #### RedirectDevices
 
 (Optional) Redirect all devices from the host to the virtual machine if set it
 true.
 
-Note: Available starting with NanaBox 1.1.
+Note: Available starting with NanaBox 1.1 and you can modify these settings at
+runtime.
 
 #### RedirectPOSDevices
 
 (Optional) Redirect all Point of Service devices from the host to the virtual
 machine if set it true.
 
-Note: Available starting with NanaBox 1.1.
+Note: Available starting with NanaBox 1.1 and you can modify these settings at
+runtime.
 
 #### RedirectDynamicDrives
 
 (Optional) Redirect all dynamically attached Plug and Play (PnP) drives that are
 enumerated while virtual machine running if set it true.
 
-Note: Available starting with NanaBox 1.1.
+Note: Available starting with NanaBox 1.1 and you can modify these settings at
+runtime.
 
 #### RedirectDynamicDevices
 
 (Optional) Redirect all dynamically attached Plug and Play (PnP) devices that
 are enumerated while virtual machine running if set it true.
 
-Note: Available starting with NanaBox 1.1.
+Note: Available starting with NanaBox 1.1 and you can modify these settings at
+runtime.
 
 #### Drives
 
@@ -509,7 +546,8 @@ the host to the virtual machine.
 
 Example value: "C"
 
-Note: Available starting with NanaBox 1.1.
+Note: Available starting with NanaBox 1.1 and you can modify these settings at
+runtime.
 
 #### Devices
 
@@ -518,7 +556,8 @@ host to the virtual machine.
 
 Example value: "USB\\VID_5986&PID_211C&MI_00\\6&218C4A3&0&0000"
 
-Note: Available starting with NanaBox 1.1.
+Note: Available starting with NanaBox 1.1 and you can modify these settings at
+runtime.
 
 ## Samples
 

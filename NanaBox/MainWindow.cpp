@@ -2,6 +2,7 @@
 
 #include "MainWindow.h"
 #include "ExitConfirmationPage.h"
+#include "ReloadConfirmationPage.h"
 
 #include <Mile.Xaml.h>
 
@@ -13,6 +14,8 @@
 #include <windows.ui.xaml.hosting.desktopwindowxamlsource.h>
 
 #include "Utils.h"
+
+#include <map>
 
 #include "NanaBoxResources.h"
 
@@ -168,6 +171,34 @@ void NanaBox::MainWindow::OnCommand(
     }
     case NanaBox::MainWindowCommands::ReloadVirtualMachineSettings:
     {
+        HWND WindowHandle = ::CreateXamlDialog(this->m_hWnd);
+        if (!WindowHandle)
+        {
+            return;
+        }
+
+        winrt::NanaBox::ReloadConfirmationPage Window =
+            winrt::make<winrt::NanaBox::implementation::ReloadConfirmationPage>(
+                WindowHandle);
+        ::ShowXamlDialog(
+            WindowHandle,
+            480,
+            320,
+            winrt::get_abi(Window),
+            this->m_hWnd);
+
+        if (winrt::NanaBox::ReloadConfirmationStatus::Reload == Window.Status())
+        {
+            try
+            {
+                this->TryReloadVirtualMachine();
+            }
+            catch (...)
+            {
+
+            }
+        }
+
         break;
     }
     case NanaBox::MainWindowCommands::CreateVirtualHardDisk:
@@ -573,6 +604,300 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
         L"%s - NanaBox",
         Mile::ToWideString(CP_UTF8, this->m_Configuration.Name).c_str());
     this->SetWindowTextW(this->m_WindowTitle.c_str());
+}
+
+void NanaBox::MainWindow::TryReloadVirtualMachine()
+{
+    std::string ConfigurationFileContent =
+        ::ReadAllTextFromUtf8TextFile(this->m_ConfigurationFilePath);
+
+    NanaBox::VirtualMachineConfiguration Configuration =
+        NanaBox::DeserializeConfiguration(ConfigurationFileContent);
+
+    if (this->m_Configuration.MemorySize != Configuration.MemorySize)
+    {
+        try
+        {
+            NanaBox::ComputeSystemUpdateMemorySize(
+                this->m_VirtualMachine,
+                Configuration.MemorySize);
+            this->m_Configuration.MemorySize =
+                Configuration.MemorySize;
+        }
+        catch (...)
+        {
+
+        }
+    }
+
+    if (0 != _stricmp(
+        this->m_Configuration.ComPorts.ComPort1.c_str(),
+        Configuration.ComPorts.ComPort1.c_str()))
+    {
+        try
+        {
+            NanaBox::ComputeSystemUpdateComPort(
+                this->m_VirtualMachine,
+                0,
+                Configuration.ComPorts.ComPort1);
+            this->m_Configuration.ComPorts.ComPort1 =
+                Configuration.ComPorts.ComPort1;
+        }
+        catch (...)
+        {
+
+        }
+    }
+
+    if (0 != _stricmp(
+        this->m_Configuration.ComPorts.ComPort2.c_str(),
+        Configuration.ComPorts.ComPort2.c_str()))
+    {
+        try
+        {
+            NanaBox::ComputeSystemUpdateComPort(
+                this->m_VirtualMachine,
+                1,
+                Configuration.ComPorts.ComPort2);
+            this->m_Configuration.ComPorts.ComPort2 =
+                Configuration.ComPorts.ComPort2;
+        }
+        catch (...)
+        {
+
+        }
+    }
+
+    try
+    {
+        NanaBox::ComputeSystemUpdateGpu(
+            this->m_VirtualMachine,
+            Configuration.Gpu);
+        this->m_Configuration.Gpu = Configuration.Gpu;
+    }
+    catch (...)
+    {
+
+    }
+
+    {
+        using NetworkAdapterMapType =
+            std::map<std::string, NanaBox::NetworkAdapterConfiguration>;
+
+        NetworkAdapterMapType PreviousList;
+        NetworkAdapterMapType CurrentList;
+        std::vector<NanaBox::NetworkAdapterConfiguration> KeepList;
+        std::vector<NanaBox::NetworkAdapterConfiguration> AddList;
+        std::vector<NanaBox::NetworkAdapterConfiguration> RemoveList;
+        std::vector<NanaBox::NetworkAdapterConfiguration> UpdateList;
+        std::vector<NanaBox::NetworkAdapterConfiguration> FinalList;
+
+        for (NanaBox::NetworkAdapterConfiguration& Previous
+            : this->m_Configuration.NetworkAdapters)
+        {
+            PreviousList.insert(std::pair(Previous.EndpointId, Previous));
+        }
+
+        for (NanaBox::NetworkAdapterConfiguration& Current
+            : Configuration.NetworkAdapters)
+        {
+            CurrentList.insert(std::pair(Current.EndpointId, Current));
+        }
+
+        for (NanaBox::NetworkAdapterConfiguration& Previous
+            : this->m_Configuration.NetworkAdapters)
+        {
+            NetworkAdapterMapType::iterator Current =
+                CurrentList.find(Previous.EndpointId);
+
+            if (CurrentList.end() == Current)
+            {
+                RemoveList.push_back(Previous);
+            }
+            else
+            {
+                if (Previous.Connected != Current->second.Connected ||
+                    0 != _stricmp(
+                        Previous.MacAddress.c_str(),
+                        Current->second.MacAddress.c_str()))
+                {
+                    UpdateList.push_back(Current->second);
+                }
+                else
+                {
+                    KeepList.push_back(Previous);
+                }
+            }
+        }
+
+        for (NanaBox::NetworkAdapterConfiguration& Current
+            : Configuration.NetworkAdapters)
+        {
+            if (PreviousList.end() == PreviousList.find(Current.EndpointId))
+            {
+                AddList.push_back(Current);
+            }
+        }
+
+        for (NanaBox::NetworkAdapterConfiguration& Current : KeepList)
+        {
+            FinalList.push_back(Current);
+        }
+
+        for (NanaBox::NetworkAdapterConfiguration& Current : UpdateList)
+        {
+            try
+            {
+                NanaBox::ComputeSystemUpdateNetworkAdapter(
+                    this->m_VirtualMachine,
+                    Current);
+                FinalList.push_back(Current);
+            }
+            catch (...)
+            {
+                FinalList.push_back(
+                    PreviousList.find(Current.EndpointId)->second);
+            }
+        }
+
+        for (NanaBox::NetworkAdapterConfiguration& Current : RemoveList)
+        {
+            try
+            {
+                NanaBox::ComputeSystemRemoveNetworkAdapter(
+                    this->m_VirtualMachine,
+                    Current);
+            }
+            catch (...)
+            {
+                FinalList.push_back(Current);
+            }
+        }
+
+        NanaBox::ComputeSystemPrepareResourcesForNetworkAdapters(
+            this->m_Configuration.Name,
+            AddList);
+
+        for (NanaBox::NetworkAdapterConfiguration& Current : AddList)
+        {
+            try
+            {
+                NanaBox::ComputeSystemAddNetworkAdapter(
+                    this->m_VirtualMachine,
+                    Current);
+                FinalList.push_back(Current);
+            }
+            catch (...)
+            {
+                
+            }
+        } 
+
+        this->m_Configuration.NetworkAdapters = FinalList;
+    }
+
+    {
+        size_t PreviousCount = this->m_Configuration.ScsiDevices.size();
+        size_t NewCount = Configuration.ScsiDevices.size();
+        if (PreviousCount <= NewCount)
+        {
+            for (std::uint32_t i = 0; i < NewCount; ++i)
+            {
+                NanaBox::ScsiDeviceConfiguration& Current =
+                    Configuration.ScsiDevices[i];
+
+                if (i < PreviousCount)
+                {
+                    NanaBox::ScsiDeviceConfiguration& Previous =
+                        this->m_Configuration.ScsiDevices[i];
+
+                    if (Previous.Type == Current.Type)
+                    {
+                        if (0 != _stricmp(
+                            Previous.Path.c_str(),
+                            Current.Path.c_str()))
+                        {
+                            try
+                            {
+                                NanaBox::ComputeSystemUpdateScsiDevice(
+                                    this->m_VirtualMachine,
+                                    i,
+                                    Current);
+                                Previous.Path = Current.Path;
+                            }
+                            catch (...)
+                            {
+
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    try
+                    {
+                        if (Current.Type !=
+                            NanaBox::ScsiDeviceType::PhysicalDevice)
+                        {
+                            std::wstring Path = ::GetAbsolutePath(
+                                Mile::ToWideString(CP_UTF8, Current.Path));
+                            if (!::PathFileExistsW(Path.c_str()))
+                            {
+                                continue;
+                            }
+                            winrt::check_hresult(::HcsGrantVmAccess(
+                                winrt::to_hstring(
+                                    this->m_Configuration.Name).c_str(),
+                                Path.c_str()));
+                        }
+
+                        NanaBox::ComputeSystemAddScsiDevice(
+                            this->m_VirtualMachine,
+                            i,
+                            Current);
+                        this->m_Configuration.ScsiDevices.push_back(Current);
+                    }
+                    catch (...)
+                    {
+
+                    }
+                }
+            }
+        }
+    }
+
+    try
+    {
+        NanaBox::RemoteDesktopUpdateKeyboardConfiguration(
+            this->m_RdpClient,
+            Configuration.Keyboard);
+        this->m_Configuration.Keyboard = Configuration.Keyboard;
+    }
+    catch (...)
+    {
+
+    }
+
+    try
+    {
+        NanaBox::RemoteDesktopUpdateEnhancedSessionConfiguration(
+            this->m_RdpClient,
+            Configuration.EnhancedSession);
+        this->m_Configuration.EnhancedSession = Configuration.EnhancedSession;
+    }
+    catch (...)
+    {
+
+    }
+
+    ConfigurationFileContent =
+        NanaBox::SerializeConfiguration(this->m_Configuration);
+    ::WriteAllTextToUtf8TextFile(
+        this->m_ConfigurationFilePath,
+        ConfigurationFileContent);
+
+    this->m_NeedRdpClientModeChange = true;
+    this->m_RdpClient->Disconnect();
 }
 
 void NanaBox::MainWindow::RdpClientOnRemoteDesktopSizeChange(
