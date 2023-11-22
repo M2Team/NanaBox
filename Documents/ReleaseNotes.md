@@ -1,6 +1,6 @@
 ﻿# NanaBox Release Notes
 
-**NanaBox 1.1 (1.1.???.0)**
+**NanaBox 1.1 (1.1.600.0)**
 
 - Add the Quick Start user experience based on XAML.
 - Add the Create Virtual Machine user experience based on XAML.

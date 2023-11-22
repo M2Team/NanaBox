@@ -71,11 +71,6 @@ requests and issues are welcome.**
     won't be implemented.
   - You shouldn't put your virtual machine configuration file at the root of
     the drive, or you will meet the access denied error.
-- The virtual machine creation UI and settings UI is not implemented.
-- You may meet the UI frozen when lost the focus from the Settings menu in the
-  NanaBox main window (the popup windows created by XAML Islands) unless switch
-  to another application windows before switch back to the NanaBox main window,
-  may caused by the design of XAML Islands and Remote Desktop ActiveX control.
 
 Reference documents for known issues:
 
@@ -83,9 +78,8 @@ Reference documents for known issues:
 
 ## Development Roadmap
 
-- 1.x Series (Late 2023)
-  - [ ] Add virtual machine creation UI and settings UI.
 - Future Series (T.B.D.)
+  - [ ] Add friendly virtual machine creation UI and settings UI.
   - [ ] Provide tool for Hyper-V vmcx migration. (Suggested by Belleve.)
   - [ ] Add support for setting RDP options with .rdp file. (Suggested by 
         awakecoding.)
