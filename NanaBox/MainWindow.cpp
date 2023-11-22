@@ -774,11 +774,11 @@ void NanaBox::MainWindow::RdpClientInitialize()
 
     NanaBox::RemoteDesktopUpdateKeyboardConfiguration(
         this->m_RdpClient,
-        m_Configuration.Keyboard);
+        this->m_Configuration.Keyboard);
 
     NanaBox::RemoteDesktopUpdateEnhancedSessionConfiguration(
         this->m_RdpClient,
-        m_Configuration.EnhancedSession);
+        this->m_Configuration.EnhancedSession);
 
     this->m_RdpClient->ContainerHandledFullScreen(true);
 
