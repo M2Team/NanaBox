@@ -41,6 +41,11 @@ namespace NanaBox
         std::uint32_t const& PortID,
         std::string const& NamedPipe);
 
+    void ComputeSystemRemoveComPort(
+        winrt::com_ptr<ComputeSystem> const& Instance,
+        std::uint32_t const& PortID,
+        std::string const& NamedPipe);
+
     void ComputeSystemUpdateComPort(
         winrt::com_ptr<ComputeSystem> const& Instance,
         std::uint32_t const& PortID,

@@ -277,6 +277,22 @@ void NanaBox::ComputeSystemAddComPort(
     Instance->Modify(winrt::to_hstring(Result.dump()));
 }
 
+void NanaBox::ComputeSystemRemoveComPort(
+    winrt::com_ptr<NanaBox::ComputeSystem> const& Instance,
+    std::uint32_t const& PortID,
+    std::string const& NamedPipe)
+{
+    nlohmann::json Result;
+
+    Result["ResourcePath"] = Mile::FormatString(
+        "VirtualMachine/Devices/ComPorts/%d",
+        PortID);
+    Result["RequestType"] = "Remove";
+    Result["Settings"] = NanaBox::MakeHcsComPortConfiguration(NamedPipe);
+
+    Instance->Modify(winrt::to_hstring(Result.dump()));
+}
+
 void NanaBox::ComputeSystemUpdateComPort(
     winrt::com_ptr<NanaBox::ComputeSystem> const& Instance,
     std::uint32_t const& PortID,
