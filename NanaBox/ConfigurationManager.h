@@ -36,6 +36,11 @@ namespace NanaBox
         winrt::com_ptr<ComputeSystem> const& Instance,
         std::uint64_t const& MemorySize);
 
+    void ComputeSystemAddComPort(
+        winrt::com_ptr<ComputeSystem> const& Instance,
+        std::uint32_t const& PortID,
+        std::string const& NamedPipe);
+
     void ComputeSystemUpdateComPort(
         winrt::com_ptr<ComputeSystem> const& Instance,
         std::uint32_t const& PortID,
