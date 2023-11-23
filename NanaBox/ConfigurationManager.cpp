@@ -404,22 +404,6 @@ void NanaBox::ComputeSystemRemoveNetworkAdapter(
     Instance->Modify(winrt::to_hstring(Result.dump()));
 }
 
-void NanaBox::ComputeSystemUpdateNetworkAdapter(
-    winrt::com_ptr<NanaBox::ComputeSystem> const& Instance,
-    NanaBox::NetworkAdapterConfiguration const& Configuration)
-{
-    nlohmann::json Result;
-
-    Result["ResourcePath"] = Mile::FormatString(
-        "VirtualMachine/Devices/NetworkAdapters/%s",
-        Configuration.EndpointId.c_str());
-    Result["RequestType"] = "Update";
-    Result["Settings"] = NanaBox::MakeHcsNetworkAdapterConfiguration(
-        Configuration);
-
-    Instance->Modify(winrt::to_hstring(Result.dump()));
-}
-
 void NanaBox::ComputeSystemAddScsiDevice(
     winrt::com_ptr<NanaBox::ComputeSystem> const& Instance,
     std::uint32_t const& DeviceID,
