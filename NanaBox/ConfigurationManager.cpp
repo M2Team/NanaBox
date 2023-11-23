@@ -248,6 +248,48 @@ std::string NanaBox::MakeHcsConfiguration(
     return Result.dump(2);
 }
 
+void NanaBox::ComputeNetworkCreateEndpoint(
+    std::string const& Owner,
+    NanaBox::NetworkAdapterConfiguration& Configuration)
+{
+    GUID EndpointId;
+    if (Configuration.EndpointId.empty())
+    {
+        winrt::check_hresult(::CoCreateGuid(&EndpointId));
+        Configuration.EndpointId = winrt::to_string(::FromGuid(EndpointId));
+    }
+    else
+    {
+        EndpointId = winrt::guid(Configuration.EndpointId);
+    }
+
+    NanaBox::HcnNetwork NetworkHandle = NanaBox::HcnOpenNetwork(
+        NanaBox::DefaultSwitchId);
+
+    std::string DefaultSwitchIdString = winrt::to_string(
+        ::FromGuid(NanaBox::DefaultSwitchId));
+
+    NanaBox::HcnEndpoint EndpointHandle;
+    nlohmann::json Settings;
+    Settings["SchemaVersion"]["Major"] = 2;
+    Settings["SchemaVersion"]["Minor"] = 0;
+    Settings["Owner"] = Owner;
+    Settings["HostComputeNetwork"] = DefaultSwitchIdString;
+    if (!Configuration.MacAddress.empty())
+    {
+        Settings["MacAddress"] = Configuration.MacAddress;
+    }
+
+    EndpointHandle = NanaBox::HcnCreateEndpoint(
+        NetworkHandle,
+        EndpointId,
+        winrt::to_hstring(Settings.dump()));
+
+    nlohmann::json Properties = nlohmann::json::parse(winrt::to_string(
+        NanaBox::HcnQueryEndpointProperties(EndpointHandle)));
+    Configuration.MacAddress = Properties["MacAddress"];
+}
+
 void NanaBox::ComputeSystemUpdateMemorySize(
     winrt::com_ptr<NanaBox::ComputeSystem> const& Instance,
     std::uint64_t const& MemorySize)

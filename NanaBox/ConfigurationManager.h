@@ -32,6 +32,10 @@ namespace NanaBox
     std::string MakeHcsConfiguration(
         VirtualMachineConfiguration const& Configuration);
 
+    void ComputeNetworkCreateEndpoint(
+        std::string const& Owner,
+        NetworkAdapterConfiguration& Configuration);
+
     void ComputeSystemUpdateMemorySize(
         winrt::com_ptr<ComputeSystem> const& Instance,
         std::uint64_t const& MemorySize);
