@@ -290,6 +290,23 @@ void NanaBox::ComputeNetworkCreateEndpoint(
     Configuration.MacAddress = Properties["MacAddress"];
 }
 
+void NanaBox::ComputeNetworkDeleteEndpoint(
+    NanaBox::NetworkAdapterConfiguration& Configuration)
+{
+    try
+    {
+        if (!Configuration.EndpointId.empty())
+        {
+            GUID EndpointId = winrt::guid(Configuration.EndpointId);
+            NanaBox::HcnDeleteEndpoint(EndpointId);
+        }
+    }
+    catch (...)
+    {
+
+    }
+}
+
 void NanaBox::ComputeSystemUpdateMemorySize(
     winrt::com_ptr<NanaBox::ComputeSystem> const& Instance,
     std::uint64_t const& MemorySize)
