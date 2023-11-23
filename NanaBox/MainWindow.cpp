@@ -636,10 +636,28 @@ void NanaBox::MainWindow::TryReloadVirtualMachine()
     {
         try
         {
-            NanaBox::ComputeSystemUpdateComPort(
-                this->m_VirtualMachine,
-                0,
-                Configuration.ComPorts.ComPort1);
+            if (this->m_Configuration.ComPorts.ComPort1.empty())
+            {
+                NanaBox::ComputeSystemAddComPort(
+                    this->m_VirtualMachine,
+                    0,
+                    Configuration.ComPorts.ComPort1);
+            }
+            else if (Configuration.ComPorts.ComPort1.empty())
+            {
+                NanaBox::ComputeSystemRemoveComPort(
+                    this->m_VirtualMachine,
+                    0,
+                    Configuration.ComPorts.ComPort1);
+            }
+            else
+            {
+                NanaBox::ComputeSystemUpdateComPort(
+                    this->m_VirtualMachine,
+                    0,
+                    Configuration.ComPorts.ComPort1);
+            }
+            
             this->m_Configuration.ComPorts.ComPort1 =
                 Configuration.ComPorts.ComPort1;
         }
@@ -655,10 +673,28 @@ void NanaBox::MainWindow::TryReloadVirtualMachine()
     {
         try
         {
-            NanaBox::ComputeSystemUpdateComPort(
-                this->m_VirtualMachine,
-                1,
-                Configuration.ComPorts.ComPort2);
+            if (this->m_Configuration.ComPorts.ComPort2.empty())
+            {
+                NanaBox::ComputeSystemAddComPort(
+                    this->m_VirtualMachine,
+                    1,
+                    Configuration.ComPorts.ComPort2);
+            }
+            else if (Configuration.ComPorts.ComPort2.empty())
+            {
+                NanaBox::ComputeSystemRemoveComPort(
+                    this->m_VirtualMachine,
+                    1,
+                    Configuration.ComPorts.ComPort2);
+            }
+            else
+            {
+                NanaBox::ComputeSystemUpdateComPort(
+                    this->m_VirtualMachine,
+                    1,
+                    Configuration.ComPorts.ComPort2);
+            }
+            
             this->m_Configuration.ComPorts.ComPort2 =
                 Configuration.ComPorts.ComPort2;
         }
