@@ -757,7 +757,11 @@ void NanaBox::MainWindow::TryReloadVirtualMachine()
                         Previous.MacAddress.c_str(),
                         Current->second.MacAddress.c_str()))
                 {
-                    UpdateList.push_back(Current->second);
+                    if (Previous.Connected)
+                    {
+                        RemoveList.push_back(Previous);
+                    }
+                    AddList.push_back(Current->second);
                 }
                 else
                 {
@@ -780,22 +784,6 @@ void NanaBox::MainWindow::TryReloadVirtualMachine()
             FinalList.push_back(Current);
         }
 
-        for (NanaBox::NetworkAdapterConfiguration& Current : UpdateList)
-        {
-            try
-            {
-                NanaBox::ComputeSystemUpdateNetworkAdapter(
-                    this->m_VirtualMachine,
-                    Current);
-                FinalList.push_back(Current);
-            }
-            catch (...)
-            {
-                FinalList.push_back(
-                    PreviousList.find(Current.EndpointId)->second);
-            }
-        }
-
         for (NanaBox::NetworkAdapterConfiguration& Current : RemoveList)
         {
             try
@@ -803,6 +791,7 @@ void NanaBox::MainWindow::TryReloadVirtualMachine()
                 NanaBox::ComputeSystemRemoveNetworkAdapter(
                     this->m_VirtualMachine,
                     Current);
+                NanaBox::ComputeNetworkDeleteEndpoint(Current);
             }
             catch (...)
             {
@@ -818,9 +807,16 @@ void NanaBox::MainWindow::TryReloadVirtualMachine()
         {
             try
             {
+                NanaBox::ComputeNetworkDeleteEndpoint(Current);
+                if (Current.Connected)
+                {
+                    NanaBox::ComputeNetworkCreateEndpoint(
+                        this->m_Configuration.Name,
+                        Current);
                 NanaBox::ComputeSystemAddNetworkAdapter(
                     this->m_VirtualMachine,
                     Current);
+                }
                 FinalList.push_back(Current);
             }
             catch (...)
