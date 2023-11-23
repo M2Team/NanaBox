@@ -80,10 +80,6 @@ namespace NanaBox
         winrt::com_ptr<ComputeSystem> const& Instance,
         GpuConfiguration const& Configuration);
 
-    void ComputeSystemPrepareResourcesForNetworkAdapters(
-        std::string const& Owner,
-        std::vector<NetworkAdapterConfiguration>& Configuration);
-
     void RemoteDesktopUpdateKeyboardConfiguration(
         winrt::com_ptr<RdpClient> const& Instance,
         KeyboardConfiguration& Configuration);
