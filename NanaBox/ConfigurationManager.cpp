@@ -187,6 +187,10 @@ std::string NanaBox::MakeHcsConfiguration(
             for (NanaBox::NetworkAdapterConfiguration const& NetworkAdapter
                 : Configuration.NetworkAdapters)
             {
+                if (!NetworkAdapter.Connected)
+                {
+                    continue;
+                }
                 NetworkAdapters[NetworkAdapter.EndpointId] =
                     NanaBox::MakeHcsNetworkAdapterConfiguration(NetworkAdapter);
             }

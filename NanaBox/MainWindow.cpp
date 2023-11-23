@@ -540,9 +540,27 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
         }
     }
 
-    NanaBox::ComputeSystemPrepareResourcesForNetworkAdapters(
-        this->m_Configuration.Name,
-        this->m_Configuration.NetworkAdapters);
+    if (!this->m_Configuration.NetworkAdapters.empty())
+    {
+        for (NanaBox::NetworkAdapterConfiguration& NetworkAdapter
+            : this->m_Configuration.NetworkAdapters)
+        {
+            NanaBox::ComputeNetworkDeleteEndpoint(NetworkAdapter);
+            if (NetworkAdapter.Connected)
+            {
+                try
+                {
+                    NanaBox::ComputeNetworkCreateEndpoint(
+                        this->m_Configuration.Name,
+                        NetworkAdapter);
+                }
+                catch (...)
+                {
+
+                }
+            }
+        }
+    }
 
     this->m_VirtualMachine = winrt::make_self<NanaBox::ComputeSystem>(
         winrt::to_hstring(
@@ -725,7 +743,6 @@ void NanaBox::MainWindow::TryReloadVirtualMachine()
         std::vector<NanaBox::NetworkAdapterConfiguration> KeepList;
         std::vector<NanaBox::NetworkAdapterConfiguration> AddList;
         std::vector<NanaBox::NetworkAdapterConfiguration> RemoveList;
-        std::vector<NanaBox::NetworkAdapterConfiguration> UpdateList;
         std::vector<NanaBox::NetworkAdapterConfiguration> FinalList;
 
         for (NanaBox::NetworkAdapterConfiguration& Previous
@@ -799,10 +816,6 @@ void NanaBox::MainWindow::TryReloadVirtualMachine()
             }
         }
 
-        NanaBox::ComputeSystemPrepareResourcesForNetworkAdapters(
-            this->m_Configuration.Name,
-            AddList);
-
         for (NanaBox::NetworkAdapterConfiguration& Current : AddList)
         {
             try
@@ -813,9 +826,9 @@ void NanaBox::MainWindow::TryReloadVirtualMachine()
                     NanaBox::ComputeNetworkCreateEndpoint(
                         this->m_Configuration.Name,
                         Current);
-                NanaBox::ComputeSystemAddNetworkAdapter(
-                    this->m_VirtualMachine,
-                    Current);
+                    NanaBox::ComputeSystemAddNetworkAdapter(
+                        this->m_VirtualMachine,
+                        Current);
                 }
                 FinalList.push_back(Current);
             }
