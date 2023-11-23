@@ -1,5 +1,14 @@
 ﻿# NanaBox Release Notes
 
+**NanaBox 1.1 Update 1 (1.1.601.0)**
+
+- Fix the file dialog freeze in some cases on Windows 10. (Thanks to Jarung.)
+- Fix reload virtual machine support when modifying the COM port settings.
+- Fix reload virtual machine support when modifying the network adapter 
+  settings.
+- Fix virtual machine initialization issue when you have disabled network 
+  adapters.
+
 **NanaBox 1.1 (1.1.600.0)**
 
 - Add the Quick Start user experience based on XAML.
