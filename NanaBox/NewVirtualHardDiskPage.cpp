@@ -13,6 +13,11 @@
 using namespace winrt;
 using namespace Windows::UI::Xaml;
 
+namespace winrt
+{
+    using Windows::System::DispatcherQueuePriority;
+}
+
 namespace winrt::NanaBox::implementation
 {
     NewVirtualHardDiskPage::NewVirtualHardDiskPage(
@@ -28,6 +33,9 @@ namespace winrt::NanaBox::implementation
     void NewVirtualHardDiskPage::InitializeComponent()
     {
         NewVirtualHardDiskPageT::InitializeComponent();
+
+        this->m_DispatcherQueue =
+            winrt::DispatcherQueue::GetForCurrentThread();
     }
 
     void NewVirtualHardDiskPage::NaturalNumberTextBoxBeforeTextChanging(
@@ -57,57 +65,70 @@ namespace winrt::NanaBox::implementation
         UNREFERENCED_PARAMETER(sender);
         UNREFERENCED_PARAMETER(e);
 
-        try
+        winrt::handle(Mile::CreateThread([=]()
         {
-            winrt::com_ptr<IFileDialog> FileDialog =
-                winrt::create_instance<IFileDialog>(CLSID_FileSaveDialog);
-
-            DWORD Flags = 0;
-            winrt::check_hresult(FileDialog->GetOptions(&Flags));
-
-            Flags |= FOS_FORCEFILESYSTEM;
-            Flags |= FOS_NOCHANGEDIR;
-            Flags |= FOS_DONTADDTORECENT;
-            winrt::check_hresult(FileDialog->SetOptions(Flags));
-
-            static constexpr COMDLG_FILTERSPEC SupportedFileTypes[] =
+            try
             {
-                { L"VHDX (*.vhdx)", L"*.vhdx" },
-                { L"VHD (*.vhd)", L"*.vhd" }
-            };
+                winrt::com_ptr<IFileDialog> FileDialog =
+                    winrt::create_instance<IFileDialog>(CLSID_FileSaveDialog);
 
-            winrt::check_hresult(FileDialog->SetFileTypes(
-                ARRAYSIZE(SupportedFileTypes), SupportedFileTypes));
+                DWORD Flags = 0;
+                winrt::check_hresult(FileDialog->GetOptions(&Flags));
 
-            // Note: The array is 1-indexed
-            winrt::check_hresult(FileDialog->SetFileTypeIndex(1));
+                Flags |= FOS_FORCEFILESYSTEM;
+                Flags |= FOS_NOCHANGEDIR;
+                Flags |= FOS_DONTADDTORECENT;
+                winrt::check_hresult(FileDialog->SetOptions(Flags));
 
-            winrt::check_hresult(FileDialog->SetDefaultExtension(L"vhdx"));
+                static constexpr COMDLG_FILTERSPEC SupportedFileTypes[] =
+                {
+                    { L"VHDX (*.vhdx)", L"*.vhdx" },
+                    { L"VHD (*.vhd)", L"*.vhd" }
+                };
 
-            winrt::check_hresult(FileDialog->Show(this->m_WindowHandle));
+                winrt::check_hresult(FileDialog->SetFileTypes(
+                    ARRAYSIZE(SupportedFileTypes), SupportedFileTypes));
 
-            winrt::hstring FilePath;
-            {
-                winrt::com_ptr<IShellItem> Result;
-                winrt::check_hresult(FileDialog->GetResult(Result.put()));
+                // Note: The array is 1-indexed
+                winrt::check_hresult(FileDialog->SetFileTypeIndex(1));
 
-                LPWSTR RawFilePath = nullptr;
-                winrt::check_hresult(Result->GetDisplayName(
-                    SIGDN_FILESYSPATH,
-                    &RawFilePath));
-                FilePath = winrt::to_hstring(RawFilePath);
-                ::CoTaskMemFree(RawFilePath);
+                winrt::check_hresult(FileDialog->SetDefaultExtension(L"vhdx"));
+
+                winrt::check_hresult(FileDialog->Show(this->m_WindowHandle));
+
+                winrt::hstring FilePath;
+                {
+                    winrt::com_ptr<IShellItem> Result;
+                    winrt::check_hresult(FileDialog->GetResult(Result.put()));
+
+                    LPWSTR RawFilePath = nullptr;
+                    winrt::check_hresult(Result->GetDisplayName(
+                        SIGDN_FILESYSPATH,
+                        &RawFilePath));
+                    FilePath = winrt::to_hstring(RawFilePath);
+                    ::CoTaskMemFree(RawFilePath);
+                }
+                if (FilePath.empty())
+                {
+                    return;
+                }
+
+                if (!this->m_DispatcherQueue)
+                {
+                    return;
+                }
+                this->m_DispatcherQueue.TryEnqueue(
+                    winrt::DispatcherQueuePriority::Normal,
+                    [=]()
+                {
+                    this->FileNameTextBox().Text(FilePath);
+                });
             }
-
-            if (!FilePath.empty())
+            catch (...)
             {
-                this->FileNameTextBox().Text(FilePath);
-            }
-        }
-        catch (...)
-        {
 
-        }
+            }
+        }));
     }
 
     void NewVirtualHardDiskPage::CreateButtonClick(

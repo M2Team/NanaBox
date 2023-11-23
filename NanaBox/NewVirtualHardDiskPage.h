@@ -2,11 +2,14 @@
 
 #include "NewVirtualHardDiskPage.g.h"
 
+#include <winrt/Windows.System.h>
+
 #include <Windows.h>
 
 namespace winrt
 {
     using Windows::Foundation::IInspectable;
+    using Windows::System::DispatcherQueue;
     using Windows::UI::Xaml::Controls::TextBox;
     using Windows::UI::Xaml::Controls::TextBoxBeforeTextChangingEventArgs;
     using Windows::UI::Xaml::RoutedEventArgs;
@@ -43,6 +46,7 @@ namespace winrt::NanaBox::implementation
     private:
 
         HWND m_WindowHandle;
+        winrt::DispatcherQueue m_DispatcherQueue = nullptr;
     };
 }
 

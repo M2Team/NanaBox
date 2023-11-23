@@ -67,63 +67,68 @@ namespace winrt::NanaBox::implementation
         UNREFERENCED_PARAMETER(sender);
         UNREFERENCED_PARAMETER(e);
 
-        try
+        winrt::handle(Mile::CreateThread([=]()
         {
-            winrt::com_ptr<IFileDialog> FileDialog =
-                winrt::create_instance<IFileDialog>(CLSID_FileOpenDialog);
-
-            DWORD Flags = 0;
-            winrt::check_hresult(FileDialog->GetOptions(&Flags));
-            Flags |= FOS_FORCEFILESYSTEM;
-            Flags |= FOS_NOCHANGEDIR;
-            Flags |= FOS_DONTADDTORECENT;
-            winrt::check_hresult(FileDialog->SetOptions(Flags));
-
-            std::wstring FileTypeName = Mile::FormatWideString(
-                L"%s (*.7b)",
-                Mile::WinRT::GetLocalizedString(
-                    L"QuickStartPage/ConfigurationFileTypeName").c_str());
-
-            static COMDLG_FILTERSPEC SupportedFileTypes[] =
+            try
             {
+                if (!this->m_ConfigurationFilePath)
                 {
-                    FileTypeName.c_str(),
-                    L"*.7b"
+                    return;
                 }
-            };
-            winrt::check_hresult(FileDialog->SetFileTypes(
-                ARRAYSIZE(SupportedFileTypes),
-                SupportedFileTypes));
-            winrt::check_hresult(FileDialog->SetFileTypeIndex(1));
-            winrt::check_hresult(FileDialog->SetDefaultExtension(L"7b"));
 
-            winrt::check_hresult(FileDialog->Show(this->m_WindowHandle));
+                winrt::com_ptr<IFileDialog> FileDialog =
+                    winrt::create_instance<IFileDialog>(CLSID_FileOpenDialog);
 
-            winrt::com_ptr<IShellItem> Result;
-            winrt::check_hresult(FileDialog->GetResult(Result.put()));
+                DWORD Flags = 0;
+                winrt::check_hresult(FileDialog->GetOptions(&Flags));
+                Flags |= FOS_FORCEFILESYSTEM;
+                Flags |= FOS_NOCHANGEDIR;
+                Flags |= FOS_DONTADDTORECENT;
+                winrt::check_hresult(FileDialog->SetOptions(Flags));
 
-            PWSTR FilePath = nullptr;
-            winrt::check_hresult(Result->GetDisplayName(
-                SIGDN_FILESYSPATH,
-                &FilePath));
-            if (this->m_ConfigurationFilePath)
-            {
-                *this->m_ConfigurationFilePath = FilePath;
+                std::wstring FileTypeName = Mile::FormatWideString(
+                    L"%s (*.7b)",
+                    Mile::WinRT::GetLocalizedString(
+                        L"QuickStartPage/ConfigurationFileTypeName").c_str());
+
+                static COMDLG_FILTERSPEC SupportedFileTypes[] =
+                {
+                    {
+                        FileTypeName.c_str(),
+                        L"*.7b"
+                    }
+                };
+                winrt::check_hresult(FileDialog->SetFileTypes(
+                    ARRAYSIZE(SupportedFileTypes),
+                    SupportedFileTypes));
+                winrt::check_hresult(FileDialog->SetFileTypeIndex(1));
+                winrt::check_hresult(FileDialog->SetDefaultExtension(L"7b"));
+
+                winrt::check_hresult(FileDialog->Show(this->m_WindowHandle));
+
+                winrt::com_ptr<IShellItem> Result;
+                winrt::check_hresult(FileDialog->GetResult(Result.put()));
+
+                PWSTR FilePath = nullptr;
+                winrt::check_hresult(Result->GetDisplayName(
+                    SIGDN_FILESYSPATH,
+                    &FilePath));
+                if (FilePath)
+                {
+                    *this->m_ConfigurationFilePath = std::wstring(FilePath);
+                }
+                ::CoTaskMemFree(FilePath);
+
+                if (!this->m_ConfigurationFilePath->empty())
+                {
+                    ::PostMessageW(this->m_WindowHandle, WM_CLOSE, 0, 0);
+                }
             }
-            ::CoTaskMemFree(FilePath);
-        }
-        catch (...)
-        {
-
-        }
-
-        if (this->m_ConfigurationFilePath)
-        {
-            if (!this->m_ConfigurationFilePath->empty())
+            catch (...)
             {
-                ::DestroyWindow(this->m_WindowHandle);
+
             }
-        }
+        }));
     }
 
     void QuickStartPage::CreateVirtualMachineButtonClick(
@@ -133,68 +138,64 @@ namespace winrt::NanaBox::implementation
         UNREFERENCED_PARAMETER(sender);
         UNREFERENCED_PARAMETER(e);
 
-        std::wstring FilePath;
-
-        try
-        {
-            winrt::com_ptr<IFileDialog> FileDialog =
-                winrt::create_instance<IFileDialog>(CLSID_FileSaveDialog);
-
-            DWORD Flags = 0;
-            winrt::check_hresult(FileDialog->GetOptions(&Flags));
-
-            Flags |= FOS_FORCEFILESYSTEM;
-            Flags |= FOS_NOCHANGEDIR;
-            Flags |= FOS_DONTADDTORECENT;
-            winrt::check_hresult(FileDialog->SetOptions(Flags));
-
-            std::wstring FileTypeName = Mile::FormatWideString(
-                L"%s (*.7b)",
-                Mile::WinRT::GetLocalizedString(
-                    L"QuickStartPage/ConfigurationFileTypeName").c_str());
-
-            static COMDLG_FILTERSPEC SupportedFileTypes[] =
-            {
-                {
-                    FileTypeName.c_str(),
-                    L"*.7b"
-                }
-            };
-
-            winrt::check_hresult(FileDialog->SetFileTypes(
-                ARRAYSIZE(SupportedFileTypes), SupportedFileTypes));
-
-            // Note: The array is 1-indexed
-            winrt::check_hresult(FileDialog->SetFileTypeIndex(1));
-
-            winrt::check_hresult(FileDialog->SetDefaultExtension(L"7b"));
-
-            winrt::check_hresult(FileDialog->Show(this->m_WindowHandle));
-
-            winrt::com_ptr<IShellItem> Result;
-            winrt::check_hresult(FileDialog->GetResult(Result.put()));
-
-            LPWSTR RawFilePath = nullptr;
-            winrt::check_hresult(Result->GetDisplayName(
-                SIGDN_FILESYSPATH,
-                &RawFilePath));
-            FilePath = std::wstring(RawFilePath);
-            ::CoTaskMemFree(RawFilePath);
-        }
-        catch (...)
-        {
-
-        }
-
-        if (FilePath.empty())
-        {
-            return;
-        }
-
         winrt::handle(Mile::CreateThread([=]()
         {
             try
             {
+                winrt::com_ptr<IFileDialog> FileDialog =
+                    winrt::create_instance<IFileDialog>(CLSID_FileSaveDialog);
+
+                DWORD Flags = 0;
+                winrt::check_hresult(FileDialog->GetOptions(&Flags));
+
+                Flags |= FOS_FORCEFILESYSTEM;
+                Flags |= FOS_NOCHANGEDIR;
+                Flags |= FOS_DONTADDTORECENT;
+                winrt::check_hresult(FileDialog->SetOptions(Flags));
+
+                std::wstring FileTypeName = Mile::FormatWideString(
+                    L"%s (*.7b)",
+                    Mile::WinRT::GetLocalizedString(
+                        L"QuickStartPage/ConfigurationFileTypeName").c_str());
+
+                static COMDLG_FILTERSPEC SupportedFileTypes[] =
+                {
+                    {
+                        FileTypeName.c_str(),
+                        L"*.7b"
+                    }
+                };
+
+                winrt::check_hresult(FileDialog->SetFileTypes(
+                    ARRAYSIZE(SupportedFileTypes), SupportedFileTypes));
+
+                // Note: The array is 1-indexed
+                winrt::check_hresult(FileDialog->SetFileTypeIndex(1));
+
+                winrt::check_hresult(FileDialog->SetDefaultExtension(L"7b"));
+
+                winrt::check_hresult(FileDialog->Show(this->m_WindowHandle));
+
+                winrt::com_ptr<IShellItem> Result;
+                winrt::check_hresult(FileDialog->GetResult(Result.put()));
+
+                std::wstring FilePath;
+                {
+                    LPWSTR RawFilePath = nullptr;
+                    winrt::check_hresult(Result->GetDisplayName(
+                        SIGDN_FILESYSPATH,
+                        &RawFilePath));
+                    if (RawFilePath)
+                    {
+                        FilePath = std::wstring(RawFilePath);
+                    }
+                    ::CoTaskMemFree(RawFilePath);
+                }
+                if (FilePath.empty())
+                {
+                    return;
+                }
+
                 NanaBox::VirtualMachineConfiguration Configuration;
                 Configuration.GuestType = NanaBox::GuestType::Windows;
                 Configuration.Name = winrt::to_string(
@@ -249,9 +250,10 @@ namespace winrt::NanaBox::implementation
                 OpenAsInfo.oaifInFlags = OAIF_EXEC;
                 ::SHOpenWithDialog(this->m_WindowHandle, &OpenAsInfo);
             }
-            catch (winrt::hresult_error const& ex)
+            catch (...)
             {
-                ::ShowErrorMessageDialog(this->m_WindowHandle, ex);
+                winrt::hresult_error Exception = Mile::WinRT::ToHResultError();
+                ::ShowErrorMessageDialog(this->m_WindowHandle, Exception);
             }
         }));
     }
