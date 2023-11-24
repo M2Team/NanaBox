@@ -105,8 +105,11 @@ namespace winrt::NanaBox::implementation
                     winrt::check_hresult(Result->GetDisplayName(
                         SIGDN_FILESYSPATH,
                         &RawFilePath));
-                    FilePath = winrt::to_hstring(RawFilePath);
-                    ::CoTaskMemFree(RawFilePath);
+                    if (RawFilePath)
+                    {
+                        FilePath = winrt::to_hstring(RawFilePath);
+                        ::CoTaskMemFree(RawFilePath);
+                    }
                 }
                 if (FilePath.empty())
                 {

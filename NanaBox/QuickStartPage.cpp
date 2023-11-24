@@ -93,7 +93,8 @@ namespace winrt::NanaBox::implementation
                 std::wstring FileTypeName = Mile::FormatWideString(
                     L"%s (*.7b)",
                     Mile::WinRT::GetLocalizedString(
-                        L"QuickStartPage/ConfigurationFileTypeName").c_str());
+                        L"QuickStartPage/ConfigurationFileTypeName",
+                        L"[NanaBox Virtual Machine Configuration]").c_str());
 
                 static COMDLG_FILTERSPEC SupportedFileTypes[] =
                 {
@@ -120,8 +121,8 @@ namespace winrt::NanaBox::implementation
                 if (FilePath)
                 {
                     *this->m_ConfigurationFilePath = std::wstring(FilePath);
-                }
-                ::CoTaskMemFree(FilePath);
+                    ::CoTaskMemFree(FilePath);
+                } 
 
                 if (!this->m_ConfigurationFilePath->empty())
                 {
@@ -321,8 +322,8 @@ namespace winrt::NanaBox::implementation
                     if (RawFilePath)
                     {
                         ConfigurationFilePath = std::wstring(RawFilePath);
-                    ::CoTaskMemFree(RawFilePath);
-                }
+                        ::CoTaskMemFree(RawFilePath);
+                    }
                 }
             }
             catch (...)
@@ -330,9 +331,9 @@ namespace winrt::NanaBox::implementation
 
             }
             if (ConfigurationName.empty() || ConfigurationFilePath.empty())
-                {
-                    return;
-                }
+            {
+                return;
+            }
 
             {
                 wchar_t* Found = std::wcsrchr(&ConfigurationName[0], L'.');
