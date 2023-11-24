@@ -398,6 +398,12 @@ void NanaBox::MainWindow::OnClose()
     {
     case winrt::NanaBox::ExitConfirmationStatus::Suspend:
     {
+        // Temporarily disable the GPU-PV settings because virtual machine
+        // doen't support save the state when GPU-PV is enabled.
+        NanaBox::GpuConfiguration Gpu;
+        Gpu.AssignmentMode = NanaBox::GpuAssignmentMode::Disabled;
+        NanaBox::ComputeSystemUpdateGpu(this->m_VirtualMachine, Gpu);
+
         this->m_VirtualMachine->Pause();
 
         if (this->m_Configuration.SaveStateFile.empty())
@@ -431,6 +437,10 @@ void NanaBox::MainWindow::OnClose()
         if (this->m_Configuration.SaveStateFile.empty())
         {
             this->m_VirtualMachine->Resume();
+
+            NanaBox::ComputeSystemUpdateGpu(
+                this->m_VirtualMachine,
+                this->m_Configuration.Gpu);
         }
         else
         {
