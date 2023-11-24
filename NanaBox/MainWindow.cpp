@@ -590,7 +590,6 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
         }
 
         this->m_VirtualMachineRunning = false;
-        this->m_RdpClient->DisableEventsDispatcher();
         ::SleepEx(200, FALSE);
         this->PostMessageW(WM_CLOSE);
     });
@@ -1261,7 +1260,7 @@ void NanaBox::MainWindow::RdpClientUninitialize()
 {
     this->KillTimer(
         NanaBox::MainWindowTimerEvents::SyncDisplaySettings);
-
+    this->m_RdpClient->DisableEventsDispatcher();
     this->m_RdpClientWindow.DestroyWindow();
     this->m_RdpClient = nullptr;
 }
