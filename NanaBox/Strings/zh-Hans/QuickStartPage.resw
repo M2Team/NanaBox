@@ -130,8 +130,8 @@
     <comment>NanaBox Virtual Machine Configuration</comment>
   </data>
   <data name="ConfigurationNameTip" xml:space="preserve">
-    <value>更改为您想要的用于虚拟机的唯一名称。</value>
-    <comment>Change to the unique name of virtual machine you want.</comment>
+    <value>请指定虚拟机配置文件的保存位置</value>
+    <comment>Please specify the save location for the configuration file of your virtual machine</comment>
   </data>
   <data name="CreateVirtualHardDiskButton.AutomationProperties.Name" xml:space="preserve">
     <value>创建虚拟磁盘</value>
@@ -170,19 +170,19 @@
     <comment>Launch Virtual Machine</comment>
   </data>
   <data name="SuccessContentText" xml:space="preserve">
-    <value>位于 %s 的虚拟机配置文件模板已成功创建。点击确定后会弹出打开方式对话框，你可以选择你喜爱的编辑器去按照配置文件参考文档编辑你的虚拟机配置文件。</value>
-    <comment>The virtual machine configuration file template at %s has been successfully created. The "Open With" dialog will pop up after you clicking "Confirm", you can choose your favorite editor to follow the "Configuration File Reference Documentation" to edit your virtual machine configuration file.</comment>
+    <value>位于 %s 的虚拟机已成功创建。</value>
+    <comment>The virtual machine at %s has been successfully created.</comment>
   </data>
   <data name="SuccessInstructionText" xml:space="preserve">
     <value>创建虚拟机配置已完成</value>
     <comment>Create Virtual Machine Configuration Completed</comment>
   </data>
   <data name="VirtualDiskPathTip" xml:space="preserve">
-    <value>更改为您想要的用于虚拟磁盘文件的路径。</value>
-    <comment>Change to the file path of the virtual disk you want.</comment>
+    <value>请为虚拟机的存储选择 VHD 或 VHDX 虚拟硬盘，或关闭此对话框跳过设置</value>
+    <comment>Please select a VHD or VHDX virtual hard disk for the storage of your virtual machine, or close this dialog to skip the setting</comment>
   </data>
   <data name="VirtualImagePathTip" xml:space="preserve">
-    <value>更改为您想要的用于虚拟映像文件的路径。</value>
-    <comment>Change to the file path of the virtual image you want.</comment>
+    <value>请选择用于在虚拟机上安装操作系统的可启动 ISO 映像，或关闭此对话框以跳过设置</value>
+    <comment>Please select a bootable ISO image for installing the OS on your virtual machine, or close this dialog to skip the setting</comment>
   </data>
 </root>

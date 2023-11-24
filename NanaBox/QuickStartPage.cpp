@@ -9,6 +9,10 @@
 #include "NanaBoxResources.h"
 
 #include <ShlObj.h>
+#include <Shlwapi.h>
+
+#include <PathCch.h>
+#pragma comment(lib,"PathCch.lib")
 
 #include "ConfigurationManager.h"
 
@@ -140,6 +144,117 @@ namespace winrt::NanaBox::implementation
 
         winrt::handle(Mile::CreateThread([=]()
         {
+            std::wstring VirtualImageFilePath;
+            try
+            {
+                winrt::com_ptr<IFileDialog> FileDialog =
+                    winrt::create_instance<IFileDialog>(CLSID_FileOpenDialog);
+
+                DWORD Flags = 0;
+                winrt::check_hresult(FileDialog->GetOptions(&Flags));
+
+                Flags |= FOS_FORCEFILESYSTEM;
+                Flags |= FOS_NOCHANGEDIR;
+                Flags |= FOS_DONTADDTORECENT;
+                winrt::check_hresult(FileDialog->SetOptions(Flags));
+
+                static constexpr COMDLG_FILTERSPEC SupportedFileTypes[] =
+                {
+                    { L"ISO (*.iso)", L"*.iso" }
+                };
+
+                winrt::check_hresult(FileDialog->SetFileTypes(
+                    ARRAYSIZE(SupportedFileTypes), SupportedFileTypes));
+
+                winrt::check_hresult(FileDialog->SetTitle(
+                    Mile::WinRT::GetLocalizedString(
+                        L"QuickStartPage/VirtualImagePathTip",
+                        L"[Please select a bootable ISO image for installing "
+                        L"the OS on your virtual machine, or close this dialog "
+                        L"to skip the setting]").c_str()));
+
+                // Note: The array is 1-indexed
+                winrt::check_hresult(FileDialog->SetFileTypeIndex(1));
+
+                winrt::check_hresult(FileDialog->SetDefaultExtension(L"iso"));
+
+                winrt::check_hresult(FileDialog->Show(this->m_WindowHandle));
+
+                winrt::com_ptr<IShellItem> Result;
+                winrt::check_hresult(FileDialog->GetResult(Result.put()));
+
+                LPWSTR RawFilePath = nullptr;
+                winrt::check_hresult(Result->GetDisplayName(
+                    SIGDN_FILESYSPATH,
+                    &RawFilePath));
+                if (RawFilePath)
+                {
+                    VirtualImageFilePath = std::wstring(RawFilePath);
+                    ::CoTaskMemFree(RawFilePath);
+                }        
+            }
+            catch (...)
+            {
+
+            }
+
+            std::wstring VirtualDiskFilePath;
+            try
+            {
+                winrt::com_ptr<IFileDialog> FileDialog =
+                    winrt::create_instance<IFileDialog>(CLSID_FileOpenDialog);
+
+                DWORD Flags = 0;
+                winrt::check_hresult(FileDialog->GetOptions(&Flags));
+
+                Flags |= FOS_FORCEFILESYSTEM;
+                Flags |= FOS_NOCHANGEDIR;
+                Flags |= FOS_DONTADDTORECENT;
+                winrt::check_hresult(FileDialog->SetOptions(Flags));
+
+                static constexpr COMDLG_FILTERSPEC SupportedFileTypes[] =
+                {
+                    { L"VHDX (*.vhdx)", L"*.vhdx" },
+                    { L"VHD (*.vhd)", L"*.vhd" }
+                };
+
+                winrt::check_hresult(FileDialog->SetFileTypes(
+                    ARRAYSIZE(SupportedFileTypes), SupportedFileTypes));
+
+                winrt::check_hresult(FileDialog->SetTitle(
+                    Mile::WinRT::GetLocalizedString(
+                        L"QuickStartPage/VirtualDiskPathTip",
+                        L"[Please select a VHD or VHDX virtual hard disk for "
+                        L"the storage of your virtual machine, or close this "
+                        L"dialog to skip the setting]").c_str()));
+
+                // Note: The array is 1-indexed
+                winrt::check_hresult(FileDialog->SetFileTypeIndex(1));
+
+                winrt::check_hresult(FileDialog->SetDefaultExtension(L"vhdx"));
+
+                winrt::check_hresult(FileDialog->Show(this->m_WindowHandle));
+
+                winrt::com_ptr<IShellItem> Result;
+                winrt::check_hresult(FileDialog->GetResult(Result.put()));
+
+                LPWSTR RawFilePath = nullptr;
+                winrt::check_hresult(Result->GetDisplayName(
+                    SIGDN_FILESYSPATH,
+                    &RawFilePath));
+                if (RawFilePath)
+                {
+                    VirtualDiskFilePath = std::wstring(RawFilePath);
+                    ::CoTaskMemFree(RawFilePath);
+                }
+            }
+            catch (...)
+            {
+
+            }
+
+            std::wstring ConfigurationName;
+            std::wstring ConfigurationFilePath;
             try
             {
                 winrt::com_ptr<IFileDialog> FileDialog =
@@ -156,7 +271,8 @@ namespace winrt::NanaBox::implementation
                 std::wstring FileTypeName = Mile::FormatWideString(
                     L"%s (*.7b)",
                     Mile::WinRT::GetLocalizedString(
-                        L"QuickStartPage/ConfigurationFileTypeName").c_str());
+                        L"QuickStartPage/ConfigurationFileTypeName",
+                        L"[NanaBox Virtual Machine Configuration]").c_str());
 
                 static COMDLG_FILTERSPEC SupportedFileTypes[] =
                 {
@@ -169,6 +285,12 @@ namespace winrt::NanaBox::implementation
                 winrt::check_hresult(FileDialog->SetFileTypes(
                     ARRAYSIZE(SupportedFileTypes), SupportedFileTypes));
 
+                winrt::check_hresult(FileDialog->SetTitle(
+                    Mile::WinRT::GetLocalizedString(
+                        L"QuickStartPage/ConfigurationNameTip",
+                        L"[Please specify the save location for the "
+                        L"configuration file of your virtual machine]").c_str()));
+
                 // Note: The array is 1-indexed
                 winrt::check_hresult(FileDialog->SetFileTypeIndex(1));
 
@@ -179,7 +301,18 @@ namespace winrt::NanaBox::implementation
                 winrt::com_ptr<IShellItem> Result;
                 winrt::check_hresult(FileDialog->GetResult(Result.put()));
 
-                std::wstring FilePath;
+                {
+                    LPWSTR RawFileName = nullptr;
+                    winrt::check_hresult(Result->GetDisplayName(
+                        SIGDN_NORMALDISPLAY,
+                        &RawFileName));
+                    if (RawFileName)
+                    {
+                        ConfigurationName = std::wstring(RawFileName);
+                        ::CoTaskMemFree(RawFileName);
+                    }
+                }
+
                 {
                     LPWSTR RawFilePath = nullptr;
                     winrt::check_hresult(Result->GetDisplayName(
@@ -187,49 +320,91 @@ namespace winrt::NanaBox::implementation
                         &RawFilePath));
                     if (RawFilePath)
                     {
-                        FilePath = std::wstring(RawFilePath);
-                    }
+                        ConfigurationFilePath = std::wstring(RawFilePath);
                     ::CoTaskMemFree(RawFilePath);
                 }
-                if (FilePath.empty())
+                }
+            }
+            catch (...)
+            {
+
+            }
+            if (ConfigurationName.empty() || ConfigurationFilePath.empty())
                 {
                     return;
                 }
 
+            {
+                wchar_t* Found = std::wcsrchr(&ConfigurationName[0], L'.');
+                if (Found)
+                {
+                    Found[0] = L'\0';
+                }
+                ConfigurationName.resize(
+                    std::wcslen(ConfigurationName.c_str()));
+            }
+
+            if (!VirtualImageFilePath.empty())
+            {
+                std::wstring RelativePath(MAX_PATH, L'\0');
+                if (::PathRelativePathToW(
+                    &RelativePath[0],
+                    ConfigurationFilePath.c_str(),
+                    FILE_ATTRIBUTE_NORMAL,
+                    VirtualImageFilePath.c_str(),
+                    FILE_ATTRIBUTE_NORMAL))
+                {
+                    RelativePath.resize(std::wcslen(RelativePath.c_str()));
+                    VirtualImageFilePath = RelativePath;
+                }
+            }
+
+            if (!VirtualDiskFilePath.empty())
+            {
+                std::wstring RelativePath(MAX_PATH, L'\0');
+                if (::PathRelativePathToW(
+                    &RelativePath[0],
+                    ConfigurationFilePath.c_str(), 
+                    FILE_ATTRIBUTE_NORMAL,
+                    VirtualDiskFilePath.c_str(),
+                    FILE_ATTRIBUTE_NORMAL))
+                {
+                    RelativePath.resize(std::wcslen(RelativePath.c_str()));
+                    VirtualDiskFilePath = RelativePath;
+                }
+            }
+
+            try
+            {
                 NanaBox::VirtualMachineConfiguration Configuration;
                 Configuration.GuestType = NanaBox::GuestType::Windows;
-                Configuration.Name = winrt::to_string(
-                    Mile::WinRT::GetLocalizedString(
-                        L"QuickStartPage/ConfigurationNameTip"));
+                Configuration.Name = Mile::ToString(CP_UTF8, ConfigurationName);
                 Configuration.ProcessorCount = 2;
-                Configuration.MemorySize = 4096;
+                Configuration.MemorySize = 2048;
                 {
                     NanaBox::NetworkAdapterConfiguration NetworkAdapter;
                     NetworkAdapter.Connected = true;
                     Configuration.NetworkAdapters.push_back(NetworkAdapter);
                 }
+                if (!VirtualDiskFilePath.empty())
                 {
                     NanaBox::ScsiDeviceConfiguration ScsiDevice;
                     ScsiDevice.Type = NanaBox::ScsiDeviceType::VirtualDisk;
-                    ScsiDevice.Path = winrt::to_string(
-                        Mile::WinRT::GetLocalizedString(
-                            L"QuickStartPage/VirtualDiskPathTip"));
+                    ScsiDevice.Path = Mile::ToString(CP_UTF8, VirtualDiskFilePath);
                     Configuration.ScsiDevices.push_back(ScsiDevice);
                 }
+                if (!VirtualImageFilePath.empty())
                 {
                     NanaBox::ScsiDeviceConfiguration ScsiDevice;
                     ScsiDevice.Type = NanaBox::ScsiDeviceType::VirtualImage;
-                    ScsiDevice.Path = winrt::to_string(
-                        Mile::WinRT::GetLocalizedString(
-                            L"QuickStartPage/VirtualImagePathTip"));
+                    ScsiDevice.Path = Mile::ToString(CP_UTF8, VirtualImageFilePath);
                     Configuration.ScsiDevices.push_back(ScsiDevice);
                 }
-                Configuration.SecureBoot = true;
 
                 std::string Content =
                     NanaBox::SerializeConfiguration(Configuration);
 
-                ::WriteAllTextToUtf8TextFile(FilePath, Content);
+                ::WriteAllTextToUtf8TextFile(ConfigurationFilePath, Content);
 
                 winrt::hstring SuccessInstructionText =
                     Mile::WinRT::GetLocalizedString(
@@ -243,12 +418,7 @@ namespace winrt::NanaBox::implementation
                     SuccessInstructionText.c_str(),
                     Mile::FormatWideString(
                         SuccessContentText.c_str(),
-                        FilePath.c_str()).c_str());
-
-                OPENASINFO OpenAsInfo = { 0 };
-                OpenAsInfo.pcszFile = FilePath.c_str();
-                OpenAsInfo.oaifInFlags = OAIF_EXEC;
-                ::SHOpenWithDialog(this->m_WindowHandle, &OpenAsInfo);
+                        ConfigurationFilePath.c_str()).c_str());
             }
             catch (...)
             {
