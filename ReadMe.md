@@ -48,8 +48,7 @@ requests and issues are welcome.**
 - Support enables Secure Boot for virtual machine.
 - Use JSON based format to support portable virtual machine.
 - Packaging with MSIX for modern deployment experience.
-- Modernize the UI with XAML Islands with dark and light mode support. (Dynamic
-  dark and light mode switching is supported for Windows 11 and later.)
+- Modernize the UI with XAML Islands with dark and light mode support.
 - Full High DPI and partial Accessibility support.
 - Support full screen mode.
 - Multi-language Support: English and Simplified Chinese.
