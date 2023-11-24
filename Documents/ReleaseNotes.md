@@ -1,5 +1,14 @@
 ﻿# NanaBox Release Notes
 
+**NanaBox 1.1 Update 2 (1.1.602.0)**
+
+- Improve the user experience to make people using the virtual machine 
+  configuration created by NanaBox without any modifications. (Suggested by 
+  Jarung.)
+- Improve the stability when using the file dialog.
+- Make GPU-PV enabled virtual machine supports save the state.
+- Improve the RDP client uninitialization process.
+
 **NanaBox 1.1 Update 1 (1.1.601.0)**
 
 - Fix the file dialog freeze in some cases on Windows 10. (Thanks to Jarung.)
