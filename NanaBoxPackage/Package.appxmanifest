@@ -9,12 +9,12 @@
   IgnorableNamespaces="uap rescap desktop uap3">
 
   <Identity
-    Name="40174MouriNaruto.NanaBox"
+    Name="40174MouriNaruto.NanaBoxPreview"
     Publisher="CN=E310A153-74A9-4D81-800B-857A8D58408A"
     Version="1.1.602.0" />
 
   <Properties>
-    <DisplayName>NanaBox</DisplayName>
+    <DisplayName>NanaBox Preview</DisplayName>
     <PublisherDisplayName>Kenji Mouri</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -38,7 +38,7 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
-        DisplayName="NanaBox"
+        DisplayName="NanaBox Preview"
         Description="NanaBox"
         BackgroundColor="transparent"
         Square150x150Logo="Assets\Square150x150Logo.png"
