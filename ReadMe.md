@@ -38,6 +38,14 @@ from Microsoft.
 **All kinds of contributions will be appreciated. All suggestions, pull 
 requests and issues are welcome.**
 
+If you want to sponsor me, please read [this document to become a sponsor].
+
+If you'd like me to add features or improvements ahead of time, please use
+[paid services].
+
+[this document to become a sponsor]: https://github.com/MouriNaruto/MouriNaruto/blob/main/Sponsor
+[paid services]: https://github.com/MouriNaruto/MouriNaruto/blob/main/PaidServices.md
+
 ## Features
 
 - Based on Host Compute System API as virtualization backend.
