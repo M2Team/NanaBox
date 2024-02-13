@@ -29,7 +29,6 @@
   <Import Project="..\Mile.Project.Windows\Mile.Project.Platform.ARM64.props" />
   <Import Project="..\Mile.Project.Windows\Mile.Project.Cpp.Default.props" />
   <Import Project="..\Mile.Project.Windows\Mile.Project.Cpp.props" />
-  <Import Project="..\ThirdParty\WindowsTemplateLibrary.props" />
   <Import Project="..\ThirdParty\JsonForModernC++.props" />
   <ImportGroup Label="PropertySheets">
     <Import Project="PropertySheet.props" />
@@ -203,6 +202,9 @@
     </PackageReference>
     <PackageReference Include="Mile.Windows.Helpers">
       <Version>1.0.27</Version>
+    </PackageReference>
+    <PackageReference Include="wtl">
+      <Version>10.0.10320</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
