@@ -180,9 +180,24 @@ std::string NanaBox::MakeHcsConfiguration(
         }
         VideoMonitor["HorizontalResolution"] = 1024;
         VideoMonitor["VerticalResolution"] = 768;
+        {
+            nlohmann::json ConnectionOptions;
+            ConnectionOptions["NamedPipe"] = Mile::FormatString(
+                "\\\\.\\pipe\\%s.BasicSession",
+                Configuration.Name.c_str());
+            VideoMonitor["ConnectionOptions"] = ConnectionOptions;
+        }
         Devices["VideoMonitor"] = VideoMonitor;
 
-        Devices["EnhancedModeVideo"] = nlohmann::json::object();
+        nlohmann::json EnhancedModeVideo;
+        {
+            nlohmann::json ConnectionOptions;
+            ConnectionOptions["NamedPipe"] = Mile::FormatString(
+                "\\\\.\\pipe\\%s.EnhancedSession",
+                Configuration.Name.c_str());
+            EnhancedModeVideo["ConnectionOptions"] = ConnectionOptions;
+        }
+        Devices["EnhancedModeVideo"] = EnhancedModeVideo;
 
         Devices["Keyboard"] = nlohmann::json::object();
 
