@@ -12,6 +12,22 @@
 
 #include "Utils.h"
 
+#include <Mile.Helpers.Base.h>
+
+namespace NanaBox
+{
+    namespace ResolutionType
+    {
+        enum
+        {
+            Unspecified = 0,
+            Maximum = 2,
+            Single = 3,
+            Default = 4
+        };
+    }
+}
+
 namespace NanaBox
 {
     NLOHMANN_JSON_SERIALIZE_ENUM(NanaBox::GuestType, {
@@ -158,6 +174,10 @@ std::string NanaBox::MakeHcsConfiguration(
     nlohmann::json Devices;
     {
         nlohmann::json VideoMonitor;
+        if (::MileIsWindowsVersionAtLeast(10, 0, 20348))
+        {
+            VideoMonitor["ResolutionType"] = NanaBox::ResolutionType::Default;
+        }
         VideoMonitor["HorizontalResolution"] = 1024;
         VideoMonitor["VerticalResolution"] = 768;
         Devices["VideoMonitor"] = VideoMonitor;
