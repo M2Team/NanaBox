@@ -973,115 +973,49 @@ void NanaBox::DeserializeEnhancedSessionConfiguration(
     nlohmann::json const& Input,
     NanaBox::EnhancedSessionConfiguration& Output)
 {
-    try
-    {
-        Output.RedirectAudio =
-            Input.at("RedirectAudio").get<bool>();
-    }
-    catch (...)
-    {
+    Output.RedirectAudio = Mile::Json::ToBoolean(
+        Mile::Json::GetSubKey(Input, "RedirectAudio"),
+        Output.RedirectAudio);
 
-    }
+    Output.RedirectAudioCapture = Mile::Json::ToBoolean(
+        Mile::Json::GetSubKey(Input, "RedirectAudioCapture"),
+        Output.RedirectAudioCapture);
 
-    try
-    {
-        Output.RedirectAudioCapture =
-            Input.at("RedirectAudioCapture").get<bool>();
-    }
-    catch (...)
-    {
+    Output.RedirectDrives = Mile::Json::ToBoolean(
+        Mile::Json::GetSubKey(Input, "RedirectDrives"),
+        Output.RedirectDrives);
 
-    }
+    Output.RedirectPrinters = Mile::Json::ToBoolean(
+        Mile::Json::GetSubKey(Input, "RedirectPrinters"),
+        Output.RedirectPrinters);
 
-    try
-    {
-        Output.RedirectDrives =
-            Input.at("RedirectDrives").get<bool>();
-    }
-    catch (...)
-    {
+    Output.RedirectPorts = Mile::Json::ToBoolean(
+        Mile::Json::GetSubKey(Input, "RedirectPorts"),
+        Output.RedirectPorts);
 
-    }
+    Output.RedirectSmartCards = Mile::Json::ToBoolean(
+        Mile::Json::GetSubKey(Input, "RedirectSmartCards"),
+        Output.RedirectSmartCards);
 
-    try
-    {
-        Output.RedirectPrinters =
-            Input.at("RedirectPrinters").get<bool>();
-    }
-    catch (...)
-    {
+    Output.RedirectClipboard = Mile::Json::ToBoolean(
+        Mile::Json::GetSubKey(Input, "RedirectClipboard"),
+        Output.RedirectClipboard);
 
-    }
+    Output.RedirectDevices = Mile::Json::ToBoolean(
+        Mile::Json::GetSubKey(Input, "RedirectDevices"),
+        Output.RedirectDevices);
 
-    try
-    {
-        Output.RedirectPorts =
-            Input.at("RedirectPorts").get<bool>();
-    }
-    catch (...)
-    {
+    Output.RedirectPOSDevices = Mile::Json::ToBoolean(
+        Mile::Json::GetSubKey(Input, "RedirectPOSDevices"),
+        Output.RedirectPOSDevices);
 
-    }
+    Output.RedirectDynamicDrives = Mile::Json::ToBoolean(
+        Mile::Json::GetSubKey(Input, "RedirectDynamicDrives"),
+        Output.RedirectDynamicDrives);
 
-    try
-    {
-        Output.RedirectSmartCards =
-            Input.at("RedirectSmartCards").get<bool>();
-    }
-    catch (...)
-    {
-
-    }
-
-    try
-    {
-        Output.RedirectClipboard =
-            Input.at("RedirectClipboard").get<bool>();
-    }
-    catch (...)
-    {
-
-    }
-
-    try
-    {
-        Output.RedirectDevices =
-            Input.at("RedirectDevices").get<bool>();
-    }
-    catch (...)
-    {
-
-    }
-
-    try
-    {
-        Output.RedirectPOSDevices =
-            Input.at("RedirectPOSDevices").get<bool>();
-    }
-    catch (...)
-    {
-
-    }
-
-    try
-    {
-        Output.RedirectDynamicDrives =
-            Input.at("RedirectDynamicDrives").get<bool>();
-    }
-    catch (...)
-    {
-
-    }
-
-    try
-    {
-        Output.RedirectDynamicDevices =
-            Input.at("RedirectDynamicDevices").get<bool>();
-    }
-    catch (...)
-    {
-
-    }
+    Output.RedirectDynamicDevices = Mile::Json::ToBoolean(
+        Mile::Json::GetSubKey(Input, "RedirectDynamicDevices"),
+        Output.RedirectDynamicDevices);
 
     try
     {
