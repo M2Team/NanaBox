@@ -823,7 +823,7 @@ void NanaBox::DeserializeKeyboardConfiguration(
     try
     {
         Output.FullScreenHotkey =
-            Input.at("FullScreenHotkey").get<bool>();
+            Input.at("FullScreenHotkey").get<std::int32_t>();
     }
     catch (...)
     {
@@ -833,7 +833,7 @@ void NanaBox::DeserializeKeyboardConfiguration(
     try
     {
         Output.CtrlEscHotkey =
-            Input.at("CtrlEscHotkey").get<bool>();
+            Input.at("CtrlEscHotkey").get<std::int32_t>();
     }
     catch (...)
     {
@@ -843,7 +843,7 @@ void NanaBox::DeserializeKeyboardConfiguration(
     try
     {
         Output.AltEscHotkey =
-            Input.at("AltEscHotkey").get<bool>();
+            Input.at("AltEscHotkey").get<std::int32_t>();
     }
     catch (...)
     {
@@ -853,7 +853,7 @@ void NanaBox::DeserializeKeyboardConfiguration(
     try
     {
         Output.AltTabHotkey =
-            Input.at("AltTabHotkey").get<bool>();
+            Input.at("AltTabHotkey").get<std::int32_t>();
     }
     catch (...)
     {
@@ -863,7 +863,7 @@ void NanaBox::DeserializeKeyboardConfiguration(
     try
     {
         Output.AltShiftTabHotkey =
-            Input.at("AltShiftTabHotkey").get<bool>();
+            Input.at("AltShiftTabHotkey").get<std::int32_t>();
     }
     catch (...)
     {
@@ -873,7 +873,7 @@ void NanaBox::DeserializeKeyboardConfiguration(
     try
     {
         Output.AltSpaceHotkey =
-            Input.at("AltSpaceHotkey").get<bool>();
+            Input.at("AltSpaceHotkey").get<std::int32_t>();
     }
     catch (...)
     {
@@ -883,7 +883,7 @@ void NanaBox::DeserializeKeyboardConfiguration(
     try
     {
         Output.CtrlAltDelHotkey =
-            Input.at("CtrlAltDelHotkey").get<bool>();
+            Input.at("CtrlAltDelHotkey").get<std::int32_t>();
     }
     catch (...)
     {
@@ -893,7 +893,7 @@ void NanaBox::DeserializeKeyboardConfiguration(
     try
     {
         Output.FocusReleaseLeftHotkey =
-            Input.at("FocusReleaseLeftHotkey").get<bool>();
+            Input.at("FocusReleaseLeftHotkey").get<std::int32_t>();
     }
     catch (...)
     {
@@ -903,7 +903,7 @@ void NanaBox::DeserializeKeyboardConfiguration(
     try
     {
         Output.FocusReleaseRightHotkey =
-            Input.at("FocusReleaseRightHotkey").get<bool>();
+            Input.at("FocusReleaseRightHotkey").get<std::int32_t>();
     }
     catch (...)
     {
