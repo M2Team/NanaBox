@@ -16,7 +16,7 @@
 #include "HostCompute.h"
 #include "RdpClient.h"
 
-#include <json.hpp>
+#include <Mile.Json.h>
 
 namespace NanaBox
 {
