@@ -810,105 +810,54 @@ void NanaBox::DeserializeKeyboardConfiguration(
     nlohmann::json const& Input,
     NanaBox::KeyboardConfiguration& Output)
 {
-    try
-    {
-        Output.RedirectKeyCombinations =
-            Input.at("RedirectKeyCombinations").get<bool>();
-    }
-    catch (...)
-    {
+    Output.RedirectKeyCombinations = Mile::Json::ToBoolean(
+        Mile::Json::GetSubKey(Input, "RedirectKeyCombinations"),
+        Output.RedirectKeyCombinations);
 
-    }
+    Output.FullScreenHotkey =
+        static_cast<std::int32_t>(Mile::Json::ToInt64(
+            Mile::Json::GetSubKey(Input, "FullScreenHotkey"),
+            Output.FullScreenHotkey));
 
-    try
-    {
-        Output.FullScreenHotkey =
-            Input.at("FullScreenHotkey").get<std::int32_t>();
-    }
-    catch (...)
-    {
+    Output.CtrlEscHotkey =
+        static_cast<std::int32_t>(Mile::Json::ToInt64(
+            Mile::Json::GetSubKey(Input, "CtrlEscHotkey"),
+            Output.CtrlEscHotkey));
 
-    }
+    Output.AltEscHotkey =
+        static_cast<std::int32_t>(Mile::Json::ToInt64(
+            Mile::Json::GetSubKey(Input, "AltEscHotkey"),
+            Output.AltEscHotkey));
 
-    try
-    {
-        Output.CtrlEscHotkey =
-            Input.at("CtrlEscHotkey").get<std::int32_t>();
-    }
-    catch (...)
-    {
+    Output.AltTabHotkey =
+        static_cast<std::int32_t>(Mile::Json::ToInt64(
+            Mile::Json::GetSubKey(Input, "AltTabHotkey"),
+            Output.AltTabHotkey));
 
-    }
+    Output.AltShiftTabHotkey =
+        static_cast<std::int32_t>(Mile::Json::ToInt64(
+            Mile::Json::GetSubKey(Input, "AltShiftTabHotkey"),
+            Output.AltShiftTabHotkey));
 
-    try
-    {
-        Output.AltEscHotkey =
-            Input.at("AltEscHotkey").get<std::int32_t>();
-    }
-    catch (...)
-    {
+    Output.AltSpaceHotkey =
+        static_cast<std::int32_t>(Mile::Json::ToInt64(
+            Mile::Json::GetSubKey(Input, "AltSpaceHotkey"),
+            Output.AltSpaceHotkey));
 
-    }
+    Output.CtrlAltDelHotkey =
+        static_cast<std::int32_t>(Mile::Json::ToInt64(
+            Mile::Json::GetSubKey(Input, "CtrlAltDelHotkey"),
+            Output.CtrlAltDelHotkey));
 
-    try
-    {
-        Output.AltTabHotkey =
-            Input.at("AltTabHotkey").get<std::int32_t>();
-    }
-    catch (...)
-    {
+    Output.FocusReleaseLeftHotkey =
+        static_cast<std::int32_t>(Mile::Json::ToInt64(
+            Mile::Json::GetSubKey(Input, "FocusReleaseLeftHotkey"),
+            Output.FocusReleaseLeftHotkey));
 
-    }
-
-    try
-    {
-        Output.AltShiftTabHotkey =
-            Input.at("AltShiftTabHotkey").get<std::int32_t>();
-    }
-    catch (...)
-    {
-
-    }
-
-    try
-    {
-        Output.AltSpaceHotkey =
-            Input.at("AltSpaceHotkey").get<std::int32_t>();
-    }
-    catch (...)
-    {
-
-    }
-
-    try
-    {
-        Output.CtrlAltDelHotkey =
-            Input.at("CtrlAltDelHotkey").get<std::int32_t>();
-    }
-    catch (...)
-    {
-
-    }
-
-    try
-    {
-        Output.FocusReleaseLeftHotkey =
-            Input.at("FocusReleaseLeftHotkey").get<std::int32_t>();
-    }
-    catch (...)
-    {
-
-    }
-
-    try
-    {
-        Output.FocusReleaseRightHotkey =
-            Input.at("FocusReleaseRightHotkey").get<std::int32_t>();
-    }
-    catch (...)
-    {
-
-    }
+    Output.FocusReleaseRightHotkey =
+        static_cast<std::int32_t>(Mile::Json::ToInt64(
+            Mile::Json::GetSubKey(Input, "FocusReleaseRightHotkey"),
+            Output.FocusReleaseRightHotkey));
 }
 
 nlohmann::json NanaBox::SerializeKeyboardConfiguration(
