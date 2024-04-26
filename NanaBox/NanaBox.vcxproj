@@ -206,6 +206,9 @@
     <PackageReference Include="wtl">
       <Version>10.0.10320</Version>
     </PackageReference>
+    <PackageReference Include="Mile.Json">
+      <Version>1.0.659</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <PRIResource Include="Strings\en\AboutPage.resw" />
