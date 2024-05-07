@@ -7,7 +7,17 @@
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   mc:Ignorable="d">
   <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="auto" />
+      <ColumnDefinition Width="*" />
+      <ColumnDefinition Width="auto" />
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
     <CommandBar
+      Grid.Column="0"
       HorizontalAlignment="Left"
       HorizontalContentAlignment="Stretch"
       VerticalContentAlignment="Center"
@@ -91,5 +101,10 @@
         LabelPosition="Collapsed"
         ToolTipService.ToolTip="[About NanaBox]" />
     </CommandBar>
+    <Button
+      Grid.Column="2"
+      VerticalAlignment="Center"
+      BorderThickness="0"
+      Content="[Sponsor NanaBox]" />
   </Grid>
 </Page>
