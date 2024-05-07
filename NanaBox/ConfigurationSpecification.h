@@ -65,6 +65,7 @@ namespace NanaBox
     struct GpuConfiguration
     {
         GpuAssignmentMode AssignmentMode = GpuAssignmentMode::Disabled;
+        bool EnableHostDriverStore = false;
         std::vector<std::string> SelectedDevices;
     };
 

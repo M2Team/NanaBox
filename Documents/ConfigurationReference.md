@@ -68,6 +68,7 @@
     - ComPort2 (String)
   - Gpu (Object)
     - AssignmentMode (String)
+    - EnableHostDriverStore (Boolean)
     - SelectedDevices (String Array)
   - NetworkAdapters (Object Array)
     - Connected (Boolean)
@@ -188,6 +189,17 @@ NanaBox 1.1.
 The GPU paravirtualization assignment mode setting of virtual machine.
 
 Available values: "Disabled", "Default", "List" and "Mirror"
+
+#### EnableHostDriverStore
+
+(Optional) Set it true if you want to enable HostDriverStore folder readonly
+share for both Virtual SMB and Plan 9, which can mirror the DriverStore folder
+from the Host OS. It will be useful when users using GPU paravirtualization
+feature.
+
+Note: You cannot suspend the virtual machine properly if this option is enabled.
+
+Note: Available starting with NanaBox 1.2.
 
 #### SelectedDevices
 

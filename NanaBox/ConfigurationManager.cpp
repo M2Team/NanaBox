@@ -246,6 +246,44 @@ std::string NanaBox::MakeHcsConfiguration(
             ScsiController["Attachments"] = ScsiDevices;
             Devices["Scsi"]["NanaBox Scsi Controller"] = ScsiController;
         }
+
+        if (Configuration.Gpu.EnableHostDriverStore)
+        {
+            std::string ShareName = "HostDriverStore";
+            std::string SharePath = "C:\\Windows\\System32\\DriverStore";
+
+            {
+                nlohmann::json Current;
+                Current["Name"] = ShareName;
+                Current["Path"] = SharePath;
+
+                Current["Options"]["ReadOnly"] = true;
+                Current["Options"]["PseudoOplocks"] = true;
+                Current["Options"]["PseudoDirnotify"] = true;
+                Current["Options"]["SupportCloudFiles"] = true;
+
+                nlohmann::json SharedFolders;
+                SharedFolders.push_back(Current);
+                Devices["VirtualSmb"]["Shares"] = SharedFolders;
+            }
+
+            {
+                const std::uint32_t Plan9ShareFlagsReadOnly = 0x00000001;
+
+                const std::uint32_t Plan9SharePort = 50001;
+
+                nlohmann::json Current;
+                Current["Name"] = ShareName;
+                Current["AccessName"] = ShareName;
+                Current["Path"] = SharePath;
+                Current["Port"] = Plan9SharePort;
+                Current["Flags"] = Plan9ShareFlagsReadOnly;
+
+                nlohmann::json SharedFolders;
+                SharedFolders.push_back(Current);
+                Devices["Plan9"]["Shares"] = SharedFolders;
+            }
+        }
     }
     Result["VirtualMachine"]["Devices"] = Devices;
 
@@ -1214,6 +1252,9 @@ NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
         Result.Gpu.AssignmentMode =
             Gpu.at("AssignmentMode").get<NanaBox::GpuAssignmentMode>();
 
+        Result.Gpu.EnableHostDriverStore =
+            Gpu.at("EnableHostDriverStore").get<bool>();
+
         try
         {
             nlohmann::json SelectedDevices = Gpu.at("SelectedDevices");
@@ -1456,6 +1497,11 @@ std::string NanaBox::SerializeConfiguration(
     {
         nlohmann::json Gpu;
         Gpu["AssignmentMode"] = Configuration.Gpu.AssignmentMode;
+        if (Configuration.Gpu.EnableHostDriverStore)
+        {
+            Gpu["EnableHostDriverStore"] =
+                Configuration.Gpu.EnableHostDriverStore;
+        }
         if (!Configuration.Gpu.SelectedDevices.empty())
         {
             nlohmann::json SelectedDevices;
