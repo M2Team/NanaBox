@@ -165,6 +165,14 @@
     <value>暂停虚拟机</value>
     <comment>Pause Virtual Machine</comment>
   </data>
+  <data name="RedirectKeyboardNavigationButton.AutomationProperties.Name" xml:space="preserve">
+    <value>重定向键盘导航</value>
+    <comment>Redirect Keyboard Navigation</comment>
+  </data>
+  <data name="RedirectKeyboardNavigationButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>重定向键盘导航</value>
+    <comment>Redirect Keyboard Navigation</comment>
+  </data>
   <data name="ReloadVirtualMachineSettingsButton.AutomationProperties.Name" xml:space="preserve">
     <value>重载虚拟机设置</value>
     <comment>Reload Virtual Machine Settings</comment>
@@ -180,6 +188,14 @@
   <data name="RestartVirtualMachineButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>重启虚拟机</value>
     <comment>Restart Virtual Machine</comment>
+  </data>
+  <data name="RestoreVirtualMachineWindowSizeButton.AutomationProperties.Name" xml:space="preserve">
+    <value>还原虚拟机窗口大小</value>
+    <comment>Restore Virtual Machine Window Size</comment>
+  </data>
+  <data name="RestoreVirtualMachineWindowSizeButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>还原虚拟机窗口大小</value>
+    <comment>Restore Virtual Machine Window Size</comment>
   </data>
   <data name="SettingsContentText" xml:space="preserve">
     <value>点击确定后会弹出打开方式对话框，你可以选择你喜爱的编辑器去按照配置文件参考文档编辑你的虚拟机配置文件。</value>
