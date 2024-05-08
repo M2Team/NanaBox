@@ -4,8 +4,15 @@
 #include "MainWindowControl.g.cpp"
 #endif
 
+#include <ShObjIdl_core.h>
+
+#include <winrt/Windows.Services.Store.h>
+
 namespace winrt
 {
+    using Windows::Services::Store::StoreContext;
+    using Windows::Services::Store::StoreProduct;
+    using Windows::Services::Store::StoreProductQueryResult;
     using Windows::UI::Xaml::Controls::AppBarToggleButton;
 }
 
@@ -21,6 +28,34 @@ namespace winrt::NanaBox::implementation
     void MainWindowControl::InitializeComponent()
     {
         MainWindowControlT::InitializeComponent();
+    }
+
+    winrt::fire_and_forget MainWindowControl::PageLoaded(
+        winrt::IInspectable const& sender,
+        winrt::RoutedEventArgs const& e)
+    {
+        winrt::StoreContext Context = winrt::StoreContext::GetDefault();
+        if (Context)
+        {
+            winrt::check_hresult(
+                Context.as<IInitializeWithWindow>()->Initialize(
+                    this->m_WindowHandle));
+
+            winrt::StoreProductQueryResult ProductQueryResult =
+                co_await Context.GetStoreProductsAsync(
+                    { L"Durable" },
+                    { L"9P3KMWM424WK" });
+            for (auto Item : ProductQueryResult.Products())
+            {
+                winrt::StoreProduct Product = Item.Value();
+
+                this->SponsorButton().Content(
+                    winrt::box_value(Mile::WinRT::GetLocalizedString(
+                        Product.IsInUserCollection()
+                        ? L"MainWindow/SponsorButton/SponsoredText"
+                        : L"MainWindow/SponsorButton/AcquireText")));
+            }
+        }
     }
 
     void MainWindowControl::EnhancedSessionButtonClick(
@@ -173,5 +208,39 @@ namespace winrt::NanaBox::implementation
                 NanaBox::MainWindowCommands::About,
                 BN_CLICKED),
             0);
+    }
+
+    winrt::fire_and_forget MainWindowControl::SponsorButtonClick(
+        winrt::IInspectable const& sender,
+        winrt::RoutedEventArgs const& e)
+    {
+        UNREFERENCED_PARAMETER(sender);
+        UNREFERENCED_PARAMETER(e);
+
+        // Commented out for waiting some issue when using that under Admin.
+
+        //winrt::StoreContext Context = winrt::StoreContext::GetDefault();
+        //if (Context)
+        //{
+        //    winrt::check_hresult(
+        //        Context.as<IInitializeWithWindow>()->Initialize(
+        //            this->m_WindowHandle));
+
+        //    winrt::StoreProductQueryResult ProductQueryResult =
+        //        co_await Context.GetStoreProductsAsync(
+        //            { L"Durable" },
+        //            { L"9P3KMWM424WK" });
+        //    for (auto Item : ProductQueryResult.Products())
+        //    {
+        //        winrt::StoreProduct Product = Item.Value();
+
+        //        if (!Product.IsInUserCollection())
+        //        {
+        //            co_await Product.RequestPurchaseAsync();
+        //        }
+
+        //        // TODO: Refresh text for Sponsor button
+        //    }
+        //}
     }
 }

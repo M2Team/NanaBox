@@ -103,3 +103,4 @@ Reference documents for known issues:
 - [Release Notes](Documents/ReleaseNotes.md)
 - [Versioning](Documents/Versioning.md)
 - [NanaBox Configuration File Reference](Documents/ConfigurationReference.md)
+- [NanaBox Sponsor Edition](Documents/SponsorEdition.md)

@@ -54,6 +54,10 @@ namespace winrt::NanaBox::implementation
 
         void InitializeComponent();
 
+        winrt::fire_and_forget PageLoaded(
+            winrt::IInspectable const& sender,
+            winrt::RoutedEventArgs const& e);
+
         void EnhancedSessionButtonClick(
             winrt::IInspectable const& sender,
             winrt::RoutedEventArgs const& e);
@@ -87,6 +91,10 @@ namespace winrt::NanaBox::implementation
             winrt::RoutedEventArgs const& e);
 
         void AboutButtonClick(
+            winrt::IInspectable const& sender,
+            winrt::RoutedEventArgs const& e);
+
+        winrt::fire_and_forget SponsorButtonClick(
             winrt::IInspectable const& sender,
             winrt::RoutedEventArgs const& e);
 
