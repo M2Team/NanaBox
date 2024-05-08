@@ -2,8 +2,12 @@
 
 #include "MainWindowControl.g.h"
 
+#include <winrt/Windows.System.h>
+#include <winrt/Windows.Services.Store.h>
+
 #include <Windows.h>
 
+#include <Mile.Helpers.CppBase.h>
 #include <Mile.Helpers.CppWinRT.h>
 
 namespace winrt::Mile
@@ -14,6 +18,8 @@ namespace winrt::Mile
 namespace winrt
 {
     using Windows::Foundation::IInspectable;
+    using Windows::Services::Store::StoreContext;
+    using Windows::System::DispatcherQueue;
     using Windows::UI::Xaml::RoutedEventArgs;
 }
 
@@ -54,7 +60,7 @@ namespace winrt::NanaBox::implementation
 
         void InitializeComponent();
 
-        winrt::fire_and_forget PageLoaded(
+        void PageLoaded(
             winrt::IInspectable const& sender,
             winrt::RoutedEventArgs const& e);
 
@@ -94,13 +100,17 @@ namespace winrt::NanaBox::implementation
             winrt::IInspectable const& sender,
             winrt::RoutedEventArgs const& e);
 
-        winrt::fire_and_forget SponsorButtonClick(
+        void SponsorButtonClick(
             winrt::IInspectable const& sender,
             winrt::RoutedEventArgs const& e);
 
     private:
 
         HWND m_WindowHandle;
+        winrt::DispatcherQueue m_DispatcherQueue = nullptr;
+        winrt::StoreContext m_StoreContext = nullptr;
+
+        void RefreshSponsorButtonContent();
     };
 }
 

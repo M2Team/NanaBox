@@ -6,13 +6,12 @@
 
 #include <ShObjIdl_core.h>
 
-#include <winrt/Windows.Services.Store.h>
-
 namespace winrt
 {
-    using Windows::Services::Store::StoreContext;
+    using Windows::Foundation::IAsyncAction;
     using Windows::Services::Store::StoreProduct;
     using Windows::Services::Store::StoreProductQueryResult;
+    using Windows::System::DispatcherQueuePriority;
     using Windows::UI::Xaml::Controls::AppBarToggleButton;
 }
 
@@ -28,34 +27,27 @@ namespace winrt::NanaBox::implementation
     void MainWindowControl::InitializeComponent()
     {
         MainWindowControlT::InitializeComponent();
+
+        this->m_DispatcherQueue =
+            winrt::DispatcherQueue::GetForCurrentThread();
+
+        this->m_StoreContext = winrt::StoreContext::GetDefault();
+        if (this->m_StoreContext)
+        {
+            winrt::check_hresult(
+                this->m_StoreContext.as<IInitializeWithWindow>()->Initialize(
+                    this->m_WindowHandle));
+        }
     }
 
-    winrt::fire_and_forget MainWindowControl::PageLoaded(
+    void MainWindowControl::PageLoaded(
         winrt::IInspectable const& sender,
         winrt::RoutedEventArgs const& e)
     {
-        winrt::StoreContext Context = winrt::StoreContext::GetDefault();
-        if (Context)
-        {
-            winrt::check_hresult(
-                Context.as<IInitializeWithWindow>()->Initialize(
-                    this->m_WindowHandle));
+        UNREFERENCED_PARAMETER(sender);
+        UNREFERENCED_PARAMETER(e);
 
-            winrt::StoreProductQueryResult ProductQueryResult =
-                co_await Context.GetStoreProductsAsync(
-                    { L"Durable" },
-                    { L"9P3KMWM424WK" });
-            for (auto Item : ProductQueryResult.Products())
-            {
-                winrt::StoreProduct Product = Item.Value();
-
-                this->SponsorButton().Content(
-                    winrt::box_value(Mile::WinRT::GetLocalizedString(
-                        Product.IsInUserCollection()
-                        ? L"MainWindow/SponsorButton/SponsoredText"
-                        : L"MainWindow/SponsorButton/AcquireText")));
-            }
-        }
+        this->RefreshSponsorButtonContent();
     }
 
     void MainWindowControl::EnhancedSessionButtonClick(
@@ -210,37 +202,76 @@ namespace winrt::NanaBox::implementation
             0);
     }
 
-    winrt::fire_and_forget MainWindowControl::SponsorButtonClick(
+    void MainWindowControl::SponsorButtonClick(
         winrt::IInspectable const& sender,
         winrt::RoutedEventArgs const& e)
     {
         UNREFERENCED_PARAMETER(sender);
         UNREFERENCED_PARAMETER(e);
 
-        // Commented out for waiting some issue when using that under Admin.
+        winrt::handle(Mile::CreateThread([=]()
+        {
+            // Commented out for waiting some issue when using that under Admin.
 
-        //winrt::StoreContext Context = winrt::StoreContext::GetDefault();
-        //if (Context)
-        //{
-        //    winrt::check_hresult(
-        //        Context.as<IInitializeWithWindow>()->Initialize(
-        //            this->m_WindowHandle));
+            //winrt::StoreContext Context = winrt::StoreContext::GetDefault();
+            //if (Context)
+            //{
+            //    winrt::check_hresult(
+            //        Context.as<IInitializeWithWindow>()->Initialize(
+            //            this->m_WindowHandle));
 
-        //    winrt::StoreProductQueryResult ProductQueryResult =
-        //        co_await Context.GetStoreProductsAsync(
-        //            { L"Durable" },
-        //            { L"9P3KMWM424WK" });
-        //    for (auto Item : ProductQueryResult.Products())
-        //    {
-        //        winrt::StoreProduct Product = Item.Value();
+            //    winrt::StoreProductQueryResult ProductQueryResult =
+            //        co_await Context.GetStoreProductsAsync(
+            //            { L"Durable" },
+            //            { L"9P3KMWM424WK" });
+            //    for (auto Item : ProductQueryResult.Products())
+            //    {
+            //        winrt::StoreProduct Product = Item.Value();
 
-        //        if (!Product.IsInUserCollection())
-        //        {
-        //            co_await Product.RequestPurchaseAsync();
-        //        }
+            //        if (!Product.IsInUserCollection())
+            //        {
+            //            co_await Product.RequestPurchaseAsync();
+            //        }
+            //    }
+            //}
 
-        //        // TODO: Refresh text for Sponsor button
-        //    }
-        //}
+            this->RefreshSponsorButtonContent();
+        }));
+    }
+
+    void MainWindowControl::RefreshSponsorButtonContent()
+    {
+        winrt::handle(Mile::CreateThread([=]()
+        {
+            if (this->m_StoreContext)
+            {
+                bool Sponsored = false;
+
+                winrt::StoreProductQueryResult ProductQueryResult =
+                    this->m_StoreContext.GetStoreProductsAsync(
+                        { L"Durable" },
+                        { L"9P3KMWM424WK" }).get();
+                for (auto Item : ProductQueryResult.Products())
+                {
+                    winrt::StoreProduct Product = Item.Value();
+                    Sponsored = Product.IsInUserCollection();
+                }
+
+                if (!this->m_DispatcherQueue)
+                {
+                    return;
+                }
+                this->m_DispatcherQueue.TryEnqueue(
+                    winrt::DispatcherQueuePriority::Normal,
+                    [=]()
+                {
+                    this->SponsorButton().Content(
+                        winrt::box_value(Mile::WinRT::GetLocalizedString(
+                            Sponsored
+                            ? L"MainWindow/SponsorButton/SponsoredText"
+                            : L"MainWindow/SponsorButton/AcquireText")));
+                });
+            }
+        }));
     }
 }
