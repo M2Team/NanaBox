@@ -122,6 +122,22 @@ int WINAPI wWinMain(
         OptionsAndParameters,
         UnresolvedCommandLine);
 
+    bool AcquireSponsorEdition = false;
+
+    for (auto& Current : OptionsAndParameters)
+    {
+        if (0 == _wcsicmp(Current.first.c_str(), L"AcquireSponsorEdition"))
+        {
+            AcquireSponsorEdition = true;
+        }
+    }
+
+    if (AcquireSponsorEdition)
+    {
+        ::MessageBoxW(nullptr, L"Sponsor Edition", L"NanaBox", 0);
+        ::ExitProcess(0);
+    }
+
     bool PackagedMode = Mile::WinRT::IsPackagedMode();
     std::wstring TargetBinaryPath;
 

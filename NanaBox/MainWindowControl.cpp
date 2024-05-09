@@ -6,6 +6,25 @@
 
 #include <ShObjIdl_core.h>
 
+namespace
+{
+    DWORD GetShellProcessId()
+    {
+        HWND ShellWindowHandle = ::GetShellWindow();
+        if (!ShellWindowHandle)
+        {
+            return static_cast<DWORD>(-1);
+        }
+
+        DWORD ShellProcessId = static_cast<DWORD>(-1);
+        if (!::GetWindowThreadProcessId(ShellWindowHandle, &ShellProcessId))
+        {
+            return static_cast<DWORD>(-1);
+        }
+        return ShellProcessId;
+    }
+}
+
 namespace winrt
 {
     using Windows::Foundation::IAsyncAction;
@@ -211,29 +230,91 @@ namespace winrt::NanaBox::implementation
 
         winrt::handle(Mile::CreateThread([=]()
         {
-            // Commented out for waiting some issue when using that under Admin.
+            DWORD ShellProcessId = ::GetShellProcessId();
+            if (static_cast<DWORD>(-1) == ShellProcessId)
+            {
+                return;
+            }
 
-            //winrt::StoreContext Context = winrt::StoreContext::GetDefault();
-            //if (Context)
-            //{
-            //    winrt::check_hresult(
-            //        Context.as<IInitializeWithWindow>()->Initialize(
-            //            this->m_WindowHandle));
+            HANDLE ShellProcessHandle = nullptr;
 
-            //    winrt::StoreProductQueryResult ProductQueryResult =
-            //        co_await Context.GetStoreProductsAsync(
-            //            { L"Durable" },
-            //            { L"9P3KMWM424WK" });
-            //    for (auto Item : ProductQueryResult.Products())
-            //    {
-            //        winrt::StoreProduct Product = Item.Value();
+            auto Handler = Mile::ScopeExitTaskHandler([&]()
+            {
+                if (ShellProcessHandle)
+                {
+                    ::CloseHandle(ShellProcessHandle);
+                }
+            });
 
-            //        if (!Product.IsInUserCollection())
-            //        {
-            //            co_await Product.RequestPurchaseAsync();
-            //        }
-            //    }
-            //}
+            ShellProcessHandle = ::OpenProcess(
+                PROCESS_CREATE_PROCESS,
+                FALSE,
+                ShellProcessId);
+            if (!ShellProcessHandle)
+            {
+                return;
+            }
+
+            SIZE_T AttributeListSize = 0;
+            ::InitializeProcThreadAttributeList(
+                nullptr,
+                1,
+                0,
+                &AttributeListSize);
+
+            std::vector<std::uint8_t> AttributeListBuffer =
+                std::vector<std::uint8_t>(AttributeListSize);
+
+            PPROC_THREAD_ATTRIBUTE_LIST AttributeList =
+                reinterpret_cast<PPROC_THREAD_ATTRIBUTE_LIST>(
+                    &AttributeListBuffer[0]);
+
+            if (!::InitializeProcThreadAttributeList(
+                AttributeList,
+                1,
+                0,
+                &AttributeListSize))
+            {
+                return;
+            }
+
+            if (!::UpdateProcThreadAttribute(
+                AttributeList,
+                0,
+                PROC_THREAD_ATTRIBUTE_PARENT_PROCESS,
+                &ShellProcessHandle,
+                sizeof(ShellProcessHandle),
+                nullptr,
+                nullptr))
+            {
+                return;
+            }
+
+            STARTUPINFOEXW StartupInfoEx = { 0 };
+            PROCESS_INFORMATION ProcessInformation = { 0 };
+            StartupInfoEx.StartupInfo.cb = sizeof(STARTUPINFOEXW);
+            StartupInfoEx.lpAttributeList = AttributeList;
+
+            std::wstring ApplicationName = ::GetCurrentProcessModulePath();
+
+            if (!::CreateProcessW(
+                ApplicationName.c_str(),
+                const_cast<LPWSTR>(L"NanaBox --AcquireSponsorEdition"),
+                nullptr,
+                nullptr,
+                TRUE,
+                CREATE_UNICODE_ENVIRONMENT | EXTENDED_STARTUPINFO_PRESENT,
+                nullptr,
+                nullptr,
+                &StartupInfoEx.StartupInfo,
+                &ProcessInformation))
+            {
+                return;
+            }
+
+            ::CloseHandle(ProcessInformation.hThread);
+            ::WaitForSingleObjectEx(ProcessInformation.hProcess, INFINITE, FALSE);
+            ::CloseHandle(ProcessInformation.hProcess);
 
             this->RefreshSponsorButtonContent();
         }));

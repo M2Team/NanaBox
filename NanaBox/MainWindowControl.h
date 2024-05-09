@@ -7,13 +7,7 @@
 
 #include <Windows.h>
 
-#include <Mile.Helpers.CppBase.h>
-#include <Mile.Helpers.CppWinRT.h>
-
-namespace winrt::Mile
-{
-    using namespace ::Mile;
-}
+#include "Utils.h"
 
 namespace winrt
 {
