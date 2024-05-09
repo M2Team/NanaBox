@@ -76,8 +76,8 @@
         Icon="Sync"
         LabelPosition="Collapsed"
         ToolTipService.ToolTip="[Reload Virtual Machine Settings]" />
-      <!--<AppBarSeparator />
-      <AppBarToggleButton
+      <AppBarSeparator />
+      <!--<AppBarToggleButton
         x:Uid="/MainWindow/RedirectKeyboardNavigationButton"
         Width="40"
         AutomationProperties.Name="[Redirect Keyboard Navigation]"
