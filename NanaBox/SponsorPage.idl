@@ -1,0 +1,8 @@
+﻿namespace NanaBox
+{
+    [default_interface]
+    runtimeclass SponsorPage : Windows.UI.Xaml.Controls.Page
+    {
+        SponsorPage();
+    }
+}

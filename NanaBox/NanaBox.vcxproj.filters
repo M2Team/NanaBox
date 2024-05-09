@@ -74,6 +74,7 @@
     <Page Include="QuickStartPage.xaml" />
     <Page Include="AboutPage.xaml" />
     <Page Include="ReloadConfirmationPage.xaml" />
+    <Page Include="SponsorPage.xaml" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="NanaBoxResources.rc" />
@@ -125,6 +126,12 @@
       <Filter>Strings\en</Filter>
     </PRIResource>
     <PRIResource Include="Strings\zh-Hans\ReloadConfirmationPage.resw">
+      <Filter>Strings\zh-Hans</Filter>
+    </PRIResource>
+    <PRIResource Include="Strings\en\SponsorPage.resw">
+      <Filter>Strings\en</Filter>
+    </PRIResource>
+    <PRIResource Include="Strings\zh-Hans\SponsorPage.resw">
       <Filter>Strings\zh-Hans</Filter>
     </PRIResource>
   </ItemGroup>

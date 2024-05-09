@@ -17,6 +17,7 @@
 #include "App.h"
 #include "MainWindow.h"
 #include "QuickStartPage.h"
+#include "SponsorPage.h"
 
 #include <Mile.Project.Version.h>
 
@@ -134,7 +135,41 @@ int WINAPI wWinMain(
 
     if (AcquireSponsorEdition)
     {
-        ::MessageBoxW(nullptr, L"Sponsor Edition", L"NanaBox", 0);
+        HWND WindowHandle = ::CreateWindowExW(
+            WS_EX_STATICEDGE | WS_EX_DLGMODALFRAME,
+            L"Mile.Xaml.ContentWindow",
+            nullptr,
+            WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX,
+            CW_USEDEFAULT,
+            0,
+            CW_USEDEFAULT,
+            0,
+            nullptr,
+            nullptr,
+            nullptr,
+            nullptr);
+        if (!WindowHandle)
+        {
+            return -1;
+        }
+
+        if (FAILED(::MileAllowNonClientDefaultDrawingForWindow(
+            WindowHandle,
+            FALSE)))
+        {
+            return -1;
+        }
+
+        winrt::NanaBox::SponsorPage Window =
+            winrt::make<winrt::NanaBox::implementation::SponsorPage>(
+                WindowHandle);
+        ::ShowXamlWindow(
+            WindowHandle,
+            460,
+            320,
+            winrt::get_abi(Window),
+            nullptr);
+
         ::ExitProcess(0);
     }
 
