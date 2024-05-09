@@ -76,7 +76,7 @@
         Icon="Sync"
         LabelPosition="Collapsed"
         ToolTipService.ToolTip="[Reload Virtual Machine Settings]" />
-      <AppBarSeparator />
+      <!--<AppBarSeparator />
       <AppBarToggleButton
         x:Uid="/MainWindow/RedirectKeyboardNavigationButton"
         Width="40"
@@ -91,7 +91,7 @@
         Icon="BackToWindow"
         LabelPosition="Collapsed"
         ToolTipService.ToolTip="[Restore Virtual Machine Window Size]" />
-      <AppBarSeparator />
+      <AppBarSeparator />-->
       <AppBarButton
         x:Uid="/MainWindow/CreateVirtualHardDiskButtonButton"
         Width="40"
