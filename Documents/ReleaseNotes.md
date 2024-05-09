@@ -1,5 +1,15 @@
 ﻿# NanaBox Release Notes
 
+**NanaBox 1.2 (1.2.769.0)**
+
+- Enable display resolution mode selection on Windows Server 2022 or later.
+- Expose RDP connection over named pipe support for both basic session and
+  enhanced session.
+- Fix keyboard configuration deserialization issue.
+- Add EnableHostDriverStore option for GPU-PV settings.
+- Add Sponsor button and Sponsor NanaBox UI.
+- Improve several implementations.
+
 **NanaBox 1.1 Update 2 (1.1.602.0)**
 
 - Improve the user experience to make people using the virtual machine 
