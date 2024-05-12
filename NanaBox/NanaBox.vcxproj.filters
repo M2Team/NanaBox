@@ -15,6 +15,9 @@
       <Filter>Configuration</Filter>
     </ClCompile>
     <ClCompile Include="MainWindow.cpp" />
+    <ClCompile Include="RdpBase.cpp">
+      <Filter>RdpClient</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="NanaBox.manifest" />
@@ -39,6 +42,9 @@
       <Filter>Configuration</Filter>
     </ClInclude>
     <ClInclude Include="MainWindow.h" />
+    <ClInclude Include="RdpBase.h">
+      <Filter>RdpClient</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="RdpClient">
