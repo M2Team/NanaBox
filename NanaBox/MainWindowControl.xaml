@@ -28,7 +28,7 @@
       IsOpen="False">
       <AppBarToggleButton
         x:Uid="/MainWindow/EnhancedSessionButton"
-        Width="40"
+        Width="48"
         AutomationProperties.Name="[Enhanced Session]"
         Click="EnhancedSessionButtonClick"
         Icon="NewWindow"
@@ -36,7 +36,7 @@
         ToolTipService.ToolTip="[Enhanced Session]" />
       <AppBarButton
         x:Uid="/MainWindow/FullScreenButton"
-        Width="40"
+        Width="48"
         AutomationProperties.Name="[Full Screen]"
         Click="FullScreenButtonClick"
         Icon="FullScreen"
@@ -45,7 +45,7 @@
       <AppBarSeparator />
       <AppBarToggleButton
         x:Uid="/MainWindow/PauseVirtualMachineButton"
-        Width="40"
+        Width="48"
         AutomationProperties.Name="[Pause Virtual Machine]"
         Click="PauseVirtualMachineButtonClick"
         Icon="Pause"
@@ -53,7 +53,7 @@
         ToolTipService.ToolTip="[Pause Virtual Machine]" />
       <AppBarButton
         x:Uid="/MainWindow/RestartVirtualMachineButton"
-        Width="40"
+        Width="48"
         AutomationProperties.Name="[Restart Virtual Machine]"
         Click="RestartVirtualMachineButtonClick"
         Icon="Refresh"
@@ -62,7 +62,7 @@
       <AppBarSeparator />
       <AppBarButton
         x:Uid="/MainWindow/VirtualMachineSettingsButton"
-        Width="40"
+        Width="48"
         AutomationProperties.Name="[Virtual Machine Settings]"
         Click="VirtualMachineSettingsButtonClick"
         Icon="Setting"
@@ -70,7 +70,7 @@
         ToolTipService.ToolTip="[Virtual Machine Settings]" />
       <AppBarButton
         x:Uid="/MainWindow/ReloadVirtualMachineSettingsButton"
-        Width="40"
+        Width="48"
         AutomationProperties.Name="[Reload Virtual Machine Settings]"
         Click="ReloadVirtualMachineSettingsButtonClick"
         Icon="Sync"
@@ -79,14 +79,14 @@
       <AppBarSeparator />
       <!--<AppBarToggleButton
         x:Uid="/MainWindow/RedirectKeyboardNavigationButton"
-        Width="40"
+        Width="48"
         AutomationProperties.Name="[Redirect Keyboard Navigation]"
         Icon="Keyboard"
         LabelPosition="Collapsed"
         ToolTipService.ToolTip="[Redirect Keyboard Navigation]" />
       <AppBarButton
         x:Uid="/MainWindow/RestoreVirtualMachineWindowSizeButton"
-        Width="40"
+        Width="48"
         AutomationProperties.Name="[Restore Virtual Machine Window Size]"
         Icon="BackToWindow"
         LabelPosition="Collapsed"
@@ -94,7 +94,7 @@
       <AppBarSeparator />-->
       <AppBarButton
         x:Uid="/MainWindow/CreateVirtualHardDiskButtonButton"
-        Width="40"
+        Width="48"
         AutomationProperties.Name="[Create Virtual Hard Disk]"
         Click="CreateVirtualHardDiskButtonClick"
         Icon="Add"
@@ -102,7 +102,7 @@
         ToolTipService.ToolTip="[Create Virtual Hard Disk]" />
       <AppBarButton
         x:Uid="/MainWindow/DocumentationButton"
-        Width="40"
+        Width="48"
         AutomationProperties.Name="[Configuration File Reference Documentation]"
         Click="DocumentationButtonClick"
         Icon="Link"
@@ -110,7 +110,7 @@
         ToolTipService.ToolTip="[Configuration File Reference Documentation]" />
       <AppBarButton
         x:Uid="/MainWindow/AboutButton"
-        Width="40"
+        Width="48"
         AutomationProperties.Name="[About NanaBox]"
         Click="AboutButtonClick"
         Icon="Help"
