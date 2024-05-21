@@ -210,8 +210,8 @@
     <comment>☕ Sponsor NanaBox ☕</comment>
   </data>
   <data name="SponsorButton.SponsoredText" xml:space="preserve">
-    <value>❤️ Appreciate for your sponsorship ❤️</value>
-    <comment>❤️ Appreciate for your sponsorship ❤️</comment>
+    <value>❤️ Appreciate your sponsorship ❤️</value>
+    <comment>❤️ Appreciate your sponsorship ❤️</comment>
   </data>
   <data name="VirtualMachineSettingsButton.AutomationProperties.Name" xml:space="preserve">
     <value>Virtual Machine Settings</value>
