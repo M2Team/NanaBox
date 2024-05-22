@@ -116,7 +116,7 @@ int WINAPI wWinMain(
     std::wstring UnresolvedCommandLine;
 
     ::SplitCommandLineEx(
-        std::wstring(GetCommandLineW()),
+        std::wstring(::GetCommandLineW()),
         std::vector<std::wstring>{ L"-", L"/", L"--" },
         std::vector<std::wstring>{ L"=", L":" },
         ApplicationName,
