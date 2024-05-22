@@ -14,6 +14,8 @@ namespace winrt::NanaBox::implementation
 {
     struct SponsorPage : SponsorPageT<SponsorPage>
     {
+    public:
+
         SponsorPage(
             _In_ HWND WindowHandle = nullptr);
 

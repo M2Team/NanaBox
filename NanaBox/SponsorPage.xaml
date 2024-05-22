@@ -18,7 +18,7 @@
       HorizontalAlignment="Center"
       FontSize="24"
       FontWeight="SemiBold"
-      Text="[Welcome to NanaBox]" />
+      Text="[Sponsor NanaBox]" />
 
     <Grid Grid.Row="1" Padding="32,16">
       <Grid.RowDefinitions>
