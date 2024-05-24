@@ -185,6 +185,9 @@ std::string NanaBox::MakeHcsConfiguration(
             ConnectionOptions["NamedPipe"] = Mile::FormatString(
                 "\\\\.\\pipe\\%s.BasicSession",
                 Configuration.Name.c_str());
+            nlohmann::json AccessSids;
+            AccessSids.push_back(::GetCurrentProcessUserStringSid());
+            ConnectionOptions["AccessSids"] = AccessSids;
             VideoMonitor["ConnectionOptions"] = ConnectionOptions;
         }
         Devices["VideoMonitor"] = VideoMonitor;
@@ -195,6 +198,9 @@ std::string NanaBox::MakeHcsConfiguration(
             ConnectionOptions["NamedPipe"] = Mile::FormatString(
                 "\\\\.\\pipe\\%s.EnhancedSession",
                 Configuration.Name.c_str());
+            nlohmann::json AccessSids;
+            AccessSids.push_back(::GetCurrentProcessUserStringSid());
+            ConnectionOptions["AccessSids"] = AccessSids;
             EnhancedModeVideo["ConnectionOptions"] = ConnectionOptions;
         }
         Devices["EnhancedModeVideo"] = EnhancedModeVideo;
