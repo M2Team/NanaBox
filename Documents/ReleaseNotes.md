@@ -1,5 +1,17 @@
 ﻿# NanaBox Release Notes
 
+**NanaBox 1.2 Update 1 (1.2.784.0)**
+
+- Enable the relative mouse mode support in Windows 11 Version 24H2 or later
+  Host OS for improving the compatibility for applications running in the
+  virtual machines.
+- Update the main window toolbar layout via following the NanaZip new toolbar
+  design.
+- Fix the access issue for RDP connection over named pipe support for both basic
+  session and enhanced session.
+- Update the sponsor button text. (Suggested by dongle-the-gadget.)
+- Add fallback content for Sponsor button.
+
 **NanaBox 1.2 (1.2.769.0)**
 
 - Enable display resolution mode selection on Windows Server 2022 or later.
