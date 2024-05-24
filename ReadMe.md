@@ -60,6 +60,7 @@ If you'd like me to add features or improvements ahead of time, please use
 - Full High DPI and partial Accessibility support.
 - Support full screen mode.
 - Multi-language Support: English and Simplified Chinese.
+- Support relative mouse mode in Windows 11 Version 24H2 or later Host OS.
 
 ## System Requirements
 

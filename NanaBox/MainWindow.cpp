@@ -1214,6 +1214,18 @@ void NanaBox::MainWindow::RdpClientInitialize()
 
     }
 
+    try
+    {
+        VARIANT Value;
+        Value.vt = VT_BOOL;
+        Value.boolVal = VARIANT_TRUE;
+        this->m_RdpClient->Property(L"AllowRelativeMouseMode", Value);
+    }
+    catch (...)
+    {
+
+    }
+
     this->m_RdpClient->GrabFocusOnConnect(false);
 
     this->m_RdpClient->OnRemoteDesktopSizeChange.add(
