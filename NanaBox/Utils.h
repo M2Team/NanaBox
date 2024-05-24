@@ -76,6 +76,8 @@ winrt::handle ShowNewVirtualHardDiskDialog(
 
 BOOL LaunchDocumentation();
 
+std::string GetCurrentProcessUserStringSid();
+
 #include <Mile.Helpers.CppBase.h>
 #include <Mile.Helpers.CppWinRT.h>
 

@@ -9,6 +9,8 @@
 #include <virtdisk.h>
 #pragma comment(lib,"virtdisk.lib")
 
+#include <sddl.h>
+
 #include "MessagePage.h"
 #include "AboutPage.h"
 #include "NewVirtualHardDiskPage.h"
@@ -616,4 +618,61 @@ BOOL LaunchDocumentation()
         L"blob/main/Documents/ConfigurationReference.md";
     ExecInfo.nShow = SW_SHOWNORMAL;
     return ::ShellExecuteExW(&ExecInfo);
+}
+
+std::string GetCurrentProcessUserStringSid()
+{
+    static std::string CachedResult = ([]() -> std::string
+    {
+        std::string Result;
+
+        HANDLE CurrentProcessToken = nullptr;
+        if (::OpenProcessToken(
+            ::GetCurrentProcess(),
+            TOKEN_ALL_ACCESS,
+            &CurrentProcessToken))
+        {
+            DWORD Length = 0;
+            ::GetTokenInformation(
+                CurrentProcessToken,
+                TOKEN_INFORMATION_CLASS::TokenUser,
+                nullptr,
+                0,
+                &Length);
+            if (ERROR_INSUFFICIENT_BUFFER == ::GetLastError())
+            {
+                PTOKEN_USER Information = reinterpret_cast<PTOKEN_USER>(
+                    ::MileAllocateMemory(Length));
+                if (Information)
+                {
+                    if (::GetTokenInformation(
+                        CurrentProcessToken,
+                        TOKEN_INFORMATION_CLASS::TokenUser,
+                        Information,
+                        Length,
+                        &Length))
+                    {
+                        LPWSTR StringSid = nullptr;
+                        if (::ConvertSidToStringSidW(
+                            Information->User.Sid,
+                            &StringSid))
+                        {
+                            Result = Mile::ToString(
+                                CP_UTF8,
+                                std::wstring(StringSid));
+                            ::LocalFree(StringSid);
+                        }
+                    }
+
+                    ::MileFreeMemory(Information);
+                }
+            }
+
+            ::CloseHandle(CurrentProcessToken);
+        }
+
+        return Result;
+    }());
+
+    return CachedResult;
 }
