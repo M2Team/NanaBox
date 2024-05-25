@@ -82,6 +82,10 @@ If you'd like me to add features or improvements ahead of time, please use
 - Due to the Microsoft Store Licensing API implementation, you will find NanaBox
   will try to access the Internet beginning with NanaBox 1.2 because NanaBox
   needs to use that to check the Sponsor Edition addon licensing status.
+- For optimizing the user experience, NanaBox will only check the Sponsor 
+  Edition addon licensing status at the first time your launch NanaBox. You
+  can click the sponsor button if you want to refresh the status after you
+  have purchased or redeemed the Sponsor Edition addon.
 
 Reference documents for known issues:
 

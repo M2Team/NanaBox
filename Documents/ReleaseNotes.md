@@ -1,6 +1,6 @@
 ﻿# NanaBox Release Notes
 
-**NanaBox 1.2 Update 1 (1.2.785.0)**
+**NanaBox 1.2 Update 1 (1.2.786.0)**
 
 - Enable the relative mouse mode support in Windows 11 Version 24H2 or later
   Host OS for improving the compatibility for applications running in the
@@ -11,6 +11,9 @@
   session and enhanced session.
 - Update UI layout of the sponsor button. (Suggested by dongle-the-gadget and
   namazso.)
+- NanaBox will only check the Sponsor Edition addon licensing status the
+  first time you launch NanaBox or click the sponsor button to optimize
+  the user experience.
 - Update Mile.Xaml to 2.2.944.
 - Update Mile.Windows.Helpers to 1.0.558.
 
