@@ -206,12 +206,12 @@
     <comment>Virtual Machine Settings Notice</comment>
   </data>
   <data name="SponsorButton.AcquireText" xml:space="preserve">
-    <value>☕ 赞助 NanaBox ☕</value>
-    <comment>☕ Sponsor NanaBox ☕</comment>
+    <value>赞助 NanaBox</value>
+    <comment>Sponsor NanaBox</comment>
   </data>
   <data name="SponsorButton.SponsoredText" xml:space="preserve">
-    <value>❤️ 感谢您的赞助 ❤️</value>
-    <comment>❤️ Appreciate your sponsorship ❤️</comment>
+    <value>感谢您的赞助</value>
+    <comment>Appreciate your sponsorship</comment>
   </data>
   <data name="VirtualMachineSettingsButton.AutomationProperties.Name" xml:space="preserve">
     <value>虚拟机设置</value>
