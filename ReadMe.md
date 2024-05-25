@@ -60,7 +60,7 @@ If you'd like me to add features or improvements ahead of time, please use
 - Full High DPI and partial Accessibility support.
 - Support full screen mode.
 - Multi-language Support: English and Simplified Chinese.
-- Support relative mouse mode in Windows 11 Version 24H2 or later Host OS.
+- Enable the relative mouse mode in Windows 11 Version 24H2 or later Host OS.
 
 ## System Requirements
 
@@ -79,6 +79,9 @@ If you'd like me to add features or improvements ahead of time, please use
     won't be implemented.
   - You shouldn't put your virtual machine configuration file at the root of
     the drive, or you will meet the access denied error.
+- Due to the Microsoft Store Licensing API implementation, you will find NanaBox
+  will try to access the Internet beginning with NanaBox 1.2 because NanaBox
+  needs to use that to check the Sponsor Edition addon licensing status.
 
 Reference documents for known issues:
 
