@@ -38,13 +38,16 @@ from Microsoft.
 **All kinds of contributions will be appreciated. All suggestions, pull 
 requests and issues are welcome.**
 
-If you want to sponsor me, please read [this document to become a sponsor].
+If you want to sponsor the development of NanaBox, please read the document of
+[NanaBox Sponsor Edition](Documents/SponsorEdition.md). It's free for all
+NanaBox source code repository contributors.
+
+In general, NanaBox Sponsor Edition is more like contributor's edition, but
+we provide a way to buy the honor and make someone look like a source code
+contributor, because NanaBox is always a community-friendly open-source project.
 
 If you'd like me to add features or improvements ahead of time, please use
-[paid services].
-
-[this document to become a sponsor]: https://github.com/MouriNaruto/MouriNaruto/blob/main/Sponsor
-[paid services]: https://github.com/MouriNaruto/MouriNaruto/blob/main/PaidServices.md
+[paid services](https://github.com/MouriNaruto/MouriNaruto/blob/main/PaidServices.md).
 
 ## Features
 
