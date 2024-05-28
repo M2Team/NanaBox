@@ -36,7 +36,7 @@ because Hyper-V's VMCX is a binary format and no documented format definitions
 from Microsoft.
 
 **All kinds of contributions will be appreciated. All suggestions, pull 
-requests and issues are welcome.**
+requests, and issues are welcome.**
 
 If you want to sponsor the development of NanaBox, please read the document of
 [NanaBox Sponsor Edition](Documents/SponsorEdition.md). It's free for all
