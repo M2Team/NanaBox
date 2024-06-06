@@ -295,7 +295,10 @@ std::string NanaBox::MakeHcsConfiguration(
 
     if (Configuration.Tpm)
     {
-        Result["VirtualMachine"]["SecuritySettings"]["EnableTpm"] = true;
+        nlohmann::json SecuritySettings;
+        SecuritySettings["EnableTpm"] = true;
+        SecuritySettings["Isolation"]["IsolationType"] = "GuestStateOnly";
+        Result["VirtualMachine"]["SecuritySettings"] = SecuritySettings;
     }
 
     if (!Configuration.GuestStateFile.empty())

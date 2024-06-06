@@ -277,12 +277,17 @@ If you want to enable Secure Boot for your virtual machine, please set it true.
 
 ### Tpm
 
-(Optional) The TPM setting of virtual machine.
+(Optional) The Trusted Platform Module (TPM) setting of virtual machine.
 
-Note: TPM support is not available because Host Compute API seems doesn't 
-implement them.
+If you want to enable Trusted Platform Module (TPM) for your virtual machine,
+please set it true.
 
-If you want to enable TPM for your virtual machine, please set it true.
+Note: Available starting with NanaBox 1.2 Update 2.
+
+Note: Only the Trusted Platform Module (TPM) 2.0 is supported.
+
+Note: You need Windows Server 2022 or later Host OS. (Tested under Windows 11
+Version 24H2.)
 
 ### GuestStateFile
 

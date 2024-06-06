@@ -64,6 +64,8 @@ If you'd like me to add features or improvements ahead of time, please use
 - Support full screen mode.
 - Multi-language Support: English and Simplified Chinese.
 - Enable the relative mouse mode in Windows 11 Version 24H2 or later Host OS.
+- Support the Trusted Platform Module (TPM) 2.0 for virtual machines in Windows
+  Server 2022 or later Host OS. (Tested under Windows 11 Version 24H2.)
 
 ## System Requirements
 
@@ -76,7 +78,6 @@ If you'd like me to add features or improvements ahead of time, please use
   there are some limitations from them also applied to NanaBox:
   - NanaBox only supports create UEFI Class 3 or UEFI without CSM or Hyper-V 
     Gen 2 virtual machines.
-  - TPM support for virtual machines created by NanaBox is not available.
   - NanaBox needs elevated privilege via UAC.
   - The automatic switch between Enhanced Session Mode and Basic Session Mode
     won't be implemented.
