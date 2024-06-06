@@ -1,5 +1,13 @@
 ﻿# NanaBox Release Notes
 
+**NanaBox 1.2 Update 2 (1.2.797.0)**
+
+- Introduce the Trusted Platform Module (TPM) 2.0 support for virtual machines
+  in Windows Server 2022 or later Host OS. (Tested under Windows 11 Version
+  24H2.)
+- Backport the documentation changes from 
+  https://github.com/M2Team/NanaZip/pull/435. (Thanks to sirredbeard.)
+
 **NanaBox 1.2 Update 1 (1.2.786.0)**
 
 - Enable the relative mouse mode support in Windows 11 Version 24H2 or later
