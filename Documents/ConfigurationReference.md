@@ -190,6 +190,14 @@ The GPU paravirtualization assignment mode setting of virtual machine.
 
 Available values: "Disabled", "Default", "List" and "Mirror"
 
+- "Disabled" mode: Do not assign GPU to the virtual machine.
+- "Default" mode: Assign the single default GPU to virtual machine, which
+  currently is POST GPU.
+- "List" mode: Assign the GPU(s)/partition(s) specified in SelectedDevices to
+  virtual machine. If SelectedDevices is empty, do not assign GPU to the virtual
+  machine.
+- "Mirror" mode: Assign all current and future GPUs to virtual machine.
+
 #### EnableHostDriverStore
 
 (Optional) Set it true if you want to enable HostDriverStore folder readonly
@@ -330,6 +338,9 @@ the virtual machine.
 ### Keyboard
 
 (Optional) Keyboard setting object array of virtual machine.
+
+For more information about the default keyboard shortcut behavior, please read
+https://learn.microsoft.com/en-us/windows/win32/termserv/terminal-services-shortcut-keys.
 
 Note: Available starting with NanaBox 1.1 and you can modify these settings at
 runtime.
