@@ -65,7 +65,9 @@ If you'd like me to add features or improvements ahead of time, please use
 - Multi-language Support: English and Simplified Chinese.
 - Enable the relative mouse mode in Windows 11 Version 24H2 or later Host OS.
 - Support the Trusted Platform Module (TPM) 2.0 for virtual machines in Windows
-  Server 2022 or later Host OS. (Tested under Windows 11 Version 24H2.)
+  11 Version 24H2 or later Host OS. (Although Windows Server 2022 had introduced
+  the related Host Compute System API interfaces, but it seems doesn't be
+  implemented.)
 
 ## System Requirements
 

@@ -1,5 +1,12 @@
 ﻿# NanaBox Release Notes
 
+**NanaBox 1.2 Update 3 (1.2.800.0)**
+
+- Fix the auto resizing issue when using the Enhanced Session mode. (Feedbacked
+  and confirmed by dongle-the-gadget. Thanks to Devolutions because of their
+  good document from https://webdevolutions.blob.core.windows.net/blog/pdf/smart-resizing-and-high-dpi-issues-in-remote-desktop-manager.pdf.)
+- Update documents.
+
 **NanaBox 1.2 Update 2 (1.2.797.0)**
 
 - Introduce the Trusted Platform Module (TPM) 2.0 support for virtual machines

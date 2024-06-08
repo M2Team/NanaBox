@@ -294,8 +294,9 @@ Note: Available starting with NanaBox 1.2 Update 2.
 
 Note: Only the Trusted Platform Module (TPM) 2.0 is supported.
 
-Note: You need Windows Server 2022 or later Host OS. (Tested under Windows 11
-Version 24H2.)
+Note: You need Windows 11 Version 24H2 or later Host OS. (Although Windows
+Server 2022 had introduced the related Host Compute System API interfaces,
+but it seems doesn't be implemented.)
 
 ### GuestStateFile
 
