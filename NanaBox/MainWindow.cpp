@@ -1260,6 +1260,33 @@ void NanaBox::MainWindow::RdpClientInitialize()
             this->m_RecommendedDisplayResolution.cx);
         this->m_RdpClient->DesktopHeight(
             this->m_RecommendedDisplayResolution.cy);
+
+        try
+        {
+            VARIANT Value;
+            Value.vt = VT_UI4;
+            Value.uintVal = ::MulDiv(
+                100,
+                ::GetDpiForWindow(this->m_hWnd),
+                USER_DEFAULT_SCREEN_DPI);
+            this->m_RdpClient->Property(L"DesktopScaleFactor", Value);
+        }
+        catch (...)
+        {
+
+        }
+
+        try
+        {
+            VARIANT Value;
+            Value.vt = VT_UI4;
+            Value.uintVal = 100;
+            this->m_RdpClient->Property(L"DeviceScaleFactor", Value);
+        }
+        catch (...)
+        {
+
+        }
     }
     this->m_RdpClient->PCB(winrt::to_hstring(PCB));
 
