@@ -18,5 +18,6 @@
 
 ## Special thanks
 
+- Ben (Bingxing) Wang, https://github.com/imbushuo
 - Kris Harper, https://github.com/kharpMSFT
 - mingkuang, https://github.com/mingkuang-Chuyu
