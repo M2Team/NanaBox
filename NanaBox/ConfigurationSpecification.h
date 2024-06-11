@@ -129,6 +129,11 @@ namespace NanaBox
         std::uint32_t Version = 1;
         GuestType GuestType = GuestType::Unknown;
         std::string Name;
+		std::string Manufacturer;
+		std::string ProductName;
+		std::string SystemVersion;
+		std::string SerialNumber;
+		std::string Family;
         std::uint32_t ProcessorCount = 0;
         std::uint64_t MemorySize = 0;
         ComPortsConfiguration ComPorts;

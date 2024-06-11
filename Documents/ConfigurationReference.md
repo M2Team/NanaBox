@@ -60,6 +60,11 @@
   - Version (Number)
   - GuestType (String)
   - Name (String)
+  - Manufacturer (String)
+  - ProductName (String)
+  - SystemVersion (String)
+  - SerialNumber (String)
+  - Family (String)
   - ProcessorCount (Number)
   - MemorySize (Number)
   - ComPorts (Object)
@@ -137,11 +142,51 @@ The unique name of virtual machine.
 
 Example value: "TestVM"
 
+### Manufacturer
+
+The manufacturer of the motherboard of virtual machine.
+
+Leave blank to use default vaule: "Microsoft Corporation"
+
+Example value: "NVIDIA"
+
+### ProductName
+
+The product name of the motherboard of virtual machine.
+
+Leave blank to use default vaule: "Virtual Machine"
+
+Example value: "DGX-1"
+
+### SystemVersion
+
+The version of the motherboard of virtual machine.
+
+Leave blank to use default vaule: "Hyper-V UEFI Release v4.1"
+
+Example value: "DGX-1 with V100-32 1.0"
+
+### SerialNumber
+
+The serial number of the motherboard of virtual machine.
+
+Leave blank to use default vaule
+
+Example value: "QTFCOU0000001"
+
+### Family
+
+The family of the motherboard of virtual machine.
+
+Leave blank to use default vaule: "Virtual Machine"
+
+Example value: "Server"
+
 ### ProcessorCount
 
-The processor count of virtual machine, in cores.
+The processor count of virtual machine.
 
-Example value: 2
+Example value: "Supermicro"
 
 ### MemorySize
 

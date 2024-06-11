@@ -155,6 +155,13 @@ std::string NanaBox::MakeHcsConfiguration(
         }
     }
     Result["VirtualMachine"]["Chipset"]["Uefi"] = Uefi;
+	
+	Result["VirtualMachine"]["Chipset"]["SystemInformation"]["Manufacturer"] = Configuration.Manufacturer;
+	Result["VirtualMachine"]["Chipset"]["SystemInformation"]["ProductName"] = Configuration.ProductName;
+	Result["VirtualMachine"]["Chipset"]["SystemInformation"]["Version"] = Configuration.SystemVersion;
+	Result["VirtualMachine"]["Chipset"]["SystemInformation"]["SerialNumber"] = Configuration.SerialNumber;
+	Result["VirtualMachine"]["Chipset"]["SystemInformation"]["Family"] = Configuration.Family;
+	Result["VirtualMachine"]["Chipset"]["BaseBoardSerialNumber"] = Configuration.SerialNumber;
 
     nlohmann::json Memory;
     Memory["SizeInMB"] = Configuration.MemorySize;
@@ -1172,6 +1179,56 @@ NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
     }
 
     NanaBox::VirtualMachineConfiguration Result;
+	
+	try
+	{
+		Result.Manufacturer =
+			RootJson.at("Manufacturer").get<std::string>();
+	}
+	catch (...)
+	{
+    
+	}
+
+	try
+	{
+		Result.ProductName =
+			RootJson.at("ProductName").get<std::string>();
+	}
+	catch (...)
+	{
+    
+	}
+
+	try
+	{
+		Result.SystemVersion =
+			RootJson.at("SystemVersion").get<std::string>();
+	}
+	catch (...)
+	{
+
+	}
+
+	try
+	{
+		Result.SerialNumber =
+			RootJson.at("SerialNumber").get<std::string>();
+	}
+	catch (...)
+	{
+
+	}
+
+	try
+	{
+		Result.Family =
+			RootJson.at("Family").get<std::string>();
+	}
+	catch (...)
+	{
+
+	}
 
     try
     {
@@ -1485,6 +1542,11 @@ std::string NanaBox::SerializeConfiguration(
 {
     nlohmann::json RootJson;
     RootJson["Type"] = "VirtualMachine";
+	RootJson["Manufacturer"] = Configuration.Manufacturer;
+	RootJson["ProductName"] = Configuration.ProductName;
+	RootJson["SystemVersion"] = Configuration.SystemVersion;
+	RootJson["SerialNumber"] = Configuration.SerialNumber;
+	RootJson["Family"] = Configuration.Family;
     RootJson["Version"] = Configuration.Version;
     RootJson["GuestType"] = Configuration.GuestType;
     RootJson["Name"] = Configuration.Name;

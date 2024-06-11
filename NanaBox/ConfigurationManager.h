@@ -99,6 +99,26 @@ namespace NanaBox
         nlohmann::json const& Input,
         EnhancedSessionConfiguration& Output);
 
+	void ComputeSystemUpdateManufacturer(
+		winrt::com_ptr<ComputeSystem> const& Instance,
+		std::uint64_t const& Manufacturer);
+
+	void ComputeSystemUpdateProductName(
+		winrt::com_ptr<ComputeSystem> const& Instance,
+		std::uint64_t const& ProductName);
+
+	void ComputeSystemUpdateSystemVersion(
+		winrt::com_ptr<ComputeSystem> const& Instance,
+		std::uint64_t const& SystemVersion);
+
+	void ComputeSystemUpdateSerialNumber(
+		winrt::com_ptr<ComputeSystem> const& Instance,
+		std::uint64_t const& SerialNumber);
+
+	void ComputeSystemUpdateFamily(
+		winrt::com_ptr<ComputeSystem> const& Instance,
+		std::uint64_t const& Family);
+
     nlohmann::json SerializeEnhancedSessionConfiguration(
         EnhancedSessionConfiguration const& Input);
 
