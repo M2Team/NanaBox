@@ -184,9 +184,9 @@ Example value: "Server"
 
 ### ProcessorCount
 
-The processor count of virtual machine.
+The processor count of virtual machine, in cores.
 
-Example value: "Supermicro"
+Example value: 2
 
 ### MemorySize
 
