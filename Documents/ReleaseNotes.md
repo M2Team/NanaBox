@@ -1,5 +1,12 @@
 ﻿# NanaBox Release Notes
 
+**NanaBox 1.2 Update 4 (1.2.803.0)**
+
+- Support customize partial System Management BIOS (SMBIOS) information for
+  virtual machines. (Contributed by Z841973620.)
+- Ignore the text scale factor for solving the UI layout issues like
+  https://github.com/M2Team/NanaBox/issues/10. (Feedbacked by prakharb5.)
+
 **NanaBox 1.2 Update 3 (1.2.800.0)**
 
 - Fix the auto resizing issue when using the Enhanced Session mode. (Feedbacked
