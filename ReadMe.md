@@ -68,6 +68,8 @@ If you'd like me to add features or improvements ahead of time, please use
   11 Version 24H2 or later Host OS. (Although Windows Server 2022 had introduced
   the related Host Compute System API interfaces, but it seems doesn't be
   implemented.)
+- Support customize partial System Management BIOS (SMBIOS) information for
+  virtual machines.
 
 ## System Requirements
 
