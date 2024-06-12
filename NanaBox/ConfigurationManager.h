@@ -102,6 +102,13 @@ namespace NanaBox
     nlohmann::json SerializeEnhancedSessionConfiguration(
         EnhancedSessionConfiguration const& Input);
 
+    void DeserializeChipsetInformationConfiguration(
+        nlohmann::json const& Input,
+        ChipsetInformationConfiguration& Output);
+
+    nlohmann::json SerializeChipsetInformationConfiguration(
+        ChipsetInformationConfiguration const& Input);
+
     VirtualMachineConfiguration DeserializeConfiguration(
         std::string const& Configuration);
 

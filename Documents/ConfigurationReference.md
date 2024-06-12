@@ -60,6 +60,17 @@
   - Version (Number)
   - GuestType (String)
   - Name (String)
+  - ChipsetInformation (Object)
+    - BaseBoardSerialNumber (String)
+    - ChassisSerialNumber (String)
+    - ChassisAssetTag (String)
+    - Manufacturer (String)
+    - ProductName (String)
+    - Version (String)
+    - SerialNumber (String)
+    - Family (String)
+    - UUID (String)
+    - SKUNumber (String)
   - ProcessorCount (Number)
   - MemorySize (Number)
   - ComPorts (Object)
@@ -136,6 +147,116 @@ Available values: "Windows", "Linux" and "Unknown"
 The unique name of virtual machine.
 
 Example value: "TestVM"
+
+### ChipsetInformation
+
+The chipset information object of virtual machine.
+
+Note: Available starting with NanaBox 1.2 Update 4.
+
+#### BaseBoardSerialNumber
+
+The serial number of the baseboard of virtual machine.
+
+Example value: "QTFCOU0000001"
+
+Note: Available starting with NanaBox 1.2 Update 4.
+
+#### ChassisSerialNumber
+
+The serial number of the chassis of virtual machine.
+
+Example value: "QTFCOU0000001"
+
+Note: Available starting with NanaBox 1.2 Update 4.
+
+#### ChassisAssetTag 
+
+The asset tag of the chassis of virtual machine.
+
+Example value: "TestVM"
+
+Note: Available starting with NanaBox 1.2 Update 4.
+
+#### Manufacturer
+
+The manufacturer of virtual machine.
+
+Leave blank to use default vaule: "Microsoft Corporation"
+
+Example value: "NVIDIA"
+
+Note: You need Windows Server 2022 or later Host OS.
+
+Note: Available starting with NanaBox 1.2 Update 4.
+
+#### ProductName
+
+The product name of virtual machine.
+
+Leave blank to use default vaule: "Virtual Machine"
+
+Example value: "DGX-1"
+
+Note: You need Windows Server 2022 or later Host OS.
+
+Note: Available starting with NanaBox 1.2 Update 4.
+
+#### Version
+
+The version of virtual machine.
+
+Leave blank to use default vaule: "Hyper-V UEFI Release v4.1"
+
+Example value: "DGX-1 with V100-32 1.0"
+
+Note: You need Windows Server 2022 or later Host OS.
+
+Note: Available starting with NanaBox 1.2 Update 4.
+
+#### SerialNumber
+
+The serial number of virtual machine.
+
+Leave blank to use default vaule
+
+Example value: "QTFCOU0000001"
+
+Note: You need Windows Server 2022 or later Host OS.
+
+Note: Available starting with NanaBox 1.2 Update 4.
+
+#### Family
+
+The family of virtual machine.
+
+Leave blank to use default vaule: "Virtual Machine"
+
+Example value: "Enterprise Server"
+
+Note: You need Windows Server 2022 or later Host OS.
+
+Note: Available starting with NanaBox 1.2 Update 4.
+
+#### UUID
+
+The universally unique identifier of virtual machine.
+
+Example value: "12345678-abcd-efgh-ijkl-0123456789ab"
+
+Note: You need Windows Server 2022 or later Host OS.
+
+Note: Available starting with NanaBox 1.2 Update 4.
+
+#### SKUNumber
+
+The sku number of virtual machine.
+
+Example value: "TestVM"
+
+Note: You need Windows Server 2022 or later Host OS.
+
+Note: Available starting with NanaBox 1.2 Update 4.
 
 ### ProcessorCount
 
@@ -700,6 +821,54 @@ runtime.
       {
         "Path": "D:\\NanaBox VM\\UEFIDebugDisk.vhdx",
         "Type": "VirtualDisk"
+      }
+    ],
+    "Type": "VirtualMachine",
+    "Version": 1
+  }
+}
+```
+
+### Typical NVIDIA DGX-1 Virtual Machine (In order to bypass the installation detection of the DGX BaseOS)
+
+```
+{
+  "NanaBox": {
+    "ChipsetInformation": {
+      "Family": "Enterprise Server",
+      "Manufacturer": "NVIDIA",
+      "ProductName": "DGX-1",
+      "SerialNumber": "QTFCOU0000001",
+      "Version": "DGX-1 with V100-32 1.0"
+    },
+    "ComPorts": {
+      "UefiConsole": "Disabled"
+    },
+    "Gpu": {
+      "AssignmentMode": "List",
+      "SelectedDevices": [
+        "\\\\?\\PCI#VEN_10DE&DEV_1DB5&SUBSYS_12491215&REV_A1#4&38ab2860&0&0008#{064092b3-625e-43bf-9eb5-dc845897dd59}\\GPUPARAV"
+      ]
+    },
+    "GuestType": "Linux",
+    "MemorySize": 16384,
+    "Name": "DGX OS",
+    "NetworkAdapters": [
+      {
+        "Connected": true,
+        "EndpointId": "594f35de-4d8e-4173-8e9f-00f2b372d2f4",
+        "MacAddress": "00-15-5D-47-EB-71"
+      }
+    ],
+    "ProcessorCount": 8,
+    "ScsiDevices": [
+      {
+        "Path": "D:\\NanaBox VM\\DGX OS.vhdx",
+        "Type": "VirtualDisk"
+      },
+      {
+        "Path": "D:\\Updates\\DGXOS-5.6.0-2024-04-16-06-58-50.iso",
+        "Type": "VirtualImage"
       }
     ],
     "Type": "VirtualMachine",
