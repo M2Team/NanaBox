@@ -124,16 +124,25 @@ namespace NanaBox
         std::vector<std::string> Devices;
     };
 
+    struct ChipsetInformationConfiguration
+    {
+        std::string BaseBoardSerialNumber;
+        std::string ChassisSerialNumber;
+        std::string ChassisAssetTag;
+        std::string Manufacturer; // At least 20348.
+        std::string ProductName; // At least 20348.
+        std::string Version; // At least 20348.
+        std::string SerialNumber; // At least 20348.
+        std::string UUID; // At least 20348.
+        std::string SKUNumber; // At least 20348.
+        std::string Family; // At least 20348.
+    };
+
     struct VirtualMachineConfiguration
     {
         std::uint32_t Version = 1;
         GuestType GuestType = GuestType::Unknown;
         std::string Name;
-		std::string Manufacturer;
-		std::string ProductName;
-		std::string SystemVersion;
-		std::string SerialNumber;
-		std::string Family;
         std::uint32_t ProcessorCount = 0;
         std::uint64_t MemorySize = 0;
         ComPortsConfiguration ComPorts;
@@ -148,6 +157,7 @@ namespace NanaBox
         bool ExposeVirtualizationExtensions = false;
         KeyboardConfiguration Keyboard;
         EnhancedSessionConfiguration EnhancedSession;
+        ChipsetInformationConfiguration ChipsetInformation;
         VideoMonitorConfiguration VideoMonitor; // Not Implemented
     };
 }

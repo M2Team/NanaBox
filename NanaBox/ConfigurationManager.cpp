@@ -129,39 +129,95 @@ std::string NanaBox::MakeHcsConfiguration(
 
     Result["ShouldTerminateOnLastHandleClosed"] = true;
 
-    nlohmann::json Uefi;
+    nlohmann::json Chipset;
     {
-        switch (Configuration.ComPorts.UefiConsole)
+        nlohmann::json Uefi;
         {
-        case NanaBox::UefiConsoleMode::Default:
-            Uefi["Console"] = "Default";
-            break;
-        case NanaBox::UefiConsoleMode::ComPort1:
-            Uefi["Console"] = "ComPort1";
-            break;
-        case NanaBox::UefiConsoleMode::ComPort2:
-            Uefi["Console"] = "ComPort2";
-            break;
-        default:
-            Uefi["Console"] = "Disabled";
-            break;
+            switch (Configuration.ComPorts.UefiConsole)
+            {
+            case NanaBox::UefiConsoleMode::Default:
+                Uefi["Console"] = "Default";
+                break;
+            case NanaBox::UefiConsoleMode::ComPort1:
+                Uefi["Console"] = "ComPort1";
+                break;
+            case NanaBox::UefiConsoleMode::ComPort2:
+                Uefi["Console"] = "ComPort2";
+                break;
+            default:
+                Uefi["Console"] = "Disabled";
+                break;
+            }
+
+            if (Configuration.SecureBoot)
+            {
+                Uefi["ApplySecureBootTemplate"] = "Apply";
+                Uefi["SecureBootTemplateId"] =
+                    "1734c6e8-3154-4dda-ba5f-a874cc483422";
+            }
+        }
+        Chipset["Uefi"] = Uefi;
+
+        if (!Configuration.ChipsetInformation.BaseBoardSerialNumber.empty())
+        {
+            Chipset["BaseBoardSerialNumber"] =
+                Configuration.ChipsetInformation.BaseBoardSerialNumber;
+        }
+        if (!Configuration.ChipsetInformation.ChassisSerialNumber.empty())
+        {
+            Chipset["ChassisSerialNumber"] =
+                Configuration.ChipsetInformation.ChassisSerialNumber;
+        }
+        if (!Configuration.ChipsetInformation.ChassisAssetTag.empty())
+        {
+            Chipset["ChassisAssetTag"] =
+                Configuration.ChipsetInformation.ChassisAssetTag;
         }
 
-        if (Configuration.SecureBoot)
+        if (::MileIsWindowsVersionAtLeast(10, 0, 20348))
         {
-            Uefi["ApplySecureBootTemplate"] = "Apply";
-            Uefi["SecureBootTemplateId"] =
-                "1734c6e8-3154-4dda-ba5f-a874cc483422";
+            nlohmann::json SystemInformation;
+            {
+                if (!Configuration.ChipsetInformation.Manufacturer.empty())
+                {
+                    SystemInformation["Manufacturer"] =
+                        Configuration.ChipsetInformation.Manufacturer;
+                }
+                if (!Configuration.ChipsetInformation.ProductName.empty())
+                {
+                    SystemInformation["ProductName"] =
+                        Configuration.ChipsetInformation.ProductName;
+                }
+                if (!Configuration.ChipsetInformation.Version.empty())
+                {
+                    SystemInformation["Version"] =
+                        Configuration.ChipsetInformation.Version;
+                }
+                if (!Configuration.ChipsetInformation.SerialNumber.empty())
+                {
+                    SystemInformation["SerialNumber"] =
+                        Configuration.ChipsetInformation.SerialNumber;
+                }
+                if (!Configuration.ChipsetInformation.UUID.empty())
+                {
+                    SystemInformation["UUID"] =
+                        Configuration.ChipsetInformation.UUID;
+                }
+                if (!Configuration.ChipsetInformation.SKUNumber.empty())
+                {
+                    SystemInformation["SKUNumber"] =
+                        Configuration.ChipsetInformation.SKUNumber;
+                }
+                if (!Configuration.ChipsetInformation.Family.empty())
+                {
+                    SystemInformation["Family"] =
+                        Configuration.ChipsetInformation.Family;
+                }
+            }
+            Chipset["SystemInformation"] = SystemInformation;
         }
     }
-    Result["VirtualMachine"]["Chipset"]["Uefi"] = Uefi;
-	
-	Result["VirtualMachine"]["Chipset"]["SystemInformation"]["Manufacturer"] = Configuration.Manufacturer;
-	Result["VirtualMachine"]["Chipset"]["SystemInformation"]["ProductName"] = Configuration.ProductName;
-	Result["VirtualMachine"]["Chipset"]["SystemInformation"]["Version"] = Configuration.SystemVersion;
-	Result["VirtualMachine"]["Chipset"]["SystemInformation"]["SerialNumber"] = Configuration.SerialNumber;
-	Result["VirtualMachine"]["Chipset"]["SystemInformation"]["Family"] = Configuration.Family;
-	Result["VirtualMachine"]["Chipset"]["BaseBoardSerialNumber"] = Configuration.SerialNumber;
+    Result["VirtualMachine"]["Chipset"] = Chipset;
 
     nlohmann::json Memory;
     Memory["SizeInMB"] = Configuration.MemorySize;
@@ -1164,6 +1220,109 @@ nlohmann::json NanaBox::SerializeEnhancedSessionConfiguration(
     return Output;
 }
 
+void NanaBox::DeserializeChipsetInformationConfiguration(
+    nlohmann::json const& Input,
+    NanaBox::ChipsetInformationConfiguration& Output)
+{
+    Output.BaseBoardSerialNumber = Mile::Json::ToString(
+        Mile::Json::GetSubKey(Input, "BaseBoardSerialNumber"),
+        Output.BaseBoardSerialNumber);
+
+    Output.ChassisSerialNumber = Mile::Json::ToString(
+        Mile::Json::GetSubKey(Input, "ChassisSerialNumber"),
+        Output.ChassisSerialNumber);
+
+    Output.ChassisAssetTag = Mile::Json::ToString(
+        Mile::Json::GetSubKey(Input, "ChassisAssetTag"),
+        Output.ChassisAssetTag);
+
+    Output.Manufacturer = Mile::Json::ToString(
+        Mile::Json::GetSubKey(Input, "Manufacturer"),
+        Output.Manufacturer);
+
+    Output.ProductName = Mile::Json::ToString(
+        Mile::Json::GetSubKey(Input, "ProductName"),
+        Output.ProductName);
+
+    Output.Version = Mile::Json::ToString(
+        Mile::Json::GetSubKey(Input, "Version"),
+        Output.Version);
+
+    Output.SerialNumber = Mile::Json::ToString(
+        Mile::Json::GetSubKey(Input, "SerialNumber"),
+        Output.SerialNumber);
+
+    Output.UUID = Mile::Json::ToString(
+        Mile::Json::GetSubKey(Input, "UUID"),
+        Output.UUID);
+
+    Output.SKUNumber = Mile::Json::ToString(
+        Mile::Json::GetSubKey(Input, "SKUNumber"),
+        Output.SKUNumber);
+
+    Output.Family = Mile::Json::ToString(
+        Mile::Json::GetSubKey(Input, "Family"),
+        Output.Family);
+}
+
+nlohmann::json NanaBox::SerializeChipsetInformationConfiguration(
+    NanaBox::ChipsetInformationConfiguration const& Input)
+{
+    nlohmann::json Output;
+
+    if (!Input.BaseBoardSerialNumber.empty())
+    {
+        Output["BaseBoardSerialNumber"] = Input.BaseBoardSerialNumber;
+    }
+
+    if (!Input.ChassisSerialNumber.empty())
+    {
+        Output["ChassisSerialNumber"] = Input.ChassisSerialNumber;
+    }
+
+    if (!Input.ChassisAssetTag.empty())
+    {
+        Output["ChassisAssetTag"] = Input.ChassisAssetTag;
+    }
+
+    if (!Input.Manufacturer.empty())
+    {
+        Output["Manufacturer"] = Input.Manufacturer;
+    }
+
+    if (!Input.ProductName.empty())
+    {
+        Output["ProductName"] = Input.ProductName;
+    }
+
+    if (!Input.Version.empty())
+    {
+        Output["Version"] = Input.Version;
+    }
+
+    if (!Input.SerialNumber.empty())
+    {
+        Output["SerialNumber"] = Input.SerialNumber;
+    }
+
+    if (!Input.UUID.empty())
+    {
+        Output["UUID"] = Input.UUID;
+    }
+
+    if (!Input.SKUNumber.empty())
+    {
+        Output["SKUNumber"] = Input.SKUNumber;
+    }
+
+    if (!Input.Family.empty())
+    {
+        Output["Family"] = Input.Family;
+    }
+
+    return Output;
+}
+
 NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
     std::string const& Configuration)
 {
@@ -1179,56 +1338,6 @@ NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
     }
 
     NanaBox::VirtualMachineConfiguration Result;
-	
-	try
-	{
-		Result.Manufacturer =
-			RootJson.at("Manufacturer").get<std::string>();
-	}
-	catch (...)
-	{
-    
-	}
-
-	try
-	{
-		Result.ProductName =
-			RootJson.at("ProductName").get<std::string>();
-	}
-	catch (...)
-	{
-    
-	}
-
-	try
-	{
-		Result.SystemVersion =
-			RootJson.at("SystemVersion").get<std::string>();
-	}
-	catch (...)
-	{
-
-	}
-
-	try
-	{
-		Result.SerialNumber =
-			RootJson.at("SerialNumber").get<std::string>();
-	}
-	catch (...)
-	{
-
-	}
-
-	try
-	{
-		Result.Family =
-			RootJson.at("Family").get<std::string>();
-	}
-	catch (...)
-	{
-
-	}
 
     try
     {
@@ -1534,6 +1643,17 @@ NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
 
     }
 
+    try
+    {
+        NanaBox::DeserializeChipsetInformationConfiguration(
+            RootJson.at("ChipsetInformation"),
+            Result.ChipsetInformation);
+    }
+    catch (...)
+    {
+
+    }
+
     return Result;
 }
 
@@ -1542,11 +1662,6 @@ std::string NanaBox::SerializeConfiguration(
 {
     nlohmann::json RootJson;
     RootJson["Type"] = "VirtualMachine";
-	RootJson["Manufacturer"] = Configuration.Manufacturer;
-	RootJson["ProductName"] = Configuration.ProductName;
-	RootJson["SystemVersion"] = Configuration.SystemVersion;
-	RootJson["SerialNumber"] = Configuration.SerialNumber;
-	RootJson["Family"] = Configuration.Family;
     RootJson["Version"] = Configuration.Version;
     RootJson["GuestType"] = Configuration.GuestType;
     RootJson["Name"] = Configuration.Name;
@@ -1662,6 +1777,15 @@ std::string NanaBox::SerializeConfiguration(
         if (!EnhancedSession.empty())
         {
             RootJson["EnhancedSession"] = EnhancedSession;
+        }
+    }
+    {
+        nlohmann::json ChipsetInformation =
+            NanaBox::SerializeChipsetInformationConfiguration(
+                Configuration.ChipsetInformation);
+        if (!ChipsetInformation.empty())
+        {
+            RootJson["ChipsetInformation"] = ChipsetInformation;
         }
     }
 
