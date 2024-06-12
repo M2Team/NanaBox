@@ -60,11 +60,17 @@
   - Version (Number)
   - GuestType (String)
   - Name (String)
-  - Manufacturer (String)
-  - ProductName (String)
-  - SystemVersion (String)
-  - SerialNumber (String)
-  - Family (String)
+  - ChipsetInformation (Object)
+    - BaseBoardSerialNumber (String)
+	- ChassisSerialNumber (String)
+	- ChassisAssetTag (String)
+    - Manufacturer (String)
+    - ProductName (String)
+    - Version (String)
+    - SerialNumber (String)
+    - Family (String)
+	- UUID (String)
+	- SKUNumber (String)
   - ProcessorCount (Number)
   - MemorySize (Number)
   - ComPorts (Object)
@@ -142,45 +148,93 @@ The unique name of virtual machine.
 
 Example value: "TestVM"
 
-### Manufacturer
+### ChipsetInformation
 
-The manufacturer of the motherboard of virtual machine.
+The chipset information object of virtual machine.
+
+#### BaseBoardSerialNumber
+
+The serial number of the baseboard of virtual machine.
+
+Example value: "QTFCOU0000001"
+
+#### ChassisSerialNumber
+
+The serial number of the chassis of virtual machine.
+
+Example value: "QTFCOU0000001"
+
+#### ChassisAssetTag 
+
+The asset tag of the chassis of virtual machine.
+
+Example value: "TestVM"
+
+#### Manufacturer
+
+The manufacturer of virtual machine.
 
 Leave blank to use default vaule: "Microsoft Corporation"
 
 Example value: "NVIDIA"
 
-### ProductName
+Note: You need Windows Server 2022 or later Host OS.
 
-The product name of the motherboard of virtual machine.
+#### ProductName
+
+The product name of virtual machine.
 
 Leave blank to use default vaule: "Virtual Machine"
 
 Example value: "DGX-1"
 
-### SystemVersion
+Note: You need Windows Server 2022 or later Host OS.
 
-The version of the motherboard of virtual machine.
+#### Version
+
+The version of virtual machine.
 
 Leave blank to use default vaule: "Hyper-V UEFI Release v4.1"
 
 Example value: "DGX-1 with V100-32 1.0"
 
-### SerialNumber
+Note: You need Windows Server 2022 or later Host OS.
 
-The serial number of the motherboard of virtual machine.
+#### SerialNumber
+
+The serial number of virtual machine.
 
 Leave blank to use default vaule
 
 Example value: "QTFCOU0000001"
 
-### Family
+Note: You need Windows Server 2022 or later Host OS.
 
-The family of the motherboard of virtual machine.
+#### Family
+
+The family of virtual machine.
 
 Leave blank to use default vaule: "Virtual Machine"
 
-Example value: "Server"
+Example value: "Enterprise Server"
+
+Note: You need Windows Server 2022 or later Host OS.
+
+#### UUID
+
+The universally unique identifier of virtual machine.
+
+Example value: "12345678-abcd-efgh-ijkl-0123456789AB"
+
+Note: You need Windows Server 2022 or later Host OS.
+
+#### SKUNumber
+
+The sku number of virtual machine.
+
+Example value: "TestVM"
+
+Note: You need Windows Server 2022 or later Host OS.
 
 ### ProcessorCount
 
@@ -745,6 +799,54 @@ runtime.
       {
         "Path": "D:\\NanaBox VM\\UEFIDebugDisk.vhdx",
         "Type": "VirtualDisk"
+      }
+    ],
+    "Type": "VirtualMachine",
+    "Version": 1
+  }
+}
+```
+
+### Typical NVIDIA DGX-1 Virtual Machine (In order to bypass the installation detection of the DGX BaseOS)
+
+```
+{
+  "NanaBox": {
+    "ChipsetInformation": {
+      "Family": "Enterprise Server",
+      "Manufacturer": "NVIDIA",
+      "ProductName": "DGX-1",
+      "SerialNumber": "QTFCOU0000001",
+      "Version": "DGX-1 with V100-32 1.0"
+    },
+    "ComPorts": {
+      "UefiConsole": "Disabled"
+    },
+    "Gpu": {
+      "AssignmentMode": "List",
+      "SelectedDevices": [
+        "\\\\?\\PCI#VEN_10DE&DEV_1DB5&SUBSYS_12491215&REV_A1#4&38ab2860&0&0008#{064092b3-625e-43bf-9eb5-dc845897dd59}\\GPUPARAV"
+      ]
+    },
+    "GuestType": "Linux",
+    "MemorySize": 16384,
+    "Name": "DGX OS",
+    "NetworkAdapters": [
+      {
+        "Connected": true,
+        "EndpointId": "594f35de-4d8e-4173-8e9f-00f2b372d2f4",
+        "MacAddress": "00-15-5D-47-EB-71"
+      }
+    ],
+    "ProcessorCount": 8,
+    "ScsiDevices": [
+      {
+        "Path": "D:\\NanaBox VM\\DGX OS.vhdx",
+        "Type": "VirtualDisk"
+      },
+      {
+        "Path": "D:\\Updates\\DGXOS-5.6.0-2024-04-16-06-58-50.iso",
+        "Type": "VirtualImage"
       }
     ],
     "Type": "VirtualMachine",
