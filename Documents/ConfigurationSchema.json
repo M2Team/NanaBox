@@ -1,0 +1,349 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "NanaBox configuration file",
+  "description": "Schema for NanaBox configuration files (*.7b)",
+  "type": "object",
+  "properties": {
+    "NanaBox": {
+      "type": "object",
+      "description": "The parent object for all types of NanaBox Configuration File.",
+      "required": ["Type", "Version", "GuestType", "Name"],
+      "properties": {
+        "Type": {
+          "type": "string",
+          "description": "The type of configuration.",
+          "enum": ["VirtualMachine"]
+        },
+        "Version": {
+          "type": "number",
+          "description": "The version of virtual machine configuration. Only 1 is available.",
+          "enum": [1]
+        },
+        "GuestType": {
+          "type": "string",
+          "description": "The guest OS type of virtual machine.",
+          "enum": ["Windows", "Linux", "Unknown"]
+        },
+        "Name": {
+          "type": "string",
+          "description": "The unique name of virtual machine.",
+          "examples": ["TestVM"]
+        },
+        "ProcessorCount": {
+          "type": "number",
+          "description": "The processor count of virtual machine, in cores.",
+          "examples": [2]
+        },
+        "MemorySize": {
+          "type": "number",
+          "description": "The memory size of virtual machine, in MB.",
+          "examples": [2048]
+        },
+        "ChipsetInformation": {
+          "type": "object",
+          "description": "The chipset information object of virtual machine. Available starting with NanaBox 1.2 Update 4.",
+          "properties": {
+            "BaseBoardSerialNumber": {
+              "type": "string",
+              "description": "The serial number of the baseboard of virtual machine.",
+              "examples": ["NANA12345678"]
+            },
+            "ChassisSerialNumber": {
+              "type": "string",
+              "description": "The serial number of the chassis of virtual machine.",
+              "examples": ["NANA12345678"]
+            },
+            "ChassisAssetTag": {
+              "type": "string",
+              "description": "The asset tag of the chassis of virtual machine.",
+              "examples": ["TestVM"]
+            },
+            "Manufacturer": {
+              "type": "string",
+              "description": "The manufacturer of virtual machine. You need Windows Server 2022 or later Host OS.",
+              "examples": ["NanaBox"]
+            },
+            "ProductName": {
+              "type": "string",
+              "description": "The product name of virtual machine. Leave blank to use default value: \"Virtual Machine\". You need Windows Server 2022 or later Host OS.",
+              "examples": ["NanaBox Virtual Machine"]
+            },
+            "Version": {
+              "type": "string",
+              "description": "The version of virtual machine. Leave blank to use default value: \"Hyper-V UEFI Release v4.1\". You need Windows Server 2022 or later Host OS.",
+              "examples": ["v1.0"]
+            },
+            "SerialNumber": {
+              "type": "string",
+              "description": "The serial number of virtual machine. Leave blank to use default value. You need Windows Server 2022 or later Host OS.",
+              "examples": ["NANA12345678"]
+            },
+            "Family": {
+              "type": "string",
+              "description": "The family of virtual machine. Leave blank to use default value: \"Virtual Machine\". You need Windows Server 2022 or later Host OS.",
+              "examples": ["Enterprise Server"]
+            },
+            "UUID": {
+              "type": "string",
+              "description": "The universally unique identifier of virtual machine. You need Windows Server 2022 or later Host OS.",
+              "pattern": "^[a-fA-F0-9]{8}(-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}$",
+              "examples": ["f2288275-6c30-47d4-bc24-293fa9c9cb12"]
+            },
+            "SKUNumber": {
+              "type": "string",
+              "description": "The sku number of virtual machine. You need Windows Server 2022 or later Host OS.",
+              "examples": ["TestVM"]
+            }
+          }
+        },
+        "ComPorts": {
+          "type": "object",
+          "description": "The COM ports setting object of virtual machine.",
+          "required": ["UefiConsole"],
+          "properties": {
+            "UefiConsole": {
+              "type": "string",
+              "description": "The UEFI serial console setting of virtual machine.",
+              "enum": ["Disabled", "Default", "ComPort1", "ComPort2"]
+            },
+            "ComPort1": {
+              "type": "string",
+              "description": "The named pipe path of guest COM1 of virtual machine.",
+              "examples": ["\\\\.\\pipe\\vmpipe1"]
+            },
+            "ComPort2": {
+              "type": "string",
+              "description": "The named pipe path of guest COM2 of virtual machine.",
+              "examples": ["\\\\.\\pipe\\vmpipe2"]
+            }
+          }
+        },
+        "Gpu": {
+          "type": "object",
+          "description": "The GPU paravirtualization setting object of virtual machine.",
+          "required": ["AssignmentMode"],
+          "if": {
+            "properties": { "AssignmentMode": { "const": "List" } }
+          },
+          "then": {
+            "required": ["SelectedDevices"]
+          },
+          "properties": {
+            "AssignmentMode": {
+              "type": "string",
+              "description": "The GPU paravirtualization assignment mode setting of virtual machine.",
+              "enum": ["Disabled", "Default", "List", "Mirror"]
+            },
+            "EnableHostDriverStore": {
+              "type": "boolean",
+              "description": "Set it true if you want to enable HostDriverStore folder readonly share for both Virtual SMB and Plan 9, which can mirror the DriverStore folder from the Host OS. It will be useful when users using GPU paravirtualization feature. You cannot suspend the virtual machine properly if this option is enabled. Available starting with NanaBox 1.2."
+            },
+            "SelectedDevices": {
+              "type": "array",
+              "description": "The string array of selected GPUs used for paravirtualization of virtual machine. Only valid in \"List\" GPU paravirtualization assignment mode. Reference: https://docs.microsoft.com/en-us/windows/win32/hyperv_v2/msvm-partitionablegpu",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "NetworkAdapters": {
+          "type": "array",
+          "description": "The network adapters setting object array of virtual machine.",
+          "items": {
+            "type": "object",
+            "required": ["Connected"],
+            "properties": {
+              "Connected": {
+                "type": "boolean",
+                "description": "Make the current network adapter connected if set it true."
+              },
+              "MacAddress": {
+                "type": "string",
+                "description": "The MAC address of the current network adapter. If value not set, NanaBox will generate a new one for it.",
+                "pattern": "^(?:[0-9A-Fa-f]{2}-){5}[0-9A-Fa-f]{2}$",
+                "examples": ["00-15-5D-64-2F-AB"]
+              },
+              "EndpointId": {
+                "type": "string",
+                "description": "The Endpoint GUID of the current network adapter. If value not set, NanaBox will generate a new one for it. This option is used for internal implementation.",
+                "pattern": "^[a-fA-F0-9]{8}(-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}$",
+                "examples": ["f2288275-6c30-47d4-bc24-293fa9c9cb12"]
+              }
+            }
+          }
+        },
+        "ScsiDevices": {
+          "type": "array",
+          "description": "The SCSI devices setting object array of virtual machine.",
+          "items": {
+            "type": "object",
+            "required": ["Type"],
+            "if": {
+              "properties": { "Type": { "const": "VirtualImage" } }
+            },
+            "else": {
+              "required": ["Path"]
+            },
+            "properties": {
+              "Type": {
+                "type": "string",
+                "description": "The type of the current SCSI device.",
+                "enum": ["VirtualDisk", "VirtualImage", "PhysicalDevice"]
+              },
+              "Path": {
+                "type": "string",
+                "description": "The path of the current SCSI device. Note: The relative path is supported.\nWhen type is \"VirtualDisk\", you can use vhdx and vhd files.\nWhen type is \"VirtualImage\", you can use iso files, and you can make it empty or not set if you want to make a ejected virtual optical drive.\nWhen type is \"PhysicalDevice\", you can expose your physical drive to virtual machine. you can set it something like \"\\\\.\\PhysicalDriveX\" where X is an integer that represents the particular enumeration of the physical disk on the caller's system."
+              }
+            }
+          }
+        },
+        "SecureBoot": {
+          "type": "boolean",
+          "description": "The Secure Boot setting of virtual machine. If you want to enable Secure Boot for your virtual machine, please set it true."
+        },
+        "Tpm": {
+          "type": "boolean",
+          "description": "The Trusted Platform Module (TPM) setting of virtual machine. If you want to enable Trusted Platform Module (TPM) for your virtual machine, please set it true.\nAvailable starting with NanaBox 1.2 Update 2.\nNote: Only the Trusted Platform Module (TPM) 2.0 is supported.\nNote: You need Windows 11 Version 24H2 or later Host OS. (Although Windows Server 2022 had introduced the related Host Compute System API interfaces, but it seems doesn't be implemented.)"
+        },
+        "GuestStateFile": {
+          "type": "string",
+          "description": "The path of guest state file for virtual machine. The relative path is supported. If value not set or file not exist, NanaBox will create a new one for it.",
+          "examples": ["TestVM.vmgs"]
+        },
+        "RuntimeStateFile": {
+          "type": "string",
+          "description": "The path of runtime state file for virtual machine. The relative path is supported. If value not set or file not exist, NanaBox will create a new one for it.",
+          "examples": ["TestVM.vmrs"]
+        },
+        "SaveStateFile": {
+          "type": "string",
+          "description": "The path of save state file for virtual machine. The relative path is supported. This option is used for internal implementation.",
+          "examples": ["TestVM.SaveState.vmrs"]
+        },
+        "ExposeVirtualizationExtensions": {
+          "type": "boolean",
+          "description": "Expose the virtualization extensions to the virtual machine if set it true. Some processors don't support exposing the virtualization extensions to the virtual machine."
+        },
+        "Keyboard": {
+          "type": "array",
+          "description": "Keyboard setting object array of virtual machine. For more information about the default keyboard shortcut behavior, please read https://learn.microsoft.com/en-us/windows/win32/termserv/terminal-services-shortcut-keys.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "RedirectKeyCombinations": {
+                "type": "boolean",
+                "description": "Apply key combinations at the virtual machine if set it true, or apply key combinations to the virtual machine only when the host is running in full-screen mode. If you don't want to apply key combinations at the virtual machine, please set it false."
+              },
+              "FullScreenHotkey": {
+                "type": "number",
+                "description": "Specifies the virtual-key code to add to CTRL+ALT to determine the hotkey replacement for switching to full-screen mode.\nNote: For more information about virtual-key code, please read https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes."
+              },
+              "CtrlEscHotkey": {
+                "type": "number",
+                "description": "Specifies the virtual-key code to add to ALT to determine the hotkey replacement for CTRL+ESC. \nNote: You need to use the decimal value of the virtual-key code. \nNote: For more information about virtual-key code, please read https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes."
+              },
+              "AltEscHotkey": {
+                "type": "number",
+                "description": "Specifies the virtual-key code to add to ALT to determine the hotkey replacement for ALT+ESC. \nNote: You need to use the decimal value of the virtual-key code. \nNote: For more information about virtual-key code, please read https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes."
+              },
+              "AltTabHotkey": {
+                "type": "number",
+                "description": "Specifies the virtual-key code to add to ALT to determine the hotkey replacement for ALT+TAB.  \nNote: You need to use the decimal value of the virtual-key code. \nNote: For more information about virtual-key code, please read https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes."
+              },
+              "AltShiftTabHotkey": {
+                "type": "number",
+                "description": "Specifies the virtual-key code to add to ALT to determine the hotkey replacement for ALT+SHIFT+TAB.  \nNote: You need to use the decimal value of the virtual-key code. \nNote: For more information about virtual-key code, please read https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes."
+              },
+              "AltSpaceHotkey": {
+                "type": "number",
+                "description": "Specifies the virtual-key code to add to ALT to determine the hotkey replacement for ALT+SPACE.  \nNote: You need to use the decimal value of the virtual-key code. \nNote: For more information about virtual-key code, please read https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes."
+              },
+              "CtrlAltDelHotkey": {
+                "type": "number",
+                "description": "Specifies the virtual-key code to add to CTRL+ALT to determine the hotkey replacement for CTRL+ALT+DELETE, also called the secure attention sequence (SAS).  \nNote: You need to use the decimal value of the virtual-key code. \nNote: For more information about virtual-key code, please read https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes."
+              },
+              "FocusReleaseLeftHotkey": {
+                "type": "number",
+                "description": "Specifies the virtual-key code to add to Ctrl+Alt to determine the hotkey replacement for Ctrl+Alt+Left Arrow.  \nNote: You need to use the decimal value of the virtual-key code. \nNote: For more information about virtual-key code, please read https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes."
+              },
+              "FocusReleaseRightHotkey": {
+                "type": "number",
+                "description": "Specifies the virtual-key code to add to Ctrl+Alt to determine the hotkey replacement for Ctrl+Alt+Right Arrow.  \nNote: You need to use the decimal value of the virtual-key code. \nNote: For more information about virtual-key code, please read https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes."
+              }
+            }
+          }
+        },
+        "EnhancedSession": {
+          "type": "array",
+          "description": "Enhanced session setting object array of virtual machine.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "RedirectAudio": {
+                "type": "boolean",
+                "description": "Redirect sounds from the virtual machine to the host if set it true."
+              },
+              "RedirectAudioCapture": {
+                "type": "boolean",
+                "description": "Redirect audio capture from the host to the virtual machine if set it true."
+              },
+              "RedirectDrives": {
+                "type": "boolean",
+                "description": "Redirect all disk drives from the host to the virtual machine if set it true."
+              },
+              "RedirectPrinters": {
+                "type": "boolean",
+                "description": "Redirect all printers from the host to the virtual machine if set it true."
+              },
+              "RedirectPorts": {
+                "type": "boolean",
+                "description": "Redirect all local ports (for example, COM and LPT) from the host to the virtual machine if set it true."
+              },
+              "RedirectSmartCards": {
+                "type": "boolean",
+                "description": "Redirect all smart cards from the host to the virtual machine if set it true."
+              },
+              "RedirectClipboard": {
+                "type": "boolean",
+                "description": "Redirect clipboard from the host to the virtual machine if set it true."
+              },
+              "RedirectDevices": {
+                "type": "boolean",
+                "description": "Redirect all devices from the host to the virtual machine if set it true."
+              },
+              "RedirectPOSDevices": {
+                "type": "boolean",
+                "description": "Redirect all Point of Service devices from the host to the virtual machine if set it true."
+              },
+              "RedirectDynamicDrives": {
+                "type": "boolean",
+                "description": "Redirect all dynamically attached Plug and Play (PnP) drives that are enumerated while virtual machine running if set it true."
+              },
+              "RedirectDynamicDevices": {
+                "type": "boolean",
+                "description": "Redirect all dynamically attached Plug and Play (PnP) devices that are enumerated while virtual machine running if set it true."
+              },
+              "Drives": {
+                "type": "array",
+                "description": "The string array of selected disk drives used for redirection from the host to the virtual machine.",
+                "items": {
+                  "type": "string",
+                  "examples": ["C"]
+                }
+              },
+              "Devices": {
+                "type": "array",
+                "description": "The string array of selected devices used for redirection from the host to the virtual machine.",
+                "items": {
+                  "type": "string",
+                  "examples": ["USB\\VID_5986&PID_211C&MI_00\\6&218C4A3&0&0000"]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
