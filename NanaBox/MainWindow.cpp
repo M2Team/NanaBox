@@ -482,6 +482,25 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
     this->m_Configuration = NanaBox::DeserializeConfiguration(
         ConfigurationFileContent);
 
+    {
+        bool VirtualMachineExisted = true;
+        try
+        {
+            winrt::make_self<NanaBox::ComputeSystem>(
+                winrt::to_hstring(
+                    this->m_Configuration.Name));
+        }
+        catch (...)
+        {
+            VirtualMachineExisted = false;
+        }
+
+        if (VirtualMachineExisted)
+        {
+            winrt::throw_hresult(HCS_E_SYSTEM_ALREADY_EXISTS);
+        }
+    }
+
     for (NanaBox::ScsiDeviceConfiguration& ScsiDevice
         : this->m_Configuration.ScsiDevices)
     {
