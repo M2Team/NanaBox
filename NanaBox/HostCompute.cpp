@@ -161,9 +161,6 @@ NanaBox::ComputeSystem::ComputeSystem(
         GENERIC_ALL,
         this->m_ComputeSystem.put()));
 
-    ::WaitForOperationResult(
-        this->m_Operation);
-
     winrt::check_hresult(::HcsSetComputeSystemCallback(
         this->m_ComputeSystem.get(),
         HcsEventOptionNone,
