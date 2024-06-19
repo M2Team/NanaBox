@@ -5,6 +5,8 @@ VisualStudioVersion = 17.8.34511.84
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevelopmentChannelSwitcher", "DevelopmentChannelSwitcher\DevelopmentChannelSwitcher.csproj", "{AB6E6FB6-53B4-4FD0-B605-DAF612F03156}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NanaBox.ProjectAssetsGenerator", "NanaBox.ProjectAssetsGenerator\NanaBox.ProjectAssetsGenerator.csproj", "{194AF2C4-45B3-4509-A28E-6D7A88BE8BD9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{AB6E6FB6-53B4-4FD0-B605-DAF612F03156}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AB6E6FB6-53B4-4FD0-B605-DAF612F03156}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AB6E6FB6-53B4-4FD0-B605-DAF612F03156}.Release|Any CPU.Build.0 = Release|Any CPU
+		{194AF2C4-45B3-4509-A28E-6D7A88BE8BD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{194AF2C4-45B3-4509-A28E-6D7A88BE8BD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{194AF2C4-45B3-4509-A28E-6D7A88BE8BD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{194AF2C4-45B3-4509-A28E-6D7A88BE8BD9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
