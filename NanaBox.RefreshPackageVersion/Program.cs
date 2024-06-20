@@ -1,4 +1,5 @@
 ﻿using Mile.Project.Helpers;
+using System.Text;
 using System.Xml;
 
 namespace NanaBox.RefreshPackageVersion
@@ -49,9 +50,76 @@ namespace NanaBox.RefreshPackageVersion
             }
         }
 
+        static void ReplaceFileContentViaStringList(
+            string FilePath,
+            List<string> FromList,
+            List<string> ToList)
+        {
+            if (FromList.Count != ToList.Count)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
+            string Content = File.ReadAllText(FilePath, Encoding.UTF8);
+
+            for (int Index = 0; Index < FromList.Count; ++Index)
+            {
+                Content = Content.Replace(FromList[Index], ToList[Index]);
+            }
+
+            if (Path.GetExtension(FilePath) == ".rc")
+            {
+                File.WriteAllText(FilePath, Content, Encoding.Unicode);
+            }
+            else
+            {
+                FileUtilities.SaveTextToFileAsUtf8Bom(FilePath, Content);
+            }
+        }
+
+        static bool SwitchToPreview = true;
+
+        static List<string> ReleaseStringList = new List<string>
+        {
+            "DisplayName=\"NanaBox\"",
+            "Name=\"40174MouriNaruto.NanaBox\"",
+            "<DisplayName>NanaBox</DisplayName>",
+            "<Content Include=\"..\\Assets\\PackageAssets\\**\\*\">",
+            "NanaBox.ico",
+        };
+
+        static List<string> PreviewStringList = new List<string>
+        {
+            "DisplayName=\"NanaBox Preview\"",
+            "Name=\"40174MouriNaruto.NanaBoxPreview\"",
+            "<DisplayName>NanaBox Preview</DisplayName>",
+            "<Content Include=\"..\\Assets\\PreviewPackageAssets\\**\\*\">",
+            "NanaBoxPreview.ico",
+        };
+
+        static List<string> FileList = new List<string>
+        {
+            @"{0}\NanaBoxPackage\Package.appxmanifest",
+            @"{0}\NanaBoxPackage\NanaBoxPackage.wapproj",
+            @"{0}\NanaBox\NanaBoxResources.rc",
+        };
+
+        static void SwitchDevelopmentChannel()
+        {
+            foreach (var FilePath in FileList)
+            {
+                ReplaceFileContentViaStringList(
+                    string.Format(FilePath, RepositoryRoot),
+                    SwitchToPreview ? ReleaseStringList : PreviewStringList,
+                    SwitchToPreview ? PreviewStringList : ReleaseStringList);
+            }
+        }
+
         static void Main(string[] args)
         {
             RefreshAppxManifestVersion();
+
+            SwitchDevelopmentChannel();
 
             Console.WriteLine(
                 "NanaBox.RefreshPackageVersion task has been completed.");
