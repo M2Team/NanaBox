@@ -11,7 +11,7 @@
   <Identity
     Name="40174MouriNaruto.NanaBoxPreview"
     Publisher="CN=E310A153-74A9-4D81-800B-857A8D58408A"
-    Version="1.3.805.0" />
+    Version="1.3.812.0" />
 
   <Properties>
     <DisplayName>NanaBox Preview</DisplayName>
