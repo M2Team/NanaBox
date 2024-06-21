@@ -1076,55 +1076,29 @@ void NanaBox::DeserializeEnhancedSessionConfiguration(
         Mile::Json::GetSubKey(Input, "RedirectDynamicDevices"),
         Output.RedirectDynamicDevices);
 
-    try
+    for (nlohmann::json const& Drive : Mile::Json::ToArray(
+        Mile::Json::GetSubKey(Input, "Drives")))
     {
-        nlohmann::json Drives = Input.at("Drives");
+        std::string DriveString = Mile::Json::ToString(Drive);
+        DriveString.resize(1);
+        DriveString[0] = static_cast<char>(std::toupper(DriveString[0]));
 
-        for (nlohmann::json const& Drive : Drives)
+        if (DriveString[0] < 'A' || DriveString[0] > 'Z')
         {
-            std::string DriveString = Drive.get<std::string>();
-            DriveString.resize(1);
-            DriveString[0] = static_cast<char>(std::toupper(DriveString[0]));
-
-            if (DriveString[0] < 'A' || DriveString[0] > 'Z')
-            {
-                continue;
-            }
-
-            try
-            {
-                Output.Drives.push_back(DriveString);
-            }
-            catch (...)
-            {
-
-            }
+            continue;
         }
-    }
-    catch (...)
-    {
 
+        Output.Drives.push_back(DriveString);
     }
 
-    try
+    for (nlohmann::json const& Device : Mile::Json::ToArray(
+        Mile::Json::GetSubKey(Input, "Devices")))
     {
-        nlohmann::json Devices = Input.at("Devices");
-
-        for (nlohmann::json const& Device : Devices)
+        std::string DeviceString = Mile::Json::ToString(Device);
+        if (!DeviceString.empty())
         {
-            try
-            {
-                Output.Devices.push_back(Device.get<std::string>());
-            }
-            catch (...)
-            {
-
-            }
+            Output.Devices.push_back(DeviceString);
         }
-    }
-    catch (...)
-    {
-
     }
 }
 
@@ -1354,11 +1328,19 @@ NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
             "Invalid Version");
     }
 
-    Result.GuestType =
-        RootJson.at("GuestType").get<NanaBox::GuestType>();
+    try
+    {
+        Result.GuestType =
+            RootJson.at("GuestType").get<NanaBox::GuestType>();
+    }
+    catch (...)
+    {
 
-    Result.Name =
-        RootJson.at("Name").get<std::string>();
+    }
+
+    Result.Name = Mile::Json::ToString(
+        Mile::Json::GetSubKey(RootJson, "Name"),
+        Result.Name);
 
     try
     {
@@ -1381,9 +1363,8 @@ NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
         throw std::exception("Invalid Memory Size");
     }
 
-    try
     {
-        nlohmann::json ComPorts = RootJson.at("ComPorts");
+        nlohmann::json ComPorts = Mile::Json::GetSubKey(RootJson, "ComPorts");
 
         try
         {
@@ -1395,61 +1376,41 @@ NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
 
         }
 
+        Result.ComPorts.ComPort1 = Mile::Json::ToString(
+            Mile::Json::GetSubKey(ComPorts, "ComPort1"),
+            Result.ComPorts.ComPort1);
+
+        Result.ComPorts.ComPort2 = Mile::Json::ToString(
+            Mile::Json::GetSubKey(ComPorts, "ComPort2"),
+            Result.ComPorts.ComPort2);
+    }
+
+    {
+        nlohmann::json Gpu = Mile::Json::GetSubKey(RootJson, "Gpu");
+
         try
         {
-            Result.ComPorts.ComPort1 =
-                ComPorts.at("ComPort1").get<std::string>();
+            Result.Gpu.AssignmentMode =
+                Gpu.at("AssignmentMode").get<NanaBox::GpuAssignmentMode>();
         }
         catch (...)
         {
 
         }
 
-        try
+        Result.Gpu.EnableHostDriverStore = Mile::Json::ToBoolean(
+            Mile::Json::GetSubKey(Gpu, "EnableHostDriverStore"),
+            Result.Gpu.EnableHostDriverStore);
+
+        for (nlohmann::json const& SelectedDevice : Mile::Json::ToArray(
+            Mile::Json::GetSubKey(Gpu, "SelectedDevices")))
         {
-            Result.ComPorts.ComPort2 =
-                ComPorts.at("ComPort2").get<std::string>();
-        }
-        catch (...)
-        {
-
-        }
-    }
-    catch (...)
-    {
-
-    }
-
-    try
-    {
-        nlohmann::json Gpu = RootJson.at("Gpu");
-
-        Result.Gpu.AssignmentMode =
-            Gpu.at("AssignmentMode").get<NanaBox::GpuAssignmentMode>();
-
-        Result.Gpu.EnableHostDriverStore =
-            Gpu.at("EnableHostDriverStore").get<bool>();
-
-        try
-        {
-            nlohmann::json SelectedDevices = Gpu.at("SelectedDevices");
-
-            for (nlohmann::json const& SelectedDevice : SelectedDevices)
+            std::string SelectedDeviceString =
+                Mile::Json::ToString(SelectedDevice);
+            if (!SelectedDeviceString.empty())
             {
-                try
-                {
-                    Result.Gpu.SelectedDevices.push_back(
-                        SelectedDevice.get<std::string>());
-                }
-                catch (...)
-                {
-
-                }
+                Result.Gpu.SelectedDevices.push_back(SelectedDeviceString);
             }
-        }
-        catch (...)
-        {
-
         }
 
         if (Result.Gpu.SelectedDevices.empty() &&
@@ -1463,196 +1424,89 @@ NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
             Result.Gpu.SelectedDevices.clear();
         }
     }
-    catch (...)
-    {
 
+    for (nlohmann::json const& NetworkAdapter : Mile::Json::ToArray(
+        Mile::Json::GetSubKey(RootJson, "NetworkAdapters")))
+    {
+        NanaBox::NetworkAdapterConfiguration Current;
+
+        Current.Connected = Mile::Json::ToBoolean(
+            Mile::Json::GetSubKey(NetworkAdapter, "Connected"),
+            Current.Connected);
+
+        Current.MacAddress = Mile::Json::ToString(
+            Mile::Json::GetSubKey(NetworkAdapter, "MacAddress"),
+            Current.MacAddress);
+
+        Current.EndpointId = Mile::Json::ToString(
+            Mile::Json::GetSubKey(NetworkAdapter, "EndpointId"),
+            Current.EndpointId);
+
+        Result.NetworkAdapters.push_back(Current);
     }
 
-    try
+    for (nlohmann::json const& ScsiDevice : Mile::Json::ToArray(
+        Mile::Json::GetSubKey(RootJson, "ScsiDevices")))
     {
-        nlohmann::json NetworkAdapters = RootJson.at("NetworkAdapters");
+        NanaBox::ScsiDeviceConfiguration Current;
 
-        for (nlohmann::json const& NetworkAdapter : NetworkAdapters)
+        try
         {
-            try
-            {
-                NanaBox::NetworkAdapterConfiguration Current;
-
-                try
-                {
-                    Current.Connected =
-                        NetworkAdapter.at("Connected").get<bool>();
-                }
-                catch (...)
-                {
-
-                }
-
-                try
-                {
-                    Current.MacAddress =
-                        NetworkAdapter.at("MacAddress").get<std::string>();
-                }
-                catch (...)
-                {
-
-                }
-
-                try
-                {
-                    Current.EndpointId =
-                        NetworkAdapter.at("EndpointId").get<std::string>();
-                }
-                catch (...)
-                {
-
-                }
-
-                Result.NetworkAdapters.push_back(Current);
-            }
-            catch (...)
-            {
-
-            }
+            Current.Type =
+                ScsiDevice.at("Type").get<NanaBox::ScsiDeviceType>();
         }
-    }
-    catch (...)
-    {
-
-    }
-
-    try
-    {
-        nlohmann::json ScsiDevices = RootJson.at("ScsiDevices");
-
-        for (nlohmann::json const& ScsiDevice : ScsiDevices)
+        catch (...)
         {
-            NanaBox::ScsiDeviceConfiguration Current;
-
-            try
-            {
-                Current.Type =
-                    ScsiDevice.at("Type").get<NanaBox::ScsiDeviceType>();
-            }
-            catch (...)
-            {
-                continue;
-            }
-
-            try
-            {
-                Current.Path = ScsiDevice.at("Path").get<std::string>();
-            }
-            catch (...)
-            {
-
-            }
-            if (Current.Path.empty() &&
-                Current.Type != NanaBox::ScsiDeviceType::VirtualImage)
-            {
-                continue;
-            }
-
-            Result.ScsiDevices.push_back(Current);
+            continue;
         }
-    }
-    catch (...)
-    {
 
-    }
+        Current.Path = Mile::Json::ToString(
+            Mile::Json::GetSubKey(ScsiDevice, "Path"),
+            Current.Path);
+        if (Current.Path.empty() &&
+            Current.Type != NanaBox::ScsiDeviceType::VirtualImage)
+        {
+            continue;
+        }
 
-    try
-    {
-        Result.SecureBoot =
-            RootJson.at("SecureBoot").get<bool>();
-    }
-    catch (...)
-    {
-
+        Result.ScsiDevices.push_back(Current);
     }
 
-    try
-    {
-        Result.Tpm =
-            RootJson.at("Tpm").get<bool>();
-    }
-    catch (...)
-    {
+    Result.SecureBoot = Mile::Json::ToBoolean(
+        Mile::Json::GetSubKey(RootJson, "SecureBoot"),
+        Result.SecureBoot);
 
-    }
+    Result.Tpm = Mile::Json::ToBoolean(
+        Mile::Json::GetSubKey(RootJson, "Tpm"),
+        Result.Tpm);
 
-    try
-    {
-        Result.GuestStateFile =
-            RootJson.at("GuestStateFile").get<std::string>();
-    }
-    catch (...)
-    {
+    Result.GuestStateFile = Mile::Json::ToString(
+        Mile::Json::GetSubKey(RootJson, "GuestStateFile"),
+        Result.GuestStateFile);
 
-    }
+    Result.RuntimeStateFile = Mile::Json::ToString(
+        Mile::Json::GetSubKey(RootJson, "RuntimeStateFile"),
+        Result.RuntimeStateFile);
 
-    try
-    {
-        Result.RuntimeStateFile =
-            RootJson.at("RuntimeStateFile").get<std::string>();
-    }
-    catch (...)
-    {
+    Result.SaveStateFile = Mile::Json::ToString(
+        Mile::Json::GetSubKey(RootJson, "SaveStateFile"),
+        Result.SaveStateFile);
 
-    }
+    Result.ExposeVirtualizationExtensions = Mile::Json::ToBoolean(
+        Mile::Json::GetSubKey(RootJson, "ExposeVirtualizationExtensions"),
+        Result.ExposeVirtualizationExtensions);
 
-    try
-    {
-        Result.SaveStateFile =
-            RootJson.at("SaveStateFile").get<std::string>();
-    }
-    catch (...)
-    {
+    NanaBox::DeserializeKeyboardConfiguration(
+        Mile::Json::GetSubKey(RootJson, "Keyboard"),
+        Result.Keyboard);
 
-    }
+    NanaBox::DeserializeEnhancedSessionConfiguration(
+        Mile::Json::GetSubKey(RootJson, "EnhancedSession"),
+        Result.EnhancedSession);
 
-    try
-    {
-        Result.ExposeVirtualizationExtensions =
-            RootJson.at("ExposeVirtualizationExtensions").get<bool>();
-    }
-    catch (...)
-    {
-
-    }
-
-    try
-    {
-        NanaBox::DeserializeKeyboardConfiguration(
-            RootJson.at("Keyboard"),
-            Result.Keyboard);
-    }
-    catch (...)
-    {
-
-    }
-
-    try
-    {
-        NanaBox::DeserializeEnhancedSessionConfiguration(
-            RootJson.at("EnhancedSession"),
-            Result.EnhancedSession);
-    }
-    catch (...)
-    {
-
-    }
-
-    try
-    {
-        NanaBox::DeserializeChipsetInformationConfiguration(
-            RootJson.at("ChipsetInformation"),
-            Result.ChipsetInformation);
-    }
-    catch (...)
-    {
-
-    }
+    NanaBox::DeserializeChipsetInformationConfiguration(
+        Mile::Json::GetSubKey(RootJson, "ChipsetInformation"),
+        Result.ChipsetInformation);
 
     return Result;
 }
