@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project 
-  DefaultTargets="Restore;Build"
+  DefaultTargets="Restore;Build;Packaging"
   xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Target Name="Restore">
     <ItemGroup>
@@ -30,5 +30,38 @@
       BuildInParallel="True"
       StopOnFirstFailure="True"
       Properties="PreferredToolArchitecture=x64;Configuration=Release;Platform=x64" />
+  </Target>
+  <Target Name="Packaging">
+    <PropertyGroup>
+      <InputBinariesPath>$(MSBuildThisFileDirectory)Output\Binaries\Release\</InputBinariesPath>
+      <OutputBinariesPath>$(MSBuildThisFileDirectory)Output\Binaries\Root\Binaries\</OutputBinariesPath>
+      <OutputSymbolsPath>$(MSBuildThisFileDirectory)Output\Binaries\Root\Symbols\</OutputSymbolsPath>
+      <OutputFileNamePrefix>NanaBox_1.3.$([System.DateTime]::Today.Subtract($([System.DateTime]::Parse('2022-04-01'))).TotalDays).0</OutputFileNamePrefix>
+    </PropertyGroup>
+
+    <MakeDir Directories="$(OutputBinariesPath)arm64" />
+    <MakeDir Directories="$(OutputBinariesPath)x64" />
+    <MakeDir Directories="$(OutputSymbolsPath)arm64" />
+    <MakeDir Directories="$(OutputSymbolsPath)x64" />
+
+    <Copy SourceFiles="$(MSBuildThisFileDirectory)License.md" DestinationFiles="$(OutputBinariesPath)License.txt" />
+    <Copy SourceFiles="$(MSBuildThisFileDirectory)ReadMe.md" DestinationFiles="$(OutputBinariesPath)ReadMe.txt" />
+    <Copy SourceFiles="$(MSBuildThisFileDirectory)Documents\ConfigurationReference.md" DestinationFiles="$(OutputBinariesPath)ConfigurationReference.txt" />
+    <Copy SourceFiles="$(MSBuildThisFileDirectory)Documents\ConfigurationSchema.json" DestinationFiles="$(OutputBinariesPath)ConfigurationSchema.json" />
+    <Copy SourceFiles="$(MSBuildThisFileDirectory)Documents\People.md" DestinationFiles="$(OutputBinariesPath)People.txt" />
+    <Copy SourceFiles="$(MSBuildThisFileDirectory)Documents\ReleaseNotes.md" DestinationFiles="$(OutputBinariesPath)ReleaseNotes.txt" />
+    <Copy SourceFiles="$(InputBinariesPath)arm64\Mile.Xaml.Styles.SunValley.xbf" DestinationFiles="$(OutputBinariesPath)arm64\Mile.Xaml.Styles.SunValley.xbf" />
+    <Copy SourceFiles="$(InputBinariesPath)arm64\NanaBox.exe" DestinationFiles="$(OutputBinariesPath)arm64\NanaBox.exe" />
+    <Copy SourceFiles="$(InputBinariesPath)arm64\NanaBox.pri" DestinationFiles="$(OutputBinariesPath)arm64\resources.pri" />
+    <Copy SourceFiles="$(InputBinariesPath)x64\Mile.Xaml.Styles.SunValley.xbf" DestinationFiles="$(OutputBinariesPath)x64\Mile.Xaml.Styles.SunValley.xbf" />
+    <Copy SourceFiles="$(InputBinariesPath)x64\NanaBox.exe" DestinationFiles="$(OutputBinariesPath)x64\NanaBox.exe" />
+    <Copy SourceFiles="$(InputBinariesPath)x64\NanaBox.pri" DestinationFiles="$(OutputBinariesPath)x64\resources.pri" />
+
+    <Copy SourceFiles="$(MSBuildThisFileDirectory)License.md" DestinationFiles="$(OutputSymbolsPath)License.txt" />
+    <Copy SourceFiles="$(InputBinariesPath)arm64\NanaBox.pdb" DestinationFiles="$(OutputSymbolsPath)arm64\NanaBox.pdb" />
+    <Copy SourceFiles="$(InputBinariesPath)x64\NanaBox.pdb" DestinationFiles="$(OutputSymbolsPath)x64\NanaBox.pdb" />
+
+    <Exec Command="7z a -r .\Output\$(OutputFileNamePrefix)_Binaries.zip .\Output\Binaries\Root\Binaries\*.*" WorkingDirectory="$(MSBuildThisFileDirectory)"/>
+    <Exec Command="7z a -r .\Output\$(OutputFileNamePrefix)_DebugSymbols.zip .\Output\Binaries\Root\Symbols\*.*" WorkingDirectory="$(MSBuildThisFileDirectory)"/>
   </Target>
 </Project>
