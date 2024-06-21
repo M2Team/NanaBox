@@ -5,6 +5,7 @@
 - File Extension: .7b
 - Save Encoding: UTF-8 with BOM as mandatory
 - Configuration Format: JSON (JavaScript Object Notation)
+- JSON Schema: https://raw.githubusercontent.com/M2Team/NanaBox/main/Documents/ConfigurationSchema.json
 
 ```
 {
