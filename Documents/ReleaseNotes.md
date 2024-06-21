@@ -1,12 +1,14 @@
 ﻿# NanaBox Release Notes
 
-**NanaBox 1.3 (1.2.8xx.0)**
+**NanaBox 1.3 (1.2.813.0)**
 
 - Introduce JSON Schema support for NanaBox Configuration File. (Contributed by
   driver1998.)
 - Add the virtual machine existence check for solving network unavailable issues
   when people reopen the same virtual machine accidentally.
-- Improve several implementations.
+- Eliminate exceptions when creating the virtual machine.
+- Improve maintainer tools for introducing automatic packaging support when
+  building all targets for NanaBox.
 
 **NanaBox 1.2 Update 4 (1.2.803.0)**
 
