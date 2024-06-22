@@ -1,6 +1,6 @@
 ﻿# NanaBox Release Notes
 
-**NanaBox 1.3 (1.2.813.0)**
+**NanaBox 1.3 (1.3.813.0)**
 
 - Introduce JSON Schema support for NanaBox Configuration File. (Contributed by
   driver1998.)
