@@ -605,9 +605,10 @@ void NanaBox::ComputeSystemUpdateGpu(
         {
             Result["Settings"]["AssignmentMode"] = "List";
             nlohmann::json Devices;
-            for (std::string const& Device : Configuration.SelectedDevices)
+            for (std::pair<std::string, std::uint16_t> const& Device
+                : Configuration.SelectedDevices)
             {
-                Devices[Device] = 0xffff;
+                Devices[Device.first] = Device.second;
             }
             Result["Settings"]["AssignmentRequest"] = Devices;
         }
@@ -1405,11 +1406,22 @@ NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
         for (nlohmann::json const& SelectedDevice : Mile::Json::ToArray(
             Mile::Json::GetSubKey(Gpu, "SelectedDevices")))
         {
-            std::string SelectedDeviceString =
-                Mile::Json::ToString(SelectedDevice);
-            if (!SelectedDeviceString.empty())
+            std::string DeviceInterface = Mile::Json::ToString(SelectedDevice);
+            if (!DeviceInterface.empty())
             {
-                Result.Gpu.SelectedDevices.push_back(SelectedDeviceString);
+                Result.Gpu.SelectedDevices[DeviceInterface] = 0xFFFF;
+            }
+            else
+            {
+                DeviceInterface = Mile::Json::ToString(
+                    Mile::Json::GetSubKey(SelectedDevice, "DeviceInterface"));
+                if (!DeviceInterface.empty())
+                {
+                    Result.Gpu.SelectedDevices[DeviceInterface] =
+                        static_cast<std::uint16_t>(
+                            Mile::Json::ToUInt64(Mile::Json::GetSubKey(
+                                SelectedDevice, "PartitionId")));
+                }
             }
         }
 
@@ -1545,10 +1557,20 @@ std::string NanaBox::SerializeConfiguration(
         if (!Configuration.Gpu.SelectedDevices.empty())
         {
             nlohmann::json SelectedDevices;
-            for (std::string const& SelectedDevice
+            for (std::pair<std::string, std::uint16_t> const& SelectedDevice
                 : Configuration.Gpu.SelectedDevices)
             {
-                SelectedDevices.push_back(SelectedDevice);
+                if (0xFFFF == SelectedDevice.second)
+                {
+                    SelectedDevices.push_back(SelectedDevice.first);
+                }
+                else
+                {
+                    nlohmann::json Current;
+                    Current["DeviceInterface"] = SelectedDevice.first;
+                    Current["PartitionId"] = SelectedDevice.second;
+                    SelectedDevices.push_back(Current);
+                }
             }
             Gpu["SelectedDevices"] = SelectedDevices;
         }

@@ -20,6 +20,7 @@
 #include <Windows.h>
 
 #include <cstdint>
+#include <map>
 #include <string>
 #include <vector>
 
@@ -66,7 +67,7 @@ namespace NanaBox
     {
         GpuAssignmentMode AssignmentMode = GpuAssignmentMode::Disabled;
         bool EnableHostDriverStore = false;
-        std::vector<std::string> SelectedDevices;
+        std::map<std::string, std::uint16_t> SelectedDevices;
     };
 
     struct NetworkAdapterConfiguration
