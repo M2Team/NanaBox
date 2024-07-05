@@ -70,7 +70,9 @@
   - Gpu (Object)
     - AssignmentMode (String)
     - EnableHostDriverStore (Boolean)
-    - SelectedDevices (String Array)
+    - SelectedDevices (String or Object Array)
+      - DeviceInterface (String, Object Array Only)
+      - PartitionId (String, Object Array Only)
   - NetworkAdapters (Object Array)
     - Connected (Boolean)
     - MacAddress (String)
@@ -191,24 +193,28 @@ Note: You can update the named pipe path at runtime starting with NanaBox 1.1.
 
 ### Gpu
 
-The GPU paravirtualization setting object of virtual machine.
+The GPU setting object of virtual machine. You can choose GPU-P (partitioning)
+and/or GPU-PV (paravirtualization) modes for every specific GPU instance.
 
-Note: You can update GPU paravirtualization setting at runtime starting with
-NanaBox 1.1.
+Note: Before NanaBox 1.3 Update 1, you can only use GPU-PV (paravirtualization)
+mode for virtual machines.
+
+Note: You can update GPU setting at runtime starting with NanaBox 1.1.
 
 #### AssignmentMode
 
-The GPU paravirtualization assignment mode setting of virtual machine.
+The GPU assignment mode setting of virtual machine.
 
 Available values: "Disabled", "Default", "List" and "Mirror"
 
-- "Disabled" mode: Do not assign GPU to the virtual machine.
-- "Default" mode: Assign the single default GPU to virtual machine, which
-  currently is POST GPU.
+- "Disabled" mode: Do not assign any GPU to the virtual machine.
+- "Default" mode: Assign the single default GPU with GPU-PV (paravirtualization)
+  mode to virtual machine, which currently is POST GPU.
 - "List" mode: Assign the GPU(s)/partition(s) specified in SelectedDevices to
   virtual machine. If SelectedDevices is empty, do not assign GPU to the virtual
   machine.
-- "Mirror" mode: Assign all current and future GPUs to virtual machine.
+- "Mirror" mode: Assign all current and future GPUs with GPU-PV
+  (paravirtualization) mode to virtual machine.
 
 #### EnableHostDriverStore
 
@@ -223,14 +229,30 @@ Note: Available starting with NanaBox 1.2.
 
 #### SelectedDevices
 
-(Optional) The string array of selected GPUs used for paravirtualization of
-virtual machine.
+(Optional) The string or object array of selected GPUs used for virtual machine.
+Set as the object with "DeviceInterface" and "PartitionId" for the specific GPU
+instance if you want to use GPU-P (partitioning) mode, or set as the string
+which contains "DeviceInterface" for using GPU-PV (paravirtualization) mode.
 
 Note: Only valid in "List" GPU paravirtualization assignment mode.
 
+Note: Before NanaBox 1.3 Update 1, you can only use GPU-PV (paravirtualization)
+mode for virtual machines.
+
 Reference: https://docs.microsoft.com/en-us/windows/win32/hyperv_v2/msvm-partitionablegpu
 
+##### DeviceInterface
+
+The device interface path of the selected GPU used for paravirtualization of
+virtual machine.
+
 Example value: "\\\\?\\PCI#VEN_10DE&DEV_1C82&SUBSYS_11BF1B4C&REV_A1#4&38ab2860&0&0008#{064092b3-625e-43bf-9eb5-dc845897dd59}\\GPUPARAV"
+
+##### PartitionId
+
+The partition ID of the selected GPU used for paravirtualization of virtual
+machine. It's actually an uint16 value. Set it 65535 for using GPU-PV 
+(paravirtualization) mode.
 
 ### NetworkAdapters
 
