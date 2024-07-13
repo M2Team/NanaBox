@@ -81,6 +81,7 @@
     <Page Include="AboutPage.xaml" />
     <Page Include="ReloadConfirmationPage.xaml" />
     <Page Include="SponsorPage.xaml" />
+    <Page Include="ResizeVirtualHardDiskPage.xaml" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="NanaBoxResources.rc" />

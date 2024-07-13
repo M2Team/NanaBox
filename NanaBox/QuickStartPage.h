@@ -36,6 +36,10 @@ namespace winrt::NanaBox::implementation
             winrt::IInspectable const& sender,
             winrt::RoutedEventArgs const& e);
 
+        void ResizeVirtualHardDiskButtonClick(
+            winrt::IInspectable const& sender,
+            winrt::RoutedEventArgs const& e);
+
         void DocumentationButtonClick(
             winrt::IInspectable const& sender,
             winrt::RoutedEventArgs const& e);

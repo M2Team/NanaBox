@@ -14,6 +14,7 @@
 #include "MessagePage.h"
 #include "AboutPage.h"
 #include "NewVirtualHardDiskPage.h"
+#include "ResizeVirtualHardDiskPage.h"
 
 void SplitCommandLineEx(
     std::wstring const& CommandLine,
@@ -606,6 +607,33 @@ winrt::handle ShowNewVirtualHardDiskDialog(
 
         winrt::check_hresult(::MileXamlThreadUninitialize());
     }));
+}
+
+winrt::handle ShowResizeVirtualHardDiskDialog(
+    _In_ HWND ParentWindowHandle)
+{
+    return winrt::handle(Mile::CreateThread([=]()
+        {
+            winrt::check_hresult(::MileXamlThreadInitialize());
+
+            HWND WindowHandle = ::CreateXamlDialog(ParentWindowHandle);
+            if (!WindowHandle)
+            {
+                return;
+            }
+
+            winrt::NanaBox::ResizeVirtualHardDiskPage Window =
+                winrt::make<winrt::NanaBox::implementation::ResizeVirtualHardDiskPage>(
+                    WindowHandle);
+            ::ShowXamlDialog(
+                WindowHandle,
+                480,
+                320,
+                winrt::get_abi(Window),
+                ParentWindowHandle);
+
+            winrt::check_hresult(::MileXamlThreadUninitialize());
+        }));
 }
 
 BOOL LaunchDocumentation()
