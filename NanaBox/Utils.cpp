@@ -555,6 +555,16 @@ DWORD SimpleCreateVirtualDisk(
         Handle);
 }
 
+DWORD SimpleResizeVirtualDisk(
+    _In_ PCWSTR Path,
+    _In_ UINT64 Size,
+    _Out_ PHANDLE Handle) {
+    UNREFERENCED_PARAMETER(Path);
+    UNREFERENCED_PARAMETER(Size);
+    UNREFERENCED_PARAMETER(Handle);
+    return NULL;
+}
+
 winrt::handle ShowAboutDialog(
     _In_ HWND ParentWindowHandle)
 {

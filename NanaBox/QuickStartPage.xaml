@@ -83,7 +83,7 @@
         AutomationProperties.Name="[Resize Virtual Hard Disk]"
         Click="ResizeVirtualHardDiskButtonClick">
         <StackPanel Margin="16,0" Orientation="Horizontal">
-          <SymbolIcon Margin="0,0,16,0" Symbol="FullScreen" />
+          <SymbolIcon Margin="0,0,16,0" Symbol="ZoomIn" />
           <TextBlock x:Uid="/QuickStartPage/ResizeVirtualHardDiskButtonTextBlock" Text="[Resize Virtual Hard Disk]" />
         </StackPanel>
       </Button>

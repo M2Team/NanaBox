@@ -24,11 +24,22 @@ namespace winrt::NanaBox::implementation
             _In_ HWND WindowHandle = nullptr);
         void InitializeComponent();
 
-        void ResizeButtonClick(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e);
-        void CancelButtonClick(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e);
-        void FileNameBrowseButtonClickHandler(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& e);
-        void NaturalNumberTextBoxBeforeTextChanging(winrt::TextBox const& sender, winrt::TextBoxBeforeTextChangingEventArgs const& e);
+        void FileNameBrowseButtonClickHandler(
+            winrt::IInspectable const& sender,
+            winrt::RoutedEventArgs const& e);
 
+        void NaturalNumberTextBoxBeforeTextChanging(
+            winrt::TextBox const& sender,
+            winrt::TextBoxBeforeTextChangingEventArgs const& args);
+
+        void ResizeButtonClick(
+            winrt::IInspectable const& sender,
+            winrt::RoutedEventArgs const& e);
+
+        void CancelButtonClick(
+            winrt::IInspectable const& sender,
+            winrt::RoutedEventArgs const& e);
+        
     private:
         HWND m_WindowHandle;
         winrt::DispatcherQueue m_DispatcherQueue = nullptr;

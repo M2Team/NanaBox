@@ -7,11 +7,19 @@
 #include "Utils.h"
 
 #include <regex>
+#include <initguid.h>
+#include <virtdisk.h>
+#pragma comment(lib,"virtdisk.lib")
 
 #include <ShObjIdl_core.h>
 
 using namespace winrt;
 using namespace Windows::UI::Xaml;
+
+namespace winrt
+{
+    using Windows::System::DispatcherQueuePriority;
+}
 
 namespace winrt::NanaBox::implementation
 {
@@ -33,44 +41,179 @@ namespace winrt::NanaBox::implementation
             winrt::DispatcherQueue::GetForCurrentThread();
     }
 
+    void ResizeVirtualHardDiskPage::FileNameBrowseButtonClickHandler(
+        winrt::IInspectable const& sender,
+        winrt::RoutedEventArgs const& e) {
+        UNREFERENCED_PARAMETER(sender);
+        UNREFERENCED_PARAMETER(e);
+        winrt::handle(Mile::CreateThread([=]()
+        {
+            try
+            {
+                winrt::com_ptr<IFileDialog> FileDialog =
+                    winrt::create_instance<IFileDialog>(CLSID_FileOpenDialog);
+
+                DWORD Flags = 0;
+                winrt::check_hresult(FileDialog->GetOptions(&Flags));
+
+                Flags |= FOS_FORCEFILESYSTEM;
+                Flags |= FOS_NOCHANGEDIR;
+                Flags |= FOS_DONTADDTORECENT;
+                winrt::check_hresult(FileDialog->SetOptions(Flags));
+
+                static constexpr COMDLG_FILTERSPEC SupportedFileTypes[] =
+                {
+                    { L"VHDX (*.vhdx)", L"*.vhdx" },
+                    { L"VHD (*.vhd)", L"*.vhd" }
+                };
+
+                winrt::check_hresult(FileDialog->SetFileTypes(
+                    ARRAYSIZE(SupportedFileTypes), SupportedFileTypes));
+
+                // Note: The array is 1-indexed
+                winrt::check_hresult(FileDialog->SetFileTypeIndex(1));
+
+                winrt::check_hresult(FileDialog->SetDefaultExtension(L"vhdx"));
+
+                winrt::check_hresult(FileDialog->Show(this->m_WindowHandle));
+
+                winrt::hstring FilePath;
+                {
+                    winrt::com_ptr<IShellItem> Result;
+                    winrt::check_hresult(FileDialog->GetResult(Result.put()));
+
+                    LPWSTR RawFilePath = nullptr;
+                    winrt::check_hresult(Result->GetDisplayName(
+                        SIGDN_FILESYSPATH,
+                        &RawFilePath));
+                    if (RawFilePath)
+                    {
+                        FilePath = winrt::to_hstring(RawFilePath);
+                        ::CoTaskMemFree(RawFilePath);
+                    }
+                }
+                if (FilePath.empty())
+                {
+                    return;
+                }
+
+                if (!this->m_DispatcherQueue)
+                {
+                    return;
+                }
+                this->m_DispatcherQueue.TryEnqueue(
+                    winrt::DispatcherQueuePriority::Normal,
+                    [=]()
+                    {
+                        this->FileNameTextBox().Text(FilePath);
+                    });
+            }
+            catch (...)
+            {
+
+            }
+        }));
+    }
+
+    void ResizeVirtualHardDiskPage::NaturalNumberTextBoxBeforeTextChanging(
+        winrt::TextBox const& sender,
+        winrt::TextBoxBeforeTextChangingEventArgs const& args)
+    {
+        UNREFERENCED_PARAMETER(sender);
+        UNREFERENCED_PARAMETER(args);
+
+        if (args.NewText().empty())
+        {
+            sender.Text(L"0");
+            return;
+        }
+
+        if (!std::regex_match(
+            args.NewText().c_str(),
+            std::wregex(
+                L"(|[[:digit:]]+)",
+                std::regex_constants::icase)))
+        {
+            args.Cancel(true);
+        }
+    }
+
     void ResizeVirtualHardDiskPage::ResizeButtonClick(
         winrt::IInspectable const& sender,
         winrt::RoutedEventArgs const& e)
     {
         UNREFERENCED_PARAMETER(sender);
         UNREFERENCED_PARAMETER(e);
+
+        winrt::hstring Path =
+            this->FileNameTextBox().Text();
+        std::uint64_t Size =
+            std::stoull(this->SizeTextBox().Text().c_str());
+
+        winrt::hstring SuccessInstructionText =
+            Mile::WinRT::GetLocalizedString(
+                L"ResizeVirtualHardDiskPage/SuccessInstructionText");
+        winrt::hstring SuccessContentText =
+            Mile::WinRT::GetLocalizedString(
+                L"ResizeVirtualHardDiskPage/SuccessContentText");
+
+        winrt::handle(Mile::CreateThread([=]()
+        {
+            HANDLE DiskHandle = INVALID_HANDLE_VALUE;
+            DWORD OpenError = ERROR_SUCCESS;
+            /* todo: read file and call resize.
+            DWORD OpenError = OpenVirtualDisk(
+                ,
+                Path.c_str(),
+                VIRTUAL_DISK_ACCESS_ALL,
+                ,
+                ,
+                &DiskHandle
+                );*/
+            if (ERROR_SUCCESS == OpenError) {
+
+                DWORD Error = ::SimpleResizeVirtualDisk(
+                    Path.c_str(),
+                    Size,
+                    &DiskHandle);
+                if (ERROR_SUCCESS == Error)
+                {
+                    ::CloseHandle(DiskHandle);
+
+                    ::ShowMessageDialog(
+                        this->m_WindowHandle,
+                        SuccessInstructionText.c_str(),
+                        Mile::FormatWideString(
+                            SuccessContentText.c_str(),
+                            Path.c_str()).c_str());
+
+                    ::PostMessageW(this->m_WindowHandle, WM_CLOSE, 0, 0);
+                }
+                else
+                {
+                    ::ShowErrorMessageDialog(
+                        this->m_WindowHandle,
+                        winrt::hresult_error(HRESULT_FROM_WIN32(Error)));
+                }
+
+            }
+            else {
+                ::ShowErrorMessageDialog(
+                    this->m_WindowHandle,
+                    winrt::hresult_error(HRESULT_FROM_WIN32(OpenError)));
+                
+            }
+        }));
     }
 
     void ResizeVirtualHardDiskPage::CancelButtonClick(
         winrt::IInspectable const& sender,
         winrt::RoutedEventArgs const& e)
     {
-        // 在这里添加取消操作的逻辑，比如返回上一个页面
         UNREFERENCED_PARAMETER(sender);
         UNREFERENCED_PARAMETER(e);
-    }
 
-    void ResizeVirtualHardDiskPage::FileNameBrowseButtonClickHandler(
-        winrt::IInspectable const& sender,
-        winrt::RoutedEventArgs const& e) {
-        UNREFERENCED_PARAMETER(sender);
-        UNREFERENCED_PARAMETER(e);
+        ::DestroyWindow(this->m_WindowHandle);
     }
-
-
-    void ResizeVirtualHardDiskPage::NaturalNumberTextBoxBeforeTextChanging(
-        winrt::TextBox const& sender,
-        winrt::TextBoxBeforeTextChangingEventArgs const& e)
-    {
-        UNREFERENCED_PARAMETER(sender);
-        UNREFERENCED_PARAMETER(e);
-        for (wchar_t const& c : e.NewText())
-        {
-            if (!iswdigit(c))
-            {
-                e.Cancel(true);
-                return;
-            }
-        }
-    }
+    
 }
