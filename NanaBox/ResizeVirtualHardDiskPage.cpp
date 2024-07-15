@@ -197,9 +197,7 @@ namespace winrt::NanaBox::implementation
                     UINT64 OldSize = 0L;
                     OldSize = Info.Size.VirtualSize;
 
-
                     DWORD ResizeError = ::SimpleResizeVirtualDisk(
-                        Path.c_str(),
                         OldSize,
                         NewSize,
                         &DiskHandle);
@@ -219,6 +217,8 @@ namespace winrt::NanaBox::implementation
                     }
                     else
                     {
+                        ::CloseHandle(DiskHandle);
+
                         ::ShowErrorMessageDialog(
                             this->m_WindowHandle,
                             winrt::hresult_error(HRESULT_FROM_WIN32(ResizeError)));
@@ -241,6 +241,8 @@ namespace winrt::NanaBox::implementation
 
             }
             else {
+                ::CloseHandle(DiskHandle);
+                
                 ::ShowErrorMessageDialog(
                     this->m_WindowHandle,
                     winrt::hresult_error(HRESULT_FROM_WIN32(OpenError)));
