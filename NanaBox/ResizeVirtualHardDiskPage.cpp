@@ -34,7 +34,8 @@ namespace winrt::NanaBox::implementation
     }
 
 
-    void ResizeVirtualHardDiskPage::InitializeComponent() {
+    void ResizeVirtualHardDiskPage::InitializeComponent()
+    {
         ResizeVirtualHardDiskPageT::InitializeComponent();
 
         this->m_DispatcherQueue =
@@ -43,7 +44,8 @@ namespace winrt::NanaBox::implementation
 
     void ResizeVirtualHardDiskPage::FileNameBrowseButtonClickHandler(
         winrt::IInspectable const& sender,
-        winrt::RoutedEventArgs const& e) {
+        winrt::RoutedEventArgs const& e)
+    {
         UNREFERENCED_PARAMETER(sender);
         UNREFERENCED_PARAMETER(e);
         winrt::handle(Mile::CreateThread([=]()
@@ -178,7 +180,8 @@ namespace winrt::NanaBox::implementation
                 &DiskHandle
             );
 
-            if (ERROR_SUCCESS == OpenError) {
+            if (ERROR_SUCCESS == OpenError)
+            {
                 GET_VIRTUAL_DISK_INFO Info;
                 ZeroMemory(&Info, sizeof(Info));
                 Info.Version = GET_VIRTUAL_DISK_INFO_SIZE;
@@ -193,7 +196,8 @@ namespace winrt::NanaBox::implementation
                     &SizeUsed
                 );// ::GetVirtualDiskInformation();
 
-                if (InfoError == ERROR_SUCCESS) {
+                if (InfoError == ERROR_SUCCESS)
+                {
                     UINT64 OldSize = 0L;
                     OldSize = Info.Size.VirtualSize;
 
@@ -225,7 +229,8 @@ namespace winrt::NanaBox::implementation
                     }
 
                 }
-                else {
+                else
+                {
                     ::CloseHandle(DiskHandle);
 
                     ::ShowMessageDialog(
@@ -240,7 +245,8 @@ namespace winrt::NanaBox::implementation
 
 
             }
-            else {
+            else
+            {
                 ::CloseHandle(DiskHandle);
                 
                 ::ShowErrorMessageDialog(

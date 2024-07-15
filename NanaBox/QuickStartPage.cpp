@@ -441,7 +441,8 @@ namespace winrt::NanaBox::implementation
 
     void QuickStartPage::ResizeVirtualHardDiskButtonClick(
         winrt::IInspectable const& sender,
-        winrt::RoutedEventArgs const& e) {
+        winrt::RoutedEventArgs const& e)
+    {
         UNREFERENCED_PARAMETER(sender);
         UNREFERENCED_PARAMETER(e);
 

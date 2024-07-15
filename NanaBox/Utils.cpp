@@ -558,11 +558,13 @@ DWORD SimpleCreateVirtualDisk(
 DWORD SimpleResizeVirtualDisk(
     _In_ UINT64 OldSize,
     _In_ UINT64 NewSize,
-    _In_ PHANDLE Handle) {
+    _In_ PHANDLE Handle)
+{
     UNREFERENCED_PARAMETER(OldSize);
     UNREFERENCED_PARAMETER(NewSize);
     UNREFERENCED_PARAMETER(Handle);
-    if (OldSize >= NewSize) {
+    if (OldSize >= NewSize)
+    {
 
         RESIZE_VIRTUAL_DISK_FLAG ShinkFlags = RESIZE_VIRTUAL_DISK_FLAG_RESIZE_TO_SMALLEST_SAFE_VIRTUAL_SIZE;
 
@@ -577,7 +579,8 @@ DWORD SimpleResizeVirtualDisk(
             NULL
         );
 
-        if (ERROR_SUCCESS == ShinkError) {
+        if (ERROR_SUCCESS == ShinkError)
+        {
             EXPAND_VIRTUAL_DISK_FLAG ResizeFlags;
             ResizeFlags = EXPAND_VIRTUAL_DISK_FLAG_NONE;
 
@@ -592,7 +595,8 @@ DWORD SimpleResizeVirtualDisk(
                 NULL
             );
         }
-        else {
+        else
+        {
             return ShinkError;
         }
     }
