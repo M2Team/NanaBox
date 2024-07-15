@@ -17,7 +17,8 @@ namespace winrt
 
 namespace winrt::NanaBox::implementation
 {
-    struct ResizeVirtualHardDiskPage : ResizeVirtualHardDiskPageT<ResizeVirtualHardDiskPage>
+    struct ResizeVirtualHardDiskPage
+        :ResizeVirtualHardDiskPageT<ResizeVirtualHardDiskPage>
     {
     public:
         ResizeVirtualHardDiskPage(
@@ -48,7 +49,8 @@ namespace winrt::NanaBox::implementation
 
 namespace winrt::NanaBox::factory_implementation
 {
-    struct ResizeVirtualHardDiskPage : ResizeVirtualHardDiskPageT<ResizeVirtualHardDiskPage, implementation::ResizeVirtualHardDiskPage>
+    struct ResizeVirtualHardDiskPage : ResizeVirtualHardDiskPageT
+        <ResizeVirtualHardDiskPage, implementation::ResizeVirtualHardDiskPage>
     {
     };
 }
