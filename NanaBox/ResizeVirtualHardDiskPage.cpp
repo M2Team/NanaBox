@@ -161,99 +161,28 @@ namespace winrt::NanaBox::implementation
 
         winrt::handle(Mile::CreateThread([=]()
         {
-            HANDLE DiskHandle = INVALID_HANDLE_VALUE;
-
-            VIRTUAL_STORAGE_TYPE StorageType;
-            StorageType.DeviceId = VIRTUAL_STORAGE_TYPE_DEVICE_UNKNOWN;
-            StorageType.VendorId = VIRTUAL_STORAGE_TYPE_VENDOR_UNKNOWN;
-
-            OPEN_VIRTUAL_DISK_PARAMETERS Parameters;
-            ZeroMemory(&Parameters, sizeof(Parameters));
-            Parameters.Version = OPEN_VIRTUAL_DISK_VERSION_1;
-
-            DWORD OpenError = OpenVirtualDisk(
-                &StorageType,
+            DWORD Error = ::SimpleResizeVirtualDisk(
                 Path.c_str(),
-                VIRTUAL_DISK_ACCESS_ALL,
-                OPEN_VIRTUAL_DISK_FLAG_NONE, // select a better flag.
-                &Parameters,
-                &DiskHandle
-            );
+                NewSize);
 
-            if (ERROR_SUCCESS == OpenError)
+            if (ERROR_SUCCESS == Error)
             {
-                GET_VIRTUAL_DISK_INFO Info;
-                ZeroMemory(&Info, sizeof(Info));
-                Info.Version = GET_VIRTUAL_DISK_INFO_SIZE;
+                ::ShowMessageDialog(
+                    this->m_WindowHandle,
+                    SuccessInstructionText.c_str(),
+                    Mile::FormatWideString(
+                        SuccessContentText.c_str(),
+                        Path.c_str()).c_str());
 
-                ULONG InfoSize = sizeof(GET_VIRTUAL_DISK_INFO);
-                ULONG SizeUsed = 0;
-
-                DWORD InfoError = GetVirtualDiskInformation(
-                    DiskHandle,
-                    &InfoSize,
-                    &Info,
-                    &SizeUsed
-                );// ::GetVirtualDiskInformation();
-
-                if (InfoError == ERROR_SUCCESS)
-                {
-                    UINT64 OldSize = 0L;
-                    OldSize = Info.Size.VirtualSize;
-
-                    DWORD ResizeError = ::SimpleResizeVirtualDisk(
-                        OldSize,
-                        NewSize,
-                        &DiskHandle);
-
-                    if (ERROR_SUCCESS == ResizeError)
-                    {
-                        ::CloseHandle(DiskHandle);
-
-                        ::ShowMessageDialog(
-                            this->m_WindowHandle,
-                            SuccessInstructionText.c_str(),
-                            Mile::FormatWideString(
-                                SuccessContentText.c_str(),
-                                Path.c_str()).c_str());
-
-                        ::PostMessageW(this->m_WindowHandle, WM_CLOSE, 0, 0);
-                    }
-                    else
-                    {
-                        ::CloseHandle(DiskHandle);
-
-                        ::ShowErrorMessageDialog(
-                            this->m_WindowHandle,
-                            winrt::hresult_error(HRESULT_FROM_WIN32(ResizeError)));
-                    }
-
-                }
-                else
-                {
-                    ::CloseHandle(DiskHandle);
-
-                    ::ShowMessageDialog(
-                        this->m_WindowHandle,
-                        SuccessInstructionText.c_str(),
-                        Mile::FormatWideString(
-                            SuccessContentText.c_str(),
-                            Path.c_str()).c_str());
-
-                    ::PostMessageW(this->m_WindowHandle, WM_CLOSE, 0, 0);
-                }
-
-
+                ::PostMessageW(this->m_WindowHandle, WM_CLOSE, 0, 0);
             }
             else
             {
-                ::CloseHandle(DiskHandle);
-                
                 ::ShowErrorMessageDialog(
                     this->m_WindowHandle,
-                    winrt::hresult_error(HRESULT_FROM_WIN32(OpenError)));
-                
+                    winrt::hresult_error(HRESULT_FROM_WIN32(Error)));
             }
+
         }));
     }
 
