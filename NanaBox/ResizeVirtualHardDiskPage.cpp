@@ -147,7 +147,7 @@ namespace winrt::NanaBox::implementation
 
         winrt::hstring Path =
             this->FileNameTextBox().Text();
-        std::uint64_t Size =
+        std::uint64_t NewSize =
             std::stoull(this->SizeTextBox().Text().c_str());
 
         winrt::hstring SuccessInstructionText =
@@ -160,24 +160,72 @@ namespace winrt::NanaBox::implementation
         winrt::handle(Mile::CreateThread([=]()
         {
             HANDLE DiskHandle = INVALID_HANDLE_VALUE;
-            DWORD OpenError = ERROR_SUCCESS;
-            /* todo: read file and call resize.
+
+            VIRTUAL_STORAGE_TYPE StorageType;
+            StorageType.DeviceId = VIRTUAL_STORAGE_TYPE_DEVICE_UNKNOWN;
+            StorageType.VendorId = VIRTUAL_STORAGE_TYPE_VENDOR_UNKNOWN;
+
+            OPEN_VIRTUAL_DISK_PARAMETERS Parameters;
+            ZeroMemory(&Parameters, sizeof(Parameters));
+            Parameters.Version = OPEN_VIRTUAL_DISK_VERSION_1;
+
             DWORD OpenError = OpenVirtualDisk(
-                ,
+                &StorageType,
                 Path.c_str(),
                 VIRTUAL_DISK_ACCESS_ALL,
-                ,
-                ,
+                OPEN_VIRTUAL_DISK_FLAG_NONE, // select a better flag.
+                &Parameters,
                 &DiskHandle
-                );*/
-            if (ERROR_SUCCESS == OpenError) {
+            );
 
-                DWORD Error = ::SimpleResizeVirtualDisk(
-                    Path.c_str(),
-                    Size,
-                    &DiskHandle);
-                if (ERROR_SUCCESS == Error)
-                {
+            if (ERROR_SUCCESS == OpenError) {
+                GET_VIRTUAL_DISK_INFO Info;
+                ZeroMemory(&Info, sizeof(Info));
+                Info.Version = GET_VIRTUAL_DISK_INFO_SIZE;
+
+                ULONG InfoSize = sizeof(GET_VIRTUAL_DISK_INFO);
+                ULONG SizeUsed = 0;
+
+                DWORD InfoError = GetVirtualDiskInformation(
+                    DiskHandle,
+                    &InfoSize,
+                    &Info,
+                    &SizeUsed
+                );// ::GetVirtualDiskInformation();
+
+                if (InfoError == ERROR_SUCCESS) {
+                    UINT64 OldSize = 0L;
+                    OldSize = Info.Size.VirtualSize;
+
+
+                    DWORD ResizeError = ::SimpleResizeVirtualDisk(
+                        Path.c_str(),
+                        OldSize,
+                        NewSize,
+                        &DiskHandle);
+
+                    if (ERROR_SUCCESS == ResizeError)
+                    {
+                        ::CloseHandle(DiskHandle);
+
+                        ::ShowMessageDialog(
+                            this->m_WindowHandle,
+                            SuccessInstructionText.c_str(),
+                            Mile::FormatWideString(
+                                SuccessContentText.c_str(),
+                                Path.c_str()).c_str());
+
+                        ::PostMessageW(this->m_WindowHandle, WM_CLOSE, 0, 0);
+                    }
+                    else
+                    {
+                        ::ShowErrorMessageDialog(
+                            this->m_WindowHandle,
+                            winrt::hresult_error(HRESULT_FROM_WIN32(ResizeError)));
+                    }
+
+                }
+                else {
                     ::CloseHandle(DiskHandle);
 
                     ::ShowMessageDialog(
@@ -189,12 +237,7 @@ namespace winrt::NanaBox::implementation
 
                     ::PostMessageW(this->m_WindowHandle, WM_CLOSE, 0, 0);
                 }
-                else
-                {
-                    ::ShowErrorMessageDialog(
-                        this->m_WindowHandle,
-                        winrt::hresult_error(HRESULT_FROM_WIN32(Error)));
-                }
+
 
             }
             else {

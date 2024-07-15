@@ -556,12 +556,63 @@ DWORD SimpleCreateVirtualDisk(
 }
 
 DWORD SimpleResizeVirtualDisk(
-    _In_ PCWSTR Path,
-    _In_ UINT64 Size,
-    _Out_ PHANDLE Handle) {
-    UNREFERENCED_PARAMETER(Path);
-    UNREFERENCED_PARAMETER(Size);
+    _In_ UINT64 OldSize,
+    _In_ UINT64 NewSize,
+    _In_ PHANDLE Handle) {
+    UNREFERENCED_PARAMETER(OldSize);
+    UNREFERENCED_PARAMETER(NewSize);
     UNREFERENCED_PARAMETER(Handle);
+    if (OldSize < NewSize) {
+        //::ExpandVirtualDisk
+        EXPAND_VIRTUAL_DISK_FLAG Flags = EXPAND_VIRTUAL_DISK_FLAG_NONE;
+
+        EXPAND_VIRTUAL_DISK_PARAMETERS Parameters;
+        Parameters.Version = EXPAND_VIRTUAL_DISK_VERSION_1;
+        Parameters.Version1.NewSize = NewSize;
+
+        return ::ExpandVirtualDisk(
+            *Handle,
+            Flags,
+            &Parameters,
+            NULL
+            );
+    }
+    else {
+        //::ResizeVirtualDisk()
+        // todo: check the size of smallest vsize.
+        
+        RESIZE_VIRTUAL_DISK_FLAG Flags = RESIZE_VIRTUAL_DISK_FLAG_RESIZE_TO_SMALLEST_SAFE_VIRTUAL_SIZE;
+
+        RESIZE_VIRTUAL_DISK_PARAMETERS Parameters;
+        Parameters.Version = RESIZE_VIRTUAL_DISK_VERSION_1;
+        Parameters.Version1.NewSize = 0;
+
+        DWORD ShinkError = ::ResizeVirtualDisk(
+            *Handle,
+            Flags,
+            &Parameters,
+            NULL
+        );
+
+        if (ERROR_SUCCESS == ShinkError) {
+            EXPAND_VIRTUAL_DISK_FLAG Flags = EXPAND_VIRTUAL_DISK_FLAG_NONE;
+
+            EXPAND_VIRTUAL_DISK_PARAMETERS Parameters;
+            Parameters.Version = EXPAND_VIRTUAL_DISK_VERSION_1;
+            Parameters.Version1.NewSize = NewSize;
+
+            return ::ExpandVirtualDisk(
+                *Handle,
+                Flags,
+                &Parameters,
+                NULL
+            );
+        }
+        else {
+            return ShinkError;
+        }
+    }
+
     return NULL;
 }
 
