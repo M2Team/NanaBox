@@ -594,7 +594,6 @@ DWORD SimpleResizeVirtualDisk(
             &InfoSize,
             &Info,
             &SizeUsed);
-        ::printf("Old size: %llu\n", OldSize);
 
         if (Error == ERROR_SUCCESS)
         {
