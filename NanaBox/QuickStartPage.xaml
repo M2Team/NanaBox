@@ -23,17 +23,17 @@
 
     <Grid Grid.Row="1" Padding="32,16">
       <Grid.RowDefinitions>
-        <RowDefinition Height="55" />
+        <RowDefinition Height="66" />
         <RowDefinition Height="3" />
-        <RowDefinition Height="55" />
+        <RowDefinition Height="66" />
         <RowDefinition Height="3" />
-        <RowDefinition Height="55" />
+        <RowDefinition Height="66" />
         <RowDefinition Height="3" />
-        <RowDefinition Height="55" />
+        <RowDefinition Height="66" />
         <RowDefinition Height="3" />
-        <RowDefinition Height="55" />
+        <RowDefinition Height="66" />
         <RowDefinition Height="3" />
-        <RowDefinition Height="55" />
+        <RowDefinition Height="66" />
       </Grid.RowDefinitions>
       <Button
         x:Uid="/QuickStartPage/LaunchVirtualMachineButton"
@@ -75,21 +75,8 @@
         </StackPanel>
       </Button>
       <Button
-        x:Uid="/QuickStartPage/ResizeVirtualHardDiskButton"
-        Grid.Row="6"
-        HorizontalAlignment="Stretch"
-        VerticalAlignment="Stretch"
-        HorizontalContentAlignment="Stretch"
-        AutomationProperties.Name="[Resize Virtual Hard Disk]"
-        Click="ResizeVirtualHardDiskButtonClick">
-        <StackPanel Margin="16,0" Orientation="Horizontal">
-          <SymbolIcon Margin="0,0,16,0" Symbol="ZoomIn" />
-          <TextBlock x:Uid="/QuickStartPage/ResizeVirtualHardDiskButtonTextBlock" Text="[Resize Virtual Hard Disk]" />
-        </StackPanel>
-      </Button>
-      <Button
         x:Uid="/QuickStartPage/DocumentationButton"
-        Grid.Row="8"
+        Grid.Row="6"
         HorizontalAlignment="Stretch"
         VerticalAlignment="Stretch"
         HorizontalContentAlignment="Stretch"
@@ -102,7 +89,7 @@
       </Button>
       <Button
         x:Uid="/QuickStartPage/AboutButton"
-        Grid.Row="10"
+        Grid.Row="8"
         HorizontalAlignment="Stretch"
         VerticalAlignment="Stretch"
         HorizontalContentAlignment="Stretch"

@@ -141,6 +141,14 @@
     <value>创建虚拟磁盘</value>
     <comment>Create Virtual Hard Disk</comment>
   </data>
+  <data name="ResizeVirtualHardDiskButton.AutomationProperties.Name" xml:space="preserve">
+    <value>调整虚拟磁盘大小</value>
+    <comment>Resize Virtual Hard Disk</comment>
+  </data>
+  <data name="ResizeVirtualHardDiskButtonTextBlock.Text" xml:space="preserve">
+    <value>调整虚拟磁盘大小</value>
+    <comment>Resize Virtual Hard Disk</comment>
+  </data>
   <data name="CreateVirtualMachineButton.AutomationProperties.Name" xml:space="preserve">
     <value>创建虚拟机</value>
     <comment>Create Virtual Machine</comment>

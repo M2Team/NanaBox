@@ -574,14 +574,15 @@ DWORD SimpleResizeVirtualDisk(
         &DiskHandle);
     if (ERROR_SUCCESS == Error)
     {
-        RESIZE_VIRTUAL_DISK_PARAMETERS ResizeParameters;
-        ResizeParameters.Version = RESIZE_VIRTUAL_DISK_VERSION_1;
-        ResizeParameters.Version1.NewSize = Size;
+        RESIZE_VIRTUAL_DISK_PARAMETERS Parameters;
+        std::memset(&Parameters, 0, sizeof(RESIZE_VIRTUAL_DISK_PARAMETERS));
+        Parameters.Version = RESIZE_VIRTUAL_DISK_VERSION_1;
+        Parameters.Version1.NewSize = Size;
 
         Error = ::ResizeVirtualDisk(
             DiskHandle,
             RESIZE_VIRTUAL_DISK_FLAG_NONE,
-            &ResizeParameters,
+            &Parameters,
             nullptr);
 
         ::CloseHandle(DiskHandle);
