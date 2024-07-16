@@ -1,5 +1,16 @@
 ﻿# NanaBox Release Notes
 
+**NanaBox 1.3 Update 1 (1.3.838.0)**
+
+- Try to introduce the GPU-P support. (Suggested by Z841973620.)
+- Introducing the Resize Virtual Hard Disk feature. (Contributed by per1cycle.)
+- Disable prompting for credentials for the RDP ActiveX control for not popuping
+  the credentials window after powering off the virtual machine. (Thanks to
+  MiroKaku.)
+- Add size unit support for new virtual hard disk UI.
+- Use the minimum block size for creating new virtual hard disk files for
+  smaller dynamically expansion size in daily experience.
+
 **NanaBox 1.3 (1.3.813.0)**
 
 - Introduce JSON Schema support for NanaBox Configuration File. (Contributed by
