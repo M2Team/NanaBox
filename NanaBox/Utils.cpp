@@ -559,9 +559,6 @@ DWORD SimpleResizeVirtualDisk(
     _In_ PCWSTR Path,
     _In_ UINT64 NewSize)
 {
-    UNREFERENCED_PARAMETER(Path);
-    UNREFERENCED_PARAMETER(NewSize);
-
     HANDLE DiskHandle = INVALID_HANDLE_VALUE;
 
     VIRTUAL_STORAGE_TYPE StorageType;
@@ -569,6 +566,7 @@ DWORD SimpleResizeVirtualDisk(
     StorageType.VendorId = VIRTUAL_STORAGE_TYPE_VENDOR_UNKNOWN;
 
     OPEN_VIRTUAL_DISK_PARAMETERS OpenParameters;
+    std::memset(&OpenParameters, 0, sizeof(CREATE_VIRTUAL_DISK_PARAMETERS));
     OpenParameters.Version = OPEN_VIRTUAL_DISK_VERSION_1;
 
     DWORD Error = ::OpenVirtualDisk(
@@ -578,28 +576,25 @@ DWORD SimpleResizeVirtualDisk(
         OPEN_VIRTUAL_DISK_FLAG_NONE,
         &OpenParameters,
         &DiskHandle);
-
     if (ERROR_SUCCESS == Error)
     {
         UINT64 OldSize = 0L;
-
         GET_VIRTUAL_DISK_INFO Info;
         Info.Version = GET_VIRTUAL_DISK_INFO_SIZE;
 
         ULONG InfoSize = sizeof(GET_VIRTUAL_DISK_INFO);
         ULONG SizeUsed = 0;
-
         Error = ::GetVirtualDiskInformation(
             DiskHandle,
             &InfoSize,
             &Info,
             &SizeUsed);
-
         if (Error == ERROR_SUCCESS)
         {
             if (OldSize > NewSize)
             {
                 RESIZE_VIRTUAL_DISK_PARAMETERS ShinkParameters;
+                std::memset(&ShinkParameters, 0, sizeof(RESIZE_VIRTUAL_DISK_PARAMETERS));
                 ShinkParameters.Version = RESIZE_VIRTUAL_DISK_VERSION_1;
                 ShinkParameters.Version1.NewSize = 0;
 
@@ -614,6 +609,7 @@ DWORD SimpleResizeVirtualDisk(
                 EXPAND_VIRTUAL_DISK_FLAG_NONE;
 
                 EXPAND_VIRTUAL_DISK_PARAMETERS ExpandParameters;
+                std::memset(&ExpandParameters, 0, sizeof(EXPAND_VIRTUAL_DISK_PARAMETERS));
                 ExpandParameters.Version = EXPAND_VIRTUAL_DISK_VERSION_1;
                 ExpandParameters.Version1.NewSize = NewSize;
 
