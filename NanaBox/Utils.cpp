@@ -683,27 +683,27 @@ winrt::handle ShowResizeVirtualHardDiskDialog(
     _In_ HWND ParentWindowHandle)
 {
     return winrt::handle(Mile::CreateThread([=]()
+    {
+        winrt::check_hresult(::MileXamlThreadInitialize());
+
+        HWND WindowHandle = ::CreateXamlDialog(ParentWindowHandle);
+        if (!WindowHandle)
         {
-            winrt::check_hresult(::MileXamlThreadInitialize());
+            return;
+        }
 
-            HWND WindowHandle = ::CreateXamlDialog(ParentWindowHandle);
-            if (!WindowHandle)
-            {
-                return;
-            }
+        winrt::NanaBox::ResizeVirtualHardDiskPage Window =
+            winrt::make<winrt::NanaBox::implementation::ResizeVirtualHardDiskPage>(
+                WindowHandle);
+        ::ShowXamlDialog(
+            WindowHandle,
+            480,
+            320,
+            winrt::get_abi(Window),
+            ParentWindowHandle);
 
-            winrt::NanaBox::ResizeVirtualHardDiskPage Window =
-                winrt::make<winrt::NanaBox::implementation::ResizeVirtualHardDiskPage>(
-                    WindowHandle);
-            ::ShowXamlDialog(
-                WindowHandle,
-                480,
-                320,
-                winrt::get_abi(Window),
-                ParentWindowHandle);
-
-            winrt::check_hresult(::MileXamlThreadUninitialize());
-        }));
+        winrt::check_hresult(::MileXamlThreadUninitialize());
+    }));
 }
 
 BOOL LaunchDocumentation()

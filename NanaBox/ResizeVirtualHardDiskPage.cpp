@@ -7,9 +7,6 @@
 #include "Utils.h"
 
 #include <regex>
-#include <initguid.h>
-#include <virtdisk.h>
-#pragma comment(lib,"virtdisk.lib")
 
 #include <ShObjIdl_core.h>
 
