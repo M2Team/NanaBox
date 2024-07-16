@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,80 +117,36 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AboutButton.AutomationProperties.Name" xml:space="preserve">
-    <value>关于 NanaBox</value>
-    <comment>About NanaBox</comment>
+  <data name="CancelButton.Content" xml:space="preserve">
+    <value>取消</value>
+    <comment>Cancel</comment>
   </data>
-  <data name="AboutButtonTextBlock.Text" xml:space="preserve">
-    <value>关于 NanaBox</value>
-    <comment>About NanaBox</comment>
+  <data name="ContentTextBlock.Text" xml:space="preserve">
+    <value>您可以使用此对话框调整 VHD（最多 2040 GiB）或 VHDX（最多 64 TiB，但在 Windows 8 之前不支持）动态扩展虚拟硬盘。</value>
+    <comment>You can resize a VHD (up to 2040 GiB) or VHDX (up to 64 TiB, but not supported before Windows 8) dynamically expanding virtual hard disk with this dialog.</comment>
   </data>
-  <data name="ConfigurationFileTypeName" xml:space="preserve">
-    <value>NanaBox 虚拟机配置</value>
-    <comment>NanaBox Virtual Machine Configuration</comment>
-  </data>
-  <data name="ConfigurationNameTip" xml:space="preserve">
-    <value>请指定虚拟机配置文件的保存位置</value>
-    <comment>Please specify the save location for the configuration file of your virtual machine</comment>
-  </data>
-  <data name="CreateVirtualHardDiskButton.AutomationProperties.Name" xml:space="preserve">
-    <value>创建虚拟磁盘</value>
-    <comment>Create Virtual Hard Disk</comment>
-  </data>
-  <data name="CreateVirtualHardDiskButtonTextBlock.Text" xml:space="preserve">
-    <value>创建虚拟磁盘</value>
-    <comment>Create Virtual Hard Disk</comment>
-  </data>
-  <data name="ResizeVirtualHardDiskButton.AutomationProperties.Name" xml:space="preserve">
-    <value>调整虚拟磁盘大小</value>
-    <comment>Resize Virtual Hard Disk</comment>
-  </data>
-  <data name="ResizeVirtualHardDiskButtonTextBlock.Text" xml:space="preserve">
-    <value>调整虚拟磁盘大小</value>
-    <comment>Resize Virtual Hard Disk</comment>
-  </data>
-  <data name="CreateVirtualMachineButton.AutomationProperties.Name" xml:space="preserve">
-    <value>创建虚拟机</value>
-    <comment>Create Virtual Machine</comment>
-  </data>
-  <data name="CreateVirtualMachineButtonTextBlock.Text" xml:space="preserve">
-    <value>创建虚拟机</value>
-    <comment>Create Virtual Machine</comment>
-  </data>
-  <data name="DocumentationButton.AutomationProperties.Name" xml:space="preserve">
-    <value>配置文件参考文档</value>
-    <comment>Configuration File Reference Documentation</comment>
-  </data>
-  <data name="DocumentationButtonTextBlock.Text" xml:space="preserve">
-    <value>配置文件参考文档</value>
-    <comment>Configuration File Reference Documentation</comment>
+  <data name="FileNameTextBox.PlaceholderText" xml:space="preserve">
+    <value>请使用”...“按钮指定虚拟磁盘的位置。</value>
+    <comment>Please use "..." button to specify the vhdx location.</comment>
   </data>
   <data name="GridTitleTextBlock.Text" xml:space="preserve">
-    <value>欢迎使用 NanaBox</value>
-    <comment>Welcome to NanaBox</comment>
+    <value>调整虚拟磁盘大小</value>
+    <comment>Resize Virtual Hard Disk</comment>
   </data>
-  <data name="LaunchVirtualMachineButton.AutomationProperties.Name" xml:space="preserve">
-    <value>启动虚拟机</value>
-    <comment>Launch Virtual Machine</comment>
+  <data name="ResizeButton.Content" xml:space="preserve">
+    <value>调整大小</value>
+    <comment>Resize</comment>
   </data>
-  <data name="LaunchVirtualMachineButtonTextBlock.Text" xml:space="preserve">
-    <value>启动虚拟机</value>
-    <comment>Launch Virtual Machine</comment>
+  <data name="SizeTextBlock.Text" xml:space="preserve">
+    <value>大小（以字节为单位，至少 3 MiB 且必须是 512 的倍数）</value>
+    <comment>Size (in bytes, at least 3 MiB and must be a multiple of 512)</comment>
   </data>
   <data name="SuccessContentText" xml:space="preserve">
-    <value>位于 %s 的虚拟机已成功创建。</value>
-    <comment>The virtual machine at %s has been successfully created.</comment>
+    <value>位于 %s 的虚拟硬盘文件已成功调整大小。</value>
+    <comment>The virtual hard disk file at %s has been successfully resized.</comment>
   </data>
   <data name="SuccessInstructionText" xml:space="preserve">
-    <value>创建虚拟机配置已完成</value>
-    <comment>Create Virtual Machine Configuration Completed</comment>
-  </data>
-  <data name="VirtualDiskPathTip" xml:space="preserve">
-    <value>请为虚拟机的存储选择 VHD 或 VHDX 虚拟硬盘，或关闭此对话框跳过设置</value>
-    <comment>Please select a VHD or VHDX virtual hard disk for the storage of your virtual machine, or close this dialog to skip the setting</comment>
-  </data>
-  <data name="VirtualImagePathTip" xml:space="preserve">
-    <value>请选择用于在虚拟机上安装操作系统的可启动 ISO 映像，或关闭此对话框以跳过设置</value>
-    <comment>Please select a bootable ISO image for installing the OS on your virtual machine, or close this dialog to skip the setting</comment>
+    <value>虚拟硬盘已调整完成大小</value>
+    <comment>Resize Virtual Hard Disk Completed</comment>
   </data>
 </root>

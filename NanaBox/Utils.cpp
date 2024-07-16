@@ -14,6 +14,7 @@
 #include "MessagePage.h"
 #include "AboutPage.h"
 #include "NewVirtualHardDiskPage.h"
+#include "ResizeVirtualHardDiskPage.h"
 
 void SplitCommandLineEx(
     std::wstring const& CommandLine,
@@ -554,6 +555,41 @@ DWORD SimpleCreateVirtualDisk(
         Handle);
 }
 
+DWORD SimpleResizeVirtualDisk(
+    _In_ PCWSTR Path,
+    _In_ UINT64 Size)
+{
+    HANDLE DiskHandle = INVALID_HANDLE_VALUE;
+
+    VIRTUAL_STORAGE_TYPE StorageType;
+    StorageType.DeviceId = VIRTUAL_STORAGE_TYPE_DEVICE_UNKNOWN;
+    StorageType.VendorId = VIRTUAL_STORAGE_TYPE_VENDOR_UNKNOWN;
+
+    DWORD Error = ::OpenVirtualDisk(
+        &StorageType,
+        Path,
+        VIRTUAL_DISK_ACCESS_ALL,
+        OPEN_VIRTUAL_DISK_FLAG_NONE,
+        nullptr,
+        &DiskHandle);
+    if (ERROR_SUCCESS == Error)
+    {
+        RESIZE_VIRTUAL_DISK_PARAMETERS Parameters;
+        std::memset(&Parameters, 0, sizeof(RESIZE_VIRTUAL_DISK_PARAMETERS));
+        Parameters.Version = RESIZE_VIRTUAL_DISK_VERSION_1;
+        Parameters.Version1.NewSize = Size;
+
+        Error = ::ResizeVirtualDisk(
+            DiskHandle,
+            RESIZE_VIRTUAL_DISK_FLAG_NONE,
+            &Parameters,
+            nullptr);
+
+        ::CloseHandle(DiskHandle);
+    }
+    return Error;
+}
+
 winrt::handle ShowAboutDialog(
     _In_ HWND ParentWindowHandle)
 {
@@ -596,6 +632,33 @@ winrt::handle ShowNewVirtualHardDiskDialog(
 
         winrt::NanaBox::NewVirtualHardDiskPage Window =
             winrt::make<winrt::NanaBox::implementation::NewVirtualHardDiskPage>(
+                WindowHandle);
+        ::ShowXamlDialog(
+            WindowHandle,
+            480,
+            320,
+            winrt::get_abi(Window),
+            ParentWindowHandle);
+
+        winrt::check_hresult(::MileXamlThreadUninitialize());
+    }));
+}
+
+winrt::handle ShowResizeVirtualHardDiskDialog(
+    _In_ HWND ParentWindowHandle)
+{
+    return winrt::handle(Mile::CreateThread([=]()
+    {
+        winrt::check_hresult(::MileXamlThreadInitialize());
+
+        HWND WindowHandle = ::CreateXamlDialog(ParentWindowHandle);
+        if (!WindowHandle)
+        {
+            return;
+        }
+
+        winrt::NanaBox::ResizeVirtualHardDiskPage Window =
+            winrt::make<winrt::NanaBox::implementation::ResizeVirtualHardDiskPage>(
                 WindowHandle);
         ::ShowXamlDialog(
             WindowHandle,

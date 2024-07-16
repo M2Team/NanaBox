@@ -141,6 +141,14 @@
     <value>Create Virtual Hard Disk</value>
     <comment>Create Virtual Hard Disk</comment>
   </data>
+  <data name="ResizeVirtualHardDiskButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Resize Virtual Hard Disk</value>
+    <comment>Resize Virtual Hard Disk</comment>
+  </data>
+  <data name="ResizeVirtualHardDiskButtonTextBlock.Text" xml:space="preserve">
+    <value>Resize Virtual Hard Disk</value>
+    <comment>Resize Virtual Hard Disk</comment>
+  </data>
   <data name="CreateVirtualMachineButton.AutomationProperties.Name" xml:space="preserve">
     <value>Create Virtual Machine</value>
     <comment>Create Virtual Machine</comment>

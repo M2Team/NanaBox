@@ -78,6 +78,10 @@
       <DependentUpon>ReloadConfirmationPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
+    <ClCompile Include="ResizeVirtualHardDiskPage.cpp">
+      <DependentUpon>ResizeVirtualHardDiskPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
     <ClCompile Include="SponsorPage.cpp">
       <DependentUpon>SponsorPage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -123,6 +127,10 @@
     </Midl>
     <Midl Include="ReloadConfirmationPage.idl">
       <DependentUpon>ReloadConfirmationPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Midl>
+    <Midl Include="ResizeVirtualHardDiskPage.idl">
+      <DependentUpon>ResizeVirtualHardDiskPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
     <Midl Include="SponsorPage.idl">
@@ -173,6 +181,10 @@
       <DependentUpon>ReloadConfirmationPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
+    <ClInclude Include="ResizeVirtualHardDiskPage.h">
+      <DependentUpon>ResizeVirtualHardDiskPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="SponsorPage.h">
       <DependentUpon>SponsorPage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -205,6 +217,9 @@
     <Page Include="ReloadConfirmationPage.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="ResizeVirtualHardDiskPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="SponsorPage.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -233,6 +248,7 @@
     <PRIResource Include="Strings\en\MessagePage.resw" />
     <PRIResource Include="Strings\en\Messages.resw" />
     <PRIResource Include="Strings\en\NewVirtualHardDiskPage.resw" />
+    <PRIResource Include="Strings\en\ResizeVirtualHardDiskPage.resw" />
     <PRIResource Include="Strings\en\QuickStartPage.resw" />
     <PRIResource Include="Strings\en\ReloadConfirmationPage.resw" />
     <PRIResource Include="Strings\en\SponsorPage.resw" />
@@ -242,6 +258,7 @@
     <PRIResource Include="Strings\zh-Hans\MessagePage.resw" />
     <PRIResource Include="Strings\zh-Hans\Messages.resw" />
     <PRIResource Include="Strings\zh-Hans\NewVirtualHardDiskPage.resw" />
+    <PRIResource Include="Strings\zh-Hans\ResizeVirtualHardDiskPage.resw" />
     <PRIResource Include="Strings\zh-Hans\QuickStartPage.resw" />
     <PRIResource Include="Strings\zh-Hans\ReloadConfirmationPage.resw" />
     <PRIResource Include="Strings\zh-Hans\SponsorPage.resw" />

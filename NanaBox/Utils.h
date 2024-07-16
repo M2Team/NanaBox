@@ -68,10 +68,17 @@ DWORD SimpleCreateVirtualDisk(
     _In_ UINT64 Size,
     _Out_ PHANDLE Handle);
 
+DWORD SimpleResizeVirtualDisk(
+    _In_ PCWSTR Path,
+    _In_ UINT64 NewSize);
+
 winrt::handle ShowAboutDialog(
     _In_ HWND ParentWindowHandle);
 
 winrt::handle ShowNewVirtualHardDiskDialog(
+    _In_ HWND ParentWindowHandle);
+
+winrt::handle ShowResizeVirtualHardDiskDialog(
     _In_ HWND ParentWindowHandle);
 
 BOOL LaunchDocumentation();

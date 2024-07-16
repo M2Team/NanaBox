@@ -1,0 +1,8 @@
+﻿namespace NanaBox
+{
+    [default_interface]
+    runtimeclass ResizeVirtualHardDiskPage : Windows.UI.Xaml.Controls.Page
+    {
+        ResizeVirtualHardDiskPage();
+    }
+}
