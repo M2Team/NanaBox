@@ -571,7 +571,7 @@ DWORD SimpleResizeVirtualDisk(
     ZeroMemory(&OpenParameters, sizeof(OpenParameters));
     OpenParameters.Version = OPEN_VIRTUAL_DISK_VERSION_1;
 
-    DWORD OpenError = OpenVirtualDisk(
+    DWORD Error = OpenVirtualDisk(
         &StorageType,
         Path,
         VIRTUAL_DISK_ACCESS_ALL,
@@ -580,69 +580,63 @@ DWORD SimpleResizeVirtualDisk(
         &DiskHandle
     );
 
-    if (ERROR_SUCCESS != OpenError)
+    if (ERROR_SUCCESS == Error)
     {
-        CloseHandle(DiskHandle);
-        return OpenError;
-    }
-    UINT64 OldSize = 0L;
+        UINT64 OldSize = 0L;
 
-    GET_VIRTUAL_DISK_INFO Info;
-    ZeroMemory(&Info, sizeof(Info));
-    Info.Version = GET_VIRTUAL_DISK_INFO_SIZE;
+        GET_VIRTUAL_DISK_INFO Info;
+        ZeroMemory(&Info, sizeof(Info));
+        Info.Version = GET_VIRTUAL_DISK_INFO_SIZE;
 
-    ULONG InfoSize = sizeof(GET_VIRTUAL_DISK_INFO);
-    ULONG SizeUsed = 0;
+        ULONG InfoSize = sizeof(GET_VIRTUAL_DISK_INFO);
+        ULONG SizeUsed = 0;
 
-    DWORD InfoError = GetVirtualDiskInformation(
-        DiskHandle,
-        &InfoSize,
-        &Info,
-        &SizeUsed
-    );
-    if (InfoError != ERROR_SUCCESS)
-    {
-        CloseHandle(DiskHandle);
-        return InfoError;
-    }
-
-    if (OldSize < NewSize) {
-        RESIZE_VIRTUAL_DISK_FLAG ShinkFlags
-            = RESIZE_VIRTUAL_DISK_FLAG_RESIZE_TO_SMALLEST_SAFE_VIRTUAL_SIZE;
-
-        RESIZE_VIRTUAL_DISK_PARAMETERS ShinkParameters;
-        ShinkParameters.Version = RESIZE_VIRTUAL_DISK_VERSION_1;
-        ShinkParameters.Version1.NewSize = 0;
-
-        DWORD ShinkError = ::ResizeVirtualDisk(
+        Error = GetVirtualDiskInformation(
             DiskHandle,
-            ShinkFlags,
-            &ShinkParameters,
-            NULL
+            &InfoSize,
+            &Info,
+            &SizeUsed
         );
-
-        if (ERROR_SUCCESS != ShinkError)
+        if (Error == ERROR_SUCCESS)
         {
-            CloseHandle(DiskHandle);
-            return ShinkError;
+            if (OldSize < NewSize)
+            {
+                RESIZE_VIRTUAL_DISK_FLAG ShinkFlags =
+                RESIZE_VIRTUAL_DISK_FLAG_RESIZE_TO_SMALLEST_SAFE_VIRTUAL_SIZE;
+
+                RESIZE_VIRTUAL_DISK_PARAMETERS ShinkParameters;
+                ShinkParameters.Version = RESIZE_VIRTUAL_DISK_VERSION_1;
+                ShinkParameters.Version1.NewSize = 0;
+
+                Error = ::ResizeVirtualDisk(
+                    DiskHandle,
+                    ShinkFlags,
+                    &ShinkParameters,
+                    NULL
+                );
+
+            }
+
+            if (Error == ERROR_SUCCESS)
+            {
+                EXPAND_VIRTUAL_DISK_FLAG ExpandFlags = EXPAND_VIRTUAL_DISK_FLAG_NONE;
+
+                EXPAND_VIRTUAL_DISK_PARAMETERS ExpandParameters;
+                ExpandParameters.Version = EXPAND_VIRTUAL_DISK_VERSION_1;
+                ExpandParameters.Version1.NewSize = NewSize;
+                Error = ::ExpandVirtualDisk(
+                    DiskHandle,
+                    ExpandFlags,
+                    &ExpandParameters,
+                    NULL
+                );
+            }
+            
         }
     }
-    
-    EXPAND_VIRTUAL_DISK_FLAG ExpandFlags = EXPAND_VIRTUAL_DISK_FLAG_NONE;
-
-    EXPAND_VIRTUAL_DISK_PARAMETERS ExpandParameters;
-    ExpandParameters.Version = EXPAND_VIRTUAL_DISK_VERSION_1;
-    ExpandParameters.Version1.NewSize = NewSize;
-    DWORD ExpandError = ::ExpandVirtualDisk(
-        DiskHandle,
-        ExpandFlags,
-        &ExpandParameters,
-        NULL
-    );
 
     CloseHandle(DiskHandle);
-    return ExpandError;
-
+    return Error;
 }
 
 winrt::handle ShowAboutDialog(
