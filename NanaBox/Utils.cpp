@@ -565,22 +565,17 @@ DWORD SimpleResizeVirtualDisk(
     StorageType.DeviceId = VIRTUAL_STORAGE_TYPE_DEVICE_UNKNOWN;
     StorageType.VendorId = VIRTUAL_STORAGE_TYPE_VENDOR_UNKNOWN;
 
-    OPEN_VIRTUAL_DISK_PARAMETERS OpenParameters;
-    std::memset(&OpenParameters, 0, sizeof(CREATE_VIRTUAL_DISK_PARAMETERS));
-    OpenParameters.Version = OPEN_VIRTUAL_DISK_VERSION_1;
-
     DWORD Error = ::OpenVirtualDisk(
         &StorageType,
         Path,
         VIRTUAL_DISK_ACCESS_ALL,
         OPEN_VIRTUAL_DISK_FLAG_NONE,
-        &OpenParameters,
+        nullptr,
         &DiskHandle);
     if (ERROR_SUCCESS == Error)
     {
         
         RESIZE_VIRTUAL_DISK_PARAMETERS ResizeParameters;
-        std::memset(&ResizeParameters, 0, sizeof(RESIZE_VIRTUAL_DISK_PARAMETERS));
         ResizeParameters.Version = RESIZE_VIRTUAL_DISK_VERSION_1;
         ResizeParameters.Version1.NewSize = Size;
 
