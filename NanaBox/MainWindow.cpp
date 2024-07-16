@@ -1253,6 +1253,8 @@ void NanaBox::MainWindow::RdpClientInitialize()
 
     this->m_RdpClient->GrabFocusOnConnect(false);
 
+    this->m_RdpClient->AllowPromptingForCredentials(false);
+
     this->m_RdpClient->OnRemoteDesktopSizeChange.add(
         { this, &NanaBox::MainWindow::RdpClientOnRemoteDesktopSizeChange });
     this->m_RdpClient->OnLoginComplete.add(
