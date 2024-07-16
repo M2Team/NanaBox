@@ -138,8 +138,8 @@
     <comment>Create Virtual Hard Disk</comment>
   </data>
   <data name="SizeTextBlock.Text" xml:space="preserve">
-    <value>Size (in bytes, at least 3 MiB and must be a multiple of 512)</value>
-    <comment>Size (in bytes, at least 3 MiB and must be a multiple of 512)</comment>
+    <value>Size (at least 3 MiB and must be a multiple of 512 bytes)</value>
+    <comment>Size (at least 3 MiB and must be a multiple of 512 bytes)</comment>
   </data>
   <data name="SuccessContentText" xml:space="preserve">
     <value>The virtual hard disk file at %s has been successfully created.</value>

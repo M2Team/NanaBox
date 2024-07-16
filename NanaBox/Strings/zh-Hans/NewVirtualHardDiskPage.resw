@@ -138,8 +138,8 @@
     <comment>Create Virtual Hard Disk</comment>
   </data>
   <data name="SizeTextBlock.Text" xml:space="preserve">
-    <value>大小（以字节为单位，至少 3 MiB 且必须是 512 的倍数）</value>
-    <comment>Size (in bytes, at least 3 MiB and must be a multiple of 512)</comment>
+    <value>大小（至少 3 MiB 且必须是 512 字节的倍数）</value>
+    <comment>Size (at least 3 MiB and must be a multiple of 512 bytes)</comment>
   </data>
   <data name="SuccessContentText" xml:space="preserve">
     <value>位于 %s 的虚拟硬盘文件已成功创建。</value>

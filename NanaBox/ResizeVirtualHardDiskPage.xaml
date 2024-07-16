@@ -44,11 +44,32 @@
       <TextBlock
         x:Uid="/ResizeVirtualHardDiskPage/SizeTextBlock"
         Padding="0,2"
-        Text="[New Size (in bytes)]" />
-      <TextBox
-        x:Name="SizeTextBox"
-        BeforeTextChanging="NaturalNumberTextBoxBeforeTextChanging"
-        Text="0" />
+        Text="[Size (at least 3 MiB and must be a multiple of 512 bytes)]" />
+      <Grid Padding="0,2,0,0">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="144" />
+        </Grid.ColumnDefinitions>
+        <TextBox
+          x:Name="SizeTextBox"
+          BeforeTextChanging="NaturalNumberTextBoxBeforeTextChanging"
+          Text="0" />
+        <ComboBox
+          x:Name="SizeUnitComboBox"
+          Grid.Column="1"
+          HorizontalAlignment="Stretch"
+          SelectedIndex="5">
+          <x:String>B</x:String>
+          <x:String>KB (1000 B)</x:String>
+          <x:String>KiB (1024 B)</x:String>
+          <x:String>MB (1000 KB)</x:String>
+          <x:String>MiB (1024 KiB)</x:String>
+          <x:String>GB (1000 MB)</x:String>
+          <x:String>GiB (1024 MiB)</x:String>
+          <x:String>TB (1000 GB)</x:String>
+          <x:String>TiB (1024 GiB)</x:String>
+        </ComboBox>
+      </Grid>
     </StackPanel>
 
     <Grid Grid.Row="1" Padding="24">

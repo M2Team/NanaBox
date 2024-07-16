@@ -141,10 +141,32 @@ namespace winrt::NanaBox::implementation
         UNREFERENCED_PARAMETER(sender);
         UNREFERENCED_PARAMETER(e);
 
+        const std::uint64_t UnitFactors[] =
+        {
+            1ULL, // B
+            1000ULL, // KB
+            (1ULL << 10), // KiB
+            1000000ULL, // MB
+            (1ULL << 20), // MiB
+            1000000000ULL, // GB
+            (1ULL << 30), // GiB
+            1000000000000ULL, // RB
+            (1ULL << 40), // TiB
+        };
+        const std::size_t MaximumUnitFactorsIndex =
+            sizeof(UnitFactors) / sizeof(*UnitFactors) - 1;
+
         winrt::hstring Path =
             this->FileNameTextBox().Text();
-        std::uint64_t Size =
+        std::uint64_t OriginalSize =
             std::stoull(this->SizeTextBox().Text().c_str());
+        std::int32_t UnitIndex =
+            this->SizeUnitComboBox().SelectedIndex();
+        if (UnitIndex > MaximumUnitFactorsIndex)
+        {
+            UnitIndex = MaximumUnitFactorsIndex;
+        }
+        std::uint64_t Size = OriginalSize * UnitFactors[UnitIndex];
 
         winrt::hstring SuccessInstructionText =
             Mile::WinRT::GetLocalizedString(
