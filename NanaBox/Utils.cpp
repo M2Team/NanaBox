@@ -557,7 +557,7 @@ DWORD SimpleCreateVirtualDisk(
 
 DWORD SimpleResizeVirtualDisk(
     _In_ PCWSTR Path,
-    _In_ UINT64 NewSize)
+    _In_ UINT64 Size)
 {
     HANDLE DiskHandle = INVALID_HANDLE_VALUE;
 
@@ -578,30 +578,17 @@ DWORD SimpleResizeVirtualDisk(
         &DiskHandle);
     if (ERROR_SUCCESS == Error)
     {
-        UINT64 OldSize = 0L;
-        GET_VIRTUAL_DISK_INFO Info;
-        Info.Version = GET_VIRTUAL_DISK_INFO_SIZE;
+        
+        RESIZE_VIRTUAL_DISK_PARAMETERS ResizeParameters;
+        std::memset(&ResizeParameters, 0, sizeof(RESIZE_VIRTUAL_DISK_PARAMETERS));
+        ResizeParameters.Version = RESIZE_VIRTUAL_DISK_VERSION_1;
+        ResizeParameters.Version1.NewSize = Size;
 
-        ULONG InfoSize = sizeof(GET_VIRTUAL_DISK_INFO);
-        ULONG SizeUsed = 0;
-        Error = ::GetVirtualDiskInformation(
+        Error = ::ResizeVirtualDisk(
             DiskHandle,
-            &InfoSize,
-            &Info,
-            &SizeUsed);
-        if (Error == ERROR_SUCCESS)
-        {
-            RESIZE_VIRTUAL_DISK_PARAMETERS ResizeParameters;
-            std::memset(&ResizeParameters, 0, sizeof(RESIZE_VIRTUAL_DISK_PARAMETERS));
-            ResizeParameters.Version = RESIZE_VIRTUAL_DISK_VERSION_1;
-            ResizeParameters.Version1.NewSize = NewSize;
-
-            Error = ::ResizeVirtualDisk(
-                DiskHandle,
-                RESIZE_VIRTUAL_DISK_FLAG_NONE,
-                &ResizeParameters,
-                nullptr);
-        }
+            RESIZE_VIRTUAL_DISK_FLAG_NONE,
+            &ResizeParameters,
+            nullptr);
         CloseHandle(DiskHandle);
     }
     return Error;
