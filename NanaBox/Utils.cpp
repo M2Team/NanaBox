@@ -591,34 +591,16 @@ DWORD SimpleResizeVirtualDisk(
             &SizeUsed);
         if (Error == ERROR_SUCCESS)
         {
-            if (OldSize > NewSize)
-            {
-                RESIZE_VIRTUAL_DISK_PARAMETERS ShinkParameters;
-                std::memset(&ShinkParameters, 0, sizeof(RESIZE_VIRTUAL_DISK_PARAMETERS));
-                ShinkParameters.Version = RESIZE_VIRTUAL_DISK_VERSION_1;
-                ShinkParameters.Version1.NewSize = 0;
+            RESIZE_VIRTUAL_DISK_PARAMETERS ResizeParameters;
+            std::memset(&ResizeParameters, 0, sizeof(RESIZE_VIRTUAL_DISK_PARAMETERS));
+            ResizeParameters.Version = RESIZE_VIRTUAL_DISK_VERSION_1;
+            ResizeParameters.Version1.NewSize = NewSize;
 
-                Error = ::ResizeVirtualDisk(
-                    DiskHandle,
-                    RESIZE_VIRTUAL_DISK_FLAG_RESIZE_TO_SMALLEST_SAFE_VIRTUAL_SIZE,
-                    &ShinkParameters,
-                    NULL);
-            }
-            if (Error == ERROR_SUCCESS)
-            {
-                EXPAND_VIRTUAL_DISK_FLAG_NONE;
-
-                EXPAND_VIRTUAL_DISK_PARAMETERS ExpandParameters;
-                std::memset(&ExpandParameters, 0, sizeof(EXPAND_VIRTUAL_DISK_PARAMETERS));
-                ExpandParameters.Version = EXPAND_VIRTUAL_DISK_VERSION_1;
-                ExpandParameters.Version1.NewSize = NewSize;
-
-                Error = ::ExpandVirtualDisk(
-                    DiskHandle,
-                    EXPAND_VIRTUAL_DISK_FLAG_NONE,
-                    &ExpandParameters,
-                    NULL);
-            }
+            Error = ::ResizeVirtualDisk(
+                DiskHandle,
+                RESIZE_VIRTUAL_DISK_FLAG_NONE,
+                &ResizeParameters,
+                nullptr);
         }
         CloseHandle(DiskHandle);
     }
