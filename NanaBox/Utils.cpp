@@ -574,7 +574,6 @@ DWORD SimpleResizeVirtualDisk(
         &DiskHandle);
     if (ERROR_SUCCESS == Error)
     {
-        
         RESIZE_VIRTUAL_DISK_PARAMETERS ResizeParameters;
         ResizeParameters.Version = RESIZE_VIRTUAL_DISK_VERSION_1;
         ResizeParameters.Version1.NewSize = Size;
@@ -584,7 +583,8 @@ DWORD SimpleResizeVirtualDisk(
             RESIZE_VIRTUAL_DISK_FLAG_NONE,
             &ResizeParameters,
             nullptr);
-        CloseHandle(DiskHandle);
+
+        ::CloseHandle(DiskHandle);
     }
     return Error;
 }
