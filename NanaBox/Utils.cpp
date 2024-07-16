@@ -606,7 +606,7 @@ DWORD SimpleResizeVirtualDisk(
         return InfoError;
     }
 
-    if (OldSize < NewSize) {
+    if (OldSize > NewSize) {
         RESIZE_VIRTUAL_DISK_FLAG ShinkFlags
             = RESIZE_VIRTUAL_DISK_FLAG_RESIZE_TO_SMALLEST_SAFE_VIRTUAL_SIZE;
 
