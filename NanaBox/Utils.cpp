@@ -561,6 +561,7 @@ DWORD SimpleResizeVirtualDisk(
 {
     UNREFERENCED_PARAMETER(Path);
     UNREFERENCED_PARAMETER(NewSize);
+
     HANDLE DiskHandle = INVALID_HANDLE_VALUE;
 
     VIRTUAL_STORAGE_TYPE StorageType;
@@ -568,24 +569,21 @@ DWORD SimpleResizeVirtualDisk(
     StorageType.VendorId = VIRTUAL_STORAGE_TYPE_VENDOR_UNKNOWN;
 
     OPEN_VIRTUAL_DISK_PARAMETERS OpenParameters;
-    ZeroMemory(&OpenParameters, sizeof(OpenParameters));
     OpenParameters.Version = OPEN_VIRTUAL_DISK_VERSION_1;
 
     DWORD Error = ::OpenVirtualDisk(
         &StorageType,
         Path,
         VIRTUAL_DISK_ACCESS_ALL,
-        OPEN_VIRTUAL_DISK_FLAG_NONE, // select a better flag.
+        OPEN_VIRTUAL_DISK_FLAG_NONE,
         &OpenParameters,
-        &DiskHandle
-    );
+        &DiskHandle);
 
     if (ERROR_SUCCESS == Error)
     {
         UINT64 OldSize = 0L;
 
         GET_VIRTUAL_DISK_INFO Info;
-        ZeroMemory(&Info, sizeof(Info));
         Info.Version = GET_VIRTUAL_DISK_INFO_SIZE;
 
         ULONG InfoSize = sizeof(GET_VIRTUAL_DISK_INFO);
@@ -595,31 +593,26 @@ DWORD SimpleResizeVirtualDisk(
             DiskHandle,
             &InfoSize,
             &Info,
-            &SizeUsed
-        );
+            &SizeUsed);
+        ::printf("Old size: %llu\n", OldSize);
 
         if (Error == ERROR_SUCCESS)
         {
-            if (OldSize < NewSize)
+            if (OldSize > NewSize)
             {
-                RESIZE_VIRTUAL_DISK_FLAG ShinkFlags =
-                    RESIZE_VIRTUAL_DISK_FLAG_RESIZE_TO_SMALLEST_SAFE_VIRTUAL_SIZE;
-
                 RESIZE_VIRTUAL_DISK_PARAMETERS ShinkParameters;
                 ShinkParameters.Version = RESIZE_VIRTUAL_DISK_VERSION_1;
                 ShinkParameters.Version1.NewSize = 0;
 
                 Error = ::ResizeVirtualDisk(
                     DiskHandle,
-                    ShinkFlags,
+                    RESIZE_VIRTUAL_DISK_FLAG_RESIZE_TO_SMALLEST_SAFE_VIRTUAL_SIZE,
                     &ShinkParameters,
-                    NULL
-                );
+                    NULL);
             }
-
             if (Error == ERROR_SUCCESS)
             {
-                EXPAND_VIRTUAL_DISK_FLAG ExpandFlags = EXPAND_VIRTUAL_DISK_FLAG_NONE;
+                EXPAND_VIRTUAL_DISK_FLAG_NONE;
 
                 EXPAND_VIRTUAL_DISK_PARAMETERS ExpandParameters;
                 ExpandParameters.Version = EXPAND_VIRTUAL_DISK_VERSION_1;
@@ -627,14 +620,13 @@ DWORD SimpleResizeVirtualDisk(
 
                 Error = ::ExpandVirtualDisk(
                     DiskHandle,
-                    ExpandFlags,
+                    EXPAND_VIRTUAL_DISK_FLAG_NONE,
                     &ExpandParameters,
-                    NULL
-                );
+                    NULL);
             }
         }
+        CloseHandle(DiskHandle);
     }
-    CloseHandle(DiskHandle);
     return Error;
 }
 
