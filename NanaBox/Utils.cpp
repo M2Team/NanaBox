@@ -602,7 +602,7 @@ DWORD SimpleResizeVirtualDisk(
             if (OldSize < NewSize)
             {
                 RESIZE_VIRTUAL_DISK_FLAG ShinkFlags =
-                RESIZE_VIRTUAL_DISK_FLAG_RESIZE_TO_SMALLEST_SAFE_VIRTUAL_SIZE;
+                    RESIZE_VIRTUAL_DISK_FLAG_RESIZE_TO_SMALLEST_SAFE_VIRTUAL_SIZE;
 
                 RESIZE_VIRTUAL_DISK_PARAMETERS ShinkParameters;
                 ShinkParameters.Version = RESIZE_VIRTUAL_DISK_VERSION_1;
@@ -631,12 +631,13 @@ DWORD SimpleResizeVirtualDisk(
                     NULL
                 );
             }
-            
+
         }
     }
 
     CloseHandle(DiskHandle);
     return Error;
+
 }
 
 winrt::handle ShowAboutDialog(
