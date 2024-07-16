@@ -571,7 +571,7 @@ DWORD SimpleResizeVirtualDisk(
     ZeroMemory(&OpenParameters, sizeof(OpenParameters));
     OpenParameters.Version = OPEN_VIRTUAL_DISK_VERSION_1;
 
-    DWORD Error = OpenVirtualDisk(
+    DWORD Error = ::OpenVirtualDisk(
         &StorageType,
         Path,
         VIRTUAL_DISK_ACCESS_ALL,
@@ -591,12 +591,13 @@ DWORD SimpleResizeVirtualDisk(
         ULONG InfoSize = sizeof(GET_VIRTUAL_DISK_INFO);
         ULONG SizeUsed = 0;
 
-        Error = GetVirtualDiskInformation(
+        Error = ::GetVirtualDiskInformation(
             DiskHandle,
             &InfoSize,
             &Info,
             &SizeUsed
         );
+
         if (Error == ERROR_SUCCESS)
         {
             if (OldSize < NewSize)
@@ -614,7 +615,6 @@ DWORD SimpleResizeVirtualDisk(
                     &ShinkParameters,
                     NULL
                 );
-
             }
 
             if (Error == ERROR_SUCCESS)
@@ -624,6 +624,7 @@ DWORD SimpleResizeVirtualDisk(
                 EXPAND_VIRTUAL_DISK_PARAMETERS ExpandParameters;
                 ExpandParameters.Version = EXPAND_VIRTUAL_DISK_VERSION_1;
                 ExpandParameters.Version1.NewSize = NewSize;
+
                 Error = ::ExpandVirtualDisk(
                     DiskHandle,
                     ExpandFlags,
@@ -631,13 +632,10 @@ DWORD SimpleResizeVirtualDisk(
                     NULL
                 );
             }
-
         }
     }
-
     CloseHandle(DiskHandle);
     return Error;
-
 }
 
 winrt::handle ShowAboutDialog(
