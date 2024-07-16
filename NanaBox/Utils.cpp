@@ -9,6 +9,9 @@
 #include <virtdisk.h>
 #pragma comment(lib,"virtdisk.lib")
 
+#include <Shlwapi.h>
+#pragma comment(lib, "Shlwapi.lib")
+
 #include <sddl.h>
 
 #include "MessagePage.h"
@@ -542,6 +545,10 @@ DWORD SimpleCreateVirtualDisk(
     std::memset(&Parameters, 0, sizeof(CREATE_VIRTUAL_DISK_PARAMETERS));
     Parameters.Version = CREATE_VIRTUAL_DISK_VERSION_2;
     Parameters.Version2.MaximumSize = Size;
+    Parameters.Version2.BlockSizeInBytes =
+        (0 == ::_wcsicmp(::PathFindExtensionW(Path), L".vhdx"))
+        ? 0x100000 // 1 MiB for VHDX
+        : 0x80000; // 512 KiB for VHD
 
     return ::CreateVirtualDisk(
         &StorageType,
