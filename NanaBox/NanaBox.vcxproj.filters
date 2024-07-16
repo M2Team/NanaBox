@@ -117,6 +117,12 @@
     <PRIResource Include="Strings\zh-Hans\NewVirtualHardDiskPage.resw">
       <Filter>Strings\zh-Hans</Filter>
     </PRIResource>
+    <PRIResource Include="Strings\en\ResizeVirtualHardDiskPage.resw">
+      <Filter>Strings\en</Filter>
+    </PRIResource>
+    <PRIResource Include="Strings\zh-Hans\ResizeVirtualHardDiskPage.resw">
+      <Filter>Strings\zh-Hans</Filter>
+    </PRIResource>
     <PRIResource Include="Strings\en\QuickStartPage.resw">
       <Filter>Strings\en</Filter>
     </PRIResource>

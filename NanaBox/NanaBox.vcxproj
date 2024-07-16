@@ -248,6 +248,7 @@
     <PRIResource Include="Strings\en\MessagePage.resw" />
     <PRIResource Include="Strings\en\Messages.resw" />
     <PRIResource Include="Strings\en\NewVirtualHardDiskPage.resw" />
+    <PRIResource Include="Strings\en\ResizeVirtualHardDiskPage.resw" />
     <PRIResource Include="Strings\en\QuickStartPage.resw" />
     <PRIResource Include="Strings\en\ReloadConfirmationPage.resw" />
     <PRIResource Include="Strings\en\SponsorPage.resw" />
@@ -257,6 +258,7 @@
     <PRIResource Include="Strings\zh-Hans\MessagePage.resw" />
     <PRIResource Include="Strings\zh-Hans\Messages.resw" />
     <PRIResource Include="Strings\zh-Hans\NewVirtualHardDiskPage.resw" />
+    <PRIResource Include="Strings\zh-Hans\ResizeVirtualHardDiskPage.resw" />
     <PRIResource Include="Strings\zh-Hans\QuickStartPage.resw" />
     <PRIResource Include="Strings\zh-Hans\ReloadConfirmationPage.resw" />
     <PRIResource Include="Strings\zh-Hans\SponsorPage.resw" />
