@@ -70,7 +70,7 @@ DWORD SimpleCreateVirtualDisk(
 
 DWORD SimpleResizeVirtualDisk(
     _In_ PCWSTR Path,
-    _In_ UINT64 NewSize);
+    _In_ UINT64 Size);
 
 winrt::handle ShowAboutDialog(
     _In_ HWND ParentWindowHandle);

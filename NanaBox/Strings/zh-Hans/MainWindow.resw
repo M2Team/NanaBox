@@ -125,11 +125,11 @@
     <value>关于 NanaBox</value>
     <comment>About NanaBox</comment>
   </data>
-  <data name="CreateVirtualHardDiskButtonButton.AutomationProperties.Name" xml:space="preserve">
+  <data name="CreateVirtualHardDiskButton.AutomationProperties.Name" xml:space="preserve">
     <value>创建虚拟磁盘</value>
     <comment>Create Virtual Hard Disk</comment>
   </data>
-  <data name="CreateVirtualHardDiskButtonButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="CreateVirtualHardDiskButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>创建虚拟磁盘</value>
     <comment>Create Virtual Hard Disk</comment>
   </data>
@@ -180,6 +180,14 @@
   <data name="ReloadVirtualMachineSettingsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>重载虚拟机设置</value>
     <comment>Reload Virtual Machine Settings</comment>
+  </data>
+  <data name="ResizeVirtualHardDiskButton.AutomationProperties.Name" xml:space="preserve">
+    <value>调整虚拟磁盘大小</value>
+    <comment>Resize Virtual Hard Disk</comment>
+  </data>
+  <data name="ResizeVirtualHardDiskButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>调整虚拟磁盘大小</value>
+    <comment>Resize Virtual Hard Disk</comment>
   </data>
   <data name="RestartVirtualMachineButton.AutomationProperties.Name" xml:space="preserve">
     <value>重启虚拟机</value>

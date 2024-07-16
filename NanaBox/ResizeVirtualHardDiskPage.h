@@ -17,21 +17,22 @@ namespace winrt
 
 namespace winrt::NanaBox::implementation
 {
-    struct ResizeVirtualHardDiskPage
-        :ResizeVirtualHardDiskPageT<ResizeVirtualHardDiskPage>
+    struct ResizeVirtualHardDiskPage :
+        ResizeVirtualHardDiskPageT<ResizeVirtualHardDiskPage>
     {
     public:
         ResizeVirtualHardDiskPage(
             _In_ HWND WindowHandle = nullptr);
-        void InitializeComponent();
 
-        void FileNameBrowseButtonClickHandler(
-            winrt::IInspectable const& sender,
-            winrt::RoutedEventArgs const& e);
+        void InitializeComponent();
 
         void NaturalNumberTextBoxBeforeTextChanging(
             winrt::TextBox const& sender,
             winrt::TextBoxBeforeTextChangingEventArgs const& args);
+
+        void FileNameBrowseButtonClickHandler(
+            winrt::IInspectable const& sender,
+            winrt::RoutedEventArgs const& e); 
 
         void ResizeButtonClick(
             winrt::IInspectable const& sender,
@@ -49,8 +50,9 @@ namespace winrt::NanaBox::implementation
 
 namespace winrt::NanaBox::factory_implementation
 {
-    struct ResizeVirtualHardDiskPage : ResizeVirtualHardDiskPageT
-        <ResizeVirtualHardDiskPage, implementation::ResizeVirtualHardDiskPage>
+    struct ResizeVirtualHardDiskPage : ResizeVirtualHardDiskPageT<
+        ResizeVirtualHardDiskPage,
+        implementation::ResizeVirtualHardDiskPage>
     {
     };
 }

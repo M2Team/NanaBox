@@ -39,6 +39,29 @@ namespace winrt::NanaBox::implementation
             winrt::DispatcherQueue::GetForCurrentThread();
     }
 
+    void ResizeVirtualHardDiskPage::NaturalNumberTextBoxBeforeTextChanging(
+        winrt::TextBox const& sender,
+        winrt::TextBoxBeforeTextChangingEventArgs const& args)
+    {
+        UNREFERENCED_PARAMETER(sender);
+        UNREFERENCED_PARAMETER(args);
+
+        if (args.NewText().empty())
+        {
+            sender.Text(L"0");
+            return;
+        }
+
+        if (!std::regex_match(
+            args.NewText().c_str(),
+            std::wregex(
+                L"(|[[:digit:]]+)",
+                std::regex_constants::icase)))
+        {
+            args.Cancel(true);
+        }
+    }
+
     void ResizeVirtualHardDiskPage::FileNameBrowseButtonClickHandler(
         winrt::IInspectable const& sender,
         winrt::RoutedEventArgs const& e)
@@ -112,29 +135,6 @@ namespace winrt::NanaBox::implementation
 
             }
         }));
-    }
-
-    void ResizeVirtualHardDiskPage::NaturalNumberTextBoxBeforeTextChanging(
-        winrt::TextBox const& sender,
-        winrt::TextBoxBeforeTextChangingEventArgs const& args)
-    {
-        UNREFERENCED_PARAMETER(sender);
-        UNREFERENCED_PARAMETER(args);
-
-        if (args.NewText().empty())
-        {
-            sender.Text(L"0");
-            return;
-        }
-
-        if (!std::regex_match(
-            args.NewText().c_str(),
-            std::wregex(
-                L"(|[[:digit:]]+)",
-                std::regex_constants::icase)))
-        {
-            args.Cancel(true);
-        }
     }
 
     void ResizeVirtualHardDiskPage::ResizeButtonClick(

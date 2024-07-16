@@ -125,11 +125,11 @@
     <value>About NanaBox</value>
     <comment>About NanaBox</comment>
   </data>
-  <data name="CreateVirtualHardDiskButtonButton.AutomationProperties.Name" xml:space="preserve">
+  <data name="CreateVirtualHardDiskButton.AutomationProperties.Name" xml:space="preserve">
     <value>Create Virtual Hard Disk</value>
     <comment>Create Virtual Hard Disk</comment>
   </data>
-  <data name="CreateVirtualHardDiskButtonButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="CreateVirtualHardDiskButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Create Virtual Hard Disk</value>
     <comment>Create Virtual Hard Disk</comment>
   </data>
@@ -180,6 +180,14 @@
   <data name="ReloadVirtualMachineSettingsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Reload Virtual Machine Settings</value>
     <comment>Reload Virtual Machine Settings</comment>
+  </data>
+  <data name="ResizeVirtualHardDiskButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Resize Virtual Hard Disk</value>
+    <comment>Resize Virtual Hard Disk</comment>
+  </data>
+  <data name="ResizeVirtualHardDiskButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Resize Virtual Hard Disk</value>
+    <comment>Resize Virtual Hard Disk</comment>
   </data>
   <data name="RestartVirtualMachineButton.AutomationProperties.Name" xml:space="preserve">
     <value>Restart Virtual Machine</value>

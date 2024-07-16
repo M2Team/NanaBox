@@ -207,6 +207,12 @@ void NanaBox::MainWindow::OnCommand(
 
         break;
     }
+    case NanaBox::MainWindowCommands::ResizeVirtualHardDisk:
+    {
+        ::ShowResizeVirtualHardDiskDialog(this->m_hWnd);
+
+        break;
+    }
     case NanaBox::MainWindowCommands::Documentation:
     {
         ::LaunchDocumentation();

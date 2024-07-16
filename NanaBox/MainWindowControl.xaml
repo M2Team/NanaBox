@@ -94,13 +94,21 @@
         ToolTipService.ToolTip="[Restore Virtual Machine Window Size]" />
       <AppBarSeparator />-->
       <AppBarButton
-        x:Uid="/MainWindow/CreateVirtualHardDiskButtonButton"
+        x:Uid="/MainWindow/CreateVirtualHardDiskButton"
         Width="48"
         AutomationProperties.Name="[Create Virtual Hard Disk]"
         Click="CreateVirtualHardDiskButtonClick"
         Icon="Add"
         LabelPosition="Collapsed"
         ToolTipService.ToolTip="[Create Virtual Hard Disk]" />
+      <AppBarButton
+        x:Uid="/MainWindow/ResizeVirtualHardDiskButton"
+        Width="48"
+        AutomationProperties.Name="[Resize Virtual Hard Disk]"
+        Click="ResizeVirtualHardDiskButtonClick"
+        Icon="Zoom"
+        LabelPosition="Collapsed"
+        ToolTipService.ToolTip="[Resize Virtual Hard Disk]" />
       <AppBarButton
         x:Uid="/MainWindow/DocumentationButton"
         Width="48"
