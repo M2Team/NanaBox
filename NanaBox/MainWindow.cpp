@@ -480,6 +480,14 @@ void NanaBox::MainWindow::OnDestroy()
     ::PostQuitMessage(0);
 }
 
+void NanaBox::MainWindow::OnEndSession(
+    BOOL bEnding,
+    UINT uLogOff)
+{
+    UNREFERENCED_PARAMETER(bEnding);
+    UNREFERENCED_PARAMETER(uLogOff);
+}
+
 void NanaBox::MainWindow::InitializeVirtualMachine()
 {
     std::string ConfigurationFileContent = ::ReadAllTextFromUtf8TextFile(
