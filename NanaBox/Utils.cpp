@@ -12,12 +12,25 @@
 #include <Shlwapi.h>
 #pragma comment(lib, "Shlwapi.lib")
 
+#include <dwmapi.h>
+#pragma comment(lib, "dwmapi.lib")
+
 #include <sddl.h>
+
+#include <winrt/Windows.UI.Xaml.Controls.h>
 
 #include "MessagePage.h"
 #include "AboutPage.h"
 #include "NewVirtualHardDiskPage.h"
 #include "ResizeVirtualHardDiskPage.h"
+
+namespace winrt
+{
+    using Windows::UI::Xaml::HorizontalAlignment;
+    using Windows::UI::Xaml::ThicknessHelper;
+    using Windows::UI::Xaml::VerticalAlignment;
+    using Windows::UI::Xaml::Controls::ProgressRing;
+}
 
 void SplitCommandLineEx(
     std::wstring const& CommandLine,
@@ -745,4 +758,72 @@ std::string GetCurrentProcessUserStringSid()
     }());
 
     return CachedResult;
+}
+
+HWND ShowOperationWaitingWindow(
+    _In_ HWND ParentWindowHandle)
+{
+    HWND Result = nullptr;
+
+    HANDLE ReturnEvent = ::CreateEventExW(
+        nullptr,
+        nullptr,
+        0,
+        EVENT_ALL_ACCESS);
+    if (!ReturnEvent)
+    {
+        return nullptr;
+    }
+
+    ::CloseHandle(Mile::CreateThread([=, &Result]()
+    {
+        winrt::check_hresult(::MileXamlThreadInitialize());
+
+        HWND WindowHandle = ::CreateWindowExW(
+            0,
+            L"Mile.Xaml.ContentWindow",
+            nullptr,
+            WS_POPUP,
+            CW_USEDEFAULT,
+            0,
+            CW_USEDEFAULT,
+            0,
+            ParentWindowHandle,
+            nullptr,
+            nullptr,
+            nullptr);
+        if (!WindowHandle)
+        {
+            return;
+        }
+        Result = WindowHandle;
+
+        ::SetEvent(ReturnEvent);
+
+        DWM_WINDOW_CORNER_PREFERENCE Preference = DWMWCP_ROUNDSMALL;
+        ::DwmSetWindowAttribute(
+            WindowHandle,
+            DWMWA_WINDOW_CORNER_PREFERENCE,
+            &Preference,
+            sizeof(DWM_WINDOW_CORNER_PREFERENCE));
+
+        winrt::ProgressRing Content = winrt::ProgressRing();
+        Content.Margin(winrt::ThicknessHelper::FromUniformLength(12));
+        Content.HorizontalAlignment(winrt::HorizontalAlignment::Stretch);
+        Content.VerticalAlignment(winrt::VerticalAlignment::Stretch);
+        Content.IsActive(true);
+
+        ::ShowXamlDialog(
+            WindowHandle,
+            72,
+            72,
+            winrt::get_abi(Content),
+            ParentWindowHandle);
+
+        winrt::check_hresult(::MileXamlThreadUninitialize());
+    }));
+
+    ::WaitForSingleObjectEx(ReturnEvent, INFINITE, FALSE);
+
+    return Result;
 }

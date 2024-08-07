@@ -85,6 +85,9 @@ BOOL LaunchDocumentation();
 
 std::string GetCurrentProcessUserStringSid();
 
+HWND ShowOperationWaitingWindow(
+    _In_ HWND ParentWindowHandle);
+
 #include <Mile.Helpers.CppBase.h>
 #include <Mile.Helpers.CppWinRT.h>
 
