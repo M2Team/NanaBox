@@ -50,7 +50,7 @@ namespace NanaBox
             MSG_WM_ACTIVATE(OnActivate)
             MSG_WM_CLOSE(OnClose)
             MSG_WM_DESTROY(OnDestroy)
-            MSG_WM_ENDSESSION(OnEndSession)
+            MSG_WM_QUERYENDSESSION(OnQueryEndSession)
         END_MSG_MAP()
 
         MainWindow(
@@ -83,8 +83,8 @@ namespace NanaBox
 
         void OnDestroy();
 
-        void OnEndSession(
-            BOOL bEnding,
+        BOOL OnQueryEndSession(
+            UINT nSource,
             UINT uLogOff);
 
     private:

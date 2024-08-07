@@ -480,12 +480,14 @@ void NanaBox::MainWindow::OnDestroy()
     ::PostQuitMessage(0);
 }
 
-void NanaBox::MainWindow::OnEndSession(
-    BOOL bEnding,
+BOOL NanaBox::MainWindow::OnQueryEndSession(
+    UINT nSource,
     UINT uLogOff)
 {
-    UNREFERENCED_PARAMETER(bEnding);
+    UNREFERENCED_PARAMETER(nSource);
     UNREFERENCED_PARAMETER(uLogOff);
+
+    return TRUE;
 }
 
 void NanaBox::MainWindow::InitializeVirtualMachine()
