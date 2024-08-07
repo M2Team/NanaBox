@@ -487,7 +487,14 @@ BOOL NanaBox::MainWindow::OnQueryEndSession(
     UNREFERENCED_PARAMETER(nSource);
     UNREFERENCED_PARAMETER(uLogOff);
 
-    return TRUE;
+    ::ShutdownBlockReasonCreate(
+        this->m_hWnd,
+        Mile::WinRT::GetLocalizedString(
+            L"ExitConfirmationPage/GridTitleTextBlock/Text").c_str());
+
+    // Notify the OS to prevent shut down because shut down automatically
+    // without exiting NanaBox may corrupt the user's virtual machine.
+    return FALSE;
 }
 
 void NanaBox::MainWindow::InitializeVirtualMachine()

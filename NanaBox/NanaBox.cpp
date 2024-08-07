@@ -104,6 +104,8 @@ int WINAPI wWinMain(
     winrt::check_hresult(::SetCurrentProcessExplicitAppUserModelID(
         g_AppUserModelID.data()));
 
+    ::SetProcessShutdownParameters(0x3FF, 0);
+
     winrt::com_ptr<winrt::NanaBox::implementation::App> App =
         winrt::make_self<winrt::NanaBox::implementation::App>();
     auto ExitHandler = Mile::ScopeExitTaskHandler([&]()
