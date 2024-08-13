@@ -114,7 +114,7 @@
         Width="48"
         AutomationProperties.Name="[Compact Virtual Hard Disk]"
         Click="CompactVirtualHardDiskButtonClick"
-        Icon="Zoom"
+        Icon="BackToWindow"
         LabelPosition="Collapsed"
         ToolTipService.ToolTip="[Compact Virtual Hard Disk]" />
       <AppBarButton

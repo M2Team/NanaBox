@@ -102,7 +102,7 @@
         AutomationProperties.Name="[Compact Virtual Hard Disk]"
         Click="CompactVirtualHardDiskButtonClick">
         <StackPanel Margin="16,0" Orientation="Horizontal">
-          <SymbolIcon Margin="0,0,16,0" Symbol="Zoom" />
+          <SymbolIcon Margin="0,0,16,0" Symbol="BackToWindow" />
           <TextBlock x:Uid="/QuickStartPage/CompactVirtualHardDiskButtonTextBlock" Text="[Compact Virtual Hard Disk]" />
         </StackPanel>
       </Button>
