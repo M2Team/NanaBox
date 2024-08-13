@@ -638,7 +638,6 @@ DWORD SimpleCompactVirtualDisk(
         ::CloseHandle(DiskHandle);
     }
     return Error;
-
 }
 
 winrt::handle ShowAboutDialog(
@@ -780,8 +779,6 @@ winrt::handle ShowCompactVirtualHardDiskDialog(
             {
 
             }
-
-
         }
         catch (...)
         {
