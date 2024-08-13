@@ -201,4 +201,8 @@
     <value>Compact Virtual Hard Disk Completed.</value>
     <comment>Compact Virtual Hard Disk Completed.</comment>
   </data>
+  <data name="CompactVirtualHardDiskTip" xml:space="preserve">
+    <value>Please select a virtual hard disk or virtual disk to compact.</value>
+    <comment>Please select a virtual hard disk or virtual disk to compact.</comment>
+  </data>
 </root>

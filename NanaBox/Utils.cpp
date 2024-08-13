@@ -721,6 +721,10 @@ winrt::handle ShowCompactVirtualHardDiskDialog(
             winrt::check_hresult(FileDialog->SetFileTypes(
                 ARRAYSIZE(SupportedFileTypes), SupportedFileTypes));
 
+            winrt::check_hresult(FileDialog->SetTitle(
+                Mile::WinRT::GetLocalizedString(
+                    L"QuickStartPage/VirtualImagePathTip").c_str()));
+
             // Note: The array is 1-indexed
             winrt::check_hresult(FileDialog->SetFileTypeIndex(1));
 
