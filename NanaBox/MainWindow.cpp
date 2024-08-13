@@ -213,6 +213,12 @@ void NanaBox::MainWindow::OnCommand(
 
         break;
     }
+    case NanaBox::MainWindowCommands::CompactVirtualHardDisk:
+    {
+        ::ShowCompactVirtualHardDiskDialog(this->m_hWnd);
+
+        break;
+    }
     case NanaBox::MainWindowCommands::Documentation:
     {
         ::LaunchDocumentation();

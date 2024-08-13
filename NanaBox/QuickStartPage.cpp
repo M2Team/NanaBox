@@ -449,6 +449,16 @@ namespace winrt::NanaBox::implementation
         ::ShowResizeVirtualHardDiskDialog(this->m_WindowHandle);
     }
 
+    void QuickStartPage::CompactVirtualHardDiskButtonClick(
+        winrt::IInspectable const& sender,
+        winrt::RoutedEventArgs const& e)
+    {
+        UNREFERENCED_PARAMETER(sender);
+        UNREFERENCED_PARAMETER(e);
+
+        ::ShowCompactVirtualHardDiskDialog(this->m_WindowHandle);
+    }
+
     void QuickStartPage::DocumentationButtonClick(
         winrt::IInspectable const& sender,
         winrt::RoutedEventArgs const& e)

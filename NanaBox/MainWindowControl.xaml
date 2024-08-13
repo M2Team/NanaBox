@@ -110,6 +110,14 @@
         LabelPosition="Collapsed"
         ToolTipService.ToolTip="[Resize Virtual Hard Disk]" />
       <AppBarButton
+        x:Uid="/MainWindow/CompactVirtualHardDiskButton"
+        Width="48"
+        AutomationProperties.Name="[Compact Virtual Hard Disk]"
+        Click="CompactVirtualHardDiskButtonClick"
+        Icon="BackToWindow"
+        LabelPosition="Collapsed"
+        ToolTipService.ToolTip="[Compact Virtual Hard Disk]" />
+      <AppBarButton
         x:Uid="/MainWindow/DocumentationButton"
         Width="48"
         AutomationProperties.Name="[Configuration File Reference Documentation]"

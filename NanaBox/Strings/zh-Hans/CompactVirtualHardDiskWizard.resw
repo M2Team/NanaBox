@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,88 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AboutButton.AutomationProperties.Name" xml:space="preserve">
-    <value>About NanaBox</value>
-    <comment>About NanaBox</comment>
+  <data name="PathTip" xml:space="preserve">
+    <value>请选择需要进行压缩的 VHD 或 VHDX 虚拟硬盘，或关闭此对话框以取消操作</value>
+    <comment>Please select a VHD or VHDX virtual hard disk for compacting, or close this dialog to cancel</comment>
   </data>
-  <data name="AboutButtonTextBlock.Text" xml:space="preserve">
-    <value>About NanaBox</value>
-    <comment>About NanaBox</comment>
-  </data>
-  <data name="ConfigurationFileTypeName" xml:space="preserve">
-    <value>NanaBox Virtual Machine Configuration</value>
-    <comment>NanaBox Virtual Machine Configuration</comment>
-  </data>
-  <data name="ConfigurationNameTip" xml:space="preserve">
-    <value>Please specify the save location for the configuration file of your VM</value>
-    <comment>Please specify the save location for the configuration file of your virtual machine</comment>
-  </data>
-  <data name="CreateVirtualHardDiskButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Create Virtual Hard Disk</value>
-    <comment>Create Virtual Hard Disk</comment>
-  </data>
-  <data name="CreateVirtualHardDiskButtonTextBlock.Text" xml:space="preserve">
-    <value>Create Virtual Hard Disk</value>
-    <comment>Create Virtual Hard Disk</comment>
-  </data>
-  <data name="ResizeVirtualHardDiskButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Resize Virtual Hard Disk</value>
-    <comment>Resize Virtual Hard Disk</comment>
-  </data>
-  <data name="ResizeVirtualHardDiskButtonTextBlock.Text" xml:space="preserve">
-    <value>Resize Virtual Hard Disk</value>
-    <comment>Resize Virtual Hard Disk</comment>
-  </data>
-  <data name="CreateVirtualMachineButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Create Virtual Machine</value>
-    <comment>Create Virtual Machine</comment>
-  </data>
-  <data name="CreateVirtualMachineButtonTextBlock.Text" xml:space="preserve">
-    <value>Create Virtual Machine</value>
-    <comment>Create Virtual Machine</comment>
-  </data>
-  <data name="DocumentationButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Configuration File Reference Documentation</value>
-    <comment>Configuration File Reference Documentation</comment>
-  </data>
-  <data name="DocumentationButtonTextBlock.Text" xml:space="preserve">
-    <value>Configuration File Reference Documentation</value>
-    <comment>Configuration File Reference Documentation</comment>
-  </data>
-  <data name="GridTitleTextBlock.Text" xml:space="preserve">
-    <value>Welcome to NanaBox</value>
-    <comment>Welcome to NanaBox</comment>
-  </data>
-  <data name="LaunchVirtualMachineButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Launch Virtual Machine</value>
-    <comment>Launch Virtual Machine</comment>
-  </data>
-  <data name="LaunchVirtualMachineButtonTextBlock.Text" xml:space="preserve">
-    <value>Launch Virtual Machine</value>
-    <comment>Launch Virtual Machine</comment>
-  </data>
-  <data name="SuccessContentText" xml:space="preserve">
-    <value>The virtual machine at %s has been successfully created.</value>
-    <comment>The virtual machine at %s has been successfully created.</comment>
+  <data name="SuccessContextText" xml:space="preserve">
+    <value>位于 %s 的虚拟硬盘文件已成功压缩。</value>
+    <comment>The virtual hard disk at %s has been successfully compacted.</comment>
   </data>
   <data name="SuccessInstructionText" xml:space="preserve">
-    <value>Create Virtual Machine Configuration Completed</value>
-    <comment>Create Virtual Machine Configuration Completed</comment>
-  </data>
-  <data name="VirtualDiskPathTip" xml:space="preserve">
-    <value>Please select a VHD or VHDX virtual hard disk for the storage of your VM, or close this dialog to skip the setting</value>
-    <comment>Please select a VHD or VHDX virtual hard disk for the storage of your virtual machine, or close this dialog to skip the setting</comment>
-  </data>
-  <data name="VirtualImagePathTip" xml:space="preserve">
-    <value>Please select a bootable ISO image for installing the OS on your VM, or close this dialog to skip the setting</value>
-    <comment>Please select a bootable ISO image for installing the OS on your virtual machine, or close this dialog to skip the setting</comment>
-  </data>
-  <data name="CompactVirtualHardDiskButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Compact Virtual Hard Disk</value>
-    <comment>Compact Virtual Hard Disk</comment>
-  </data>
-  <data name="CompactVirtualHardDiskButtonTextBlock.Text" xml:space="preserve">
-    <value>Compact Virtual Hard Disk</value>
-    <comment>Compact Virtual Hard Disk</comment>
+    <value>虚拟硬盘完成压缩</value>
+    <comment>Compact Virtual Hard Disk Completed.</comment>
   </data>
 </root>

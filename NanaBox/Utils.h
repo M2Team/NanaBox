@@ -72,10 +72,16 @@ DWORD SimpleResizeVirtualDisk(
     _In_ PCWSTR Path,
     _In_ UINT64 Size);
 
+DWORD SimpleCompactVirtualDisk(
+    _In_ PCWSTR Path);
+
 winrt::handle ShowAboutDialog(
     _In_ HWND ParentWindowHandle);
 
 winrt::handle ShowNewVirtualHardDiskDialog(
+    _In_ HWND ParentWindowHandle);
+
+winrt::handle ShowCompactVirtualHardDiskDialog(
     _In_ HWND ParentWindowHandle);
 
 winrt::handle ShowResizeVirtualHardDiskDialog(
