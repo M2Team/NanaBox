@@ -94,8 +94,21 @@
         </StackPanel>
       </Button>
       <Button
-        x:Uid="/QuickStartPage/DocumentationButton"
+        x:Uid="/QuickStartPage/CompactVirtualHardDiskButton"
         Grid.Row="8"
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch"
+        HorizontalContentAlignment="Stretch"
+        AutomationProperties.Name="[Compact Virtual Hard Disk]"
+        Click="CompactVirtualHardDiskButtonClick">
+        <StackPanel Margin="16,0" Orientation="Horizontal">
+          <SymbolIcon Margin="0,0,16,0" Symbol="Zoom" />
+          <TextBlock x:Uid="/QuickStartPage/CompactVirtualHardDiskButtonTextBlock" Text="[Compact Virtual Hard Disk]" />
+        </StackPanel>
+      </Button>
+      <Button
+        x:Uid="/QuickStartPage/DocumentationButton"
+        Grid.Row="10"
         HorizontalAlignment="Stretch"
         VerticalAlignment="Stretch"
         HorizontalContentAlignment="Stretch"
@@ -108,7 +121,7 @@
       </Button>
       <Button
         x:Uid="/QuickStartPage/AboutButton"
-        Grid.Row="10"
+        Grid.Row="12"
         HorizontalAlignment="Stretch"
         VerticalAlignment="Stretch"
         HorizontalContentAlignment="Stretch"

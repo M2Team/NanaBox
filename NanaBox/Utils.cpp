@@ -610,6 +610,37 @@ DWORD SimpleResizeVirtualDisk(
     return Error;
 }
 
+
+DWORD SimpleCompactVirtualDisk(
+    _In_ PCWSTR Path)
+{
+    HANDLE DiskHandle = INVALID_HANDLE_VALUE;
+
+    VIRTUAL_STORAGE_TYPE StorageType;
+    StorageType.DeviceId = VIRTUAL_STORAGE_TYPE_DEVICE_UNKNOWN;
+    StorageType.VendorId = VIRTUAL_STORAGE_TYPE_VENDOR_UNKNOWN;
+
+    DWORD Error = ::OpenVirtualDisk(
+        &StorageType,
+        Path,
+        VIRTUAL_DISK_ACCESS_ALL,
+        OPEN_VIRTUAL_DISK_FLAG_NONE,
+        nullptr,
+        &DiskHandle);
+    if (ERROR_SUCCESS == Error)
+    {
+        Error = ::CompactVirtualDisk(
+            DiskHandle,
+            COMPACT_VIRTUAL_DISK_FLAG_NONE,
+            nullptr,
+            nullptr);
+
+        ::CloseHandle(DiskHandle);
+    }
+    return Error;
+
+}
+
 winrt::handle ShowAboutDialog(
     _In_ HWND ParentWindowHandle)
 {
