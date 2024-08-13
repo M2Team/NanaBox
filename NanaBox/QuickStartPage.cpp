@@ -516,8 +516,6 @@ namespace winrt::NanaBox::implementation
                                 this->m_WindowHandle,
                                 winrt::to_hstring("Compact successfully."),
                                 winrt::to_hstring("Good"));
-
-                            ::PostMessageW(this->m_WindowHandle, WM_CLOSE, 0, 0);
                         }
                         else
                         {
