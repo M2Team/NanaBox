@@ -81,6 +81,9 @@ winrt::handle ShowAboutDialog(
 winrt::handle ShowNewVirtualHardDiskDialog(
     _In_ HWND ParentWindowHandle);
 
+winrt::handle ShowCompactVirtualHardDiskDialog(
+    _In_ HWND ParentWindowHandle);
+
 winrt::handle ShowResizeVirtualHardDiskDialog(
     _In_ HWND ParentWindowHandle);
 

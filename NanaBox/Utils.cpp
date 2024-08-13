@@ -695,6 +695,100 @@ winrt::handle ShowNewVirtualHardDiskDialog(
     }));
 }
 
+winrt::handle ShowCompactVirtualHardDiskDialog(
+    _In_ HWND ParentWindowHandle)
+{
+    return winrt::handle(Mile::CreateThread([=]()
+    {
+        try
+        {
+            winrt::com_ptr<IFileDialog> FileDialog =
+                winrt::create_instance<IFileDialog>(CLSID_FileOpenDialog);
+
+            DWORD Flags = 0;
+            winrt::check_hresult(FileDialog->GetOptions(&Flags));
+
+            Flags |= FOS_FORCEFILESYSTEM;
+            Flags |= FOS_NOCHANGEDIR;
+            Flags |= FOS_DONTADDTORECENT;
+            winrt::check_hresult(FileDialog->SetOptions(Flags));
+
+            static constexpr COMDLG_FILTERSPEC SupportedFileTypes[] =
+            {
+                { L"VHDX (*.vhdx)", L"*.vhdx" },
+                { L"VHD (*.vhd)", L"*.vhd" }
+            };
+
+            winrt::check_hresult(FileDialog->SetFileTypes(
+                ARRAYSIZE(SupportedFileTypes), SupportedFileTypes));
+
+            // Note: The array is 1-indexed
+            winrt::check_hresult(FileDialog->SetFileTypeIndex(1));
+
+            winrt::check_hresult(FileDialog->SetDefaultExtension(L"vhdx"));
+
+            winrt::check_hresult(FileDialog->Show(ParentWindowHandle));
+
+            winrt::hstring FilePath;
+            {
+                winrt::com_ptr<IShellItem> Result;
+                winrt::check_hresult(FileDialog->GetResult(Result.put()));
+
+                LPWSTR RawFilePath = nullptr;
+                winrt::check_hresult(Result->GetDisplayName(
+                    SIGDN_FILESYSPATH,
+                    &RawFilePath));
+                if (RawFilePath)
+                {
+                    FilePath = winrt::to_hstring(RawFilePath);
+                    ::CoTaskMemFree(RawFilePath);
+                }
+            }
+
+            winrt::hstring SuccessInstructionText =
+                Mile::WinRT::GetLocalizedString(
+                    L"QuickStartPage/CompactVirtualDiskSuccessContextText");
+            winrt::hstring SuccessContentText =
+                Mile::WinRT::GetLocalizedString(
+                    L"QuickStartPage/CompactVirtualDiskSuccessInstructionText");
+
+            try
+            {
+                HWND WaitingHandle = ::ShowOperationWaitingWindow(ParentWindowHandle);
+                DWORD Error = SimpleCompactVirtualDisk(FilePath.c_str());
+
+                if (ERROR_SUCCESS == Error)
+                {
+                    ::ShowMessageDialog(
+                        ParentWindowHandle,
+                        SuccessInstructionText.c_str(),
+                        Mile::FormatWideString(
+                            SuccessContentText.c_str(),
+                            FilePath.c_str()).c_str());
+                }
+                else
+                {
+                    ::ShowErrorMessageDialog(
+                        ParentWindowHandle,
+                        winrt::hresult_error(HRESULT_FROM_WIN32(Error)));
+                }
+
+                ::SendMessageW(WaitingHandle, WM_CLOSE, 0, 0);
+
+            }
+            catch (...)
+            {
+
+            }
+
+
+        }
+        catch (...)
+        {
+
+        }
+    }));
+}
 winrt::handle ShowResizeVirtualHardDiskDialog(
     _In_ HWND ParentWindowHandle)
 {

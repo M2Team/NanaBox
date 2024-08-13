@@ -193,4 +193,12 @@
     <value>Please select a bootable ISO image for installing the OS on your VM, or close this dialog to skip the setting</value>
     <comment>Please select a bootable ISO image for installing the OS on your virtual machine, or close this dialog to skip the setting</comment>
   </data>
+  <data name="CompactVirtualDiskSuccessContextText" xml:space="preserve">
+    <value>The virtual hard disk at %s has been successfully compacted.</value>
+    <comment>The virtual hard disk at %s has been successfully compacted.</comment>
+  </data>
+  <data name="CompactVirtualDiskSuccessInstructionText" xml:space="preserve">
+    <value>Compact Virtual Hard Disk Completed.</value>
+    <comment>Compact Virtual Hard Disk Completed.</comment>
+  </data>
 </root>
