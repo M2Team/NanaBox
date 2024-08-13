@@ -201,8 +201,8 @@
     <value>Compact Virtual Hard Disk Completed.</value>
     <comment>Compact Virtual Hard Disk Completed.</comment>
   </data>
-  <data name="CompactVirtualHardDiskTip" xml:space="preserve">
-    <value>Please select a virtual hard disk or virtual disk to compact.</value>
-    <comment>Please select a virtual hard disk or virtual disk to compact.</comment>
+  <data name="CompactVirtualDiskPathTip" xml:space="preserve">
+    <value>Please select a VHD or VHDX virtual hard disk for compacting, or close this dialog to cancel</value>
+    <comment>Please select a VHD or VHDX virtual hard disk for compacting, or close this dialog to cancel</comment>
   </data>
 </root>

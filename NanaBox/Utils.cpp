@@ -723,7 +723,7 @@ winrt::handle ShowCompactVirtualHardDiskDialog(
 
             winrt::check_hresult(FileDialog->SetTitle(
                 Mile::WinRT::GetLocalizedString(
-                    L"QuickStartPage/VirtualImagePathTip").c_str()));
+                    L"QuickStartPage/CompactVirtualDiskPathTip").c_str()));
 
             // Note: The array is 1-indexed
             winrt::check_hresult(FileDialog->SetFileTypeIndex(1));
@@ -750,10 +750,10 @@ winrt::handle ShowCompactVirtualHardDiskDialog(
 
             winrt::hstring SuccessInstructionText =
                 Mile::WinRT::GetLocalizedString(
-                    L"QuickStartPage/CompactVirtualDiskSuccessContextText");
+                    L"QuickStartPage/CompactVirtualDiskSuccessInstructionText");
             winrt::hstring SuccessContentText =
                 Mile::WinRT::GetLocalizedString(
-                    L"QuickStartPage/CompactVirtualDiskSuccessInstructionText");
+                    L"QuickStartPage/CompactVirtualDiskSuccessContextText");
 
             try
             {

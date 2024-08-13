@@ -201,8 +201,8 @@
     <value>压缩虚拟磁盘已完成</value>
     <comment>Compact Virtual Hard Disk Completed.</comment>
   </data>
-  <data name="CompactVirtualHardDiskTip" xml:space="preserve">
-    <value>请选择需要压缩的虚拟磁盘/虚拟硬盘。</value>
-    <comment>Please select a virtual hard disk or virtual disk to compact.</comment>
+  <data name="CompactVirtualDiskPathTip" xml:space="preserve">
+    <value>请选择需要进行压缩的 VHD 或 VHDX 虚拟硬盘，或关闭此对话框以取消操作</value>
+    <comment>Please select a VHD or VHDX virtual hard disk for compacting, or close this dialog to cancel</comment>
   </data>
 </root>
