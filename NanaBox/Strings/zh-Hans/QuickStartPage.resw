@@ -193,16 +193,12 @@
     <value>请选择用于在虚拟机上安装操作系统的可启动 ISO 映像，或关闭此对话框以跳过设置</value>
     <comment>Please select a bootable ISO image for installing the OS on your virtual machine, or close this dialog to skip the setting</comment>
   </data>
-  <data name="CompactVirtualDiskSuccessContextText" xml:space="preserve">
-    <value>位于 %s 的虚拟磁盘压缩成功。</value>
-    <comment>The virtual hard disk at %s has been successfully compacted.</comment>
+  <data name="CompactVirtualHardDiskButton.AutomationProperties.Name" xml:space="preserve">
+    <value>压缩虚拟磁盘</value>
+    <comment>Compact Virtual Hard Disk</comment>
   </data>
-  <data name="CompactVirtualDiskSuccessInstructionText" xml:space="preserve">
-    <value>压缩虚拟磁盘已完成</value>
-    <comment>Compact Virtual Hard Disk Completed.</comment>
-  </data>
-  <data name="CompactVirtualDiskPathTip" xml:space="preserve">
-    <value>请选择需要进行压缩的 VHD 或 VHDX 虚拟硬盘，或关闭此对话框以取消操作</value>
-    <comment>Please select a VHD or VHDX virtual hard disk for compacting, or close this dialog to cancel</comment>
+  <data name="CompactVirtualHardDiskButtonTextBlock.Text" xml:space="preserve">
+    <value>压缩虚拟磁盘</value>
+    <comment>Compact Virtual Hard Disk</comment>
   </data>
 </root>

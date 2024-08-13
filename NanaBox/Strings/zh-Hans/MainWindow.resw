@@ -125,6 +125,14 @@
     <value>关于 NanaBox</value>
     <comment>About NanaBox</comment>
   </data>
+  <data name="CompactVirtualHardDiskButton.AutomationProperties.Name" xml:space="preserve">
+    <value>压缩虚拟磁盘</value>
+    <comment>Compact Virtual Hard Disk</comment>
+  </data>
+  <data name="CompactVirtualHardDiskButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>压缩虚拟磁盘</value>
+    <comment>Compact Virtual Hard Disk</comment>
+  </data>
   <data name="CreateVirtualHardDiskButton.AutomationProperties.Name" xml:space="preserve">
     <value>创建虚拟磁盘</value>
     <comment>Create Virtual Hard Disk</comment>

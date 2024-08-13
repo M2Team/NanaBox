@@ -125,6 +125,14 @@
     <value>About NanaBox</value>
     <comment>About NanaBox</comment>
   </data>
+  <data name="CompactVirtualHardDiskButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Compact Virtual Hard Disk</value>
+    <comment>Compact Virtual Hard Disk</comment>
+  </data>
+  <data name="CompactVirtualHardDiskButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Compact Virtual Hard Disk</value>
+    <comment>Compact Virtual Hard Disk</comment>
+  </data>
   <data name="CreateVirtualHardDiskButton.AutomationProperties.Name" xml:space="preserve">
     <value>Create Virtual Hard Disk</value>
     <comment>Create Virtual Hard Disk</comment>
