@@ -1,5 +1,20 @@
 ﻿# NanaBox Release Notes
 
+**NanaBox 1.3 Update 2 (1.3.866.0)**
+
+- Add prevent shut down support because shut down automatically without exiting
+  NanaBox may corrupt the user's virtual machine.
+- Introducing the Compact Virtual Hard Disk feature. (Contributed by per1cycle.)
+- Add waiting notice window for the Resize Virtual Hard Disk feature.
+  (Contributed by per1cycle.)
+- Defer package updates while the app is running in Windows 11 23H2 or later.
+  (Suggested by AndromedaMelody.)
+- Update Mile.Project.Windows submodule to the August 12, 2024 latest.
+- Update VC-LTL to 5.1.1.
+- Update YY-Thunks to 1.1.2.
+- Update Mile.Windows.Helpers to 1.0.645.
+- Update Mile.Xaml to 2.3.1064.
+
 **NanaBox 1.3 Update 1 (1.3.838.0)**
 
 - Try to introduce the GPU-P support. (Suggested by Z841973620.)
