@@ -758,6 +758,7 @@ winrt::handle ShowCompactVirtualHardDiskDialog(
             try
             {
                 HWND WaitingHandle = ::ShowOperationWaitingWindow(ParentWindowHandle);
+
                 DWORD Error = SimpleCompactVirtualDisk(FilePath.c_str());
 
                 if (ERROR_SUCCESS == Error)
