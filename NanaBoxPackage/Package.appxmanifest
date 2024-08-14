@@ -6,7 +6,9 @@
   xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
   xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10"
   xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
-  IgnorableNamespaces="uap rescap desktop uap3">
+  xmlns:uap16="http://schemas.microsoft.com/appx/manifest/uap/windows10/16"
+  xmlns:uap17="http://schemas.microsoft.com/appx/manifest/uap/windows10/17"
+  IgnorableNamespaces="uap rescap desktop uap3 uap16 uap17">
 
   <Identity
     Name="40174MouriNaruto.NanaBoxPreview"
@@ -17,6 +19,8 @@
     <DisplayName>NanaBox Preview</DisplayName>
     <PublisherDisplayName>Kenji Mouri</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
+    <uap16:UpdateWhileInUse>defer</uap16:UpdateWhileInUse>
+    <uap17:UpdateWhileInUse>defer</uap17:UpdateWhileInUse>
   </Properties>
 
   <Dependencies>
