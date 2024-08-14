@@ -203,6 +203,7 @@ namespace winrt::NanaBox::implementation
                     this->m_WindowHandle,
                     winrt::hresult_error(HRESULT_FROM_WIN32(Error)));
             }
+
             ::SendMessageW(WaitingHandle, WM_CLOSE, 0, 0);
         }));
     }

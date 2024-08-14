@@ -778,7 +778,6 @@ winrt::handle ShowCompactVirtualHardDiskDialog(
                 }
 
                 ::SendMessageW(WaitingHandle, WM_CLOSE, 0, 0);
-
             }
             catch (...)
             {
