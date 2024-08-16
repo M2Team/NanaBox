@@ -50,6 +50,7 @@
     <Copy SourceFiles="$(MSBuildThisFileDirectory)Documents\ConfigurationSchema.json" DestinationFiles="$(OutputBinariesPath)ConfigurationSchema.json" />
     <Copy SourceFiles="$(MSBuildThisFileDirectory)Documents\People.md" DestinationFiles="$(OutputBinariesPath)People.txt" />
     <Copy SourceFiles="$(MSBuildThisFileDirectory)Documents\ReleaseNotes.md" DestinationFiles="$(OutputBinariesPath)ReleaseNotes.txt" />
+    <Copy SourceFiles="$(MSBuildThisFileDirectory)Documents\GenerateVmmsCertificate.ps1" DestinationFiles="$(OutputBinariesPath)GenerateVmmsCertificate.ps1" />
     <Copy SourceFiles="$(InputBinariesPath)arm64\Mile.Xaml.Styles.SunValley.xbf" DestinationFiles="$(OutputBinariesPath)arm64\Mile.Xaml.Styles.SunValley.xbf" />
     <Copy SourceFiles="$(InputBinariesPath)arm64\NanaBox.exe" DestinationFiles="$(OutputBinariesPath)arm64\NanaBox.exe" />
     <Copy SourceFiles="$(InputBinariesPath)arm64\NanaBox.pri" DestinationFiles="$(OutputBinariesPath)arm64\resources.pri" />
