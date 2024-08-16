@@ -75,18 +75,6 @@ void PrerequisiteCheck()
         ::ExitProcess(ex.code());
     }
 
-    SERVICE_STATUS_PROCESS ServiceStatus = { 0 };
-    if (!::MileStartService(L"vmms", &ServiceStatus))
-    {
-        ::ShowMessageDialog(
-            nullptr,
-            Mile::WinRT::GetLocalizedString(
-                L"Messages/VMMSNotAvailableInstructionText"),
-            Mile::WinRT::GetLocalizedString(
-                L"Messages/VMMSNotAvailableContentText"));
-        ::ExitProcess(winrt::hresult_no_interface().code());
-    }
-
     return;
 }
 

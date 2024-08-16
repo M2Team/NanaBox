@@ -99,6 +99,17 @@ Reference documents for known issues:
 
 - [MD4: Notes for using Host Compute System API](https://github.com/MouriNaruto/MouriDocs/tree/main/docs/4)
 
+## Tips for users who want to only enable Virtual Machine Platform feature
+
+You need to execute from [Documents\GenerateVmmsCertificate.ps1](Documents\GenerateVmmsCertificate.ps1)
+or your binary packages when you using NanaBox in the first time or after
+modifying your computer name.
+
+> PowerShell -NoLogo -NoProfile -NonInteractive -InputFormat None -ExecutionPolicy Bypass "The path of the GenerateVmmsCertificate.ps1"
+
+Also, you are unable to enable TPM support when you using NanaBox with Virtual
+Machine Platform feature only.
+
 ## Development Roadmap
 
 - Future Series (T.B.D.)

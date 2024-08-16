@@ -130,19 +130,11 @@
     <comment>Error</comment>
   </data>
   <data name="HyperVNotAvailableContentText" xml:space="preserve">
-    <value>NanaBox 需要 Windows 下的 Hyper-V 和虚拟机平台功能。启用这些功能，然后再次尝试运行 NanaBox。</value>
-    <comment>NanaBox requires the Hyper-V and Virtual Machine Platform features of Windows. Enable these features and then try running NanaBox again.</comment>
+    <value>NanaBox 需要 Windows 下的虚拟机平台功能。启用这些功能，然后再次尝试运行 NanaBox。</value>
+    <comment>NanaBox requires the Virtual Machine Platform features of Windows. Enable these features and then try running NanaBox again.</comment>
   </data>
   <data name="HyperVNotAvailableInstructionText" xml:space="preserve">
     <value>Hyper-V 未启用。</value>
     <comment>Hyper-V is not enabled.</comment>
-  </data>
-  <data name="VMMSNotAvailableContentText" xml:space="preserve">
-    <value>没有该服务，NanaBox 就无法启动。在 Hyper-V 管理器中，点击操作菜单下的 "启动服务"，并尝试再次运行 NanaBox。</value>
-    <comment>NanaBox is unable to start without this Hyper-V service. In Hyper-V Manager, click "Start Service" under the Action menu and try running NanaBox again.</comment>
-  </data>
-  <data name="VMMSNotAvailableInstructionText" xml:space="preserve">
-    <value>虚拟机管理服务未运行。</value>
-    <comment>Virtual Machine Management Service isn't running.</comment>
   </data>
 </root>

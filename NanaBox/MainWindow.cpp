@@ -347,7 +347,8 @@ void NanaBox::MainWindow::OnSize(
         RdpClientRect.right - RdpClientRect.left,
         RdpClientRect.bottom - RdpClientRect.top);
 
-    if (this->m_RdpClientMode == RdpClientMode::BasicSession)
+    if (this->m_RdpClient->Connected() &&
+        this->m_RdpClientMode == RdpClientMode::BasicSession)
     {
         VARIANT RawZoomLevel;
         RawZoomLevel.vt = VT_UI4;
@@ -481,9 +482,8 @@ void NanaBox::MainWindow::OnClose()
 
 void NanaBox::MainWindow::OnDestroy()
 {
-    this->RdpClientUninitialize();
-
-    ::PostQuitMessage(0);
+    // Just kill the process directly for reducing the Windows error reports.
+    ::ExitProcess(0);
 }
 
 BOOL NanaBox::MainWindow::OnQueryEndSession(
@@ -634,6 +634,7 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
         if (this->m_VirtualMachineRestarting)
         {
             this->m_VirtualMachineRestarting = false;
+            this->m_RdpClient->Disconnect();
             return;
         }
 
@@ -732,7 +733,7 @@ void NanaBox::MainWindow::TryReloadVirtualMachine()
                     0,
                     Configuration.ComPorts.ComPort1);
             }
-            
+
             this->m_Configuration.ComPorts.ComPort1 =
                 Configuration.ComPorts.ComPort1;
         }
@@ -769,7 +770,7 @@ void NanaBox::MainWindow::TryReloadVirtualMachine()
                     1,
                     Configuration.ComPorts.ComPort2);
             }
-            
+
             this->m_Configuration.ComPorts.ComPort2 =
                 Configuration.ComPorts.ComPort2;
         }
@@ -891,9 +892,9 @@ void NanaBox::MainWindow::TryReloadVirtualMachine()
             }
             catch (...)
             {
-                
+
             }
-        } 
+        }
 
         this->m_Configuration.NetworkAdapters = FinalList;
     }
@@ -1061,6 +1062,12 @@ void NanaBox::MainWindow::RdpClientOnDisconnected(
 {
     UNREFERENCED_PARAMETER(DisconnectReason);
 
+    this->m_RdpNamedPipe->TerminateInstance();
+    this->m_RdpNamedPipeCallbacks = nullptr;
+    this->m_RdpNamedPipe = nullptr;
+    this->m_PlatformContext->TerminateInstance();
+    this->m_PlatformContext = nullptr;
+
     if (this->m_RdpClientMode == RdpClientMode::EnhancedVideoSyncedSession)
     {
         this->m_RdpClientMode = RdpClientMode::EnhancedSession;
@@ -1091,7 +1098,7 @@ void NanaBox::MainWindow::RdpClientOnDisconnected(
         {
             try
             {
-                this->m_RdpClient->Connect();
+                this->RdpClientConnect();
             }
             catch (...)
             {
@@ -1192,12 +1199,10 @@ void NanaBox::MainWindow::RdpClientInitialize()
 
     this->m_RdpClient->EnableAutoReconnect(false);
     this->m_RdpClient->RelativeMouseMode(true);
-    this->m_RdpClient->AuthenticationServiceClass(
-        L"Microsoft Virtual Console Service");
 
     this->m_RdpClient->AuthenticationLevel(0);
-    this->m_RdpClient->EnableCredSspSupport(true);
-    this->m_RdpClient->NegotiateSecurityLayer(false);
+    this->m_RdpClient->EnableCredSspSupport(false);
+    this->m_RdpClient->NegotiateSecurityLayer(true);
 
     NanaBox::RemoteDesktopUpdateKeyboardConfiguration(
         this->m_RdpClient,
@@ -1208,18 +1213,6 @@ void NanaBox::MainWindow::RdpClientInitialize()
         this->m_Configuration.EnhancedSession);
 
     this->m_RdpClient->ContainerHandledFullScreen(true);
-
-    try
-    {
-        VARIANT Value;
-        Value.vt = VT_BOOL;
-        Value.boolVal = VARIANT_TRUE;
-        this->m_RdpClient->Property(L"DisableCredentialsDelegation", Value);
-    }
-    catch (...)
-    {
-
-    }
 
     try
     {
@@ -1297,15 +1290,10 @@ void NanaBox::MainWindow::RdpClientInitialize()
         NanaBox::MainWindowTimerEvents::SyncDisplaySettings,
         200);
 
-    this->m_RdpClient->Server(L"localhost");
-    this->m_RdpClient->RDPPort(2179);
     this->m_RdpClient->MinInputSendInterval(20);
 
-    std::string PCB = this->m_VirtualMachineGuid;
     if (this->m_RdpClientMode == RdpClientMode::EnhancedSession)
     {
-        PCB += ";EnhancedMode=1";
-
         this->m_RdpClient->DesktopWidth(
             this->m_RecommendedDisplayResolution.cx);
         this->m_RdpClient->DesktopHeight(
@@ -1338,11 +1326,10 @@ void NanaBox::MainWindow::RdpClientInitialize()
 
         }
     }
-    this->m_RdpClient->PCB(winrt::to_hstring(PCB));
 
-    this->m_RdpClient->Connect();
+    this->m_RdpClient->MarkRdpSettingsSecure(true);
 
-    this->m_RdpClientWindow.SetFocus();
+    this->RdpClientConnect();
 }
 
 void NanaBox::MainWindow::RdpClientUninitialize()
@@ -1352,4 +1339,57 @@ void NanaBox::MainWindow::RdpClientUninitialize()
     this->m_RdpClient->DisableEventsDispatcher();
     this->m_RdpClientWindow.DestroyWindow();
     this->m_RdpClient = nullptr;
+}
+
+void NanaBox::MainWindow::RdpClientConnect()
+{
+    winrt::check_hresult(::RDPBASE_CreateInstance(
+        nullptr,
+        CLSID_RDPRuntimeSTAContext,
+        IID_IRDPENCPlatformContext,
+        this->m_PlatformContext.put_void()));
+    winrt::check_hresult(this->m_PlatformContext->InitializeInstance());
+    winrt::check_hresult(::RDPBASE_CreateInstance(
+        this->m_PlatformContext.get(),
+        CLSID_RDPENCNamedPipeDirectConnector,
+        IID_IRDPENCNamedPipeDirectConnector,
+        this->m_RdpNamedPipe.put_void()));
+    this->m_RdpNamedPipeCallbacks =
+        winrt::make<NanaBox::RdpNamedPipeCallbacks>(this);
+    winrt::check_hresult(this->m_RdpNamedPipe->InitializeInstance(
+        this->m_RdpNamedPipeCallbacks.get()));
+    winrt::check_hresult(this->m_RdpNamedPipe->StartConnect(
+        Mile::ToWideString(
+            CP_UTF8,
+            Mile::FormatString(
+                this->m_RdpClientMode == RdpClientMode::EnhancedSession
+                ? "\\\\.\\pipe\\%s.EnhancedSession"
+                : "\\\\.\\pipe\\%s.BasicSession",
+                this->m_Configuration.Name.c_str())).c_str()));
+}
+
+NanaBox::RdpNamedPipeCallbacks::RdpNamedPipeCallbacks(
+    _In_ MainWindow* Instance)
+    : m_Instance(Instance)
+{
+
+}
+
+void STDMETHODCALLTYPE NanaBox::RdpNamedPipeCallbacks::OnConnectionCompleted(
+    _In_ IUnknown* pNetStream)
+{
+    this->m_Instance->m_RdpClient->ConnectWithEndpoint(pNetStream);
+
+    this->m_Instance->m_RdpClient->Connect();
+
+    this->m_Instance->m_RdpClientWindow.SetFocus();
+}
+
+void STDMETHODCALLTYPE NanaBox::RdpNamedPipeCallbacks::OnConnectorError(
+    _In_ HRESULT hrError)
+{
+    UNREFERENCED_PARAMETER(hrError);
+
+    this->m_Instance->RdpClientOnDisconnected(
+        exDiscReasonServerDeniedConnection);
 }

@@ -10,6 +10,7 @@
 #include <atlcrack.h>
 
 #include "RdpClient.h"
+#include "RdpBase.h"
 #include "HostCompute.h"
 #include "ConfigurationManager.h"
 
@@ -87,11 +88,20 @@ namespace NanaBox
             UINT nSource,
             UINT uLogOff);
 
+    public:
+
+        winrt::com_ptr<NanaBox::RdpClient> m_RdpClient;
+        ATL::CAxWindow m_RdpClientWindow;
+
+        void RdpClientOnDisconnected(
+            _In_ LONG DisconnectReason);
+
     private:
 
         WTL::CIcon m_ApplicationIcon;
-        winrt::com_ptr<NanaBox::RdpClient> m_RdpClient;
-        ATL::CAxWindow m_RdpClientWindow;
+        winrt::com_ptr<IRDPENCPlatformContext> m_PlatformContext;
+        winrt::com_ptr<IRDPENCNamedPipeDirectConnectorCallbacks> m_RdpNamedPipeCallbacks;
+        winrt::com_ptr<IRDPENCNamedPipeDirectConnector> m_RdpNamedPipe;
         const int m_MainWindowControlHeight = 48;
         int m_RecommendedMainWindowControlHeight = m_MainWindowControlHeight;
         winrt::NanaBox::MainWindowControl m_MainWindowControl;
@@ -121,9 +131,6 @@ namespace NanaBox
 
         void RdpClientOnLoginComplete();
 
-        void RdpClientOnDisconnected(
-            _In_ LONG DisconnectReason);
-
         void RdpClientOnRequestGoFullScreen();
 
         void RdpClientOnRequestLeaveFullScreen();
@@ -136,5 +143,27 @@ namespace NanaBox
         void RdpClientInitialize();
 
         void RdpClientUninitialize();
+
+        void RdpClientConnect();
+    };
+
+    struct RdpNamedPipeCallbacks : winrt::implements<
+        RdpNamedPipeCallbacks,
+        IRDPENCNamedPipeDirectConnectorCallbacks>
+    {
+    public:
+
+        RdpNamedPipeCallbacks(
+            _In_ MainWindow* Instance);
+
+        void STDMETHODCALLTYPE OnConnectionCompleted(
+            _In_ IUnknown* pNetStream);
+
+        void STDMETHODCALLTYPE OnConnectorError(
+            _In_ HRESULT hrError);
+
+    private:
+
+        MainWindow* m_Instance;
     };
 }
