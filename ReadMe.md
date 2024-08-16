@@ -101,7 +101,7 @@ Reference documents for known issues:
 
 ## Tips for users who want to only enable Virtual Machine Platform feature
 
-You need to execute from [Documents\GenerateVmmsCertificate.ps1](Documents\GenerateVmmsCertificate.ps1)
+You need to execute from [Documents/GenerateVmmsCertificate.ps1](Documents/GenerateVmmsCertificate.ps1)
 or your binary packages when you using NanaBox in the first time or after
 modifying your computer name.
 

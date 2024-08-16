@@ -19,7 +19,7 @@
 # because by default CertEnroll interfaces generates a certificate that will
 # balid only after 3-4 hours after certificate generation.
 $NotBefore = (Get-Date).AddDays(-1)
-$NotAfter = (Get-Date).AddYears(50)
+$NotAfter = (Get-Date).AddYears(100)
 try {$domain = ([System.DirectoryServices.ActiveDirectory.Domain]::GetCurrentDomain()).Name}
 catch {}
 if ($domain -eq $null) {$fqdn = $Env:COMPUTERNAME} else {$fqdn = $env:COMPUTERNAME + "." + $domain}
