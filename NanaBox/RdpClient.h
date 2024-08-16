@@ -478,6 +478,9 @@ namespace NanaBox
         void PerformanceFlags(
             LONG const& Value);
 
+        void ConnectWithEndpoint(
+            IUnknown* const& Value);
+
         bool CanAutoReconnect();
 
         bool EnableAutoReconnect();

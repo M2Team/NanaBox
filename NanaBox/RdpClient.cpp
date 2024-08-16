@@ -1590,6 +1590,17 @@ void NanaBox::RdpClient::PerformanceFlags(
             Value));
 }
 
+void NanaBox::RdpClient::ConnectWithEndpoint(
+    IUnknown* const& Value)
+{
+    VARIANT RawValue;
+    RawValue.vt = VT_UNKNOWN;
+    RawValue.punkVal = Value;
+    winrt::check_hresult(
+        this->m_AdvancedSettings->put_ConnectWithEndpoint(
+            &RawValue));
+}
+
 bool NanaBox::RdpClient::CanAutoReconnect()
 {
     VARIANT_BOOL RawValue;
