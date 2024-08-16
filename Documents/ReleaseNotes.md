@@ -1,5 +1,11 @@
 ﻿# NanaBox Release Notes
 
+**NanaBox 1.3 Update 3 (1.3.868.0)**
+
+- Remove the runtime dependency of Virtual Machine Management Service for
+  reducing the potential attack surface. It also makes users have chance
+  to use NanaBox only with Virtual Machine Platform feature enabled.
+
 **NanaBox 1.3 Update 2 (1.3.866.0)**
 
 - Add prevent shut down support because shut down automatically without exiting
