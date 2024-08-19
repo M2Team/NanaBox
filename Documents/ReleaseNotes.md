@@ -1,5 +1,13 @@
 ﻿# NanaBox Release Notes
 
+**NanaBox 1.3 Update 4 (1.3.871.0)**
+
+- Fix the virtual machine content resize issue after the virtual machine
+  resolution changed in the basic session when the host display uses High DPI
+  and the virtual machine window is maximized.
+  (https://github.com/M2Team/NanaBox/issues/24) (Feedbacked by
+  dongle-the-gadget.)
+
 **NanaBox 1.3 Update 3 (1.3.868.0)**
 
 - Remove the runtime dependency of Virtual Machine Management Service for
