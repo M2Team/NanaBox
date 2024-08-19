@@ -1009,12 +1009,18 @@ void NanaBox::MainWindow::RdpClientOnRemoteDesktopSizeChange(
 {
     if (this->m_RdpClientMode == RdpClientMode::BasicSession)
     {
+        this->m_DisplayResolution = CSize(Width, Height);
+
         if (this->IsZoomed())
         {
+            VARIANT RawZoomLevel;
+            RawZoomLevel.vt = VT_UI4;
+            RawZoomLevel.uintVal = this->m_RecommendedZoomLevel;
+            this->m_RdpClient->Property(
+                L"ZoomLevel",
+                RawZoomLevel);
             return;
         }
-
-        this->m_DisplayResolution = CSize(Width, Height);
 
         UINT DpiValue = ::GetDpiForWindow(this->m_hWnd);
 
