@@ -141,7 +141,6 @@ void NanaBox::MainWindow::OnCommand(
         this->m_VirtualMachine = nullptr;
 
         this->InitializeVirtualMachine();
-        this->m_RdpClient->Disconnect();
 
         break;
     }
