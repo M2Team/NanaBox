@@ -64,6 +64,16 @@ int NanaBox::MainWindow::OnCreate(
     try
     {
         this->InitializeVirtualMachine();
+
+        winrt::check_hresult(::RDPBASE_CreateInstance(
+            nullptr,
+            CLSID_RDPRuntimeSTAContext,
+            IID_IRDPENCPlatformContext,
+            this->m_PlatformContext.put_void()));
+        winrt::check_hresult(this->m_PlatformContext->InitializeInstance());
+        this->m_RdpNamedPipeCallbacks =
+            winrt::make<NanaBox::RdpNamedPipeCallbacks>(this);
+
         this->RdpClientInitialize();
     }
     catch (...)
@@ -1068,10 +1078,7 @@ void NanaBox::MainWindow::RdpClientOnDisconnected(
     UNREFERENCED_PARAMETER(DisconnectReason);
 
     this->m_RdpNamedPipe->TerminateInstance();
-    this->m_RdpNamedPipeCallbacks = nullptr;
     this->m_RdpNamedPipe = nullptr;
-    this->m_PlatformContext->TerminateInstance();
-    this->m_PlatformContext = nullptr;
 
     if (this->m_RdpClientMode == RdpClientMode::EnhancedVideoSyncedSession)
     {
@@ -1349,18 +1356,10 @@ void NanaBox::MainWindow::RdpClientUninitialize()
 void NanaBox::MainWindow::RdpClientConnect()
 {
     winrt::check_hresult(::RDPBASE_CreateInstance(
-        nullptr,
-        CLSID_RDPRuntimeSTAContext,
-        IID_IRDPENCPlatformContext,
-        this->m_PlatformContext.put_void()));
-    winrt::check_hresult(this->m_PlatformContext->InitializeInstance());
-    winrt::check_hresult(::RDPBASE_CreateInstance(
         this->m_PlatformContext.get(),
         CLSID_RDPENCNamedPipeDirectConnector,
         IID_IRDPENCNamedPipeDirectConnector,
         this->m_RdpNamedPipe.put_void()));
-    this->m_RdpNamedPipeCallbacks =
-        winrt::make<NanaBox::RdpNamedPipeCallbacks>(this);
     winrt::check_hresult(this->m_RdpNamedPipe->InitializeInstance(
         this->m_RdpNamedPipeCallbacks.get()));
     winrt::check_hresult(this->m_RdpNamedPipe->StartConnect(
