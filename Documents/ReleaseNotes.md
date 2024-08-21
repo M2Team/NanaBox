@@ -1,5 +1,13 @@
 ﻿# NanaBox Release Notes
 
+**NanaBox 1.3 Update 5 (1.3.874.0)**
+
+- Fix the crash issue when clicking the "Restart Virtual Machine" button.
+- Simplify the virtual machine connect and disconnect implementation.
+- Add cursor confining support with Ctrl+Alt+Left/Right shortcut key for improve
+  user experience for some applications. (Press the same shortcut key if you
+  want to release cursor confining.)
+
 **NanaBox 1.3 Update 4 (1.3.871.0)**
 
 - Fix the virtual machine content resize issue after the virtual machine

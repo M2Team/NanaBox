@@ -70,6 +70,9 @@ If you'd like me to add features or improvements ahead of time, please use
   implemented.)
 - Support customize partial System Management BIOS (SMBIOS) information for
   virtual machines.
+- Support cursor confining with Ctrl+Alt+Left/Right shortcut key for improve
+  user experience for some applications. (Press the same shortcut key if you
+  want to release cursor confining.)
 
 ## System Requirements
 
