@@ -120,6 +120,7 @@ namespace NanaBox
         RECT m_RememberedMainWindowRect;
         LONG_PTR m_RememberedMainWindowStyle;
         std::wstring m_WindowTitle;
+        bool m_MouseCaptureMode = false;
 
         void InitializeVirtualMachine();
 
@@ -139,6 +140,9 @@ namespace NanaBox
 
         void RdpClientOnConfirmClose(
             _Out_ VARIANT_BOOL* pfAllowClose);
+
+        void RdpClientOnFocusReleased(
+            _In_ INT Direction);
 
         void RdpClientInitialize();
 

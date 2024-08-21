@@ -1077,6 +1077,9 @@ void NanaBox::MainWindow::RdpClientOnDisconnected(
 {
     UNREFERENCED_PARAMETER(DisconnectReason);
 
+    this->m_MouseCaptureMode = false;
+    ::ClipCursor(nullptr);
+
     this->m_RdpNamedPipe->TerminateInstance();
     this->m_RdpNamedPipe = nullptr;
 
@@ -1191,6 +1194,27 @@ void NanaBox::MainWindow::RdpClientOnConfirmClose(
     this->PostMessageW(WM_CLOSE);
 }
 
+void NanaBox::MainWindow::RdpClientOnFocusReleased(
+    _In_ INT Direction)
+{
+    UNREFERENCED_PARAMETER(Direction);
+
+    this->m_MouseCaptureMode = !this->m_MouseCaptureMode;
+
+    if (this->m_MouseCaptureMode)
+    {
+        RECT WindowRect;
+        if (this->m_RdpClientWindow.GetWindowRect(&WindowRect))
+        {
+            ::ClipCursor(&WindowRect);
+        }
+    }
+    else
+    {
+        ::ClipCursor(nullptr);
+    }
+}
+
 void NanaBox::MainWindow::RdpClientInitialize()
 {
     this->m_RdpClient = winrt::make_self<NanaBox::RdpClient>();
@@ -1297,6 +1321,8 @@ void NanaBox::MainWindow::RdpClientInitialize()
         { this, &NanaBox::MainWindow::RdpClientOnRequestContainerMinimize });
     this->m_RdpClient->OnConfirmClose.add(
         { this, &NanaBox::MainWindow::RdpClientOnConfirmClose });
+    this->m_RdpClient->OnFocusReleased.add(
+        { this, &NanaBox::MainWindow::RdpClientOnFocusReleased });
 
     this->SetTimer(
         NanaBox::MainWindowTimerEvents::SyncDisplaySettings,
