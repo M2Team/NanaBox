@@ -139,6 +139,14 @@ namespace NanaBox
         std::string Family; // At least 20348.
     };
 
+    struct Plan9ShareConfiguration
+    {
+        bool ReadOnly = true;
+        std::uint32_t Port;
+        std::string Path;
+        std::string Name;
+    };
+
     struct VirtualMachineConfiguration
     {
         std::uint32_t Version = 1;
@@ -159,6 +167,7 @@ namespace NanaBox
         KeyboardConfiguration Keyboard;
         EnhancedSessionConfiguration EnhancedSession;
         ChipsetInformationConfiguration ChipsetInformation;
+        std::vector<Plan9ShareConfiguration> Plan9Shares;
         VideoMonitorConfiguration VideoMonitor; // Not Implemented
     };
 }
