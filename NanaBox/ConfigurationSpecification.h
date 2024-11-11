@@ -83,17 +83,6 @@ namespace NanaBox
         std::string Path;
     };
 
-    struct VideoMonitorConfiguration
-    {
-        bool EnableBasicSessionDpiScaling = true;
-        bool EnableDpiScalingValueOverride = false;
-        bool EnableContentResizing = true;
-        bool ShowFullScreenModeConnectionBar = true;
-        std::uint16_t HorizontalResolution = 1024;
-        std::uint16_t VerticalResolution = 768;
-        std::uint32_t OverriddenDpiScalingValue = 100;
-    };
-
     struct KeyboardConfiguration
     {
         bool RedirectKeyCombinations = true;
@@ -145,6 +134,17 @@ namespace NanaBox
         std::uint32_t Port;
         std::string Path;
         std::string Name;
+    };
+
+    struct VideoMonitorConfiguration
+    {
+        bool EnableBasicSessionDpiScaling = true;
+        bool EnableDpiScalingValueOverride = false;
+        bool EnableContentResizing = true;
+        bool ShowFullScreenModeConnectionBar = true;
+        std::uint16_t HorizontalResolution = 1024;
+        std::uint16_t VerticalResolution = 768;
+        std::uint32_t OverriddenDpiScalingValue = 100;
     };
 
     struct VirtualMachineConfiguration
