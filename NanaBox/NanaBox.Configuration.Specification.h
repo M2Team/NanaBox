@@ -1,6 +1,6 @@
 ﻿/*
  * PROJECT:   NanaBox
- * FILE:      ConfigurationSpecification.h
+ * FILE:      NanaBox.Configuration.Specification.h
  * PURPOSE:   Definition for the Virtual Machine Configuration Specification
  *
  * LICENSE:   The MIT License

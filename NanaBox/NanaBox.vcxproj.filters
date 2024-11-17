@@ -38,7 +38,7 @@
     <ClInclude Include="ConfigurationManager.h">
       <Filter>Configuration</Filter>
     </ClInclude>
-    <ClInclude Include="ConfigurationSpecification.h">
+    <ClInclude Include="NanaBox.Configuration.Specification.h">
       <Filter>Configuration</Filter>
     </ClInclude>
     <ClInclude Include="MainWindow.h" />

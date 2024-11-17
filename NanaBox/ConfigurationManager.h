@@ -11,7 +11,7 @@
 #ifndef NANABOX_CONFIGURATION_MANAGER
 #define NANABOX_CONFIGURATION_MANAGER
 
-#include "ConfigurationSpecification.h"
+#include "NanaBox.Configuration.Specification.h"
 
 #include "HostCompute.h"
 #include "RdpClient.h"

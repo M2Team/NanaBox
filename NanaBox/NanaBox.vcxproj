@@ -156,7 +156,7 @@
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="ConfigurationManager.h" />
-    <ClInclude Include="ConfigurationSpecification.h" />
+    <ClInclude Include="NanaBox.Configuration.Specification.h" />
     <ClInclude Include="HostCompute.h" />
     <ClInclude Include="MainWindow.h" />
     <ClInclude Include="MainWindowControl.h">
