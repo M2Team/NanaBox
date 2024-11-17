@@ -1303,30 +1303,21 @@ NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
 {
     nlohmann::json ParsedJson = nlohmann::json::parse(Configuration);
 
-    nlohmann::json RootJson = ParsedJson.at("NanaBox");
+    nlohmann::json RootJson = Mile::Json::GetSubKey(ParsedJson, "NanaBox");
 
-    if ("VirtualMachine" !=
-        RootJson.at("Type").get<std::string>())
+    if ("VirtualMachine" != Mile::Json::ToString(
+        Mile::Json::GetSubKey(RootJson, "Type")))
     {
-        throw std::exception(
-            "Invalid Virtual Machine Configuration");
+        throw std::exception("Invalid Virtual Machine Configuration");
     }
 
     NanaBox::VirtualMachineConfiguration Result;
 
-    try
-    {
-        Result.Version =
-            RootJson.at("Version").get<std::uint32_t>();
-    }
-    catch (...)
-    {
-
-    }
+    Result.Version = static_cast<std::uint32_t>(Mile::Json::ToUInt64(
+        Mile::Json::GetSubKey(RootJson, "Version")));
     if (Result.Version < 1 || Result.Version > 1)
     {
-        throw std::exception(
-            "Invalid Version");
+        throw std::exception("Invalid Version");
     }
 
     try
@@ -1343,23 +1334,16 @@ NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
         Mile::Json::GetSubKey(RootJson, "Name"),
         Result.Name);
 
-    try
+    Result.ProcessorCount = static_cast<std::uint32_t>(Mile::Json::ToUInt64(
+        Mile::Json::GetSubKey(RootJson, "ProcessorCount")));
+    if (!Result.ProcessorCount)
     {
-        Result.ProcessorCount =
-            RootJson.at("ProcessorCount").get<std::uint32_t>();
-    }
-    catch (...)
-    {
-        throw std::exception(
-            "Invalid Processor Count");
+        throw std::exception("Invalid Processor Count");
     }
 
-    try
-    {
-        Result.MemorySize =
-            RootJson.at("MemorySize").get<std::uint32_t>();
-    }
-    catch (...)
+    Result.MemorySize = static_cast<std::uint32_t>(Mile::Json::ToUInt64(
+        Mile::Json::GetSubKey(RootJson, "MemorySize")));
+    if (!Result.MemorySize)
     {
         throw std::exception("Invalid Memory Size");
     }
