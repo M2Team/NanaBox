@@ -71,8 +71,8 @@ int NanaBox::MainWindow::OnCreate(
             IID_IRDPENCPlatformContext,
             this->m_PlatformContext.put_void()));
         winrt::check_hresult(this->m_PlatformContext->InitializeInstance());
-        this->m_RdpNamedPipeCallbacks =
-            winrt::make<NanaBox::RdpNamedPipeCallbacks>(this);
+        this->m_RdpNamedPipeCallbacks.attach(
+            new NanaBox::RdpNamedPipeCallbacks(this));
 
         this->RdpClientInitialize();
     }

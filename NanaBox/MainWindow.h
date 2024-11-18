@@ -151,7 +151,7 @@ namespace NanaBox
         void RdpClientConnect();
     };
 
-    struct RdpNamedPipeCallbacks : winrt::implements<
+    struct RdpNamedPipeCallbacks : Mile::ComObject<
         RdpNamedPipeCallbacks,
         IRDPENCNamedPipeDirectConnectorCallbacks>
     {
