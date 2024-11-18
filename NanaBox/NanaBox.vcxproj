@@ -238,7 +238,7 @@
       <Version>2.3.1064</Version>
     </PackageReference>
     <PackageReference Include="Mile.Windows.Helpers">
-      <Version>1.0.645</Version>
+      <Version>1.0.671</Version>
     </PackageReference>
     <PackageReference Include="wtl">
       <Version>10.0.10320</Version>
