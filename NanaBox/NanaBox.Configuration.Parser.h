@@ -22,6 +22,18 @@ namespace NanaBox
 
     GuestType ToGuestType(
         nlohmann::json const& Value);
+
+    nlohmann::json FromUefiConsoleMode(
+        UefiConsoleMode const& Value);
+
+    UefiConsoleMode ToUefiConsoleMode(
+        nlohmann::json const& Value);
+
+    nlohmann::json FromGpuAssignmentMode(
+        GpuAssignmentMode const& Value);
+
+    GpuAssignmentMode ToGpuAssignmentMode(
+        nlohmann::json const& Value);
 }
 
 #endif // !NANABOX_CONFIGURATION_PARSER
