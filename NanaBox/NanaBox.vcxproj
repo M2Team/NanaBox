@@ -62,6 +62,7 @@
       <DependentUpon>MessagePage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
+    <ClCompile Include="NanaBox.Configuration.Parser.cpp" />
     <ClCompile Include="NanaBox.cpp" />
     <ClCompile Include="NewVirtualHardDiskPage.cpp">
       <DependentUpon>NewVirtualHardDiskPage.xaml</DependentUpon>
@@ -156,6 +157,7 @@
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="ConfigurationManager.h" />
+    <ClInclude Include="NanaBox.Configuration.Parser.h" />
     <ClInclude Include="NanaBox.Configuration.Specification.h" />
     <ClInclude Include="HostCompute.h" />
     <ClInclude Include="MainWindow.h" />
