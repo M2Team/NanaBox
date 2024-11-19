@@ -51,9 +51,10 @@ namespace NanaBox
 
     enum class ScsiDeviceType : std::int32_t
     {
-        VirtualDisk = 0,
-        VirtualImage = 1,
-        PhysicalDevice = 2,
+        Unknown = 0, // Private and only used for configuration parsing.
+        VirtualDisk = 1,
+        VirtualImage = 2,
+        PhysicalDevice = 3,
     };
 
     struct ComPortsConfiguration
