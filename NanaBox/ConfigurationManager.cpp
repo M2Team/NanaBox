@@ -14,6 +14,8 @@
 
 #include <Mile.Helpers.Base.h>
 
+#include <NanaBox.Configuration.Parser.h>
+
 namespace NanaBox
 {
     namespace ResolutionType
@@ -30,12 +32,6 @@ namespace NanaBox
 
 namespace NanaBox
 {
-    NLOHMANN_JSON_SERIALIZE_ENUM(NanaBox::GuestType, {
-        { NanaBox::GuestType::Unknown, "Unknown" },
-        { NanaBox::GuestType::Windows, "Windows" },
-        { NanaBox::GuestType::Linux, "Linux" }
-    })
-
     NLOHMANN_JSON_SERIALIZE_ENUM(NanaBox::UefiConsoleMode, {
         { NanaBox::UefiConsoleMode::Disabled, "Disabled" },
         { NanaBox::UefiConsoleMode::Default, "Default" },
@@ -1320,15 +1316,8 @@ NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
         throw std::exception("Invalid Version");
     }
 
-    try
-    {
-        Result.GuestType =
-            RootJson.at("GuestType").get<NanaBox::GuestType>();
-    }
-    catch (...)
-    {
-
-    }
+    Result.GuestType = NanaBox::ToGuestType(
+        Mile::Json::GetSubKey(RootJson, "GuestType"));
 
     Result.Name = Mile::Json::ToString(
         Mile::Json::GetSubKey(RootJson, "Name"),
@@ -1513,7 +1502,7 @@ std::string NanaBox::SerializeConfiguration(
     nlohmann::json RootJson;
     RootJson["Type"] = "VirtualMachine";
     RootJson["Version"] = Configuration.Version;
-    RootJson["GuestType"] = Configuration.GuestType;
+    RootJson["GuestType"] = NanaBox::FromGuestType(Configuration.GuestType);
     RootJson["Name"] = Configuration.Name;
     RootJson["ProcessorCount"] = Configuration.ProcessorCount;
     RootJson["MemorySize"] = Configuration.MemorySize;

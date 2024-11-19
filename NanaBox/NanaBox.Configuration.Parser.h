@@ -13,9 +13,15 @@
 
 #include <NanaBox.Configuration.Specification.h>
 
+#include <Mile.Json.h>
+
 namespace NanaBox
 {
+    nlohmann::json FromGuestType(
+        GuestType const& Value);
 
+    GuestType ToGuestType(
+        nlohmann::json const& Value);
 }
 
 #endif // !NANABOX_CONFIGURATION_PARSER
