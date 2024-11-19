@@ -121,3 +121,43 @@ NanaBox::GpuAssignmentMode NanaBox::ToGpuAssignmentMode(
 
     return NanaBox::GpuAssignmentMode::Disabled;
 }
+
+nlohmann::json NanaBox::FromScsiDeviceType(
+    NanaBox::ScsiDeviceType const& Value)
+{
+    if (NanaBox::ScsiDeviceType::VirtualDisk == Value)
+    {
+        return "VirtualDisk";
+    }
+    else if (NanaBox::ScsiDeviceType::VirtualImage == Value)
+    {
+        return "VirtualImage";
+    }
+    else if (NanaBox::ScsiDeviceType::PhysicalDevice == Value)
+    {
+        return "PhysicalDevice";
+    }
+
+    return "";
+}
+
+NanaBox::ScsiDeviceType NanaBox::ToScsiDeviceType(
+    nlohmann::json const& Value)
+{
+    std::string RawValue = Mile::Json::ToString(Value);
+
+    if (0 == std::strcmp(RawValue.c_str(), "VirtualDisk"))
+    {
+        return NanaBox::ScsiDeviceType::VirtualDisk;
+    }
+    else if (0 == std::strcmp(RawValue.c_str(), "VirtualImage"))
+    {
+        return NanaBox::ScsiDeviceType::VirtualImage;
+    }
+    else if (0 == std::strcmp(RawValue.c_str(), "PhysicalDevice"))
+    {
+        return NanaBox::ScsiDeviceType::PhysicalDevice;
+    }
+
+    return NanaBox::ScsiDeviceType::Unknown;
+}

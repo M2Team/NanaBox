@@ -30,15 +30,6 @@ namespace NanaBox
     }
 }
 
-namespace NanaBox
-{
-    NLOHMANN_JSON_SERIALIZE_ENUM(NanaBox::ScsiDeviceType, {
-        { NanaBox::ScsiDeviceType::VirtualDisk, "VirtualDisk" },
-        { NanaBox::ScsiDeviceType::VirtualImage, "VirtualImage" },
-        { NanaBox::ScsiDeviceType::PhysicalDevice, "PhysicalDevice" }
-    })
-}
-
 nlohmann::json NanaBox::MakeHcsComPortConfiguration(
     std::string const& NamedPipe)
 {
@@ -1407,12 +1398,9 @@ NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
     {
         NanaBox::ScsiDeviceConfiguration Current;
 
-        try
-        {
-            Current.Type =
-                ScsiDevice.at("Type").get<NanaBox::ScsiDeviceType>();
-        }
-        catch (...)
+        Current.Type = NanaBox::ToScsiDeviceType(
+            Mile::Json::GetSubKey(ScsiDevice, "Type"));
+        if (NanaBox::ScsiDeviceType::Unknown == Current.Type)
         {
             continue;
         }
@@ -1549,8 +1537,13 @@ std::string NanaBox::SerializeConfiguration(
         for (NanaBox::ScsiDeviceConfiguration const& ScsiDevice
             : Configuration.ScsiDevices)
         {
+            if (NanaBox::ScsiDeviceType::Unknown == ScsiDevice.Type)
+            {
+                continue;
+            }
+
             nlohmann::json Current;
-            Current["Type"] = ScsiDevice.Type;
+            Current["Type"] = NanaBox::FromScsiDeviceType(ScsiDevice.Type);
             if (!ScsiDevice.Path.empty())
             {
                 Current["Path"] = ScsiDevice.Path;

@@ -34,6 +34,12 @@ namespace NanaBox
 
     GpuAssignmentMode ToGpuAssignmentMode(
         nlohmann::json const& Value);
+
+    nlohmann::json FromScsiDeviceType(
+        ScsiDeviceType const& Value);
+
+    ScsiDeviceType ToScsiDeviceType(
+        nlohmann::json const& Value);
 }
 
 #endif // !NANABOX_CONFIGURATION_PARSER
