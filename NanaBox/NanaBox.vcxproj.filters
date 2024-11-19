@@ -18,6 +18,9 @@
     <ClCompile Include="RdpBase.cpp">
       <Filter>RdpClient</Filter>
     </ClCompile>
+    <ClCompile Include="NanaBox.Configuration.Parser.cpp">
+      <Filter>Configuration</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="NanaBox.manifest" />
@@ -44,6 +47,9 @@
     <ClInclude Include="MainWindow.h" />
     <ClInclude Include="RdpBase.h">
       <Filter>RdpClient</Filter>
+    </ClInclude>
+    <ClInclude Include="NanaBox.Configuration.Parser.h">
+      <Filter>Configuration</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
