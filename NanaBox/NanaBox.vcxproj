@@ -21,7 +21,7 @@
     <MileProjectLegalCopyright>© M2-Team and Contributors. All rights reserved.</MileProjectLegalCopyright>
     <MileProjectOriginalFilename>NanaBox.exe</MileProjectOriginalFilename>
     <MileProjectProductName>NanaBox</MileProjectProductName>
-    <MileProjectVersion>1.4.$([System.DateTime]::Today.Subtract($([System.DateTime]::Parse('2022-04-01'))).TotalDays).0</MileProjectVersion>
+    <MileProjectVersion>1.5.$([System.DateTime]::Today.Subtract($([System.DateTime]::Parse('2022-04-01'))).TotalDays).0</MileProjectVersion>
     <!-- <MileProjectVersionTag>Update 1</MileProjectVersionTag> -->
     <MileUniCrtDisableRuntimeDebuggingFeature>true</MileUniCrtDisableRuntimeDebuggingFeature>
   </PropertyGroup>
