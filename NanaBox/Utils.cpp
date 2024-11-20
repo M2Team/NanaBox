@@ -29,7 +29,7 @@ namespace winrt
     using Windows::UI::Xaml::HorizontalAlignment;
     using Windows::UI::Xaml::ThicknessHelper;
     using Windows::UI::Xaml::VerticalAlignment;
-    using Windows::UI::Xaml::Controls::ProgressRing;
+    using NanaBox::ProgressRing;
 }
 
 void SplitCommandLineEx(
@@ -937,7 +937,7 @@ HWND ShowOperationWaitingWindow(
         Content.Margin(winrt::ThicknessHelper::FromUniformLength(12));
         Content.HorizontalAlignment(winrt::HorizontalAlignment::Stretch);
         Content.VerticalAlignment(winrt::VerticalAlignment::Stretch);
-        Content.IsActive(true);
+        // Content.IsActive(true);
 
         ::ShowXamlDialog(
             WindowHandle,

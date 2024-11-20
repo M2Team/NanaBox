@@ -8,6 +8,9 @@
       <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="ms-appx:///Mile.Xaml.Styles.SunValley.xbf" />
       </ResourceDictionary.MergedDictionaries>
+      <Style TargetType="local:ProgressRing">
+        <Setter Property="Foreground" Value="{ThemeResource AccentFillColorDefaultBrush}" />
+      </Style>
     </ResourceDictionary>
   </Application.Resources>
 </Application>

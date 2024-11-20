@@ -160,4 +160,7 @@
       <Filter>Strings\zh-Hans</Filter>
     </PRIResource>
   </ItemGroup>
+  <ItemGroup>
+    <Midl Include="ProgressRing.idl" />
+  </ItemGroup>
 </Project>

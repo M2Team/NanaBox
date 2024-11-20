@@ -24,7 +24,7 @@
         x:Uid="/ResizeVirtualHardDiskPage/ContentTextBlock"
         Text="[Specify the new size for the virtual hard disk.]"
         TextWrapping="Wrap" />
-      <Grid Padding="0,2,0,0">
+      <Grid Padding="0,2,0,0" ColumnSpacing="8">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="*" />
           <ColumnDefinition Width="auto" />
@@ -45,7 +45,7 @@
         x:Uid="/ResizeVirtualHardDiskPage/SizeTextBlock"
         Padding="0,2"
         Text="[Size (at least 3 MiB and must be a multiple of 512 bytes)]" />
-      <Grid Padding="0,2,0,0">
+      <Grid Padding="0,2,0,0" ColumnSpacing="8">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="*" />
           <ColumnDefinition Width="144" />

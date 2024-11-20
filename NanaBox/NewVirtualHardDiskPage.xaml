@@ -24,7 +24,7 @@
         x:Uid="/NewVirtualHardDiskPage/ContentTextBlock"
         Text="[You can create a VHD (up to 2040 GiB) or VHDX (up to 64 TiB, but not supported before Windows 8) dynamically expanding virtual hard disk with this dialog.]"
         TextWrapping="Wrap" />
-      <Grid Padding="0,2,0,0">
+      <Grid Padding="0,2,0,0" ColumnSpacing="8">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="*" />
           <ColumnDefinition Width="auto" />
@@ -45,7 +45,7 @@
         x:Uid="/NewVirtualHardDiskPage/SizeTextBlock"
         Padding="0,2"
         Text="Size (at least 3 MiB and must be a multiple of 512 bytes)" />
-      <Grid Padding="0,2,0,0">
+      <Grid Padding="0,2,0,0" ColumnSpacing="8">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="*" />
           <ColumnDefinition Width="144" />
