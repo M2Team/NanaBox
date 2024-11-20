@@ -30,29 +30,6 @@ namespace NanaBox
     }
 }
 
-namespace NanaBox
-{
-    NLOHMANN_JSON_SERIALIZE_ENUM(NanaBox::UefiConsoleMode, {
-        { NanaBox::UefiConsoleMode::Disabled, "Disabled" },
-        { NanaBox::UefiConsoleMode::Default, "Default" },
-        { NanaBox::UefiConsoleMode::ComPort1, "ComPort1" },
-        { NanaBox::UefiConsoleMode::ComPort2, "ComPort2" }
-    })
-
-    NLOHMANN_JSON_SERIALIZE_ENUM(NanaBox::GpuAssignmentMode, {
-        { NanaBox::GpuAssignmentMode::Disabled, "Disabled" },
-        { NanaBox::GpuAssignmentMode::Default, "Default" },
-        { NanaBox::GpuAssignmentMode::List, "List" },
-        { NanaBox::GpuAssignmentMode::Mirror, "Mirror" }
-    })
-
-    NLOHMANN_JSON_SERIALIZE_ENUM(NanaBox::ScsiDeviceType, {
-        { NanaBox::ScsiDeviceType::VirtualDisk, "VirtualDisk" },
-        { NanaBox::ScsiDeviceType::VirtualImage, "VirtualImage" },
-        { NanaBox::ScsiDeviceType::PhysicalDevice, "PhysicalDevice" }
-    })
-}
-
 nlohmann::json NanaBox::MakeHcsComPortConfiguration(
     std::string const& NamedPipe)
 {
@@ -1340,15 +1317,8 @@ NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
     {
         nlohmann::json ComPorts = Mile::Json::GetSubKey(RootJson, "ComPorts");
 
-        try
-        {
-            Result.ComPorts.UefiConsole =
-                ComPorts.at("UefiConsole").get<NanaBox::UefiConsoleMode>();
-        }
-        catch (...)
-        {
-
-        }
+        Result.ComPorts.UefiConsole = NanaBox::ToUefiConsoleMode(
+            Mile::Json::GetSubKey(ComPorts, "UefiConsole"));
 
         Result.ComPorts.ComPort1 = Mile::Json::ToString(
             Mile::Json::GetSubKey(ComPorts, "ComPort1"),
@@ -1362,15 +1332,8 @@ NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
     {
         nlohmann::json Gpu = Mile::Json::GetSubKey(RootJson, "Gpu");
 
-        try
-        {
-            Result.Gpu.AssignmentMode =
-                Gpu.at("AssignmentMode").get<NanaBox::GpuAssignmentMode>();
-        }
-        catch (...)
-        {
-
-        }
+        Result.Gpu.AssignmentMode = NanaBox::ToGpuAssignmentMode(
+            Mile::Json::GetSubKey(Gpu, "AssignmentMode"));
 
         Result.Gpu.EnableHostDriverStore = Mile::Json::ToBoolean(
             Mile::Json::GetSubKey(Gpu, "EnableHostDriverStore"),
@@ -1435,12 +1398,9 @@ NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
     {
         NanaBox::ScsiDeviceConfiguration Current;
 
-        try
-        {
-            Current.Type =
-                ScsiDevice.at("Type").get<NanaBox::ScsiDeviceType>();
-        }
-        catch (...)
+        Current.Type = NanaBox::ToScsiDeviceType(
+            Mile::Json::GetSubKey(ScsiDevice, "Type"));
+        if (NanaBox::ScsiDeviceType::Unknown == Current.Type)
         {
             continue;
         }
@@ -1508,7 +1468,8 @@ std::string NanaBox::SerializeConfiguration(
     RootJson["MemorySize"] = Configuration.MemorySize;
     {
         nlohmann::json ComPorts;
-        ComPorts["UefiConsole"] = Configuration.ComPorts.UefiConsole;
+        ComPorts["UefiConsole"] = NanaBox::FromUefiConsoleMode(
+            Configuration.ComPorts.UefiConsole);
         if (!Configuration.ComPorts.ComPort1.empty())
         {
             ComPorts["ComPort1"] = Configuration.ComPorts.ComPort1;
@@ -1521,7 +1482,8 @@ std::string NanaBox::SerializeConfiguration(
     }
     {
         nlohmann::json Gpu;
-        Gpu["AssignmentMode"] = Configuration.Gpu.AssignmentMode;
+        Gpu["AssignmentMode"] = NanaBox::FromGpuAssignmentMode(
+            Configuration.Gpu.AssignmentMode);
         if (Configuration.Gpu.EnableHostDriverStore)
         {
             Gpu["EnableHostDriverStore"] =
@@ -1575,8 +1537,13 @@ std::string NanaBox::SerializeConfiguration(
         for (NanaBox::ScsiDeviceConfiguration const& ScsiDevice
             : Configuration.ScsiDevices)
         {
+            if (NanaBox::ScsiDeviceType::Unknown == ScsiDevice.Type)
+            {
+                continue;
+            }
+
             nlohmann::json Current;
-            Current["Type"] = ScsiDevice.Type;
+            Current["Type"] = NanaBox::FromScsiDeviceType(ScsiDevice.Type);
             if (!ScsiDevice.Path.empty())
             {
                 Current["Path"] = ScsiDevice.Path;
