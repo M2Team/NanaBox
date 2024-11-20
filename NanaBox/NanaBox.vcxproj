@@ -68,6 +68,10 @@
       <DependentUpon>NewVirtualHardDiskPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
+    <ClCompile Include="ProgressRing.cpp">
+      <DependentUpon>ProgressRing.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
     <ClCompile Include="QuickStartPage.cpp">
       <DependentUpon>QuickStartPage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -128,6 +132,9 @@
       <DependentUpon>NewVirtualHardDiskPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
+    <Midl Include="ProgressRing.idl">
+      <SubType>Code</SubType>
+    </Midl>
     <Midl Include="QuickStartPage.idl">
       <DependentUpon>QuickStartPage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -175,6 +182,10 @@
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="pch.h" />
+    <ClInclude Include="ProgressRing.h">
+      <DependentUpon>ProgressRing.idl</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="QuickStartPage.h">
       <DependentUpon>QuickStartPage.xaml</DependentUpon>
       <SubType>Code</SubType>

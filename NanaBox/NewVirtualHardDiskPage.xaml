@@ -1,97 +1,97 @@
 ﻿<Page
-  x:Class="NanaBox.NewVirtualHardDiskPage"
-  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-  xmlns:local="using:NanaBox"
-  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-  IsTextScaleFactorEnabled="False"
-  mc:Ignorable="d">
-  <Grid>
-    <Grid.RowDefinitions>
-      <RowDefinition Height="*" />
-      <RowDefinition Height="Auto" />
-    </Grid.RowDefinitions>
-    <StackPanel Grid.Row="0" Padding="24,0">
-      <TextBlock
-        x:Uid="/NewVirtualHardDiskPage/GridTitleTextBlock"
-        Margin="0,0,0,12"
-        FontSize="24"
-        FontWeight="SemiBold"
-        Text="[Create Virtual Hard Disk]"
-        TextWrapping="Wrap" />
-      <TextBlock
-        x:Uid="/NewVirtualHardDiskPage/ContentTextBlock"
-        Text="[You can create a VHD (up to 2040 GiB) or VHDX (up to 64 TiB, but not supported before Windows 8) dynamically expanding virtual hard disk with this dialog.]"
-        TextWrapping="Wrap" />
-      <Grid Padding="0,2,0,0">
-        <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="*" />
-          <ColumnDefinition Width="auto" />
-        </Grid.ColumnDefinitions>
-        <TextBox
-          x:Name="FileNameTextBox"
-          x:Uid="/NewVirtualHardDiskPage/FileNameTextBox"
-          Grid.Column="0"
-          IsReadOnly="True"
-          PlaceholderText="[Please use &quot;...&quot; button to specify the save location.]" />
-        <Button
-          x:Name="FileNameBrowseButton"
-          Grid.Column="1"
-          Click="FileNameBrowseButtonClickHandler"
-          Content="..." />
-      </Grid>
-      <TextBlock
-        x:Uid="/NewVirtualHardDiskPage/SizeTextBlock"
-        Padding="0,2"
-        Text="Size (at least 3 MiB and must be a multiple of 512 bytes)" />
-      <Grid Padding="0,2,0,0">
-        <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="*" />
-          <ColumnDefinition Width="144" />
-        </Grid.ColumnDefinitions>
-        <TextBox
-          x:Name="SizeTextBox"
-          BeforeTextChanging="NaturalNumberTextBoxBeforeTextChanging"
-          Text="0" />
-        <ComboBox
-          x:Name="SizeUnitComboBox"
-          Grid.Column="1"
-          HorizontalAlignment="Stretch"
-          SelectedIndex="5">
-          <x:String>B</x:String>
-          <x:String>KB (1000 B)</x:String>
-          <x:String>KiB (1024 B)</x:String>
-          <x:String>MB (1000 KB)</x:String>
-          <x:String>MiB (1024 KiB)</x:String>
-          <x:String>GB (1000 MB)</x:String>
-          <x:String>GiB (1024 MiB)</x:String>
-          <x:String>TB (1000 GB)</x:String>
-          <x:String>TiB (1024 GiB)</x:String>
-        </ComboBox>
-      </Grid>
-    </StackPanel>
-    <Grid Grid.Row="1" Padding="24">
-      <Grid.Background>
-        <SolidColorBrush Opacity="0.2" Color="{ThemeResource SystemChromeHighColor}" />
-      </Grid.Background>
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="*" />
-        <ColumnDefinition Width="8" />
-        <ColumnDefinition Width="*" />
-      </Grid.ColumnDefinitions>
-      <Button
-        x:Uid="/NewVirtualHardDiskPage/CreateButton"
-        HorizontalAlignment="Stretch"
-        Click="CreateButtonClick"
-        Content="[Create]" />
-      <Button
-        x:Uid="/NewVirtualHardDiskPage/CancelButton"
-        Grid.Column="4"
-        HorizontalAlignment="Stretch"
-        Click="CancelButtonClick"
-        Content="[Cancel]"
-        TabIndex="1" />
+    x:Class="NanaBox.NewVirtualHardDiskPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:NanaBox"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    IsTextScaleFactorEnabled="False"
+    mc:Ignorable="d">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Padding="24,0">
+            <TextBlock
+                x:Uid="/NewVirtualHardDiskPage/GridTitleTextBlock"
+                Margin="0,0,0,12"
+                FontSize="24"
+                FontWeight="SemiBold"
+                Text="[Create Virtual Hard Disk]"
+                TextWrapping="Wrap" />
+            <TextBlock
+                x:Uid="/NewVirtualHardDiskPage/ContentTextBlock"
+                Text="[You can create a VHD (up to 2040 GiB) or VHDX (up to 64 TiB, but not supported before Windows 8) dynamically expanding virtual hard disk with this dialog.]"
+                TextWrapping="Wrap" />
+            <Grid Padding="0,2,0,0" ColumnSpacing="8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+                <TextBox
+                    x:Name="FileNameTextBox"
+                    x:Uid="/NewVirtualHardDiskPage/FileNameTextBox"
+                    Grid.Column="0"
+                    IsReadOnly="True"
+                    PlaceholderText="[Please use &quot;...&quot; button to specify the save location.]" />
+                <Button
+                    x:Name="FileNameBrowseButton"
+                    Grid.Column="1"
+                    Click="FileNameBrowseButtonClickHandler"
+                    Content="..." />
+            </Grid>
+            <TextBlock
+                x:Uid="/NewVirtualHardDiskPage/SizeTextBlock"
+                Padding="0,2"
+                Text="Size (at least 3 MiB and must be a multiple of 512 bytes)" />
+            <Grid Padding="0,2,0,0" ColumnSpacing="8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="144" />
+                </Grid.ColumnDefinitions>
+                <TextBox
+                    x:Name="SizeTextBox"
+                    BeforeTextChanging="NaturalNumberTextBoxBeforeTextChanging"
+                    Text="0" />
+                <ComboBox
+                    x:Name="SizeUnitComboBox"
+                    Grid.Column="1"
+                    HorizontalAlignment="Stretch"
+                    SelectedIndex="5">
+                    <x:String>B</x:String>
+                    <x:String>KB (1000 B)</x:String>
+                    <x:String>KiB (1024 B)</x:String>
+                    <x:String>MB (1000 KB)</x:String>
+                    <x:String>MiB (1024 KiB)</x:String>
+                    <x:String>GB (1000 MB)</x:String>
+                    <x:String>GiB (1024 MiB)</x:String>
+                    <x:String>TB (1000 GB)</x:String>
+                    <x:String>TiB (1024 GiB)</x:String>
+                </ComboBox>
+            </Grid>
+        </StackPanel>
+        <Grid Grid.Row="1" Padding="24">
+            <Grid.Background>
+                <SolidColorBrush Opacity="0.2" Color="{ThemeResource SystemChromeHighColor}" />
+            </Grid.Background>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="8" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Button
+                x:Uid="/NewVirtualHardDiskPage/CreateButton"
+                HorizontalAlignment="Stretch"
+                Click="CreateButtonClick"
+                Content="[Create]" />
+            <Button
+                x:Uid="/NewVirtualHardDiskPage/CancelButton"
+                Grid.Column="4"
+                HorizontalAlignment="Stretch"
+                Click="CancelButtonClick"
+                Content="[Cancel]"
+                TabIndex="1" />
+        </Grid>
     </Grid>
-  </Grid>
 </Page>

@@ -1,0 +1,9 @@
+﻿namespace NanaBox
+{
+    runtimeclass ProgressRing : Windows.UI.Xaml.FrameworkElement
+    {
+        ProgressRing();
+        static Windows.UI.Xaml.DependencyProperty ForegroundProperty { get; };
+        Windows.UI.Xaml.Media.SolidColorBrush Foreground;
+    }
+}

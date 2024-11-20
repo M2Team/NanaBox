@@ -18,6 +18,7 @@
     <ClCompile Include="RdpBase.cpp">
       <Filter>RdpClient</Filter>
     </ClCompile>
+    <ClCompile Include="NanaBox.Configuration.Parser.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="NanaBox.manifest" />
@@ -45,6 +46,7 @@
     <ClInclude Include="RdpBase.h">
       <Filter>RdpClient</Filter>
     </ClInclude>
+    <ClInclude Include="NanaBox.Configuration.Parser.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="RdpClient">
@@ -153,5 +155,8 @@
     <PRIResource Include="Strings\zh-Hans\SponsorPage.resw">
       <Filter>Strings\zh-Hans</Filter>
     </PRIResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Midl Include="ProgressRing.idl" />
   </ItemGroup>
 </Project>
