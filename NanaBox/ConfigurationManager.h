@@ -88,18 +88,6 @@ namespace NanaBox
         winrt::com_ptr<RdpClient> const& Instance,
         EnhancedSessionConfiguration& Configuration);
 
-    void DeserializeKeyboardConfiguration(
-        nlohmann::json const& Input,
-        KeyboardConfiguration& Output);
-
-    void DeserializeEnhancedSessionConfiguration(
-        nlohmann::json const& Input,
-        EnhancedSessionConfiguration& Output);
-
-    void DeserializeChipsetInformationConfiguration(
-        nlohmann::json const& Input,
-        ChipsetInformationConfiguration& Output);
-
     VirtualMachineConfiguration DeserializeConfiguration(
         std::string const& Configuration);
 

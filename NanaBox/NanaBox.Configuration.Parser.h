@@ -68,11 +68,20 @@ namespace NanaBox
     nlohmann::json FromKeyboardConfiguration(
         KeyboardConfiguration const& Value);
 
+    KeyboardConfiguration ToKeyboardConfiguration(
+        nlohmann::json const& Value);
+
     nlohmann::json FromEnhancedSessionConfiguration(
         EnhancedSessionConfiguration const& Value);
 
+    EnhancedSessionConfiguration ToEnhancedSessionConfiguration(
+        nlohmann::json const& Value);
+
     nlohmann::json FromChipsetInformationConfiguration(
         ChipsetInformationConfiguration const& Value);
+
+    ChipsetInformationConfiguration ToChipsetInformationConfiguration(
+        nlohmann::json const& Value);
 }
 
 #endif // !NANABOX_CONFIGURATION_PARSER

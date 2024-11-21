@@ -414,6 +414,63 @@ nlohmann::json NanaBox::FromKeyboardConfiguration(
     return Result;
 }
 
+NanaBox::KeyboardConfiguration NanaBox::ToKeyboardConfiguration(
+    nlohmann::json const& Value)
+{
+    NanaBox::KeyboardConfiguration Result;
+
+    Result.RedirectKeyCombinations = Mile::Json::ToBoolean(
+        Mile::Json::GetSubKey(Value, "RedirectKeyCombinations"),
+        Result.RedirectKeyCombinations);
+
+    Result.FullScreenHotkey =
+        static_cast<std::int32_t>(Mile::Json::ToInt64(
+            Mile::Json::GetSubKey(Value, "FullScreenHotkey"),
+            Result.FullScreenHotkey));
+
+    Result.CtrlEscHotkey =
+        static_cast<std::int32_t>(Mile::Json::ToInt64(
+            Mile::Json::GetSubKey(Value, "CtrlEscHotkey"),
+            Result.CtrlEscHotkey));
+
+    Result.AltEscHotkey =
+        static_cast<std::int32_t>(Mile::Json::ToInt64(
+            Mile::Json::GetSubKey(Value, "AltEscHotkey"),
+            Result.AltEscHotkey));
+
+    Result.AltTabHotkey =
+        static_cast<std::int32_t>(Mile::Json::ToInt64(
+            Mile::Json::GetSubKey(Value, "AltTabHotkey"),
+            Result.AltTabHotkey));
+
+    Result.AltShiftTabHotkey =
+        static_cast<std::int32_t>(Mile::Json::ToInt64(
+            Mile::Json::GetSubKey(Value, "AltShiftTabHotkey"),
+            Result.AltShiftTabHotkey));
+
+    Result.AltSpaceHotkey =
+        static_cast<std::int32_t>(Mile::Json::ToInt64(
+            Mile::Json::GetSubKey(Value, "AltSpaceHotkey"),
+            Result.AltSpaceHotkey));
+
+    Result.CtrlAltDelHotkey =
+        static_cast<std::int32_t>(Mile::Json::ToInt64(
+            Mile::Json::GetSubKey(Value, "CtrlAltDelHotkey"),
+            Result.CtrlAltDelHotkey));
+
+    Result.FocusReleaseLeftHotkey =
+        static_cast<std::int32_t>(Mile::Json::ToInt64(
+            Mile::Json::GetSubKey(Value, "FocusReleaseLeftHotkey"),
+            Result.FocusReleaseLeftHotkey));
+
+    Result.FocusReleaseRightHotkey =
+        static_cast<std::int32_t>(Mile::Json::ToInt64(
+            Mile::Json::GetSubKey(Value, "FocusReleaseRightHotkey"),
+            Result.FocusReleaseRightHotkey));
+
+    return Result;
+}
+
 nlohmann::json NanaBox::FromEnhancedSessionConfiguration(
     NanaBox::EnhancedSessionConfiguration const& Value)
 {
@@ -506,6 +563,83 @@ nlohmann::json NanaBox::FromEnhancedSessionConfiguration(
     return Result;
 }
 
+NanaBox::EnhancedSessionConfiguration NanaBox::ToEnhancedSessionConfiguration(
+    nlohmann::json const& Value)
+{
+    NanaBox::EnhancedSessionConfiguration Result;
+
+    Result.RedirectAudio = Mile::Json::ToBoolean(
+        Mile::Json::GetSubKey(Value, "RedirectAudio"),
+        Result.RedirectAudio);
+
+    Result.RedirectAudioCapture = Mile::Json::ToBoolean(
+        Mile::Json::GetSubKey(Value, "RedirectAudioCapture"),
+        Result.RedirectAudioCapture);
+
+    Result.RedirectDrives = Mile::Json::ToBoolean(
+        Mile::Json::GetSubKey(Value, "RedirectDrives"),
+        Result.RedirectDrives);
+
+    Result.RedirectPrinters = Mile::Json::ToBoolean(
+        Mile::Json::GetSubKey(Value, "RedirectPrinters"),
+        Result.RedirectPrinters);
+
+    Result.RedirectPorts = Mile::Json::ToBoolean(
+        Mile::Json::GetSubKey(Value, "RedirectPorts"),
+        Result.RedirectPorts);
+
+    Result.RedirectSmartCards = Mile::Json::ToBoolean(
+        Mile::Json::GetSubKey(Value, "RedirectSmartCards"),
+        Result.RedirectSmartCards);
+
+    Result.RedirectClipboard = Mile::Json::ToBoolean(
+        Mile::Json::GetSubKey(Value, "RedirectClipboard"),
+        Result.RedirectClipboard);
+
+    Result.RedirectDevices = Mile::Json::ToBoolean(
+        Mile::Json::GetSubKey(Value, "RedirectDevices"),
+        Result.RedirectDevices);
+
+    Result.RedirectPOSDevices = Mile::Json::ToBoolean(
+        Mile::Json::GetSubKey(Value, "RedirectPOSDevices"),
+        Result.RedirectPOSDevices);
+
+    Result.RedirectDynamicDrives = Mile::Json::ToBoolean(
+        Mile::Json::GetSubKey(Value, "RedirectDynamicDrives"),
+        Result.RedirectDynamicDrives);
+
+    Result.RedirectDynamicDevices = Mile::Json::ToBoolean(
+        Mile::Json::GetSubKey(Value, "RedirectDynamicDevices"),
+        Result.RedirectDynamicDevices);
+
+    for (nlohmann::json const& Drive : Mile::Json::ToArray(
+        Mile::Json::GetSubKey(Value, "Drives")))
+    {
+        std::string DriveString = Mile::Json::ToString(Drive);
+        DriveString.resize(1);
+        DriveString[0] = static_cast<char>(std::toupper(DriveString[0]));
+
+        if (DriveString[0] < 'A' || DriveString[0] > 'Z')
+        {
+            continue;
+        }
+
+        Result.Drives.push_back(DriveString);
+    }
+
+    for (nlohmann::json const& Device : Mile::Json::ToArray(
+        Mile::Json::GetSubKey(Value, "Devices")))
+    {
+        std::string DeviceString = Mile::Json::ToString(Device);
+        if (!DeviceString.empty())
+        {
+            Result.Devices.push_back(DeviceString);
+        }
+    }
+
+    return Result;
+}
+
 nlohmann::json NanaBox::FromChipsetInformationConfiguration(
     NanaBox::ChipsetInformationConfiguration const& Value)
 {
@@ -560,6 +694,54 @@ nlohmann::json NanaBox::FromChipsetInformationConfiguration(
     {
         Result["Family"] = Value.Family;
     }
+
+    return Result;
+}
+
+NanaBox::ChipsetInformationConfiguration NanaBox::ToChipsetInformationConfiguration(
+    nlohmann::json const& Value)
+{
+    NanaBox::ChipsetInformationConfiguration Result;
+
+    Result.BaseBoardSerialNumber = Mile::Json::ToString(
+        Mile::Json::GetSubKey(Value, "BaseBoardSerialNumber"),
+        Result.BaseBoardSerialNumber);
+
+    Result.ChassisSerialNumber = Mile::Json::ToString(
+        Mile::Json::GetSubKey(Value, "ChassisSerialNumber"),
+        Result.ChassisSerialNumber);
+
+    Result.ChassisAssetTag = Mile::Json::ToString(
+        Mile::Json::GetSubKey(Value, "ChassisAssetTag"),
+        Result.ChassisAssetTag);
+
+    Result.Manufacturer = Mile::Json::ToString(
+        Mile::Json::GetSubKey(Value, "Manufacturer"),
+        Result.Manufacturer);
+
+    Result.ProductName = Mile::Json::ToString(
+        Mile::Json::GetSubKey(Value, "ProductName"),
+        Result.ProductName);
+
+    Result.Version = Mile::Json::ToString(
+        Mile::Json::GetSubKey(Value, "Version"),
+        Result.Version);
+
+    Result.SerialNumber = Mile::Json::ToString(
+        Mile::Json::GetSubKey(Value, "SerialNumber"),
+        Result.SerialNumber);
+
+    Result.UUID = Mile::Json::ToString(
+        Mile::Json::GetSubKey(Value, "UUID"),
+        Result.UUID);
+
+    Result.SKUNumber = Mile::Json::ToString(
+        Mile::Json::GetSubKey(Value, "SKUNumber"),
+        Result.SKUNumber);
+
+    Result.Family = Mile::Json::ToString(
+        Mile::Json::GetSubKey(Value, "Family"),
+        Result.Family);
 
     return Result;
 }

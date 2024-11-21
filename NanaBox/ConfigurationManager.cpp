@@ -890,179 +890,6 @@ void NanaBox::RemoteDesktopUpdateEnhancedSessionConfiguration(
     }
 }
 
-void NanaBox::DeserializeKeyboardConfiguration(
-    nlohmann::json const& Input,
-    NanaBox::KeyboardConfiguration& Output)
-{
-    Output.RedirectKeyCombinations = Mile::Json::ToBoolean(
-        Mile::Json::GetSubKey(Input, "RedirectKeyCombinations"),
-        Output.RedirectKeyCombinations);
-
-    Output.FullScreenHotkey =
-        static_cast<std::int32_t>(Mile::Json::ToInt64(
-            Mile::Json::GetSubKey(Input, "FullScreenHotkey"),
-            Output.FullScreenHotkey));
-
-    Output.CtrlEscHotkey =
-        static_cast<std::int32_t>(Mile::Json::ToInt64(
-            Mile::Json::GetSubKey(Input, "CtrlEscHotkey"),
-            Output.CtrlEscHotkey));
-
-    Output.AltEscHotkey =
-        static_cast<std::int32_t>(Mile::Json::ToInt64(
-            Mile::Json::GetSubKey(Input, "AltEscHotkey"),
-            Output.AltEscHotkey));
-
-    Output.AltTabHotkey =
-        static_cast<std::int32_t>(Mile::Json::ToInt64(
-            Mile::Json::GetSubKey(Input, "AltTabHotkey"),
-            Output.AltTabHotkey));
-
-    Output.AltShiftTabHotkey =
-        static_cast<std::int32_t>(Mile::Json::ToInt64(
-            Mile::Json::GetSubKey(Input, "AltShiftTabHotkey"),
-            Output.AltShiftTabHotkey));
-
-    Output.AltSpaceHotkey =
-        static_cast<std::int32_t>(Mile::Json::ToInt64(
-            Mile::Json::GetSubKey(Input, "AltSpaceHotkey"),
-            Output.AltSpaceHotkey));
-
-    Output.CtrlAltDelHotkey =
-        static_cast<std::int32_t>(Mile::Json::ToInt64(
-            Mile::Json::GetSubKey(Input, "CtrlAltDelHotkey"),
-            Output.CtrlAltDelHotkey));
-
-    Output.FocusReleaseLeftHotkey =
-        static_cast<std::int32_t>(Mile::Json::ToInt64(
-            Mile::Json::GetSubKey(Input, "FocusReleaseLeftHotkey"),
-            Output.FocusReleaseLeftHotkey));
-
-    Output.FocusReleaseRightHotkey =
-        static_cast<std::int32_t>(Mile::Json::ToInt64(
-            Mile::Json::GetSubKey(Input, "FocusReleaseRightHotkey"),
-            Output.FocusReleaseRightHotkey));
-}
-
-void NanaBox::DeserializeEnhancedSessionConfiguration(
-    nlohmann::json const& Input,
-    NanaBox::EnhancedSessionConfiguration& Output)
-{
-    Output.RedirectAudio = Mile::Json::ToBoolean(
-        Mile::Json::GetSubKey(Input, "RedirectAudio"),
-        Output.RedirectAudio);
-
-    Output.RedirectAudioCapture = Mile::Json::ToBoolean(
-        Mile::Json::GetSubKey(Input, "RedirectAudioCapture"),
-        Output.RedirectAudioCapture);
-
-    Output.RedirectDrives = Mile::Json::ToBoolean(
-        Mile::Json::GetSubKey(Input, "RedirectDrives"),
-        Output.RedirectDrives);
-
-    Output.RedirectPrinters = Mile::Json::ToBoolean(
-        Mile::Json::GetSubKey(Input, "RedirectPrinters"),
-        Output.RedirectPrinters);
-
-    Output.RedirectPorts = Mile::Json::ToBoolean(
-        Mile::Json::GetSubKey(Input, "RedirectPorts"),
-        Output.RedirectPorts);
-
-    Output.RedirectSmartCards = Mile::Json::ToBoolean(
-        Mile::Json::GetSubKey(Input, "RedirectSmartCards"),
-        Output.RedirectSmartCards);
-
-    Output.RedirectClipboard = Mile::Json::ToBoolean(
-        Mile::Json::GetSubKey(Input, "RedirectClipboard"),
-        Output.RedirectClipboard);
-
-    Output.RedirectDevices = Mile::Json::ToBoolean(
-        Mile::Json::GetSubKey(Input, "RedirectDevices"),
-        Output.RedirectDevices);
-
-    Output.RedirectPOSDevices = Mile::Json::ToBoolean(
-        Mile::Json::GetSubKey(Input, "RedirectPOSDevices"),
-        Output.RedirectPOSDevices);
-
-    Output.RedirectDynamicDrives = Mile::Json::ToBoolean(
-        Mile::Json::GetSubKey(Input, "RedirectDynamicDrives"),
-        Output.RedirectDynamicDrives);
-
-    Output.RedirectDynamicDevices = Mile::Json::ToBoolean(
-        Mile::Json::GetSubKey(Input, "RedirectDynamicDevices"),
-        Output.RedirectDynamicDevices);
-
-    for (nlohmann::json const& Drive : Mile::Json::ToArray(
-        Mile::Json::GetSubKey(Input, "Drives")))
-    {
-        std::string DriveString = Mile::Json::ToString(Drive);
-        DriveString.resize(1);
-        DriveString[0] = static_cast<char>(std::toupper(DriveString[0]));
-
-        if (DriveString[0] < 'A' || DriveString[0] > 'Z')
-        {
-            continue;
-        }
-
-        Output.Drives.push_back(DriveString);
-    }
-
-    for (nlohmann::json const& Device : Mile::Json::ToArray(
-        Mile::Json::GetSubKey(Input, "Devices")))
-    {
-        std::string DeviceString = Mile::Json::ToString(Device);
-        if (!DeviceString.empty())
-        {
-            Output.Devices.push_back(DeviceString);
-        }
-    }
-}
-
-void NanaBox::DeserializeChipsetInformationConfiguration(
-    nlohmann::json const& Input,
-    NanaBox::ChipsetInformationConfiguration& Output)
-{
-    Output.BaseBoardSerialNumber = Mile::Json::ToString(
-        Mile::Json::GetSubKey(Input, "BaseBoardSerialNumber"),
-        Output.BaseBoardSerialNumber);
-
-    Output.ChassisSerialNumber = Mile::Json::ToString(
-        Mile::Json::GetSubKey(Input, "ChassisSerialNumber"),
-        Output.ChassisSerialNumber);
-
-    Output.ChassisAssetTag = Mile::Json::ToString(
-        Mile::Json::GetSubKey(Input, "ChassisAssetTag"),
-        Output.ChassisAssetTag);
-
-    Output.Manufacturer = Mile::Json::ToString(
-        Mile::Json::GetSubKey(Input, "Manufacturer"),
-        Output.Manufacturer);
-
-    Output.ProductName = Mile::Json::ToString(
-        Mile::Json::GetSubKey(Input, "ProductName"),
-        Output.ProductName);
-
-    Output.Version = Mile::Json::ToString(
-        Mile::Json::GetSubKey(Input, "Version"),
-        Output.Version);
-
-    Output.SerialNumber = Mile::Json::ToString(
-        Mile::Json::GetSubKey(Input, "SerialNumber"),
-        Output.SerialNumber);
-
-    Output.UUID = Mile::Json::ToString(
-        Mile::Json::GetSubKey(Input, "UUID"),
-        Output.UUID);
-
-    Output.SKUNumber = Mile::Json::ToString(
-        Mile::Json::GetSubKey(Input, "SKUNumber"),
-        Output.SKUNumber);
-
-    Output.Family = Mile::Json::ToString(
-        Mile::Json::GetSubKey(Input, "Family"),
-        Output.Family);
-}
-
 NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
     std::string const& Configuration)
 {
@@ -1163,17 +990,14 @@ NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
         Mile::Json::GetSubKey(RootJson, "ExposeVirtualizationExtensions"),
         Result.ExposeVirtualizationExtensions);
 
-    NanaBox::DeserializeKeyboardConfiguration(
-        Mile::Json::GetSubKey(RootJson, "Keyboard"),
-        Result.Keyboard);
+    Result.Keyboard = NanaBox::ToKeyboardConfiguration(
+        Mile::Json::GetSubKey(RootJson, "Keyboard"));
 
-    NanaBox::DeserializeEnhancedSessionConfiguration(
-        Mile::Json::GetSubKey(RootJson, "EnhancedSession"),
-        Result.EnhancedSession);
+    Result.EnhancedSession = NanaBox::ToEnhancedSessionConfiguration(
+        Mile::Json::GetSubKey(RootJson, "EnhancedSession"));
 
-    NanaBox::DeserializeChipsetInformationConfiguration(
-        Mile::Json::GetSubKey(RootJson, "ChipsetInformation"),
-        Result.ChipsetInformation);
+    Result.ChipsetInformation = NanaBox::ToChipsetInformationConfiguration(
+        Mile::Json::GetSubKey(RootJson, "ChipsetInformation"));
 
     return Result;
 }
