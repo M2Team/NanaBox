@@ -790,6 +790,7 @@ winrt::handle ShowCompactVirtualHardDiskDialog(
         }
     }));
 }
+
 winrt::handle ShowResizeVirtualHardDiskDialog(
     _In_ HWND ParentWindowHandle)
 {
