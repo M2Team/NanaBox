@@ -1314,64 +1314,11 @@ NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
         throw std::exception("Invalid Memory Size");
     }
 
-    {
-        nlohmann::json ComPorts = Mile::Json::GetSubKey(RootJson, "ComPorts");
+    Result.ComPorts = NanaBox::ToComPortsConfiguration(
+        Mile::Json::GetSubKey(RootJson, "ComPorts"));
 
-        Result.ComPorts.UefiConsole = NanaBox::ToUefiConsoleMode(
-            Mile::Json::GetSubKey(ComPorts, "UefiConsole"));
-
-        Result.ComPorts.ComPort1 = Mile::Json::ToString(
-            Mile::Json::GetSubKey(ComPorts, "ComPort1"),
-            Result.ComPorts.ComPort1);
-
-        Result.ComPorts.ComPort2 = Mile::Json::ToString(
-            Mile::Json::GetSubKey(ComPorts, "ComPort2"),
-            Result.ComPorts.ComPort2);
-    }
-
-    {
-        nlohmann::json Gpu = Mile::Json::GetSubKey(RootJson, "Gpu");
-
-        Result.Gpu.AssignmentMode = NanaBox::ToGpuAssignmentMode(
-            Mile::Json::GetSubKey(Gpu, "AssignmentMode"));
-
-        Result.Gpu.EnableHostDriverStore = Mile::Json::ToBoolean(
-            Mile::Json::GetSubKey(Gpu, "EnableHostDriverStore"),
-            Result.Gpu.EnableHostDriverStore);
-
-        for (nlohmann::json const& SelectedDevice : Mile::Json::ToArray(
-            Mile::Json::GetSubKey(Gpu, "SelectedDevices")))
-        {
-            std::string DeviceInterface = Mile::Json::ToString(SelectedDevice);
-            if (!DeviceInterface.empty())
-            {
-                Result.Gpu.SelectedDevices[DeviceInterface] = 0xFFFF;
-            }
-            else
-            {
-                DeviceInterface = Mile::Json::ToString(
-                    Mile::Json::GetSubKey(SelectedDevice, "DeviceInterface"));
-                if (!DeviceInterface.empty())
-                {
-                    Result.Gpu.SelectedDevices[DeviceInterface] =
-                        static_cast<std::uint16_t>(
-                            Mile::Json::ToUInt64(Mile::Json::GetSubKey(
-                                SelectedDevice, "PartitionId")));
-                }
-            }
-        }
-
-        if (Result.Gpu.SelectedDevices.empty() &&
-            Result.Gpu.AssignmentMode == NanaBox::GpuAssignmentMode::List)
-        {
-            Result.Gpu.AssignmentMode = NanaBox::GpuAssignmentMode::Disabled;
-        }
-
-        if (Result.Gpu.AssignmentMode != NanaBox::GpuAssignmentMode::List)
-        {
-            Result.Gpu.SelectedDevices.clear();
-        }
-    }
+    Result.Gpu = NanaBox::ToGpuConfiguration(
+        Mile::Json::GetSubKey(RootJson, "Gpu"));
 
     for (nlohmann::json const& NetworkAdapter : Mile::Json::ToArray(
         Mile::Json::GetSubKey(RootJson, "NetworkAdapters")))
@@ -1466,51 +1413,9 @@ std::string NanaBox::SerializeConfiguration(
     RootJson["Name"] = Configuration.Name;
     RootJson["ProcessorCount"] = Configuration.ProcessorCount;
     RootJson["MemorySize"] = Configuration.MemorySize;
-    {
-        nlohmann::json ComPorts;
-        ComPorts["UefiConsole"] = NanaBox::FromUefiConsoleMode(
-            Configuration.ComPorts.UefiConsole);
-        if (!Configuration.ComPorts.ComPort1.empty())
-        {
-            ComPorts["ComPort1"] = Configuration.ComPorts.ComPort1;
-        }
-        if (!Configuration.ComPorts.ComPort2.empty())
-        {
-            ComPorts["ComPort2"] = Configuration.ComPorts.ComPort2;
-        }
-        RootJson["ComPorts"] = ComPorts;
-    }
-    {
-        nlohmann::json Gpu;
-        Gpu["AssignmentMode"] = NanaBox::FromGpuAssignmentMode(
-            Configuration.Gpu.AssignmentMode);
-        if (Configuration.Gpu.EnableHostDriverStore)
-        {
-            Gpu["EnableHostDriverStore"] =
-                Configuration.Gpu.EnableHostDriverStore;
-        }
-        if (!Configuration.Gpu.SelectedDevices.empty())
-        {
-            nlohmann::json SelectedDevices;
-            for (std::pair<std::string, std::uint16_t> const& SelectedDevice
-                : Configuration.Gpu.SelectedDevices)
-            {
-                if (0xFFFF == SelectedDevice.second)
-                {
-                    SelectedDevices.push_back(SelectedDevice.first);
-                }
-                else
-                {
-                    nlohmann::json Current;
-                    Current["DeviceInterface"] = SelectedDevice.first;
-                    Current["PartitionId"] = SelectedDevice.second;
-                    SelectedDevices.push_back(Current);
-                }
-            }
-            Gpu["SelectedDevices"] = SelectedDevices;
-        }
-        RootJson["Gpu"] = Gpu;
-    }
+    RootJson["ComPorts"] = NanaBox::FromComPortsConfiguration(
+        Configuration.ComPorts);
+    RootJson["Gpu"] = NanaBox::FromGpuConfiguration(Configuration.Gpu);
     if (!Configuration.NetworkAdapters.empty())
     {
         nlohmann::json NetworkAdapters;

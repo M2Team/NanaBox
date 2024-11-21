@@ -40,6 +40,18 @@ namespace NanaBox
 
     ScsiDeviceType ToScsiDeviceType(
         nlohmann::json const& Value);
+
+    nlohmann::json FromComPortsConfiguration(
+        ComPortsConfiguration const& Value);
+
+    ComPortsConfiguration ToComPortsConfiguration(
+        nlohmann::json const& Value);
+
+    nlohmann::json FromGpuConfiguration(
+        GpuConfiguration const& Value);
+
+    GpuConfiguration ToGpuConfiguration(
+        nlohmann::json const& Value);
 }
 
 #endif // !NANABOX_CONFIGURATION_PARSER
