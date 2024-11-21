@@ -355,3 +355,211 @@ NanaBox::ScsiDeviceConfiguration NanaBox::ToScsiDeviceConfiguration(
 
     return Result;
 }
+
+nlohmann::json NanaBox::FromKeyboardConfiguration(
+    NanaBox::KeyboardConfiguration const& Value)
+{
+    nlohmann::json Result;
+
+    if (!Value.RedirectKeyCombinations)
+    {
+        Result["RedirectKeyCombinations"] = false;
+    }
+
+    if (VK_CANCEL != Value.FullScreenHotkey)
+    {
+        Result["FullScreenHotkey"] = Value.FullScreenHotkey;
+    }
+
+    if (VK_HOME != Value.CtrlEscHotkey)
+    {
+        Result["CtrlEscHotkey"] = Value.CtrlEscHotkey;
+    }
+
+    if (VK_INSERT != Value.AltEscHotkey)
+    {
+        Result["AltEscHotkey"] = Value.AltEscHotkey;
+    }
+
+    if (VK_PRIOR != Value.AltTabHotkey)
+    {
+        Result["AltTabHotkey"] = Value.AltTabHotkey;
+    }
+
+    if (VK_NEXT != Value.AltShiftTabHotkey)
+    {
+        Result["AltShiftTabHotkey"] = Value.AltShiftTabHotkey;
+    }
+
+    if (VK_DELETE != Value.AltSpaceHotkey)
+    {
+        Result["AltSpaceHotkey"] = Value.AltSpaceHotkey;
+    }
+
+    if (VK_END != Value.CtrlAltDelHotkey)
+    {
+        Result["CtrlAltDelHotkey"] = Value.CtrlAltDelHotkey;
+    }
+
+    if (VK_LEFT != Value.FocusReleaseLeftHotkey)
+    {
+        Result["FocusReleaseLeftHotkey"] = Value.FocusReleaseLeftHotkey;
+    }
+
+    if (VK_RIGHT != Value.FocusReleaseRightHotkey)
+    {
+        Result["FocusReleaseRightHotkey"] = Value.FocusReleaseRightHotkey;
+    }
+
+    return Result;
+}
+
+nlohmann::json NanaBox::FromEnhancedSessionConfiguration(
+    NanaBox::EnhancedSessionConfiguration const& Value)
+{
+    nlohmann::json Result;
+
+    if (!Value.RedirectAudio)
+    {
+        Result["RedirectAudio"] = false;
+    }
+
+    if (Value.RedirectAudioCapture)
+    {
+        Result["RedirectAudioCapture"] = true;
+    }
+
+    if (Value.RedirectDrives)
+    {
+        Result["RedirectDrives"] = true;
+    }
+
+    if (Value.RedirectPrinters)
+    {
+        Result["RedirectPrinters"] = true;
+    }
+
+    if (Value.RedirectPorts)
+    {
+        Result["RedirectPorts"] = true;
+    }
+
+    if (Value.RedirectSmartCards)
+    {
+        Result["RedirectSmartCards"] = true;
+    }
+
+    if (!Value.RedirectClipboard)
+    {
+        Result["RedirectClipboard"] = false;
+    }
+
+    if (Value.RedirectDevices)
+    {
+        Result["RedirectDevices"] = true;
+    }
+
+    if (Value.RedirectPOSDevices)
+    {
+        Result["RedirectPOSDevices"] = true;
+    }
+
+    if (Value.RedirectDynamicDrives)
+    {
+        Result["RedirectDynamicDrives"] = true;
+    }
+
+    if (Value.RedirectDynamicDevices)
+    {
+        Result["RedirectDynamicDevices"] = true;
+    }
+
+    if (!Value.Drives.empty())
+    {
+        nlohmann::json Drives;
+        for (std::string const& Drive : Value.Drives)
+        {
+            std::string DriveString = Drive;
+            DriveString.resize(1);
+            DriveString[0] = static_cast<char>(std::toupper(DriveString[0]));
+
+            if (DriveString[0] < 'A' || DriveString[0] > 'Z')
+            {
+                continue;
+            }
+
+            Drives.push_back(DriveString);
+        }
+        Result["Drives"] = Drives;
+    }
+
+    if (!Value.Devices.empty())
+    {
+        nlohmann::json Devices;
+        for (std::string const& Device : Value.Devices)
+        {
+            Devices.push_back(Device);
+        }
+        Result["Devices"] = Devices;
+    }
+
+    return Result;
+}
+
+nlohmann::json NanaBox::FromChipsetInformationConfiguration(
+    NanaBox::ChipsetInformationConfiguration const& Value)
+{
+    nlohmann::json Result;
+
+    if (!Value.BaseBoardSerialNumber.empty())
+    {
+        Result["BaseBoardSerialNumber"] = Value.BaseBoardSerialNumber;
+    }
+
+    if (!Value.ChassisSerialNumber.empty())
+    {
+        Result["ChassisSerialNumber"] = Value.ChassisSerialNumber;
+    }
+
+    if (!Value.ChassisAssetTag.empty())
+    {
+        Result["ChassisAssetTag"] = Value.ChassisAssetTag;
+    }
+
+    if (!Value.Manufacturer.empty())
+    {
+        Result["Manufacturer"] = Value.Manufacturer;
+    }
+
+    if (!Value.ProductName.empty())
+    {
+        Result["ProductName"] = Value.ProductName;
+    }
+
+    if (!Value.Version.empty())
+    {
+        Result["Version"] = Value.Version;
+    }
+
+    if (!Value.SerialNumber.empty())
+    {
+        Result["SerialNumber"] = Value.SerialNumber;
+    }
+
+    if (!Value.UUID.empty())
+    {
+        Result["UUID"] = Value.UUID;
+    }
+
+    if (!Value.SKUNumber.empty())
+    {
+        Result["SKUNumber"] = Value.SKUNumber;
+    }
+
+    if (!Value.Family.empty())
+    {
+        Result["Family"] = Value.Family;
+    }
+
+    return Result;
+}

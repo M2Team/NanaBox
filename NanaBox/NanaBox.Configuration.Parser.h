@@ -64,6 +64,15 @@ namespace NanaBox
 
     ScsiDeviceConfiguration ToScsiDeviceConfiguration(
         nlohmann::json const& Value);
+
+    nlohmann::json FromKeyboardConfiguration(
+        KeyboardConfiguration const& Value);
+
+    nlohmann::json FromEnhancedSessionConfiguration(
+        EnhancedSessionConfiguration const& Value);
+
+    nlohmann::json FromChipsetInformationConfiguration(
+        ChipsetInformationConfiguration const& Value);
 }
 
 #endif // !NANABOX_CONFIGURATION_PARSER

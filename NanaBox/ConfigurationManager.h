@@ -92,22 +92,13 @@ namespace NanaBox
         nlohmann::json const& Input,
         KeyboardConfiguration& Output);
 
-    nlohmann::json SerializeKeyboardConfiguration(
-        KeyboardConfiguration const& Input);
-
     void DeserializeEnhancedSessionConfiguration(
         nlohmann::json const& Input,
         EnhancedSessionConfiguration& Output);
 
-    nlohmann::json SerializeEnhancedSessionConfiguration(
-        EnhancedSessionConfiguration const& Input);
-
     void DeserializeChipsetInformationConfiguration(
         nlohmann::json const& Input,
         ChipsetInformationConfiguration& Output);
-
-    nlohmann::json SerializeChipsetInformationConfiguration(
-        ChipsetInformationConfiguration const& Input);
 
     VirtualMachineConfiguration DeserializeConfiguration(
         std::string const& Configuration);

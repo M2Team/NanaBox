@@ -944,64 +944,6 @@ void NanaBox::DeserializeKeyboardConfiguration(
             Output.FocusReleaseRightHotkey));
 }
 
-nlohmann::json NanaBox::SerializeKeyboardConfiguration(
-    NanaBox::KeyboardConfiguration const& Input)
-{
-    nlohmann::json Output;
-
-    if (!Input.RedirectKeyCombinations)
-    {
-        Output["RedirectKeyCombinations"] = false;
-    }
-
-    if (VK_CANCEL != Input.FullScreenHotkey)
-    {
-        Output["FullScreenHotkey"] = Input.FullScreenHotkey;
-    }
-
-    if (VK_HOME != Input.CtrlEscHotkey)
-    {
-        Output["CtrlEscHotkey"] = Input.CtrlEscHotkey;
-    }
-
-    if (VK_INSERT != Input.AltEscHotkey)
-    {
-        Output["AltEscHotkey"] = Input.AltEscHotkey;
-    }
-
-    if (VK_PRIOR != Input.AltTabHotkey)
-    {
-        Output["AltTabHotkey"] = Input.AltTabHotkey;
-    }
-
-    if (VK_NEXT != Input.AltShiftTabHotkey)
-    {
-        Output["AltShiftTabHotkey"] = Input.AltShiftTabHotkey;
-    }
-
-    if (VK_DELETE != Input.AltSpaceHotkey)
-    {
-        Output["AltSpaceHotkey"] = Input.AltSpaceHotkey;
-    }
-
-    if (VK_END != Input.CtrlAltDelHotkey)
-    {
-        Output["CtrlAltDelHotkey"] = Input.CtrlAltDelHotkey;
-    }
-
-    if (VK_LEFT != Input.FocusReleaseLeftHotkey)
-    {
-        Output["FocusReleaseLeftHotkey"] = Input.FocusReleaseLeftHotkey;
-    }
-
-    if (VK_RIGHT != Input.FocusReleaseRightHotkey)
-    {
-        Output["FocusReleaseRightHotkey"] = Input.FocusReleaseRightHotkey;
-    }
-
-    return Output;
-}
-
 void NanaBox::DeserializeEnhancedSessionConfiguration(
     nlohmann::json const& Input,
     NanaBox::EnhancedSessionConfiguration& Output)
@@ -1076,98 +1018,6 @@ void NanaBox::DeserializeEnhancedSessionConfiguration(
     }
 }
 
-nlohmann::json NanaBox::SerializeEnhancedSessionConfiguration(
-    NanaBox::EnhancedSessionConfiguration const& Input)
-{
-    nlohmann::json Output;
-
-    if (!Input.RedirectAudio)
-    {
-        Output["RedirectAudio"] = false;
-    }
-
-    if (Input.RedirectAudioCapture)
-    {
-        Output["RedirectAudioCapture"] = true;
-    }
-
-    if (Input.RedirectDrives)
-    {
-        Output["RedirectDrives"] = true;
-    }
-
-    if (Input.RedirectPrinters)
-    {
-        Output["RedirectPrinters"] = true;
-    }
-
-    if (Input.RedirectPorts)
-    {
-        Output["RedirectPorts"] = true;
-    }
-
-    if (Input.RedirectSmartCards)
-    {
-        Output["RedirectSmartCards"] = true;
-    }
-
-    if (!Input.RedirectClipboard)
-    {
-        Output["RedirectClipboard"] = false;
-    }
-
-    if (Input.RedirectDevices)
-    {
-        Output["RedirectDevices"] = true;
-    }
-
-    if (Input.RedirectPOSDevices)
-    {
-        Output["RedirectPOSDevices"] = true;
-    }
-
-    if (Input.RedirectDynamicDrives)
-    {
-        Output["RedirectDynamicDrives"] = true;
-    }
-
-    if (Input.RedirectDynamicDevices)
-    {
-        Output["RedirectDynamicDevices"] = true;
-    }
-
-    if (!Input.Drives.empty())
-    {
-        nlohmann::json Drives;
-        for (std::string const& Drive : Input.Drives)
-        {
-            std::string DriveString = Drive;
-            DriveString.resize(1);
-            DriveString[0] = static_cast<char>(std::toupper(DriveString[0]));
-
-            if (DriveString[0] < 'A' || DriveString[0] > 'Z')
-            {
-                continue;
-            }
-
-            Drives.push_back(DriveString);
-        }
-        Output["Drives"] = Drives;
-    }
-
-    if (!Input.Devices.empty())
-    {
-        nlohmann::json Devices;
-        for (std::string const& Device : Input.Devices)
-        {
-            Devices.push_back(Device);
-        }
-        Output["Devices"] = Devices;
-    }
-
-    return Output;
-}
-
 void NanaBox::DeserializeChipsetInformationConfiguration(
     nlohmann::json const& Input,
     NanaBox::ChipsetInformationConfiguration& Output)
@@ -1211,64 +1061,6 @@ void NanaBox::DeserializeChipsetInformationConfiguration(
     Output.Family = Mile::Json::ToString(
         Mile::Json::GetSubKey(Input, "Family"),
         Output.Family);
-}
-
-nlohmann::json NanaBox::SerializeChipsetInformationConfiguration(
-    NanaBox::ChipsetInformationConfiguration const& Input)
-{
-    nlohmann::json Output;
-
-    if (!Input.BaseBoardSerialNumber.empty())
-    {
-        Output["BaseBoardSerialNumber"] = Input.BaseBoardSerialNumber;
-    }
-
-    if (!Input.ChassisSerialNumber.empty())
-    {
-        Output["ChassisSerialNumber"] = Input.ChassisSerialNumber;
-    }
-
-    if (!Input.ChassisAssetTag.empty())
-    {
-        Output["ChassisAssetTag"] = Input.ChassisAssetTag;
-    }
-
-    if (!Input.Manufacturer.empty())
-    {
-        Output["Manufacturer"] = Input.Manufacturer;
-    }
-
-    if (!Input.ProductName.empty())
-    {
-        Output["ProductName"] = Input.ProductName;
-    }
-
-    if (!Input.Version.empty())
-    {
-        Output["Version"] = Input.Version;
-    }
-
-    if (!Input.SerialNumber.empty())
-    {
-        Output["SerialNumber"] = Input.SerialNumber;
-    }
-
-    if (!Input.UUID.empty())
-    {
-        Output["UUID"] = Input.UUID;
-    }
-
-    if (!Input.SKUNumber.empty())
-    {
-        Output["SKUNumber"] = Input.SKUNumber;
-    }
-
-    if (!Input.Family.empty())
-    {
-        Output["Family"] = Input.Family;
-    }
-
-    return Output;
 }
 
 NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
@@ -1453,7 +1245,7 @@ std::string NanaBox::SerializeConfiguration(
     }
     {
         nlohmann::json Keyboard =
-            NanaBox::SerializeKeyboardConfiguration(
+            NanaBox::FromKeyboardConfiguration(
                 Configuration.Keyboard);
         if (!Keyboard.empty())
         {
@@ -1462,7 +1254,7 @@ std::string NanaBox::SerializeConfiguration(
     }
     {
         nlohmann::json EnhancedSession =
-            NanaBox::SerializeEnhancedSessionConfiguration(
+            NanaBox::FromEnhancedSessionConfiguration(
                 Configuration.EnhancedSession);
         if (!EnhancedSession.empty())
         {
@@ -1471,7 +1263,7 @@ std::string NanaBox::SerializeConfiguration(
     }
     {
         nlohmann::json ChipsetInformation =
-            NanaBox::SerializeChipsetInformationConfiguration(
+            NanaBox::FromChipsetInformationConfiguration(
                 Configuration.ChipsetInformation);
         if (!ChipsetInformation.empty())
         {
