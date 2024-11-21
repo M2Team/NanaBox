@@ -168,7 +168,7 @@ namespace NanaBox
         KeyboardConfiguration Keyboard;
         EnhancedSessionConfiguration EnhancedSession;
         ChipsetInformationConfiguration ChipsetInformation;
-        std::vector<Plan9ShareConfiguration> Plan9Shares;
+        std::vector<Plan9ShareConfiguration> Plan9Shares; // Not Implemented
         VideoMonitorConfiguration VideoMonitor; // Not Implemented
     };
 }

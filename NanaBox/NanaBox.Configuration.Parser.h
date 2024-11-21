@@ -82,6 +82,12 @@ namespace NanaBox
 
     ChipsetInformationConfiguration ToChipsetInformationConfiguration(
         nlohmann::json const& Value);
+
+    nlohmann::json FromVirtualMachineConfiguration(
+        VirtualMachineConfiguration const& Value);
+
+    VirtualMachineConfiguration ToVirtualMachineConfiguration(
+        nlohmann::json const& Value);
 }
 
 #endif // !NANABOX_CONFIGURATION_PARSER

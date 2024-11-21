@@ -903,101 +903,23 @@ NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
         throw std::exception("Invalid Virtual Machine Configuration");
     }
 
-    NanaBox::VirtualMachineConfiguration Result;
+    NanaBox::VirtualMachineConfiguration Result =
+        NanaBox::ToVirtualMachineConfiguration(RootJson);
 
-    Result.Version = static_cast<std::uint32_t>(Mile::Json::ToUInt64(
-        Mile::Json::GetSubKey(RootJson, "Version")));
     if (Result.Version < 1 || Result.Version > 1)
     {
         throw std::exception("Invalid Version");
     }
 
-    Result.GuestType = NanaBox::ToGuestType(
-        Mile::Json::GetSubKey(RootJson, "GuestType"));
-
-    Result.Name = Mile::Json::ToString(
-        Mile::Json::GetSubKey(RootJson, "Name"),
-        Result.Name);
-
-    Result.ProcessorCount = static_cast<std::uint32_t>(Mile::Json::ToUInt64(
-        Mile::Json::GetSubKey(RootJson, "ProcessorCount")));
     if (!Result.ProcessorCount)
     {
         throw std::exception("Invalid Processor Count");
     }
 
-    Result.MemorySize = static_cast<std::uint32_t>(Mile::Json::ToUInt64(
-        Mile::Json::GetSubKey(RootJson, "MemorySize")));
     if (!Result.MemorySize)
     {
         throw std::exception("Invalid Memory Size");
     }
-
-    Result.ComPorts = NanaBox::ToComPortsConfiguration(
-        Mile::Json::GetSubKey(RootJson, "ComPorts"));
-
-    Result.Gpu = NanaBox::ToGpuConfiguration(
-        Mile::Json::GetSubKey(RootJson, "Gpu"));
-
-    for (nlohmann::json const& NetworkAdapter : Mile::Json::ToArray(
-        Mile::Json::GetSubKey(RootJson, "NetworkAdapters")))
-    {
-        Result.NetworkAdapters.push_back(
-            NanaBox::ToNetworkAdapterConfiguration(NetworkAdapter));
-    }
-
-    for (nlohmann::json const& ScsiDevice : Mile::Json::ToArray(
-        Mile::Json::GetSubKey(RootJson, "ScsiDevices")))
-    {
-        NanaBox::ScsiDeviceConfiguration Current =
-            NanaBox::ToScsiDeviceConfiguration(ScsiDevice);
-        
-        if (NanaBox::ScsiDeviceType::Unknown == Current.Type)
-        {
-            continue;
-        }
-
-        if (Current.Path.empty() &&
-            Current.Type != NanaBox::ScsiDeviceType::VirtualImage)
-        {
-            continue;
-        }
-
-        Result.ScsiDevices.push_back(Current);
-    }
-
-    Result.SecureBoot = Mile::Json::ToBoolean(
-        Mile::Json::GetSubKey(RootJson, "SecureBoot"),
-        Result.SecureBoot);
-
-    Result.Tpm = Mile::Json::ToBoolean(
-        Mile::Json::GetSubKey(RootJson, "Tpm"),
-        Result.Tpm);
-
-    Result.GuestStateFile = Mile::Json::ToString(
-        Mile::Json::GetSubKey(RootJson, "GuestStateFile"),
-        Result.GuestStateFile);
-
-    Result.RuntimeStateFile = Mile::Json::ToString(
-        Mile::Json::GetSubKey(RootJson, "RuntimeStateFile"),
-        Result.RuntimeStateFile);
-
-    Result.SaveStateFile = Mile::Json::ToString(
-        Mile::Json::GetSubKey(RootJson, "SaveStateFile"),
-        Result.SaveStateFile);
-
-    Result.ExposeVirtualizationExtensions = Mile::Json::ToBoolean(
-        Mile::Json::GetSubKey(RootJson, "ExposeVirtualizationExtensions"),
-        Result.ExposeVirtualizationExtensions);
-
-    Result.Keyboard = NanaBox::ToKeyboardConfiguration(
-        Mile::Json::GetSubKey(RootJson, "Keyboard"));
-
-    Result.EnhancedSession = NanaBox::ToEnhancedSessionConfiguration(
-        Mile::Json::GetSubKey(RootJson, "EnhancedSession"));
-
-    Result.ChipsetInformation = NanaBox::ToChipsetInformationConfiguration(
-        Mile::Json::GetSubKey(RootJson, "ChipsetInformation"));
 
     return Result;
 }
@@ -1005,97 +927,10 @@ NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
 std::string NanaBox::SerializeConfiguration(
     NanaBox::VirtualMachineConfiguration const& Configuration)
 {
-    nlohmann::json RootJson;
-    RootJson["Type"] = "VirtualMachine";
-    RootJson["Version"] = Configuration.Version;
-    RootJson["GuestType"] = NanaBox::FromGuestType(Configuration.GuestType);
-    RootJson["Name"] = Configuration.Name;
-    RootJson["ProcessorCount"] = Configuration.ProcessorCount;
-    RootJson["MemorySize"] = Configuration.MemorySize;
-    RootJson["ComPorts"] = NanaBox::FromComPortsConfiguration(
-        Configuration.ComPorts);
-    RootJson["Gpu"] = NanaBox::FromGpuConfiguration(Configuration.Gpu);
-    if (!Configuration.NetworkAdapters.empty())
-    {
-        nlohmann::json NetworkAdapters;
-        for (NanaBox::NetworkAdapterConfiguration const& NetworkAdapter
-            : Configuration.NetworkAdapters)
-        {
-            NetworkAdapters.push_back(
-                NanaBox::FromNetworkAdapterConfiguration(NetworkAdapter));
-        }
-        RootJson["NetworkAdapters"] = NetworkAdapters;
-    }
-    if (!Configuration.ScsiDevices.empty())
-    {
-        nlohmann::json ScsiDevices;
-        for (NanaBox::ScsiDeviceConfiguration const& ScsiDevice
-            : Configuration.ScsiDevices)
-        {
-            if (NanaBox::ScsiDeviceType::Unknown == ScsiDevice.Type)
-            {
-                continue;
-            }
-
-            ScsiDevices.push_back(
-                NanaBox::FromScsiDeviceConfiguration(ScsiDevice));
-        }
-        RootJson["ScsiDevices"] = ScsiDevices;
-    }
-    if (Configuration.SecureBoot)
-    {
-        RootJson["SecureBoot"] = Configuration.SecureBoot;
-    }
-    if (Configuration.Tpm)
-    {
-        RootJson["Tpm"] = Configuration.Tpm;
-    }
-    if (!Configuration.GuestStateFile.empty())
-    {
-        RootJson["GuestStateFile"] = Configuration.GuestStateFile;
-    }
-    if (!Configuration.RuntimeStateFile.empty())
-    {
-        RootJson["RuntimeStateFile"] = Configuration.RuntimeStateFile;
-    }
-    if (!Configuration.SaveStateFile.empty())
-    {
-        RootJson["SaveStateFile"] = Configuration.SaveStateFile;
-    }
-    if (Configuration.ExposeVirtualizationExtensions)
-    {
-        RootJson["ExposeVirtualizationExtensions"] =
-            Configuration.ExposeVirtualizationExtensions;
-    }
-    {
-        nlohmann::json Keyboard =
-            NanaBox::FromKeyboardConfiguration(
-                Configuration.Keyboard);
-        if (!Keyboard.empty())
-        {
-            RootJson["Keyboard"] = Keyboard;
-        }
-    }
-    {
-        nlohmann::json EnhancedSession =
-            NanaBox::FromEnhancedSessionConfiguration(
-                Configuration.EnhancedSession);
-        if (!EnhancedSession.empty())
-        {
-            RootJson["EnhancedSession"] = EnhancedSession;
-        }
-    }
-    {
-        nlohmann::json ChipsetInformation =
-            NanaBox::FromChipsetInformationConfiguration(
-                Configuration.ChipsetInformation);
-        if (!ChipsetInformation.empty())
-        {
-            RootJson["ChipsetInformation"] = ChipsetInformation;
-        }
-    }
-
     nlohmann::json Result;
-    Result["NanaBox"] = RootJson;
+
+    Result["NanaBox"] = NanaBox::FromVirtualMachineConfiguration(Configuration);
+    Result["NanaBox"]["Type"] = "VirtualMachine";
+
     return Result.dump(2);
 }

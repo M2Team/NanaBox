@@ -745,3 +745,203 @@ NanaBox::ChipsetInformationConfiguration NanaBox::ToChipsetInformationConfigurat
 
     return Result;
 }
+
+nlohmann::json NanaBox::FromVirtualMachineConfiguration(
+    NanaBox::VirtualMachineConfiguration const& Value)
+{
+    nlohmann::json Result;
+
+    Result["Version"] = Value.Version;
+
+    Result["GuestType"] = NanaBox::FromGuestType(Value.GuestType);
+
+    Result["Name"] = Value.Name;
+
+    Result["ProcessorCount"] = Value.ProcessorCount;
+
+    Result["MemorySize"] = Value.MemorySize;
+
+    Result["ComPorts"] = NanaBox::FromComPortsConfiguration(Value.ComPorts);
+
+    Result["Gpu"] = NanaBox::FromGpuConfiguration(Value.Gpu);
+
+    if (!Value.NetworkAdapters.empty())
+    {
+        nlohmann::json NetworkAdapters;
+        for (NanaBox::NetworkAdapterConfiguration const& NetworkAdapter
+            : Value.NetworkAdapters)
+        {
+            NetworkAdapters.push_back(
+                NanaBox::FromNetworkAdapterConfiguration(NetworkAdapter));
+        }
+        Result["NetworkAdapters"] = NetworkAdapters;
+    }
+
+    if (!Value.ScsiDevices.empty())
+    {
+        nlohmann::json ScsiDevices;
+        for (NanaBox::ScsiDeviceConfiguration const& ScsiDevice
+            : Value.ScsiDevices)
+        {
+            if (NanaBox::ScsiDeviceType::Unknown == ScsiDevice.Type)
+            {
+                continue;
+            }
+
+            ScsiDevices.push_back(
+                NanaBox::FromScsiDeviceConfiguration(ScsiDevice));
+        }
+        Result["ScsiDevices"] = ScsiDevices;
+    }
+
+    if (Value.SecureBoot)
+    {
+        Result["SecureBoot"] = Value.SecureBoot;
+    }
+
+    if (Value.Tpm)
+    {
+        Result["Tpm"] = Value.Tpm;
+    }
+
+    if (!Value.GuestStateFile.empty())
+    {
+        Result["GuestStateFile"] = Value.GuestStateFile;
+    }
+
+    if (!Value.RuntimeStateFile.empty())
+    {
+        Result["RuntimeStateFile"] = Value.RuntimeStateFile;
+    }
+
+    if (!Value.SaveStateFile.empty())
+    {
+        Result["SaveStateFile"] = Value.SaveStateFile;
+    }
+
+    if (Value.ExposeVirtualizationExtensions)
+    {
+        Result["ExposeVirtualizationExtensions"] =
+            Value.ExposeVirtualizationExtensions;
+    }
+
+    {
+        nlohmann::json Keyboard =
+            NanaBox::FromKeyboardConfiguration(Value.Keyboard);
+        if (!Keyboard.empty())
+        {
+            Result["Keyboard"] = Keyboard;
+        }
+    }
+
+    {
+        nlohmann::json EnhancedSession =
+            NanaBox::FromEnhancedSessionConfiguration(Value.EnhancedSession);
+        if (!EnhancedSession.empty())
+        {
+            Result["EnhancedSession"] = EnhancedSession;
+        }
+    }
+
+    {
+        nlohmann::json ChipsetInformation =
+            NanaBox::FromChipsetInformationConfiguration(
+                Value.ChipsetInformation);
+        if (!ChipsetInformation.empty())
+        {
+            Result["ChipsetInformation"] = ChipsetInformation;
+        }
+    }
+
+    return Result;
+}
+
+NanaBox::VirtualMachineConfiguration NanaBox::ToVirtualMachineConfiguration(
+    nlohmann::json const& Value)
+{
+    NanaBox::VirtualMachineConfiguration Result;
+
+    Result.Version = static_cast<std::uint32_t>(Mile::Json::ToUInt64(
+        Mile::Json::GetSubKey(Value, "Version")));
+
+    Result.GuestType = NanaBox::ToGuestType(
+        Mile::Json::GetSubKey(Value, "GuestType"));
+
+    Result.Name = Mile::Json::ToString(
+        Mile::Json::GetSubKey(Value, "Name"),
+        Result.Name);
+
+    Result.ProcessorCount = static_cast<std::uint32_t>(Mile::Json::ToUInt64(
+        Mile::Json::GetSubKey(Value, "ProcessorCount")));
+
+    Result.MemorySize = static_cast<std::uint32_t>(Mile::Json::ToUInt64(
+        Mile::Json::GetSubKey(Value, "MemorySize")));
+
+    Result.ComPorts = NanaBox::ToComPortsConfiguration(
+        Mile::Json::GetSubKey(Value, "ComPorts"));
+
+    Result.Gpu = NanaBox::ToGpuConfiguration(
+        Mile::Json::GetSubKey(Value, "Gpu"));
+
+    for (nlohmann::json const& NetworkAdapter : Mile::Json::ToArray(
+        Mile::Json::GetSubKey(Value, "NetworkAdapters")))
+    {
+        Result.NetworkAdapters.push_back(
+            NanaBox::ToNetworkAdapterConfiguration(NetworkAdapter));
+    }
+
+    for (nlohmann::json const& ScsiDevice : Mile::Json::ToArray(
+        Mile::Json::GetSubKey(Value, "ScsiDevices")))
+    {
+        NanaBox::ScsiDeviceConfiguration Current =
+            NanaBox::ToScsiDeviceConfiguration(ScsiDevice);
+
+        if (NanaBox::ScsiDeviceType::Unknown == Current.Type)
+        {
+            continue;
+        }
+
+        if (Current.Path.empty() &&
+            Current.Type != NanaBox::ScsiDeviceType::VirtualImage)
+        {
+            continue;
+        }
+
+        Result.ScsiDevices.push_back(Current);
+    }
+
+    Result.SecureBoot = Mile::Json::ToBoolean(
+        Mile::Json::GetSubKey(Value, "SecureBoot"),
+        Result.SecureBoot);
+
+    Result.Tpm = Mile::Json::ToBoolean(
+        Mile::Json::GetSubKey(Value, "Tpm"),
+        Result.Tpm);
+
+    Result.GuestStateFile = Mile::Json::ToString(
+        Mile::Json::GetSubKey(Value, "GuestStateFile"),
+        Result.GuestStateFile);
+
+    Result.RuntimeStateFile = Mile::Json::ToString(
+        Mile::Json::GetSubKey(Value, "RuntimeStateFile"),
+        Result.RuntimeStateFile);
+
+    Result.SaveStateFile = Mile::Json::ToString(
+        Mile::Json::GetSubKey(Value, "SaveStateFile"),
+        Result.SaveStateFile);
+
+    Result.ExposeVirtualizationExtensions = Mile::Json::ToBoolean(
+        Mile::Json::GetSubKey(Value, "ExposeVirtualizationExtensions"),
+        Result.ExposeVirtualizationExtensions);
+
+    Result.Keyboard = NanaBox::ToKeyboardConfiguration(
+        Mile::Json::GetSubKey(Value, "Keyboard"));
+
+    Result.EnhancedSession = NanaBox::ToEnhancedSessionConfiguration(
+        Mile::Json::GetSubKey(Value, "EnhancedSession"));
+
+    Result.ChipsetInformation = NanaBox::ToChipsetInformationConfiguration(
+        Mile::Json::GetSubKey(Value, "ChipsetInformation"));
+
+    return Result;
+}
