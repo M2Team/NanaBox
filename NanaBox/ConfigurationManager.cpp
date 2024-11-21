@@ -1323,38 +1323,21 @@ NanaBox::VirtualMachineConfiguration NanaBox::DeserializeConfiguration(
     for (nlohmann::json const& NetworkAdapter : Mile::Json::ToArray(
         Mile::Json::GetSubKey(RootJson, "NetworkAdapters")))
     {
-        NanaBox::NetworkAdapterConfiguration Current;
-
-        Current.Connected = Mile::Json::ToBoolean(
-            Mile::Json::GetSubKey(NetworkAdapter, "Connected"),
-            Current.Connected);
-
-        Current.MacAddress = Mile::Json::ToString(
-            Mile::Json::GetSubKey(NetworkAdapter, "MacAddress"),
-            Current.MacAddress);
-
-        Current.EndpointId = Mile::Json::ToString(
-            Mile::Json::GetSubKey(NetworkAdapter, "EndpointId"),
-            Current.EndpointId);
-
-        Result.NetworkAdapters.push_back(Current);
+        Result.NetworkAdapters.push_back(
+            NanaBox::ToNetworkAdapterConfiguration(NetworkAdapter));
     }
 
     for (nlohmann::json const& ScsiDevice : Mile::Json::ToArray(
         Mile::Json::GetSubKey(RootJson, "ScsiDevices")))
     {
-        NanaBox::ScsiDeviceConfiguration Current;
-
-        Current.Type = NanaBox::ToScsiDeviceType(
-            Mile::Json::GetSubKey(ScsiDevice, "Type"));
+        NanaBox::ScsiDeviceConfiguration Current =
+            NanaBox::ToScsiDeviceConfiguration(ScsiDevice);
+        
         if (NanaBox::ScsiDeviceType::Unknown == Current.Type)
         {
             continue;
         }
 
-        Current.Path = Mile::Json::ToString(
-            Mile::Json::GetSubKey(ScsiDevice, "Path"),
-            Current.Path);
         if (Current.Path.empty() &&
             Current.Type != NanaBox::ScsiDeviceType::VirtualImage)
         {
@@ -1422,17 +1405,8 @@ std::string NanaBox::SerializeConfiguration(
         for (NanaBox::NetworkAdapterConfiguration const& NetworkAdapter
             : Configuration.NetworkAdapters)
         {
-            nlohmann::json Current;
-            Current["Connected"] = NetworkAdapter.Connected;
-            if (!NetworkAdapter.MacAddress.empty())
-            {
-                Current["MacAddress"] = NetworkAdapter.MacAddress;
-            }
-            if (!NetworkAdapter.EndpointId.empty())
-            {
-                Current["EndpointId"] = NetworkAdapter.EndpointId;
-            }
-            NetworkAdapters.push_back(Current);
+            NetworkAdapters.push_back(
+                NanaBox::FromNetworkAdapterConfiguration(NetworkAdapter));
         }
         RootJson["NetworkAdapters"] = NetworkAdapters;
     }
@@ -1447,13 +1421,8 @@ std::string NanaBox::SerializeConfiguration(
                 continue;
             }
 
-            nlohmann::json Current;
-            Current["Type"] = NanaBox::FromScsiDeviceType(ScsiDevice.Type);
-            if (!ScsiDevice.Path.empty())
-            {
-                Current["Path"] = ScsiDevice.Path;
-            }
-            ScsiDevices.push_back(Current);
+            ScsiDevices.push_back(
+                NanaBox::FromScsiDeviceConfiguration(ScsiDevice));
         }
         RootJson["ScsiDevices"] = ScsiDevices;
     }

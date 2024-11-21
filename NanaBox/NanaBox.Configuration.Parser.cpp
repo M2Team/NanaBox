@@ -285,3 +285,73 @@ NanaBox::GpuConfiguration NanaBox::ToGpuConfiguration(
 
     return Result;
 }
+
+nlohmann::json NanaBox::FromNetworkAdapterConfiguration(
+    NanaBox::NetworkAdapterConfiguration const& Value)
+{
+    nlohmann::json Result;
+
+    Result["Connected"] = Value.Connected;
+
+    if (!Value.MacAddress.empty())
+    {
+        Result["MacAddress"] = Value.MacAddress;
+    }
+
+    if (!Value.EndpointId.empty())
+    {
+        Result["EndpointId"] = Value.EndpointId;
+    }
+
+    return Result;
+}
+
+NanaBox::NetworkAdapterConfiguration NanaBox::ToNetworkAdapterConfiguration(
+    nlohmann::json const& Value)
+{
+    NanaBox::NetworkAdapterConfiguration Result;
+
+    Result.Connected = Mile::Json::ToBoolean(
+        Mile::Json::GetSubKey(Value, "Connected"),
+        Result.Connected);
+
+    Result.MacAddress = Mile::Json::ToString(
+        Mile::Json::GetSubKey(Value, "MacAddress"),
+        Result.MacAddress);
+
+    Result.EndpointId = Mile::Json::ToString(
+        Mile::Json::GetSubKey(Value, "EndpointId"),
+        Result.EndpointId);
+
+    return Result;
+}
+
+nlohmann::json NanaBox::FromScsiDeviceConfiguration(
+    NanaBox::ScsiDeviceConfiguration const& Value)
+{
+    nlohmann::json Result;
+
+    Result["Type"] = NanaBox::FromScsiDeviceType(Value.Type);
+
+    if (!Value.Path.empty())
+    {
+        Result["Path"] = Value.Path;
+    }
+
+    return Result;
+}
+
+NanaBox::ScsiDeviceConfiguration NanaBox::ToScsiDeviceConfiguration(
+    nlohmann::json const& Value)
+{
+    NanaBox::ScsiDeviceConfiguration Result;
+
+    Result.Type = NanaBox::ToScsiDeviceType(
+        Mile::Json::GetSubKey(Value, "Type"));
+
+    Result.Path = Mile::Json::ToString(
+        Mile::Json::GetSubKey(Value, "Path"),
+        Result.Path);
+
+    return Result;
+}

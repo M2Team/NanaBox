@@ -52,6 +52,18 @@ namespace NanaBox
 
     GpuConfiguration ToGpuConfiguration(
         nlohmann::json const& Value);
+
+    nlohmann::json FromNetworkAdapterConfiguration(
+        NetworkAdapterConfiguration const& Value);
+
+    NetworkAdapterConfiguration ToNetworkAdapterConfiguration(
+        nlohmann::json const& Value);
+
+    nlohmann::json FromScsiDeviceConfiguration(
+        ScsiDeviceConfiguration const& Value);
+
+    ScsiDeviceConfiguration ToScsiDeviceConfiguration(
+        nlohmann::json const& Value);
 }
 
 #endif // !NANABOX_CONFIGURATION_PARSER
