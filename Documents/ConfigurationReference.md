@@ -86,7 +86,7 @@
   - RuntimeStateFile (String)
   - SaveStateFile (String)
   - ExposeVirtualizationExtensions (Boolean)
-  - Keyboard (Object Array)
+  - Keyboard (Object)
     - RedirectKeyCombinations (Boolean)
     - FullScreenHotkey (Number)
     - CtrlEscHotkey (Number)
@@ -97,7 +97,7 @@
     - CtrlAltDelHotkey (Number)
     - FocusReleaseLeftHotkey (Number)
     - FocusReleaseRightHotkey (Number)
-  - EnhancedSession (Object Array)
+  - EnhancedSession (Object)
     - RedirectAudio (Boolean)
     - RedirectAudioCapture (Boolean)
     - RedirectDrives (Boolean)
@@ -372,7 +372,7 @@ the virtual machine.
 
 ### Keyboard
 
-(Optional) Keyboard setting object array of virtual machine.
+(Optional) Keyboard setting object of virtual machine.
 
 For more information about the default keyboard shortcut behavior, please read
 https://learn.microsoft.com/en-us/windows/win32/termserv/terminal-services-shortcut-keys.
@@ -510,7 +510,7 @@ https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes.
 
 ### EnhancedSession
 
-(Optional) Enhanced session setting object array of virtual machine.
+(Optional) Enhanced session setting object of virtual machine.
 
 Note: Available starting with NanaBox 1.1 and you can modify these settings at
 runtime.
