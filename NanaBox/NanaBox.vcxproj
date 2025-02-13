@@ -25,10 +25,10 @@
     <!-- <MileProjectVersionTag>Update 1</MileProjectVersionTag> -->
     <MileUniCrtDisableRuntimeDebuggingFeature>true</MileUniCrtDisableRuntimeDebuggingFeature>
   </PropertyGroup>
-  <Import Project="..\Mile.Project.Windows\Mile.Project.Platform.x64.props" />
-  <Import Project="..\Mile.Project.Windows\Mile.Project.Platform.ARM64.props" />
-  <Import Project="..\Mile.Project.Windows\Mile.Project.Cpp.Default.props" />
-  <Import Project="..\Mile.Project.Windows\Mile.Project.Cpp.props" />
+  <Import Sdk="Mile.Project.Configurations" Version="1.0.1426" Project="Mile.Project.Platform.x64.props" />
+  <Import Sdk="Mile.Project.Configurations" Version="1.0.1426" Project="Mile.Project.Platform.ARM64.props" />
+  <Import Sdk="Mile.Project.Configurations" Version="1.0.1426" Project="Mile.Project.Cpp.Default.props" />
+  <Import Sdk="Mile.Project.Configurations" Version="1.0.1426" Project="Mile.Project.Cpp.props" />
   <ImportGroup Label="PropertySheets">
     <Import Project="PropertySheet.props" />
   </ImportGroup>
@@ -287,5 +287,5 @@
     <PRIResource Include="Strings\zh-Hans\ReloadConfirmationPage.resw" />
     <PRIResource Include="Strings\zh-Hans\SponsorPage.resw" />
   </ItemGroup>
-  <Import Project="..\Mile.Project.Windows\Mile.Project.Cpp.targets" />
+  <Import Sdk="Mile.Project.Configurations" Version="1.0.1426" Project="Mile.Project.Cpp.targets" />
 </Project>
