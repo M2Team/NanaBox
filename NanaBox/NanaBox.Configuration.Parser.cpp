@@ -898,6 +898,16 @@ nlohmann::json NanaBox::FromVirtualMachineConfiguration(
         }
     }
 
+    if (!Value.Policies.empty())
+    {
+        nlohmann::json Policies;
+        for (std::string const& Policy : Value.Policies)
+        {
+            Policies.push_back(Policy);
+        }
+        Result["Policies"] = Policies;
+    }
+
     return Result;
 }
 
@@ -990,6 +1000,16 @@ NanaBox::VirtualMachineConfiguration NanaBox::ToVirtualMachineConfiguration(
 
     Result.VideoMonitor = NanaBox::ToVideoMonitorConfiguration(
         Mile::Json::GetSubKey(Value, "VideoMonitor"));
+
+    for (nlohmann::json const& Policy : Mile::Json::ToArray(
+        Mile::Json::GetSubKey(Value, "Policies")))
+    {
+        std::string PolicyString = Mile::Json::ToString(Policy);
+        if (!PolicyString.empty())
+        {
+            Result.Policies.push_back(PolicyString);
+        }
+    }
 
     return Result;
 }

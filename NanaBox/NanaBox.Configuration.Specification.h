@@ -169,6 +169,7 @@ namespace NanaBox
         EnhancedSessionConfiguration EnhancedSession;
         ChipsetInformationConfiguration ChipsetInformation;
         VideoMonitorConfiguration VideoMonitor;
+        std::vector<std::string> Policies;
         std::vector<Plan9ShareConfiguration> Plan9Shares; // Not Implemented
     };
 }

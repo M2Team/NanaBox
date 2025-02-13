@@ -361,6 +361,14 @@
                 "examples": [ 1080 ]
               }
             }
+          },
+          "Policies": {
+            "type": "array",
+            "description": "The string array of policies of virtual machine. Read NanaBox Configuration File Reference for more information. Available starting with NanaBox 1.5.",
+            "items": {
+              "type": "string",
+              "examples": [ "LegacyApicSelectionLogic" ]
+            }
           }
         }
       }

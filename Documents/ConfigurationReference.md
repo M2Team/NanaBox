@@ -125,6 +125,7 @@
   - VideoMonitor (Object)
     - HorizontalResolution (Number)
     - VerticalResolution (Number)
+  - Policies (String Array)
 
 ### NanaBox
 
@@ -760,6 +761,37 @@ Example value: 1080
 Note: Only the Basic Session Mode is constrainted with this setting.
 
 Note: Available starting with NanaBox 1.5.
+
+### Policies
+
+(Optional) The string array of policies of virtual machine.
+
+Note: Available starting with NanaBox 1.5.
+
+#### Available Policies starting with NanaBox 1.5
+
+Note: These policies need Windows 11 Version 24H2 or later Host OS.
+
+- LegacyPcrMeasurement
+- DisableSha384Pcr
+- LegacyRteWidth
+- LegacyTrustedLaunchMemoryMap
+- LegacyApicSelectionLogic
+- LegacyApicManganeseOverride
+- LegacyGpaLayout
+- ForceLegacyHcl
+- ForceCurrentHcl
+- UseExtendedMaxVpPerSocketLimit
+
+Example: If you want to do some hacks to boot x86 (64-Bit) Windows XP / Vista /
+7 on Hyper-V Generation 2 Virtual Machines with NanaBox and Windows 11 Version
+24H2 or later Host OS, you can set the following policies to help you do further
+researches.
+
+- LegacyRteWidth
+- LegacyApicSelectionLogic
+- LegacyApicManganeseOverride
+- LegacyGpaLayout
 
 ## Samples
 

@@ -192,18 +192,81 @@ std::string NanaBox::MakeHcsConfiguration(
     }
     Result["VirtualMachine"]["Chipset"] = Chipset;
 
-    nlohmann::json Memory;
-    Memory["SizeInMB"] = Configuration.MemorySize;
-    Memory["AllowOvercommit"] = true;
-    Result["VirtualMachine"]["ComputeTopology"]["Memory"] = Memory;
-
-    nlohmann::json Processor;
-    Processor["Count"] = Configuration.ProcessorCount;
-    if (Configuration.ExposeVirtualizationExtensions)
+    nlohmann::json ComputeTopology;
     {
-        Processor["ExposeVirtualizationExtensions"] = true;
+        nlohmann::json Memory;
+        {
+            Memory["SizeInMB"] = Configuration.MemorySize;
+            Memory["AllowOvercommit"] = true;
+        }
+        ComputeTopology["Memory"] = Memory;
+
+        nlohmann::json Processor;
+        {
+            Processor["Count"] = Configuration.ProcessorCount;
+            if (Configuration.ExposeVirtualizationExtensions)
+            {
+                Processor["ExposeVirtualizationExtensions"] = true;
+            }
+        }
+        ComputeTopology["Processor"] = Processor;
+
+        std::uint32_t GuestFeatureSet = 0;
+        if (::MileIsWindowsVersionAtLeast(10, 0, 26100) &&
+            !Configuration.Policies.empty())
+        {
+            for (std::string const& Policy : Configuration.Policies)
+            {
+                if ("LegacyPcrMeasurement" == Policy)
+                {
+                    GuestFeatureSet |= 0x00000002;
+                }
+                else if ("DisableSha384Pcr" == Policy)
+                {
+                    GuestFeatureSet |= 0x00000004;
+                }
+                else if ("LegacyRteWidth" == Policy)
+                {
+                    GuestFeatureSet |= 0x00000008;
+                }
+                else if ("LegacyTrustedLaunchMemoryMap" == Policy)
+                {
+                    GuestFeatureSet |= 0x00000010;
+                }
+                else if ("LegacyApicSelectionLogic" == Policy)
+                {
+                    GuestFeatureSet |= 0x00000020;
+                }
+                else if ("LegacyApicManganeseOverride" == Policy)
+                {
+                    GuestFeatureSet |= 0x00000040;
+                }
+                else if ("LegacyGpaLayout" == Policy)
+                {
+                    GuestFeatureSet |= 0x00000080;
+                }
+                else if ("ForceLegacyHcl" == Policy)
+                {
+                    GuestFeatureSet |= 0x00000100;
+                }
+                else if ("ForceCurrentHcl" == Policy)
+                {
+                    GuestFeatureSet |= 0x00000200;
+                }
+                else if ("UseExtendedMaxVpPerSocketLimit" == Policy)
+                {
+                    GuestFeatureSet |= 0x00000400;
+                }
+            }
+            if (GuestFeatureSet)
+            {
+                // UseGuestFeatureSetFlags
+                GuestFeatureSet |= 0x00000001;
+            }
+        }
+        ComputeTopology["Compatibility"]["GuestFeatureSet"] = GuestFeatureSet;
     }
-    Result["VirtualMachine"]["ComputeTopology"]["Processor"] = Processor;
+    Result["VirtualMachine"]["ComputeTopology"] = ComputeTopology;
 
     // Note: Skip Configuration.Gpu because it need to add at runtime.
 
