@@ -80,7 +80,7 @@ namespace winrt::NanaBox::implementation
                 Flags |= FOS_DONTADDTORECENT;
                 winrt::check_hresult(FileDialog->SetOptions(Flags));
 
-                static constexpr COMDLG_FILTERSPEC SupportedFileTypes[] =
+                COMDLG_FILTERSPEC SupportedFileTypes[] =
                 {
                     { L"VHDX (*.vhdx)", L"*.vhdx" },
                     { L"VHD (*.vhd)", L"*.vhd" }

@@ -96,7 +96,7 @@ namespace winrt::NanaBox::implementation
                         L"QuickStartPage/ConfigurationFileTypeName",
                         L"[NanaBox Virtual Machine Configuration]").c_str());
 
-                static COMDLG_FILTERSPEC SupportedFileTypes[] =
+                COMDLG_FILTERSPEC SupportedFileTypes[] =
                 {
                     {
                         FileTypeName.c_str(),
@@ -159,7 +159,7 @@ namespace winrt::NanaBox::implementation
                 Flags |= FOS_DONTADDTORECENT;
                 winrt::check_hresult(FileDialog->SetOptions(Flags));
 
-                static constexpr COMDLG_FILTERSPEC SupportedFileTypes[] =
+                COMDLG_FILTERSPEC SupportedFileTypes[] =
                 {
                     { L"ISO (*.iso)", L"*.iso" }
                 };
@@ -213,7 +213,7 @@ namespace winrt::NanaBox::implementation
                 Flags |= FOS_DONTADDTORECENT;
                 winrt::check_hresult(FileDialog->SetOptions(Flags));
 
-                static constexpr COMDLG_FILTERSPEC SupportedFileTypes[] =
+                COMDLG_FILTERSPEC SupportedFileTypes[] =
                 {
                     { L"VHDX (*.vhdx)", L"*.vhdx" },
                     { L"VHD (*.vhd)", L"*.vhd" }
@@ -275,7 +275,7 @@ namespace winrt::NanaBox::implementation
                         L"QuickStartPage/ConfigurationFileTypeName",
                         L"[NanaBox Virtual Machine Configuration]").c_str());
 
-                static COMDLG_FILTERSPEC SupportedFileTypes[] =
+                COMDLG_FILTERSPEC SupportedFileTypes[] =
                 {
                     {
                         FileTypeName.c_str(),
