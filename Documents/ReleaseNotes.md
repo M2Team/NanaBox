@@ -1,5 +1,25 @@
 ﻿# NanaBox Release Notes
 
+**NanaBox 1.5 (1.5.1050.0)**
+
+- Introducing the guest policies configuration support for virtual machines.
+- Introducing the video monitor configuration support for virtual machines.
+- Rewrite the virtual machine configuration parser implementation.
+- Fix the .7b file type description in "Open file" dialog is random characters
+  issue mentioned in https://github.com/M2Team/NanaBox/issues/11. (Thanks to
+  kanren3 and prakharb5.)
+- Fix the configuration specification document definitions. (Thanks to
+  cxxzhang.)
+- Make UI more compliant with Windows 11 design. (Contributed by
+  dongle-the-gadget.)
+- Prevent excessive disposing of brushes for progress ring. (Contributed by
+  dongle-the-gadget.)
+- Migrate from Mile.Project.Windows to Mile.Project.Configurations.
+- Use Mile.Windows.UniCrt instead of VC-LTL.
+- Update Mile.Xaml to 2.5.1250.
+- Update Mile.Windows.Helpers to 1.0.671.
+- Update packages for NanaBox.MaintainerTools projects.
+
 **NanaBox 1.3 Update 5 (1.3.874.0)**
 
 - Fix the crash issue when clicking the "Restart Virtual Machine" button.

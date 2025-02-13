@@ -464,7 +464,7 @@ Creative Commons may be contacted at creativecommons.org.
 
 - C++/WinRT, https://github.com/microsoft/cppwinrt
 - Mile.Json, https://github.com/ProjectMile/Mile.Json
-- Mile.Project.Windows, https://github.com/ProjectMile/Mile.Project.Windows
+- Mile.Project.Configurations, https://github.com/ProjectMile/Mile.Project.Configurations
 - Mile.Windows.Helpers, https://github.com/ProjectMile/Mile.Windows.Helpers
 - Mile.Windows.UniCrt, https://github.com/ProjectMile/Mile.Windows.UniCrt
 - Mile.Xaml, https://github.com/ProjectMile/Mile.Xaml
