@@ -209,13 +209,19 @@ std::string NanaBox::MakeHcsConfiguration(
 
     nlohmann::json Devices;
     {
+        bool IsDefaultResolution = (
+            1024 == Configuration.VideoMonitor.HorizontalResolution &&
+            768 == Configuration.VideoMonitor.VerticalResolution);
+
         nlohmann::json VideoMonitor;
-        if (::MileIsWindowsVersionAtLeast(10, 0, 20348))
+        if (::MileIsWindowsVersionAtLeast(10, 0, 20348) && IsDefaultResolution)
         {
             VideoMonitor["ResolutionType"] = NanaBox::ResolutionType::Default;
         }
-        VideoMonitor["HorizontalResolution"] = 1024;
-        VideoMonitor["VerticalResolution"] = 768;
+        VideoMonitor["HorizontalResolution"] =
+            Configuration.VideoMonitor.HorizontalResolution;
+        VideoMonitor["VerticalResolution"] =
+            Configuration.VideoMonitor.VerticalResolution;
         {
             nlohmann::json ConnectionOptions;
             ConnectionOptions["NamedPipe"] = Mile::FormatString(

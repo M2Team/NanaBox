@@ -345,6 +345,22 @@
                 }
               }
             }
+          },
+          "VideoMonitor": {
+            "type": "object",
+            "description": "The video monitor setting object of virtual machine. Available starting with NanaBox 1.5.",
+            "properties": {
+              "HorizontalResolution": {
+                "type": "number",
+                "description": "The horizontal resolution of the video monitor of virtual machine. Only the Basic Session Mode is constrainted with this setting. Available starting with NanaBox 1.5.",
+                "examples": [ 1920 ]
+              },
+              "VerticalResolution": {
+                "type": "number",
+                "description": "The vertical resolution of the video monitor of virtual machine. Only the Basic Session Mode is constrainted with this setting. Available starting with NanaBox 1.5.",
+                "examples": [ 1080 ]
+              }
+            }
           }
         }
       }

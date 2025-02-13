@@ -122,6 +122,9 @@
     - Family (String)
     - UUID (String)
     - SKUNumber (String)
+  - VideoMonitor (Object)
+    - HorizontalResolution (Number)
+    - VerticalResolution (Number)
 
 ### NanaBox
 
@@ -731,6 +734,32 @@ Example value: "TestVM"
 Note: You need Windows Server 2022 or later Host OS.
 
 Note: Available starting with NanaBox 1.2 Update 4.
+
+### VideoMonitor
+
+(Optional) The video monitor setting object of virtual machine.
+
+Note: Available starting with NanaBox 1.5.
+
+#### HorizontalResolution
+
+(Optional) The horizontal resolution of the video monitor of virtual machine.
+
+Example value: 1920
+
+Note: Only the Basic Session Mode is constrainted with this setting.
+
+Note: Available starting with NanaBox 1.5.
+
+#### VerticalResolution
+
+(Optional) The vertical resolution of the video monitor of virtual machine.
+
+Example value: 1080
+
+Note: Only the Basic Session Mode is constrainted with this setting.
+
+Note: Available starting with NanaBox 1.5.
 
 ## Samples
 

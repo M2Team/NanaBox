@@ -83,6 +83,12 @@ namespace NanaBox
     ChipsetInformationConfiguration ToChipsetInformationConfiguration(
         nlohmann::json const& Value);
 
+    nlohmann::json FromVideoMonitorConfiguration(
+        VideoMonitorConfiguration const& Value);
+
+    VideoMonitorConfiguration ToVideoMonitorConfiguration(
+        nlohmann::json const& Value);
+
     nlohmann::json FromVirtualMachineConfiguration(
         VirtualMachineConfiguration const& Value);
 

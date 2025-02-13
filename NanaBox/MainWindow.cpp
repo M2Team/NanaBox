@@ -357,7 +357,7 @@ void NanaBox::MainWindow::OnSize(
         RdpClientRect.bottom - RdpClientRect.top);
 
     if (this->m_RdpClient->Connected() &&
-        this->m_RdpClientMode == RdpClientMode::BasicSession)
+        RdpClientMode::BasicSession == this->m_RdpClientMode)
     {
         VARIANT RawZoomLevel;
         RawZoomLevel.vt = VT_UI4;

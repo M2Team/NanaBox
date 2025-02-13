@@ -129,23 +129,23 @@ namespace NanaBox
         std::string Family; // At least 20348.
     };
 
+    struct VideoMonitorConfiguration
+    {
+        std::uint16_t HorizontalResolution = 1024;
+        std::uint16_t VerticalResolution = 768;
+        bool EnableBasicSessionDpiScaling = true; // Not Implemented
+        bool EnableDpiScalingValueOverride = false; // Not Implemented
+        bool EnableContentResizing = true; // Not Implemented
+        bool ShowFullScreenModeConnectionBar = true; // Not Implemented
+        std::uint32_t OverriddenDpiScalingValue = 100; // Not Implemented
+    };
+
     struct Plan9ShareConfiguration
     {
         bool ReadOnly = true;
         std::uint32_t Port;
         std::string Path;
         std::string Name;
-    };
-
-    struct VideoMonitorConfiguration
-    {
-        bool EnableBasicSessionDpiScaling = true;
-        bool EnableDpiScalingValueOverride = false;
-        bool EnableContentResizing = true;
-        bool ShowFullScreenModeConnectionBar = true;
-        std::uint16_t HorizontalResolution = 1024;
-        std::uint16_t VerticalResolution = 768;
-        std::uint32_t OverriddenDpiScalingValue = 100;
     };
 
     struct VirtualMachineConfiguration
@@ -168,8 +168,8 @@ namespace NanaBox
         KeyboardConfiguration Keyboard;
         EnhancedSessionConfiguration EnhancedSession;
         ChipsetInformationConfiguration ChipsetInformation;
+        VideoMonitorConfiguration VideoMonitor;
         std::vector<Plan9ShareConfiguration> Plan9Shares; // Not Implemented
-        VideoMonitorConfiguration VideoMonitor; // Not Implemented
     };
 }
 

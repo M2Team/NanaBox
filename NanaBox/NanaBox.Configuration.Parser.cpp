@@ -746,6 +746,42 @@ NanaBox::ChipsetInformationConfiguration NanaBox::ToChipsetInformationConfigurat
     return Result;
 }
 
+nlohmann::json NanaBox::FromVideoMonitorConfiguration(
+    NanaBox::VideoMonitorConfiguration const& Value)
+{
+    nlohmann::json Result;
+
+    if (1024 != Value.HorizontalResolution)
+    {
+        Result["HorizontalResolution"] = Value.HorizontalResolution;
+    }
+
+    if (768 != Value.VerticalResolution)
+    {
+        Result["VerticalResolution"] = Value.VerticalResolution;
+    }
+
+    return Result;
+}
+
+NanaBox::VideoMonitorConfiguration NanaBox::ToVideoMonitorConfiguration(
+    nlohmann::json const& Value)
+{
+    NanaBox::VideoMonitorConfiguration Result;
+
+    Result.HorizontalResolution =
+        static_cast<std::uint16_t>(Mile::Json::ToUInt64(
+            Mile::Json::GetSubKey(Value, "HorizontalResolution"),
+            Result.HorizontalResolution));
+
+    Result.VerticalResolution =
+        static_cast<std::uint16_t>(Mile::Json::ToUInt64(
+            Mile::Json::GetSubKey(Value, "VerticalResolution"),
+            Result.VerticalResolution));
+
+    return Result;
+}
+
 nlohmann::json NanaBox::FromVirtualMachineConfiguration(
     NanaBox::VirtualMachineConfiguration const& Value)
 {
@@ -853,6 +889,15 @@ nlohmann::json NanaBox::FromVirtualMachineConfiguration(
         }
     }
 
+    {
+        nlohmann::json VideoMonitor =
+            NanaBox::FromVideoMonitorConfiguration(Value.VideoMonitor);
+        if (!VideoMonitor.empty())
+        {
+            Result["VideoMonitor"] = VideoMonitor;
+        }
+    }
+
     return Result;
 }
 
@@ -942,6 +987,9 @@ NanaBox::VirtualMachineConfiguration NanaBox::ToVirtualMachineConfiguration(
 
     Result.ChipsetInformation = NanaBox::ToChipsetInformationConfiguration(
         Mile::Json::GetSubKey(Value, "ChipsetInformation"));
+
+    Result.VideoMonitor = NanaBox::ToVideoMonitorConfiguration(
+        Mile::Json::GetSubKey(Value, "VideoMonitor"));
 
     return Result;
 }
