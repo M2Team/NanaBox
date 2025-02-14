@@ -211,10 +211,10 @@ std::string NanaBox::MakeHcsConfiguration(
         }
         ComputeTopology["Processor"] = Processor;
 
-        std::uint32_t GuestFeatureSet = 0;
         if (::MileIsWindowsVersionAtLeast(10, 0, 26100) &&
             !Configuration.Policies.empty())
         {
+            std::uint32_t GuestFeatureSet = 0;
             for (std::string const& Policy : Configuration.Policies)
             {
                 if ("LegacyPcrMeasurement" == Policy)
@@ -263,8 +263,9 @@ std::string NanaBox::MakeHcsConfiguration(
                 // UseGuestFeatureSetFlags
                 GuestFeatureSet |= 0x00000001;
             }
+            ComputeTopology["Compatibility"]["GuestFeatureSet"] =
+                GuestFeatureSet;
         }
-        ComputeTopology["Compatibility"]["GuestFeatureSet"] = GuestFeatureSet;
     }
     Result["VirtualMachine"]["ComputeTopology"] = ComputeTopology;
 
