@@ -86,13 +86,16 @@ namespace winrt::NanaBox::implementation
     {
         auto progressRing = d.as<NanaBox::ProgressRing>();
         auto progressRingImpl = winrt::get_self<NanaBox::implementation::ProgressRing>(progressRing);
+        auto newColor = args.NewValue().as<Windows::UI::Xaml::Media::SolidColorBrush>().Color();
 
-        auto brush = progressRingImpl->m_shape.StrokeBrush();
+        auto brush = progressRingImpl->m_shape.StrokeBrush().try_as<Windows::UI::Composition::CompositionColorBrush>();
 
-        if (brush)
+        if (!brush)
         {
-            brush.as<Windows::UI::Composition::CompositionColorBrush>().Color(args.NewValue().as<Windows::UI::Xaml::Media::SolidColorBrush>().Color());
+            brush = progressRingImpl->m_compositor.CreateColorBrush();
+            progressRingImpl->m_shape.StrokeBrush(brush);
         }
+        brush.Color(newColor);
     }
 
     Windows::UI::Xaml::DependencyProperty ProgressRing::ForegroundProperty()
