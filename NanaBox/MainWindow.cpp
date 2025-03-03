@@ -1075,8 +1075,6 @@ void NanaBox::MainWindow::RdpClientOnLoginComplete()
 void NanaBox::MainWindow::RdpClientOnDisconnected(
     _In_ LONG DisconnectReason)
 {
-    UNREFERENCED_PARAMETER(DisconnectReason);
-
     this->m_MouseCaptureMode = false;
     ::ClipCursor(nullptr);
 
@@ -1090,7 +1088,16 @@ void NanaBox::MainWindow::RdpClientOnDisconnected(
 
     if (this->m_VirtualMachineRunning)
     {
-        if (this->m_NeedRdpClientModeChange)
+        if (DisconnectReason == 4)
+        {
+            ::ShowMessageDialog(
+                nullptr,
+                Mile::WinRT::GetLocalizedString(L"Messages/RdpFailInstructionText"),
+                Mile::WinRT::GetLocalizedString(L"Messages/RdpFailContentText"));
+
+            this->m_VirtualMachine->Terminate();
+        }
+        else if (this->m_NeedRdpClientModeChange)
         {
             try
             {
