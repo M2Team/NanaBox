@@ -1065,6 +1065,7 @@ void NanaBox::MainWindow::RdpClientOnRemoteDesktopSizeChange(
 
 void NanaBox::MainWindow::RdpClientOnLoginComplete()
 {
+    this->m_connectionOnceSuccessful = true;
     if (this->m_RdpClientMode == RdpClientMode::EnhancedSession)
     {
         this->m_RdpClientMode = RdpClientMode::EnhancedVideoSyncedSession;
@@ -1088,7 +1089,7 @@ void NanaBox::MainWindow::RdpClientOnDisconnected(
 
     if (this->m_VirtualMachineRunning)
     {
-        if (DisconnectReason == 4)
+        if (DisconnectReason == 4 && !this->m_connectionOnceSuccessful)
         {
             ::ShowMessageDialog(
                 nullptr,
