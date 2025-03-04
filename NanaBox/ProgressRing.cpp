@@ -8,7 +8,9 @@ namespace winrt::NanaBox::implementation
 {
     ProgressRing::ProgressRing()
     {
-        m_compositor = Windows::UI::Xaml::Hosting::ElementCompositionPreview::GetElementVisual(*this).Compositor();
+        m_compositor =
+            Windows::UI::Xaml::Hosting::ElementCompositionPreview::GetElementVisual(*this)
+            .Compositor();
 
         auto ellipse = m_compositor.CreateEllipseGeometry();
         ellipse.Radius({ 7, 7 });
@@ -24,12 +26,17 @@ namespace winrt::NanaBox::implementation
         m_visual.Size({ m_defaultProgressRingSize, m_defaultProgressRingSize });
         m_visual.Shapes().Append(m_shape);
 
-        Windows::UI::Xaml::Hosting::ElementCompositionPreview::SetElementChildVisual(*this, m_visual);
+        Windows::UI::Xaml::Hosting::ElementCompositionPreview::SetElementChildVisual(
+            *this,
+            m_visual);
 
         auto holdThenStepEasing = m_compositor.CreateStepEasingFunction();
         holdThenStepEasing.IsFinalStepSingleFrame(true);
 
-        auto cubicBezierEasing = m_compositor.CreateCubicBezierEasingFunction({ 0.166999996f, 0.166999996f }, { 0.833000004f, 0.833000004f });
+        auto cubicBezierEasing =
+            m_compositor.CreateCubicBezierEasingFunction(
+                { 0.166999996f, 0.166999996f },
+                { 0.833000004f, 0.833000004f });
 
         auto rotationAnimation = m_compositor.CreateScalarKeyFrameAnimation();
         rotationAnimation.InsertKeyFrame(0.0f, 0.0f, holdThenStepEasing);
@@ -51,7 +58,10 @@ namespace winrt::NanaBox::implementation
 
     Windows::Foundation::Size ProgressRing::MeasureOverride(Windows::Foundation::Size const& availableSize)
     {
-        auto size = availableSize.Width > availableSize.Height ? availableSize.Height : availableSize.Width;
+        auto size =
+            availableSize.Width > availableSize.Height
+            ? availableSize.Height
+            : availableSize.Width;
         if (size == INFINITY)
         {
             size = m_defaultProgressRingSize;
@@ -62,7 +72,10 @@ namespace winrt::NanaBox::implementation
 
     Windows::Foundation::Size ProgressRing::ArrangeOverride(Windows::Foundation::Size const& finalSize)
     {
-        auto size = finalSize.Width > finalSize.Height ? finalSize.Height : finalSize.Width;
+        auto size =
+            finalSize.Width > finalSize.Height
+            ? finalSize.Height
+            : finalSize.Width;
 
         float scale = size / m_defaultProgressRingSize;
         m_visual.Scale({ scale, scale, scale });
@@ -82,17 +95,35 @@ namespace winrt::NanaBox::implementation
             Windows::UI::Xaml::PropertyMetadata{ nullptr, &OnForegroundChanged }
         );
 
-    void ProgressRing::OnForegroundChanged(Windows::UI::Xaml::DependencyObject d, Windows::UI::Xaml::DependencyPropertyChangedEventArgs args)
+    void ProgressRing::OnForegroundChanged(
+        Windows::UI::Xaml::DependencyObject d,
+        Windows::UI::Xaml::DependencyPropertyChangedEventArgs args)
     {
         auto progressRing = d.as<NanaBox::ProgressRing>();
-        auto progressRingImpl = winrt::get_self<NanaBox::implementation::ProgressRing>(progressRing);
+        auto progressRingImpl =
+            winrt::get_self<NanaBox::implementation::ProgressRing>(progressRing);
+        auto newColor =
+            args
+            .NewValue()
+            .as<Windows::UI::Xaml::Media::SolidColorBrush>()
+            .Color();
 
-        auto brush = progressRingImpl->m_shape.StrokeBrush();
+        auto brush =
+            progressRingImpl
+            ->m_shape
+            .StrokeBrush()
+            .try_as<Windows::UI::Composition::CompositionColorBrush>();
 
-        if (brush)
+        if (!brush)
         {
-            brush.as<Windows::UI::Composition::CompositionColorBrush>().Color(args.NewValue().as<Windows::UI::Xaml::Media::SolidColorBrush>().Color());
+            brush =
+                progressRingImpl->
+                m_compositor.
+                CreateColorBrush();
+
+            progressRingImpl->m_shape.StrokeBrush(brush);
         }
+        brush.Color(newColor);
     }
 
     Windows::UI::Xaml::DependencyProperty ProgressRing::ForegroundProperty()
