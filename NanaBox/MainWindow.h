@@ -121,6 +121,7 @@ namespace NanaBox
         LONG_PTR m_RememberedMainWindowStyle;
         std::wstring m_WindowTitle;
         bool m_MouseCaptureMode = false;
+        bool m_connectionOnceSuccessful = false;
 
         void InitializeVirtualMachine();
 
