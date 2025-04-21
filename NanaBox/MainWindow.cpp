@@ -1093,8 +1093,10 @@ void NanaBox::MainWindow::RdpClientOnDisconnected(
         {
             ::ShowMessageDialog(
                 nullptr,
-                Mile::WinRT::GetLocalizedString(L"Messages/RdpFailInstructionText"),
-                Mile::WinRT::GetLocalizedString(L"Messages/RdpFailContentText"));
+                Mile::WinRT::GetLocalizedString(
+                    L"Messages/VirtualMachineConnectionFailedInstructionText"),
+                Mile::WinRT::GetLocalizedString(
+                    L"Messages/VirtualMachineConnectionFailedContentText"));
 
             this->m_VirtualMachine->Terminate();
         }

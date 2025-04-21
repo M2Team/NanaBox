@@ -137,12 +137,12 @@
     <value>Hyper-V is not enabled.</value>
     <comment>Hyper-V is not enabled.</comment>
   </data>
-  <data name="RdpFailContentText" xml:space="preserve">
-    <value>This likely means there isn’t a valid VMMS certificate installed. Please see instructions in NanaBox’s README.</value>
-    <comment>This likely means there isn’t a valid VMMS certificate installed. Please see instructions in NanaBox’s README.</comment>
+  <data name="VirtualMachineConnectionFailedContentText" xml:space="preserve">
+    <value>This is most likely due to not having a valid certificate installed for the Virtual Machine Management Service, please read the NanaZip Project's ReadMe documentation at https://github.com/M2Team/NanaBox for a solution.</value>
+    <comment>This is most likely due to not having a valid certificate installed for the Virtual Machine Management Service, please read the NanaZip Project's ReadMe documentation at https://github.com/M2Team/NanaBox for a solution.</comment>
   </data>
-  <data name="RdpFailInstructionText" xml:space="preserve">
-    <value>Connecting to VM failed</value>
-    <comment>Connecting to VM failed</comment>
+  <data name="VirtualMachineConnectionFailedInstructionText" xml:space="preserve">
+    <value>Unable to connect to virtual machine</value>
+    <comment>Unable to connect to virtual machine</comment>
   </data>
 </root>
