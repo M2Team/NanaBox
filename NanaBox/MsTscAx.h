@@ -50,6 +50,57 @@ enum RemoteWindowDisplayedAttribute
     remoteAppShellIconDisplayed = 2
 };
 
+enum DisconnectReasonCode
+{
+    disconnectReasonNoInfo = 0,
+    disconnectReasonLocalNotError = 1,
+    disconnectReasonRemoteByUser = 2,
+    disconnectReasonByServer = 3,
+    disconnectReasonDNSLookupFailed = 260,
+    disconnectReasonOutOfMemory = 262,
+    disconnectReasonConnectionTimedOut = 264,
+    disconnectReasonSocketConnectFailed = 516,
+    disconnectReasonOutOfMemory2 = 518,
+    disconnectReasonHostNotFound = 520,
+    disconnectReasonWinsockSendFailed = 772,
+    disconnectReasonOutOfMemory3 = 774,
+    disconnectReasonInvalidIPAddr = 776,
+    disconnectReasonSocketRecvFailed = 1028,
+    disconnectReasonInvalidSecurityData = 1030,
+    disconnectReasonInternalError = 1032,
+    disconnectReasonInvalidEncryption = 1286,
+    disconnectReasonDNSLookupFailed2 = 1288,
+    disconnectReasonGetHostByNameFailed = 1540,
+    disconnectReasonInvalidServerSecurityInfo = 1542,
+    disconnectReasonTimerError = 1544,
+    disconnectReasonTimeoutOccurred = 1796,
+    disconnectReasonServerCertificateUnpackErr = 1798,
+    disconnectReasonInvalidIP = 2052,
+    SSL_ERR_LOGON_FAILURE = 2055,
+    disconnectReasonLicensingFailed = 2056,
+    disconnectReasonAtClientWinsockFDCLOSE = 2308,
+    disconnectReasonInternalSecurityError = 2310,
+    disconnectReasonLicensingTimeout = 2312,
+    disconnectReasonInternalSecurityError2 = 2566,
+    SSL_ERR_NO_SUCH_USER = 2567,
+    disconnectReasonEncryptionError = 2822,
+    SSL_ERR_ACCOUNT_DISABLED = 2823,
+    disconnectReasonDecryptionError = 3078,
+    SSL_ERR_ACCOUNT_RESTRICTION = 3079,
+    disconnectReasonClientDecompressionError = 3080,
+    SSL_ERR_ACCOUNT_LOCKED_OUT = 3335,
+    SSL_ERR_ACCOUNT_EXPIRED = 3591,
+    SSL_ERR_PASSWORD_EXPIRED = 3847,
+    SSL_ERR_PASSWORD_MUST_CHANGE = 4615,
+    SSL_ERR_DELEGATION_POLICY = 5639,
+    SSL_ERR_POLICY_NTLM_ONLY = 5895,
+    SSL_ERR_CERT_EXPIRED = 6919,
+    SSL_ERR_NO_AUTHENTICATING_AUTHORITY = 6151,
+    SSL_ERR_SMARTCARD_WRONG_PIN = 7175,
+    SSL_ERR_FRESH_CRED_REQUIRED_BY_SERVER = 8455,
+    SSL_ERR_SMARTCARD_CARD_BLOCKED = 8711
+};
+
 enum ExtendedDisconnectReasonCode
 {
     exDiscReasonNoInfo = 0,
