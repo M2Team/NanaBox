@@ -137,4 +137,12 @@
     <value>Hyper-V is not enabled.</value>
     <comment>Hyper-V is not enabled.</comment>
   </data>
+  <data name="RdpFailContentText" xml:space="preserve">
+    <value>This likely means there isn’t a valid VMMS certificate installed. Please see instructions in NanaBox’s README.</value>
+    <comment>This likely means there isn’t a valid VMMS certificate installed. Please see instructions in NanaBox’s README.</comment>
+  </data>
+  <data name="RdpFailInstructionText" xml:space="preserve">
+    <value>Connecting to VM failed</value>
+    <comment>Connecting to VM failed</comment>
+  </data>
 </root>
