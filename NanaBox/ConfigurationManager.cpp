@@ -486,18 +486,16 @@ void NanaBox::ComputeNetworkCreateEndpoint(
         EndpointId = winrt::guid(Configuration.EndpointId);
     }
 
-    NanaBox::HcnNetwork NetworkHandle = NanaBox::HcnOpenNetwork(
-        NanaBox::DefaultSwitchId);
-
-    std::string DefaultSwitchIdString = winrt::to_string(
-        ::FromGuid(NanaBox::DefaultSwitchId));
+    NanaBox::HcnNetwork NetworkHandle =
+        NanaBox::ComputeNetworkGetAvailableNetwork();
 
     NanaBox::HcnEndpoint EndpointHandle;
     nlohmann::json Settings;
     Settings["SchemaVersion"]["Major"] = 2;
     Settings["SchemaVersion"]["Minor"] = 0;
     Settings["Owner"] = Owner;
-    Settings["HostComputeNetwork"] = DefaultSwitchIdString;
+    Settings["HostComputeNetwork"] = winrt::to_string(
+        ::FromGuid(NanaBox::NanaBoxSwitchId));
     if (!Configuration.MacAddress.empty())
     {
         Settings["MacAddress"] = Configuration.MacAddress;
