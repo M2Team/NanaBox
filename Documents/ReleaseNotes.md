@@ -1,5 +1,19 @@
 ﻿# NanaBox Release Notes
 
+**NanaBox 1.5 Update 1 (1.5.1159.0)**
+
+- Use non-persistent virtual network switch created by NanaBox instead of using
+  Hyper-V default virtual network switch for improving the stability and giving
+  users chances to configure bridged networking support via Hyper-V Manager or
+  other Hyper-V tools.
+- Add the Hyper-V Virtual Machine Management Service certificate detection for
+  improving the user experience when using NanaBox only with Virtual Machine
+  Platform feature enabled. (Contributed by dongle-the-gadget.)
+- Fix the process ring display issue. (Contributed by dongle-the-gadget.)
+- Update Mile.Project.Configurations to 1.0.1622.
+- Update Mile.Windows.UniCrt to 1.2.410.
+- Update Mile.Json to 1.0.1057.
+
 **NanaBox 1.5 (1.5.1050.0)**
 
 - Introducing the guest policies configuration support for virtual machines.
