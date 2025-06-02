@@ -448,6 +448,7 @@ NanaBox::HcnNetwork NanaBox::ComputeNetworkGetAvailableNetwork()
     Settings["IsolateSwitch"] = true;
     Settings["Flags"] =
         NanaBox::HcnNetworkFlags::EnableDns |
+        NanaBox::HcnNetworkFlags::EnableDhcp |
         NanaBox::HcnNetworkFlags::EnableNonPersistent;
     NanaBox::HcnNetwork NetworkHandle;
     try
