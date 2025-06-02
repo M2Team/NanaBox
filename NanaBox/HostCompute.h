@@ -145,6 +145,35 @@ namespace NanaBox
     const winrt::guid DefaultSwitchId = winrt::guid(
         "C08CB7B8-9B3C-408E-8E30-5E16A3AEB444");
 
+    const winrt::guid NanaBoxSwitchId = winrt::guid(
+        "85C8668E-36FE-447F-AAE0-BA159A0142A7");
+
+    namespace HcnNetworkFlags
+    {
+        enum
+        {
+            None = 0,
+            EnableDns = 1,
+            EnableDhcp = 2,
+            EnableMirroring = 4,
+            EnableNonPersistent = 8,
+            EnablePersistent = 16,
+            IsolateVSwitch = 32,
+            EnableFlowSteering = 64,
+            DisableSharing = 128,
+            EnableFirewall = 256,
+            SuppressMediaDisconnect = 512,
+            DisableHostPort = 1024,
+            WeakHostReceiveAdapter = 2048,
+            WeakHostSendAdapter = 4096,
+            EnableIov = 8192,
+        };
+    }
+
+    HcnNetwork HcnCreateNetwork(
+        winrt::guid const& NetworkId,
+        winrt::hstring const& Settings);
+
     HcnNetwork HcnOpenNetwork(
         winrt::guid const& NetworkId);
 

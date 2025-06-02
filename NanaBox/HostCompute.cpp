@@ -324,6 +324,22 @@ winrt::hstring NanaBox::HcsGetServiceProperties(
     return Result;
 }
 
+NanaBox::HcnNetwork NanaBox::HcnCreateNetwork(
+    winrt::guid const& NetworkId,
+    winrt::hstring const& Settings)
+{
+    NanaBox::HcnNetwork Result;
+    winrt::cotaskmem_string RawErrorRecord;
+    ::CheckHcnCall(
+        ::HcnCreateNetwork(
+            NetworkId,
+            Settings.c_str(),
+            Result.put(),
+            RawErrorRecord.put()),
+        RawErrorRecord);
+    return Result;
+}
+
 NanaBox::HcnNetwork NanaBox::HcnOpenNetwork(
     winrt::guid const& NetworkId)
 {
