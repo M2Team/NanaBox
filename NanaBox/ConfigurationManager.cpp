@@ -440,6 +440,37 @@ std::string NanaBox::MakeHcsConfiguration(
     return Result.dump(2);
 }
 
+NanaBox::HcnNetwork NanaBox::ComputeNetworkGetAvailableNetwork()
+{
+    nlohmann::json Settings;
+    Settings["Name"] = "NanaBox";
+    Settings["Type"] = "ICS";
+    Settings["IsolateSwitch"] = true;
+    Settings["Flags"] =
+        NanaBox::HcnNetworkFlags::EnableDns |
+        NanaBox::HcnNetworkFlags::EnableNonPersistent;
+    NanaBox::HcnNetwork NetworkHandle;
+    try
+    {
+        NetworkHandle = NanaBox::HcnCreateNetwork(
+            NanaBox::NanaBoxSwitchId,
+            winrt::to_hstring(Settings.dump()));
+    }
+    catch (winrt::hresult_error const& ex)
+    {
+        if (HCN_E_NETWORK_ALREADY_EXISTS == ex.code())
+        {
+            NetworkHandle = NanaBox::HcnOpenNetwork(
+                NanaBox::NanaBoxSwitchId);
+        }
+        else
+        {
+            throw;
+        }
+    }
+    return NetworkHandle;
+}
+
 void NanaBox::ComputeNetworkCreateEndpoint(
     std::string const& Owner,
     NanaBox::NetworkAdapterConfiguration& Configuration)
