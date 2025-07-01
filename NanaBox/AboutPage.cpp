@@ -12,9 +12,6 @@
 
 #include "Utils.h"
 
-using namespace winrt;
-using namespace Windows::UI::Xaml;
-
 namespace winrt::NanaBox::implementation
 {
     AboutPage::AboutPage(

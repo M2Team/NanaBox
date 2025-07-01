@@ -21,9 +21,6 @@ namespace winrt::NanaBox
     using namespace ::NanaBox;
 }
 
-using namespace winrt;
-using namespace Windows::UI::Xaml;
-
 namespace winrt::NanaBox::implementation
 {
     QuickStartPage::QuickStartPage(
@@ -122,7 +119,7 @@ namespace winrt::NanaBox::implementation
                 {
                     *this->m_ConfigurationFilePath = std::wstring(FilePath);
                     ::CoTaskMemFree(FilePath);
-                } 
+                }
 
                 if (!this->m_ConfigurationFilePath->empty())
                 {
@@ -192,7 +189,7 @@ namespace winrt::NanaBox::implementation
                 {
                     VirtualImageFilePath = std::wstring(RawFilePath);
                     ::CoTaskMemFree(RawFilePath);
-                }        
+                }
             }
             catch (...)
             {
@@ -365,7 +362,7 @@ namespace winrt::NanaBox::implementation
                 std::wstring RelativePath(MAX_PATH, L'\0');
                 if (::PathRelativePathToW(
                     &RelativePath[0],
-                    ConfigurationFilePath.c_str(), 
+                    ConfigurationFilePath.c_str(),
                     FILE_ATTRIBUTE_NORMAL,
                     VirtualDiskFilePath.c_str(),
                     FILE_ATTRIBUTE_NORMAL))

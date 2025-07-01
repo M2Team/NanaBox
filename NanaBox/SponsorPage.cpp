@@ -19,9 +19,6 @@ namespace winrt
     using Windows::Services::Store::StoreProductQueryResult;
 }
 
-using namespace winrt;
-using namespace Windows::UI::Xaml;
-
 namespace winrt::NanaBox::implementation
 {
     SponsorPage::SponsorPage(
