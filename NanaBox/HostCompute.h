@@ -27,6 +27,20 @@
 
 namespace NanaBox
 {
+    namespace Plan9ShareFlags
+    {
+        enum
+        {
+            None = 0x00000000,
+            ReadOnly = 0x00000001,
+            LinuxMetadata = 0x00000004,
+            CaseSensitive = 0x00000008,
+            UseShareRootIdentity = 0x00000010,
+            AllowOptions = 0x00000020,
+            AllowSubPaths = 0x00000040,
+        };
+    }
+
     struct HcsOperationTraits
     {
         using type = HCS_OPERATION;
