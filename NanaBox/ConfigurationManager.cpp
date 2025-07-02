@@ -380,8 +380,6 @@ std::string NanaBox::MakeHcsConfiguration(
             }
 
             {
-                const std::uint32_t Plan9ShareFlagsReadOnly = 0x00000001;
-
                 const std::uint32_t Plan9SharePort = 50001;
 
                 nlohmann::json Current;
@@ -389,7 +387,7 @@ std::string NanaBox::MakeHcsConfiguration(
                 Current["AccessName"] = ShareName;
                 Current["Path"] = SharePath;
                 Current["Port"] = Plan9SharePort;
-                Current["Flags"] = Plan9ShareFlagsReadOnly;
+                Current["Flags"] = NanaBox::Plan9ShareFlags::ReadOnly;
 
                 nlohmann::json SharedFolders;
                 SharedFolders.push_back(Current);
