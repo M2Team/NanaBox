@@ -1,143 +1,163 @@
-﻿#include "pch.h"
+﻿#define NOMINMAX
+#include "pch.h"
 #include "ProgressRing.h"
 #if __has_include("ProgressRing.g.cpp")
 #include "ProgressRing.g.cpp"
 #endif
 
+namespace winrt
+{
+    using Windows::Foundation::Numerics::float2;
+    using Windows::Foundation::Numerics::float3;
+    using Windows::Foundation::Numerics::float3x2;
+    using Windows::Foundation::TimeSpan;
+    using Windows::UI::Color;
+    using Windows::UI::Composition::AnimationIterationBehavior;
+    using Windows::UI::Composition::CompositionColorBrush;
+    using Windows::UI::Composition::CompositionEllipseGeometry;
+    using Windows::UI::Composition::CompositionStrokeCap;
+    using Windows::UI::Composition::CubicBezierEasingFunction;
+    using Windows::UI::Composition::ScalarKeyFrameAnimation;
+    using Windows::UI::Composition::StepEasingFunction;
+    using Windows::UI::Xaml::Hosting::ElementCompositionPreview;
+    using Windows::UI::Xaml::PropertyMetadata;
+    using Windows::UI::Xaml::PropertyChangedCallback;
+}
+
 namespace winrt::NanaBox::implementation
 {
     ProgressRing::ProgressRing()
     {
-        m_compositor =
-            Windows::UI::Xaml::Hosting::ElementCompositionPreview::GetElementVisual(*this)
-            .Compositor();
+        this->m_Compositor =
+            winrt::ElementCompositionPreview::GetElementVisual(
+                *this).Compositor();
 
-        auto ellipse = m_compositor.CreateEllipseGeometry();
-        ellipse.Radius({ 7, 7 });
+        winrt::CompositionEllipseGeometry Ellipse =
+            this->m_Compositor.CreateEllipseGeometry();
+        Ellipse.Radius({ 7, 7 });
 
-        m_shape = m_compositor.CreateSpriteShape(ellipse);
-        m_shape.StrokeDashCap(Windows::UI::Composition::CompositionStrokeCap::Round);
-        m_shape.StrokeStartCap(Windows::UI::Composition::CompositionStrokeCap::Round);
-        m_shape.StrokeEndCap(Windows::UI::Composition::CompositionStrokeCap::Round);
-        m_shape.StrokeThickness(m_strokeThickness);
-        m_shape.TransformMatrix({ 5.0f, 0.0f, 0.0f, 5.0f, 40.0f, 40.0f });
+        this->m_Shape = this->m_Compositor.CreateSpriteShape(Ellipse);
+        this->m_Shape.StrokeDashCap(winrt::CompositionStrokeCap::Round);
+        this->m_Shape.StrokeStartCap(winrt::CompositionStrokeCap::Round);
+        this->m_Shape.StrokeEndCap(winrt::CompositionStrokeCap::Round);
+        this->m_Shape.StrokeThickness(this->m_StrokeThickness);
+        this->m_Shape.TransformMatrix(
+            winrt::float3x2(5.0f, 0.0f, 0.0f, 5.0f, 40.0f, 40.0f));
 
-        m_visual = m_compositor.CreateShapeVisual();
-        m_visual.Size({ m_defaultProgressRingSize, m_defaultProgressRingSize });
-        m_visual.Shapes().Append(m_shape);
+        this->m_Visual = this->m_Compositor.CreateShapeVisual();
+        this->m_Visual.Size(winrt::float2(
+            this->m_DefaultProgressRingSize,
+            this->m_DefaultProgressRingSize));
+        this->m_Visual.Shapes().Append(this->m_Shape);
 
-        Windows::UI::Xaml::Hosting::ElementCompositionPreview::SetElementChildVisual(
+        winrt::ElementCompositionPreview::SetElementChildVisual(
             *this,
-            m_visual);
+            this->m_Visual);
 
-        auto holdThenStepEasing = m_compositor.CreateStepEasingFunction();
-        holdThenStepEasing.IsFinalStepSingleFrame(true);
+        winrt::StepEasingFunction HoldThenStepEasing =
+            this->m_Compositor.CreateStepEasingFunction();
+        HoldThenStepEasing.IsFinalStepSingleFrame(true);
 
-        auto cubicBezierEasing =
-            m_compositor.CreateCubicBezierEasingFunction(
-                { 0.166999996f, 0.166999996f },
-                { 0.833000004f, 0.833000004f });
+        winrt::CubicBezierEasingFunction CubicBezierEasing =
+            this->m_Compositor.CreateCubicBezierEasingFunction(
+                winrt::float2(0.166999996f, 0.166999996f),
+                winrt::float2(0.833000004f, 0.833000004f));
 
-        auto rotationAnimation = m_compositor.CreateScalarKeyFrameAnimation();
-        rotationAnimation.InsertKeyFrame(0.0f, 0.0f, holdThenStepEasing);
-        rotationAnimation.InsertKeyFrame(0.5f, 450.0f, cubicBezierEasing);
-        rotationAnimation.InsertKeyFrame(1.0f, 1080.0f, cubicBezierEasing);
-        rotationAnimation.Duration(Windows::Foundation::TimeSpan{ std::chrono::seconds(2) });
-        rotationAnimation.IterationBehavior(Windows::UI::Composition::AnimationIterationBehavior::Forever);
+        winrt::ScalarKeyFrameAnimation RotationAnimation =
+            this->m_Compositor.CreateScalarKeyFrameAnimation();
+        RotationAnimation.InsertKeyFrame(0.0f, 0.0f, HoldThenStepEasing);
+        RotationAnimation.InsertKeyFrame(0.5f, 450.0f, CubicBezierEasing);
+        RotationAnimation.InsertKeyFrame(1.0f, 1080.0f, CubicBezierEasing);
+        RotationAnimation.Duration(winrt::TimeSpan(std::chrono::seconds(2)));
+        RotationAnimation.IterationBehavior(
+            winrt::AnimationIterationBehavior::Forever);
 
-        auto sizeAnimation = m_compositor.CreateScalarKeyFrameAnimation();
-        sizeAnimation.InsertKeyFrame(0.0f, 0.0f, holdThenStepEasing);
-        sizeAnimation.InsertKeyFrame(0.5f, 0.5f, cubicBezierEasing);
-        sizeAnimation.InsertKeyFrame(1.0f, 0.0f, cubicBezierEasing);
-        sizeAnimation.Duration(Windows::Foundation::TimeSpan{ std::chrono::seconds(2) });
-        sizeAnimation.IterationBehavior(Windows::UI::Composition::AnimationIterationBehavior::Forever);
+        winrt::ScalarKeyFrameAnimation SizeAnimation =
+            this->m_Compositor.CreateScalarKeyFrameAnimation();
+        SizeAnimation.InsertKeyFrame(0.0f, 0.0f, HoldThenStepEasing);
+        SizeAnimation.InsertKeyFrame(0.5f, 0.5f, CubicBezierEasing);
+        SizeAnimation.InsertKeyFrame(1.0f, 0.0f, CubicBezierEasing);
+        SizeAnimation.Duration(winrt::TimeSpan(std::chrono::seconds(2)));
+        SizeAnimation.IterationBehavior(
+            winrt::AnimationIterationBehavior::Forever);
 
-        m_shape.StartAnimation(L"RotationAngleInDegrees", rotationAnimation);
-        ellipse.StartAnimation(L"TrimEnd", sizeAnimation);
+        this->m_Shape.StartAnimation(
+            L"RotationAngleInDegrees",
+            RotationAnimation);
+        Ellipse.StartAnimation(L"TrimEnd", SizeAnimation);
     }
 
-    Windows::Foundation::Size ProgressRing::MeasureOverride(Windows::Foundation::Size const& availableSize)
+    winrt::DependencyProperty ProgressRing::ForegroundProperty()
     {
-        auto size =
-            availableSize.Width > availableSize.Height
-            ? availableSize.Height
-            : availableSize.Width;
-        if (size == INFINITY)
+        return ProgressRing::m_ForegroundProperty;
+    }
+
+    winrt::SolidColorBrush ProgressRing::Foreground()
+    {
+        return winrt::unbox_value<winrt::SolidColorBrush>(
+            this->GetValue(ProgressRing::m_ForegroundProperty));
+    }
+
+    void ProgressRing::Foreground(
+        winrt::SolidColorBrush const& value)
+    {
+        this->SetValue(ProgressRing::m_ForegroundProperty, value);
+    }
+
+    winrt::Size ProgressRing::MeasureOverride(
+        winrt::Size const& availableSize)
+    {
+        float Size = std::min(availableSize.Width, availableSize.Height);
+        if (Size == INFINITY)
         {
-            size = m_defaultProgressRingSize;
+            Size = this->m_DefaultProgressRingSize;
         }
-
-        return { size, size };
+        return winrt::Size(Size, Size);
     }
 
-    Windows::Foundation::Size ProgressRing::ArrangeOverride(Windows::Foundation::Size const& finalSize)
+    winrt::Size ProgressRing::ArrangeOverride(
+        winrt::Size const& finalSize)
     {
-        auto size =
-            finalSize.Width > finalSize.Height
-            ? finalSize.Height
-            : finalSize.Width;
-
-        float scale = size / m_defaultProgressRingSize;
-        m_visual.Scale({ scale, scale, scale });
-
-        float widthOffset = (finalSize.Width - size) / 2;
-        float heightOffset = (finalSize.Height - size) / 2;
-        m_visual.Offset({ widthOffset, heightOffset, 0.0f });
-
+        float Size = std::min(finalSize.Width, finalSize.Height);
+        float Scale = Size / this->m_DefaultProgressRingSize;
+        this->m_Visual.Scale(winrt::float3(Scale, Scale, Scale));
+        this->m_Visual.Offset(winrt::float3(
+            (finalSize.Width - Size) / 2,
+            (finalSize.Height - Size) / 2,
+            0.0f));
         return finalSize;
     }
 
-    Windows::UI::Xaml::DependencyProperty ProgressRing::m_foregroundProperty =
-        Windows::UI::Xaml::DependencyProperty::Register(
+    winrt::DependencyProperty ProgressRing::m_ForegroundProperty =
+        winrt::DependencyProperty::Register(
             L"Foreground",
-            winrt::xaml_typename<Windows::UI::Xaml::Media::SolidColorBrush>(),
+            winrt::xaml_typename<winrt::SolidColorBrush>(),
             winrt::xaml_typename<NanaBox::ProgressRing>(),
-            Windows::UI::Xaml::PropertyMetadata{ nullptr, &OnForegroundChanged }
-        );
+            winrt::PropertyMetadata(
+                nullptr,
+                winrt::PropertyChangedCallback(&OnForegroundChanged)));
 
     void ProgressRing::OnForegroundChanged(
-        Windows::UI::Xaml::DependencyObject d,
-        Windows::UI::Xaml::DependencyPropertyChangedEventArgs args)
+        winrt::DependencyObject sender,
+        winrt::DependencyPropertyChangedEventArgs args)
     {
-        auto progressRing = d.as<NanaBox::ProgressRing>();
-        auto progressRingImpl =
-            winrt::get_self<NanaBox::implementation::ProgressRing>(progressRing);
-        auto newColor =
-            args
-            .NewValue()
-            .as<Windows::UI::Xaml::Media::SolidColorBrush>()
-            .Color();
+        using InstanceType = NanaBox::ProgressRing;
+        using ImplementationType = NanaBox::implementation::ProgressRing;
 
-        auto brush =
-            progressRingImpl
-            ->m_shape
-            .StrokeBrush()
-            .try_as<Windows::UI::Composition::CompositionColorBrush>();
+        InstanceType Instance =
+            sender.as<InstanceType>();
+        ImplementationType* Implementation =
+            winrt::get_self<ImplementationType>(Instance);
 
-        if (!brush)
+        winrt::CompositionColorBrush Brush =
+            Implementation->m_Shape.StrokeBrush(
+            ).try_as<winrt::CompositionColorBrush>();
+        if (!Brush)
         {
-            brush =
-                progressRingImpl->
-                m_compositor.
-                CreateColorBrush();
-
-            progressRingImpl->m_shape.StrokeBrush(brush);
+            Brush = Implementation->m_Compositor.CreateColorBrush();
+            Implementation->m_Shape.StrokeBrush(Brush);
         }
-        brush.Color(newColor);
-    }
 
-    Windows::UI::Xaml::DependencyProperty ProgressRing::ForegroundProperty()
-    {
-        return m_foregroundProperty;
-    }
-
-    Windows::UI::Xaml::Media::SolidColorBrush ProgressRing::Foreground()
-    {
-        return winrt::unbox_value<Windows::UI::Xaml::Media::SolidColorBrush>(GetValue(m_foregroundProperty));
-    }
-
-    void ProgressRing::Foreground(Windows::UI::Xaml::Media::SolidColorBrush const& value)
-    {
-        SetValue(m_foregroundProperty, value);
+        Brush.Color(args.NewValue().as<winrt::SolidColorBrush>().Color());
     }
 }
