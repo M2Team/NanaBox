@@ -388,13 +388,18 @@ std::string NanaBox::MakeHcsConfiguration(
                 const std::uint32_t HostDriverStorePlan9SharePort = 50001;
                 const char HostDriverStoreShareName[] = "HostDriverStore";
 
-                std::string HostDriverStoreSharePath =
-                    "C:\\Windows\\System32\\DriverStore";
+                std::wstring HostDriverStoreSharePath(MAX_PATH, L'\0');
+                HostDriverStoreSharePath.resize(::GetSystemDirectoryW(
+                    HostDriverStoreSharePath.data(),
+                    static_cast<UINT>(HostDriverStoreSharePath.size())));
+                HostDriverStoreSharePath += L"\\DriverStore";
 
                 nlohmann::json Current;
                 Current["Name"] = HostDriverStoreShareName;
                 Current["AccessName"] = HostDriverStoreShareName;
-                Current["Path"] = HostDriverStoreSharePath;
+                Current["Path"] = Mile::ToString(
+                    CP_UTF8,
+                    HostDriverStoreSharePath);
                 Current["Port"] = HostDriverStorePlan9SharePort;
                 Current["Flags"] = NanaBox::Plan9ShareFlags::ReadOnly;
                 Plan9Shares.push_back(Current);
