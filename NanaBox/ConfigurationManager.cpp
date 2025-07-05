@@ -359,27 +359,6 @@ std::string NanaBox::MakeHcsConfiguration(
             Devices["Scsi"]["NanaBox Scsi Controller"] = ScsiController;
         }
 
-        if (Configuration.Gpu.EnableHostDriverStore)
-        {
-            std::string ShareName = "HostDriverStore";
-            std::string SharePath = "C:\\Windows\\System32\\DriverStore";
-
-            {
-                nlohmann::json Current;
-                Current["Name"] = ShareName;
-                Current["Path"] = SharePath;
-
-                Current["Options"]["ReadOnly"] = true;
-                Current["Options"]["PseudoOplocks"] = true;
-                Current["Options"]["PseudoDirnotify"] = true;
-                Current["Options"]["SupportCloudFiles"] = true;
-
-                nlohmann::json SharedFolders;
-                SharedFolders.push_back(Current);
-                Devices["VirtualSmb"]["Shares"] = SharedFolders;
-            }
-        }
-
         {
             nlohmann::json Plan9Shares;
 
