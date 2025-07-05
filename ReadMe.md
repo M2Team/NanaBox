@@ -73,6 +73,8 @@ If you'd like me to add features or improvements ahead of time, please use
 - Support cursor confining with Ctrl+Alt+Left/Right shortcut key for improve
   user experience for some applications. (Press the same shortcut key if you
   want to release cursor confining.)
+- Support Plan 9 protocol over Hyper-V Socket for both readonly and read/write
+  file sharing between host and guest.
 
 ## System Requirements
 
