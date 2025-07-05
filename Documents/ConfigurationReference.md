@@ -125,6 +125,7 @@
   - VideoMonitor (Object)
     - HorizontalResolution (Number)
     - VerticalResolution (Number)
+    - DisableBasicSessionDpiScaling (Boolean)
   - Policies (String Array)
 
 ### NanaBox
@@ -761,6 +762,14 @@ Example value: 1080
 Note: Only the Basic Session Mode is constrainted with this setting.
 
 Note: Available starting with NanaBox 1.5.
+
+#### DisableBasicSessionDpiScaling
+
+(Optional) Disable the DPI scaling for the Basic Session Mode of virtual
+machine if set it true.
+
+Note: Available starting with NanaBox 1.5 Update 2 and you can modify these
+settings at runtime.
 
 ### Policies
 

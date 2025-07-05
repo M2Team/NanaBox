@@ -761,6 +761,11 @@ nlohmann::json NanaBox::FromVideoMonitorConfiguration(
         Result["VerticalResolution"] = Value.VerticalResolution;
     }
 
+    if (Value.DisableBasicSessionDpiScaling)
+    {
+        Result["DisableBasicSessionDpiScaling"] = true;
+    }
+
     return Result;
 }
 
@@ -778,6 +783,10 @@ NanaBox::VideoMonitorConfiguration NanaBox::ToVideoMonitorConfiguration(
         static_cast<std::uint16_t>(Mile::Json::ToUInt64(
             Mile::Json::GetSubKey(Value, "VerticalResolution"),
             Result.VerticalResolution));
+
+    Result.DisableBasicSessionDpiScaling = Mile::Json::ToBoolean(
+        Mile::Json::GetSubKey(Value, "DisableBasicSessionDpiScaling"),
+        Result.DisableBasicSessionDpiScaling);
 
     return Result;
 }

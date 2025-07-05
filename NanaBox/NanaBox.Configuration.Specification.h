@@ -133,7 +133,7 @@ namespace NanaBox
     {
         std::uint16_t HorizontalResolution = 1024;
         std::uint16_t VerticalResolution = 768;
-        bool EnableBasicSessionDpiScaling = true; // Not Implemented
+        bool DisableBasicSessionDpiScaling = false;
         bool EnableDpiScalingValueOverride = false; // Not Implemented
         bool EnableContentResizing = true; // Not Implemented
         bool ShowFullScreenModeConnectionBar = true; // Not Implemented

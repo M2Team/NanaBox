@@ -361,7 +361,10 @@ void NanaBox::MainWindow::OnSize(
     {
         VARIANT RawZoomLevel;
         RawZoomLevel.vt = VT_UI4;
-        RawZoomLevel.uintVal = this->m_RecommendedZoomLevel;
+        RawZoomLevel.uintVal =
+            this->m_Configuration.VideoMonitor.DisableBasicSessionDpiScaling
+            ? 100
+            : this->m_RecommendedZoomLevel;
         this->m_RdpClient->Property(
             L"ZoomLevel",
             RawZoomLevel);
@@ -1002,6 +1005,11 @@ void NanaBox::MainWindow::TryReloadVirtualMachine()
 
     }
 
+    {
+        this->m_Configuration.VideoMonitor.DisableBasicSessionDpiScaling =
+            Configuration.VideoMonitor.DisableBasicSessionDpiScaling;
+    }
+
     ConfigurationFileContent =
         NanaBox::SerializeConfiguration(this->m_Configuration);
     ::WriteAllTextToUtf8TextFile(
@@ -1024,7 +1032,10 @@ void NanaBox::MainWindow::RdpClientOnRemoteDesktopSizeChange(
         {
             VARIANT RawZoomLevel;
             RawZoomLevel.vt = VT_UI4;
-            RawZoomLevel.uintVal = this->m_RecommendedZoomLevel;
+            RawZoomLevel.uintVal =
+                this->m_Configuration.VideoMonitor.DisableBasicSessionDpiScaling
+                ? 100
+                : this->m_RecommendedZoomLevel;
             this->m_RdpClient->Property(
                 L"ZoomLevel",
                 RawZoomLevel);
@@ -1036,24 +1047,39 @@ void NanaBox::MainWindow::RdpClientOnRemoteDesktopSizeChange(
         RECT WindowRect;
         winrt::check_bool(this->GetWindowRect(&WindowRect));
         {
-            int WindowWidth = 0;
-            WindowWidth += this->m_DisplayResolution.cx;
-            int WindowHeight = this->m_RecommendedMainWindowControlHeight;
-            WindowHeight += this->m_DisplayResolution.cy;
-
             RECT ClientRect;
             winrt::check_bool(this->GetClientRect(&ClientRect));
 
+            // Reserve space for the non-client area.
+
             WindowRect.right -= ClientRect.right;
             WindowRect.bottom -= ClientRect.bottom;
-            WindowRect.right += ::MulDiv(
-                WindowWidth,
-                DpiValue,
-                USER_DEFAULT_SCREEN_DPI);
+
+            // Reserve space for the XAML toolbar window.
+
             WindowRect.bottom += ::MulDiv(
-                WindowHeight,
+                this->m_RecommendedMainWindowControlHeight,
                 DpiValue,
                 USER_DEFAULT_SCREEN_DPI);
+
+            // Reserve space for the RDP client window.
+
+            if (this->m_Configuration.VideoMonitor.DisableBasicSessionDpiScaling)
+            {
+                WindowRect.right += this->m_DisplayResolution.cx;
+                WindowRect.bottom += this->m_DisplayResolution.cy;
+            }
+            else
+            {
+                WindowRect.right += ::MulDiv(
+                    this->m_DisplayResolution.cx,
+                    DpiValue,
+                    USER_DEFAULT_SCREEN_DPI);
+                WindowRect.bottom += ::MulDiv(
+                    this->m_DisplayResolution.cy,
+                    DpiValue,
+                    USER_DEFAULT_SCREEN_DPI);
+            }
         }
 
         this->SetWindowPos(
