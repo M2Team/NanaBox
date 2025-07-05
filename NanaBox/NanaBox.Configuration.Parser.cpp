@@ -791,6 +791,55 @@ NanaBox::VideoMonitorConfiguration NanaBox::ToVideoMonitorConfiguration(
     return Result;
 }
 
+nlohmann::json NanaBox::FromPlan9ShareConfiguration(
+    Plan9ShareConfiguration const& Value)
+{
+    nlohmann::json Result;
+
+    if (Value.ReadOnly)
+    {
+        Result["ReadOnly"] = true;
+    }
+
+    Result["Port"] = Value.Port;
+
+    if (!Value.Path.empty())
+    {
+        Result["Path"] = Value.Path;
+    }
+
+    if (!Value.Name.empty())
+    {
+        Result["Name"] = Value.Name;
+    }
+
+    return Result;
+}
+
+NanaBox::Plan9ShareConfiguration NanaBox::ToPlan9ShareConfiguration(
+    nlohmann::json const& Value)
+{
+    NanaBox::Plan9ShareConfiguration Result;
+
+    Result.ReadOnly = Mile::Json::ToBoolean(
+        Mile::Json::GetSubKey(Value, "ReadOnly"),
+        Result.ReadOnly);
+
+    Result.Port = static_cast<std::uint32_t>(Mile::Json::ToUInt64(
+        Mile::Json::GetSubKey(Value, "Port"),
+        Result.Port));
+
+    Result.Path = Mile::Json::ToString(
+        Mile::Json::GetSubKey(Value, "Path"),
+        Result.Path);
+
+    Result.Name = Mile::Json::ToString(
+        Mile::Json::GetSubKey(Value, "Name"),
+        Result.Name);
+
+    return Result;
+}
+
 nlohmann::json NanaBox::FromVirtualMachineConfiguration(
     NanaBox::VirtualMachineConfiguration const& Value)
 {
@@ -917,6 +966,23 @@ nlohmann::json NanaBox::FromVirtualMachineConfiguration(
         Result["Policies"] = Policies;
     }
 
+    if (!Value.Plan9Shares.empty())
+    {
+        nlohmann::json Plan9Shares;
+        for (NanaBox::Plan9ShareConfiguration const& Plan9Share
+            : Value.Plan9Shares)
+        {
+            if (Plan9Share.Path.empty() || Plan9Share.Name.empty())
+            {
+                continue;
+            }
+
+            Plan9Shares.push_back(
+                NanaBox::FromPlan9ShareConfiguration(Plan9Share));
+        }
+        Result["Plan9Shares"] = Plan9Shares;
+    }
+
     return Result;
 }
 
@@ -1018,6 +1084,20 @@ NanaBox::VirtualMachineConfiguration NanaBox::ToVirtualMachineConfiguration(
         {
             Result.Policies.push_back(PolicyString);
         }
+    }
+
+    for (nlohmann::json const& Plan9Share : Mile::Json::ToArray(
+        Mile::Json::GetSubKey(Value, "Plan9Shares")))
+    {
+        NanaBox::Plan9ShareConfiguration Current =
+            NanaBox::ToPlan9ShareConfiguration(Plan9Share);
+
+        if (Current.Path.empty() || Current.Name.empty())
+        {
+            continue;
+        }
+
+        Result.Plan9Shares.push_back(Current);
     }
 
     return Result;

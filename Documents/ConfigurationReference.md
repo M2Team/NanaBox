@@ -127,6 +127,11 @@
     - VerticalResolution (Number)
     - DisableBasicSessionDpiScaling (Boolean)
   - Policies (String Array)
+  - Plan9Shares (Object Array)
+    - ReadOnly (Boolean)
+    - Port (Number)
+    - Path (String)
+    - Name (String)
 
 ### NanaBox
 
@@ -801,6 +806,47 @@ researches.
 - LegacyApicSelectionLogic
 - LegacyApicManganeseOverride
 - LegacyGpaLayout
+
+### Plan9Shares
+
+The Plan 9 shares setting object array of virtual machine.
+
+Note: Available starting with NanaBox 1.5 Update 2.
+
+#### ReadOnly
+
+(Optional) Set it true if you want to make the current Plan 9 share read-only.
+
+Note: Available starting with NanaBox 1.5 Update 2.
+
+#### Port
+
+The port number of the current Plan 9 share.
+
+Example value: 50001
+
+Note: Available starting with NanaBox 1.5 Update 2.
+
+#### Path
+
+The host path of the current Plan 9 share.
+
+Note: The relative path is supported.
+
+Example value: "D:\\Projects"
+
+Note: Available starting with NanaBox 1.5 Update 2.
+
+#### Name
+
+The guest access name of the current Plan 9 share.
+
+Example value: "HostProjects"
+
+Note: If you have set the "EnableHostDriverStore" true, you should not use the
+name "HostDriverStore" for the current Plan 9 share.
+
+Note: Available starting with NanaBox 1.5 Update 2.
 
 ## Samples
 

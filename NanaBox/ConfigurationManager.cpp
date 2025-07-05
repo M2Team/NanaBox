@@ -378,21 +378,46 @@ std::string NanaBox::MakeHcsConfiguration(
                 SharedFolders.push_back(Current);
                 Devices["VirtualSmb"]["Shares"] = SharedFolders;
             }
+        }
 
+        {
+            nlohmann::json Plan9Shares;
+
+            if (Configuration.Gpu.EnableHostDriverStore)
             {
-                const std::uint32_t Plan9SharePort = 50001;
+                const std::uint32_t HostDriverStorePlan9SharePort = 50001;
+                const char HostDriverStoreShareName[] = "HostDriverStore";
+
+                std::string HostDriverStoreSharePath =
+                    "C:\\Windows\\System32\\DriverStore";
 
                 nlohmann::json Current;
-                Current["Name"] = ShareName;
-                Current["AccessName"] = ShareName;
-                Current["Path"] = SharePath;
-                Current["Port"] = Plan9SharePort;
+                Current["Name"] = HostDriverStoreShareName;
+                Current["AccessName"] = HostDriverStoreShareName;
+                Current["Path"] = HostDriverStoreSharePath;
+                Current["Port"] = HostDriverStorePlan9SharePort;
                 Current["Flags"] = NanaBox::Plan9ShareFlags::ReadOnly;
-
-                nlohmann::json SharedFolders;
-                SharedFolders.push_back(Current);
-                Devices["Plan9"]["Shares"] = SharedFolders;
+                Plan9Shares.push_back(Current);
             }
+
+            for (NanaBox::Plan9ShareConfiguration const& Plan9Share
+                : Configuration.Plan9Shares)
+            {
+                nlohmann::json Current;
+                Current["Name"] = Plan9Share.Name;
+                Current["AccessName"] = Plan9Share.Name;
+                Current["Path"] = Mile::ToString(
+                    CP_UTF8,
+                    ::GetAbsolutePath(Mile::ToWideString(
+                        CP_UTF8,
+                        Plan9Share.Path)));
+                Current["Port"] = Plan9Share.Port;
+                Current["Flags"] = Plan9Share.ReadOnly
+                    ? NanaBox::Plan9ShareFlags::ReadOnly
+                    : NanaBox::Plan9ShareFlags::None;
+                Plan9Shares.push_back(Current);
+            }
+            Devices["Plan9"]["Shares"] = Plan9Shares;
         }
     }
     Result["VirtualMachine"]["Devices"] = Devices;

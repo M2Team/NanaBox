@@ -142,7 +142,7 @@ namespace NanaBox
 
     struct Plan9ShareConfiguration
     {
-        bool ReadOnly = true;
+        bool ReadOnly = false;
         std::uint32_t Port;
         std::string Path;
         std::string Name;
@@ -170,7 +170,7 @@ namespace NanaBox
         ChipsetInformationConfiguration ChipsetInformation;
         VideoMonitorConfiguration VideoMonitor;
         std::vector<std::string> Policies;
-        std::vector<Plan9ShareConfiguration> Plan9Shares; // Not Implemented
+        std::vector<Plan9ShareConfiguration> Plan9Shares;
     };
 }
 

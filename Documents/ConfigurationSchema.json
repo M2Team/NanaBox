@@ -373,6 +373,34 @@
               "type": "string",
               "examples": [ "LegacyApicSelectionLogic" ]
             }
+          },
+          "Plan9Shares": {
+            "type": "array",
+            "description": "The Plan 9 shares setting object array of virtual machine. Available starting with NanaBox 1.5 Update 2.",
+            "items": {
+              "type": "object",
+              "required": [ "Path", "Name" ],
+              "properties": {
+                "ReadOnly": {
+                  "type": "boolean",
+                  "description": "Set it true if you want to make the current Plan 9 share read-only. Available starting with NanaBox 1.5 Update 2."
+                },
+                "Port": {
+                  "type": "number",
+                  "description": "The port number of the current Plan 9 share. Available starting with NanaBox 1.5 Update 2."
+                },
+                "Path": {
+                  "type": "string",
+                  "description": "The host path of the current Plan 9 share. The relative path is supported. Available starting with NanaBox 1.5 Update 2.",
+                  "examples": [ "D:\\Projects" ]
+                },
+                "Name": {
+                  "type": "string",
+                  "description": "The guest access name of the current Plan 9 share. If you have set the \"EnableHostDriverStore\" true, you should not use the name \"HostDriverStore\" for the current Plan 9 share. Available starting with NanaBox 1.5 Update 2.",
+                  "examples": [ "HostProjects" ]
+                }
+              }
+            }
           }
         }
       }

@@ -89,6 +89,12 @@ namespace NanaBox
     VideoMonitorConfiguration ToVideoMonitorConfiguration(
         nlohmann::json const& Value);
 
+    nlohmann::json FromPlan9ShareConfiguration(
+        Plan9ShareConfiguration const& Value);
+
+    Plan9ShareConfiguration ToPlan9ShareConfiguration(
+        nlohmann::json const& Value);
+
     nlohmann::json FromVirtualMachineConfiguration(
         VirtualMachineConfiguration const& Value);
 
