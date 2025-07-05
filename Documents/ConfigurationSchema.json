@@ -387,7 +387,7 @@
                 },
                 "Port": {
                   "type": "number",
-                  "description": "The port number of the current Plan 9 share. Available starting with NanaBox 1.5 Update 2."
+                  "description": "The Hyper-V Socket port number of the current Plan 9 share. Available starting with NanaBox 1.5 Update 2."
                 },
                 "Path": {
                   "type": "string",

@@ -821,7 +821,7 @@ Note: Available starting with NanaBox 1.5 Update 2.
 
 #### Port
 
-The port number of the current Plan 9 share.
+The Hyper-V Socket port number of the current Plan 9 share.
 
 Example value: 50001
 
