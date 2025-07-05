@@ -224,9 +224,9 @@ Available values: "Disabled", "Default", "List" and "Mirror"
 #### EnableHostDriverStore
 
 (Optional) Set it true if you want to enable HostDriverStore folder readonly
-share for both Virtual SMB and Plan 9, which can mirror the DriverStore folder
-from the Host OS. It will be useful when users using GPU paravirtualization
-feature.
+share for both Virtual SMB and Plan 9 (Guest access name "HostDriverStore" with
+Hyper-V Socket Port 50001), which can mirror the DriverStore folder from the
+Host OS. It will be useful when users using GPU paravirtualization feature.
 
 Note: You cannot suspend the virtual machine properly if this option is enabled.
 
