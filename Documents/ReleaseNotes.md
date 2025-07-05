@@ -1,5 +1,18 @@
 ﻿# NanaBox Release Notes
 
+**NanaBox 1.5 Update 2 (1.5.1191.0)**
+
+- Add Plan 9 shares configuration support.
+- Add DisableBasicSessionDpiScaling option in video monitor configuration.
+- Remove Virtual SMB mode for EnableHostDriverStore option because there is no
+  proper way to initialize Virtual SMB shares without Windows Container.
+- Adapt EnableHostDriverStore option for Windows instances which system drive is
+  not C.
+- Update NanaBox Configuration File Reference.
+- Update some Host Compute System API definitions.
+- Tidy the NanaBox's ProgressRing implementation.
+- Remove the unnecessary usings for several UI implementations.
+
 **NanaBox 1.5 Update 1 (1.5.1159.0)**
 
 - Use non-persistent virtual network switch created by NanaBox instead of using
