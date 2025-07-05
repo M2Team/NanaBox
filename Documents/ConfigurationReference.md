@@ -739,7 +739,7 @@ Note: Available starting with NanaBox 1.2 Update 4.
 
 ### VideoMonitor
 
-(Optional) The video monitor setting object of virtual machine.
+The video monitor setting object of virtual machine.
 
 Note: Available starting with NanaBox 1.5.
 
@@ -773,7 +773,7 @@ settings at runtime.
 
 ### Policies
 
-(Optional) The string array of policies of virtual machine.
+The string array of policies of virtual machine.
 
 Note: Available starting with NanaBox 1.5.
 
