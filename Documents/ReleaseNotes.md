@@ -1,6 +1,6 @@
 ﻿# NanaBox Release Notes
 
-**NanaBox 1.5 Update 2 (1.5.1191.0)**
+**NanaBox 1.5 Update 2 (1.5.1192.0)**
 
 - Add Plan 9 shares configuration support.
 - Add DisableBasicSessionDpiScaling option in video monitor configuration.
