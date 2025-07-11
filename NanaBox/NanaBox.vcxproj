@@ -22,7 +22,7 @@
     <MileProjectOriginalFilename>NanaBox.exe</MileProjectOriginalFilename>
     <MileProjectProductName>NanaBox</MileProjectProductName>
     <MileProjectVersion>1.5.$([System.DateTime]::Today.Subtract($([System.DateTime]::Parse('2022-04-01'))).TotalDays).0</MileProjectVersion>
-    <MileProjectVersionTag>Update 2</MileProjectVersionTag>
+    <MileProjectVersionTag>Update 3</MileProjectVersionTag>
     <MileUniCrtDisableRuntimeDebuggingFeature>true</MileUniCrtDisableRuntimeDebuggingFeature>
   </PropertyGroup>
   <Import Sdk="Mile.Project.Configurations" Version="1.0.1622" Project="Mile.Project.Platform.x64.props" />

@@ -1,5 +1,24 @@
 ﻿# NanaBox Release Notes
 
+**NanaBox 1.5 Update 3 (1.5.1197.0)**
+
+- Improve and extend the implementation of the EnableHostDriverStore option for
+  GPU settings. Read [the document of EnableHostDriverStore option] in NanaBox
+  Configuration File Reference for more details.
+  - Deprecate "HostDriverStore" readonly Plan 9 share but NanaBox still reserves
+    it for compatibility with virtual machines which need to be hosted with
+    previous NanaBox versions.
+  - Introduce "NanaBox.HostDrivers" readonly Plan 9 share for sharing the host
+    "%SystemRoot%\System32\DriverStore\FileRepository" folder to the virtual
+    machine, which is useful for using GPU-PV (paravirtualization) feature for
+    both Windows and Linux guests.
+  - Introduce "NanaBox.HostLxssLib" readonly Plan 9 share for sharing the host
+    "%SystemRoot%\System32\lxss\lib" folder to the virtual machine, which is
+    useful for using GPU-PV (paravirtualization) for Linux guests, especially
+    you want to use NVIDIA CUDA in your Linux virtual machines.
+
+[the document of EnableHostDriverStore option]: https://github.com/M2Team/NanaBox/blob/main/Documents/ConfigurationReference.md#enablehostdriverstore
+
 **NanaBox 1.5 Update 2 (1.5.1192.0)**
 
 - Add Plan 9 shares configuration support.
