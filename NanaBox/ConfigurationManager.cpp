@@ -16,6 +16,8 @@
 
 #include <NanaBox.Configuration.Parser.h>
 
+#include <Shlwapi.h>
+
 namespace NanaBox
 {
     namespace ResolutionType
@@ -364,24 +366,40 @@ std::string NanaBox::MakeHcsConfiguration(
 
             if (Configuration.Gpu.EnableHostDriverStore)
             {
-                const std::uint32_t HostDriverStorePlan9SharePort = 50001;
-                const char HostDriverStoreShareName[] = "HostDriverStore";
+                const std::uint32_t Plan9SharePort = 50001;
 
-                std::wstring HostDriverStoreSharePath(MAX_PATH, L'\0');
-                HostDriverStoreSharePath.resize(::GetSystemDirectoryW(
-                    HostDriverStoreSharePath.data(),
-                    static_cast<UINT>(HostDriverStoreSharePath.size())));
-                HostDriverStoreSharePath += L"\\DriverStore";
+                const struct { LPCSTR Name; LPCWSTR Path; } Plan9ShareItems[] =
+                {
+                    { "HostDriverStore", L"\\DriverStore" },
+                    { "NanaBox.HostDrivers", L"\\DriverStore\\FileRepository" },
+                    { "NanaBox.HostLxssLib", L"\\lxss\\lib" }
+                };
+                const size_t Plan9ShareItemsCount =
+                    sizeof(Plan9ShareItems) / sizeof(*Plan9ShareItems);
 
-                nlohmann::json Current;
-                Current["Name"] = HostDriverStoreShareName;
-                Current["AccessName"] = HostDriverStoreShareName;
-                Current["Path"] = Mile::ToString(
-                    CP_UTF8,
-                    HostDriverStoreSharePath);
-                Current["Port"] = HostDriverStorePlan9SharePort;
-                Current["Flags"] = NanaBox::Plan9ShareFlags::ReadOnly;
-                Plan9Shares.push_back(Current);
+                std::wstring SystemDirectoryPath(MAX_PATH, L'\0');
+                SystemDirectoryPath.resize(::GetSystemDirectoryW(
+                    SystemDirectoryPath.data(),
+                    static_cast<UINT>(SystemDirectoryPath.size())));
+
+                for (size_t i = 0; i < Plan9ShareItemsCount; ++i)
+                {
+                    std::wstring SharePath(
+                        SystemDirectoryPath + Plan9ShareItems[i].Path);
+
+                    if (!::PathFileExistsW(SharePath.c_str()))
+                    {
+                        continue;
+                    }
+
+                    nlohmann::json Current;
+                    Current["Name"] = Plan9ShareItems[i].Name;
+                    Current["AccessName"] = Plan9ShareItems[i].Name;
+                    Current["Path"] = Mile::ToString(CP_UTF8, SharePath);
+                    Current["Port"] = Plan9SharePort;
+                    Current["Flags"] = NanaBox::Plan9ShareFlags::ReadOnly;
+                    Plan9Shares.push_back(Current);
+                }
             }
 
             for (NanaBox::Plan9ShareConfiguration const& Plan9Share

@@ -228,14 +228,38 @@ Available values: "Disabled", "Default", "List" and "Mirror"
 
 #### EnableHostDriverStore
 
-(Optional) Set it true if you want to enable HostDriverStore folder readonly
-share for Plan 9 (Guest access name "HostDriverStore" with Hyper-V Socket Port
-50001), which can mirror the DriverStore folder from the Host OS. It will be
-useful when users using GPU paravirtualization feature.
+(Optional) Set it true if you want to enable readonly Plan 9 shares for several
+GPU-PV (paravirtualization) related folders from the Host OS.
 
 Note: You cannot suspend the virtual machine properly if this option is enabled.
 
+Note: All these shares are transported with Hyper-V Socket.
+
 Note: Available starting with NanaBox 1.2.
+
+Here are the exposed readonly Plan 9 shares:
+
+- Access Name: HostDriverStore
+  - Available starting with NanaBox 1.2.
+  - Deprecated, reserved for compatibility with virtual machines hosted with
+    previous NanaBox versions.
+  - Host Path: %SystemRoot%\System32\DriverStore
+  - Hyper-V Socket Port: 50001
+  - Suggested Guest Paths:
+    - Windows: %SystemRoot%\System32\HostDriverStore
+- Access Name: NanaBox.HostDrivers
+  - Available starting with NanaBox 1.5 Update 3.
+  - Host Path: %SystemRoot%\System32\DriverStore\FileRepository
+  - Hyper-V Socket Port: 50001
+  - Suggested Guest Paths:
+    - Windows: %SystemRoot%\System32\HostDriverStore\FileRepository
+    - Linux: /usr/lib/wsl/drivers
+- Access Name: NanaBox.HostLxssLib
+  - Available starting with NanaBox 1.5 Update 3.
+  - Host Path: %SystemRoot%\System32\lxss\lib
+  - Hyper-V Socket Port: 50001
+  - Suggested Guest Paths:
+    - Linux: /usr/lib/wsl/lib
 
 #### SelectedDevices
 
@@ -811,6 +835,10 @@ researches.
 
 The Plan 9 shares setting object array of virtual machine.
 
+Note: You cannot suspend the virtual machine properly if this option is enabled.
+
+Note: All these shares are transported with Hyper-V Socket.
+
 Note: Available starting with NanaBox 1.5 Update 2.
 
 #### ReadOnly
@@ -844,7 +872,8 @@ The guest access name of the current Plan 9 share.
 Example value: "HostProjects"
 
 Note: If you have set the "EnableHostDriverStore" true, you should not use the
-name "HostDriverStore" for the current Plan 9 share.
+names mentioned in "EnableHostDriverStore" related document for the current Plan
+9 share.
 
 Note: Available starting with NanaBox 1.5 Update 2.
 
