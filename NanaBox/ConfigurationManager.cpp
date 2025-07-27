@@ -1,9 +1,9 @@
 ﻿/*
- * PROJECT:   NanaBox
- * FILE:      ConfigurationManager.cpp
- * PURPOSE:   Implementation for the Virtual Machine Configuration Manager
+ * PROJECT:    NanaBox
+ * FILE:       ConfigurationManager.cpp
+ * PURPOSE:    Implementation for the Virtual Machine Configuration Manager
  *
- * LICENSE:   The MIT License
+ * LICENSE:    The MIT License
  *
  * MAINTAINER: MouriNaruto (Kenji.Mouri@outlook.com)
  */

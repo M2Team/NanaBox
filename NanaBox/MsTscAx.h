@@ -1,11 +1,11 @@
 ﻿/*
- * PROJECT:   NanaBox
- * FILE:      MsTscAx.h
- * PURPOSE:   Definition for the Remote Desktop ActiveX control interfaces
+ * PROJECT:    NanaBox
+ * FILE:       MsTscAx.h
+ * PURPOSE:    Definition for the Remote Desktop ActiveX control interfaces
  *
- * LICENSE:   The MIT License
+ * LICENSE:    The MIT License
  *
- * DEVELOPER: MouriNaruto (KurikoMouri@outlook.jp)
+ * MAINTAINER: MouriNaruto (Kenji.Mouri@outlook.com)
  */
 
 #ifndef MSTSCAX_H

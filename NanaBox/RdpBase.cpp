@@ -1,11 +1,11 @@
 ﻿/*
- * PROJECT:   NanaBox
- * FILE:      RdpBase.h
- * PURPOSE:   Implementation for the Remote Desktop Base API Wrapper
+ * PROJECT:    NanaBox
+ * FILE:       RdpBase.h
+ * PURPOSE:    Implementation for the Remote Desktop Base API Wrapper
  *
- * LICENSE:   The MIT License
+ * LICENSE:    The MIT License
  *
- * DEVELOPER: MouriNaruto (KurikoMouri@outlook.jp)
+ * MAINTAINER: MouriNaruto (Kenji.Mouri@outlook.com)
  */
 
 #include "RdpBase.h"

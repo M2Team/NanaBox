@@ -1,9 +1,9 @@
 ﻿/*
- * PROJECT:   NanaBox
- * FILE:      NanaBox.Configuration.Specification.h
- * PURPOSE:   Definition for the Virtual Machine Configuration Specification
+ * PROJECT:    NanaBox
+ * FILE:       NanaBox.Configuration.Specification.h
+ * PURPOSE:    Definition for the Virtual Machine Configuration Specification
  *
- * LICENSE:   The MIT License
+ * LICENSE:    The MIT License
  *
  * MAINTAINER: MouriNaruto (Kenji.Mouri@outlook.com)
  */

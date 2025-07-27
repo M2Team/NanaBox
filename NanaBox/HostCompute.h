@@ -1,11 +1,11 @@
 ﻿/*
- * PROJECT:   NanaBox
- * FILE:      HostCompute.h
- * PURPOSE:   Definition for the Host Compute API C++/WinRT wrapper
+ * PROJECT:    NanaBox
+ * FILE:       HostCompute.h
+ * PURPOSE:    Definition for the Host Compute API C++/WinRT wrapper
  *
- * LICENSE:   The MIT License
+ * LICENSE:    The MIT License
  *
- * DEVELOPER: MouriNaruto (KurikoMouri@outlook.jp)
+ * MAINTAINER: MouriNaruto (Kenji.Mouri@outlook.com)
  */
 
 #ifndef NANABOX_HOSTCOMPUTE

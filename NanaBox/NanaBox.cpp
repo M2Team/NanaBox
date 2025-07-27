@@ -1,11 +1,11 @@
 ﻿/*
- * PROJECT:   NanaBox
- * FILE:      NanaBox.cpp
- * PURPOSE:   Implementation for NanaBox
+ * PROJECT:    NanaBox
+ * FILE:       NanaBox.cpp
+ * PURPOSE:    Implementation for NanaBox
  *
- * LICENSE:   The MIT License
+ * LICENSE:    The MIT License
  *
- * DEVELOPER: MouriNaruto (KurikoMouri@outlook.jp)
+ * MAINTAINER: MouriNaruto (Kenji.Mouri@outlook.com)
  */
 
 #include <Windows.h>
@@ -322,7 +322,7 @@ int WINAPI wWinMain(
         std::wcsrchr(&CurrentPath[0], L'\\')[0] = L'\0';
         CurrentPath.resize(std::wcslen(CurrentPath.c_str()));
         ::SetCurrentDirectoryW(CurrentPath.c_str());
-    } 
+    }
 
     WTL::CMessageLoop MessageLoop;
 

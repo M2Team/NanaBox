@@ -1,11 +1,11 @@
 ﻿/*
- * PROJECT:   NanaBox
- * FILE:      RdpBase.h
- * PURPOSE:   Definition for the Remote Desktop Base API
+ * PROJECT:    NanaBox
+ * FILE:       RdpBase.h
+ * PURPOSE:    Definition for the Remote Desktop Base API
  *
- * LICENSE:   The MIT License
+ * LICENSE:    The MIT License
  *
- * DEVELOPER: MouriNaruto (KurikoMouri@outlook.jp)
+ * MAINTAINER: MouriNaruto (Kenji.Mouri@outlook.com)
  */
 
 #ifndef RDPBASE_H

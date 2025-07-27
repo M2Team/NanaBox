@@ -1,10 +1,10 @@
 #
-# PROJECT:   Mouri Internal Library Essentials
-# FILE:      GenerateVmmsCertificate.ps1
-# PURPOSE:   The script for generating a self-signed certificate for VMMS
-#            service with 100 years validity.
+# PROJECT:    Mouri Internal Library Essentials
+# FILE:       GenerateVmmsCertificate.ps1
+# PURPOSE:    The script for generating a self-signed certificate for VMMS
+#             service with 100 years validity.
 # 
-# LICENSE:   The MIT License
+# LICENSE:    The MIT License
 # 
 # MAINTAINER: MouriNaruto (Kenji.Mouri@outlook.com)
 #

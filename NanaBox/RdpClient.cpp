@@ -1,11 +1,11 @@
 ﻿/*
- * PROJECT:   NanaBox
- * FILE:      RdpClient.cpp
- * PURPOSE:   Implementation for the Remote Desktop client C++/WinRT wrapper
+ * PROJECT:    NanaBox
+ * FILE:       RdpClient.cpp
+ * PURPOSE:    Implementation for the Remote Desktop client C++/WinRT wrapper
  *
- * LICENSE:   The MIT License
+ * LICENSE:    The MIT License
  *
- * DEVELOPER: MouriNaruto (KurikoMouri@outlook.jp)
+ * MAINTAINER: MouriNaruto (Kenji.Mouri@outlook.com)
  */
 
 #include "RdpClient.h"
