@@ -78,8 +78,18 @@ If you'd like me to add features or improvements ahead of time, please use
 
 ## System Requirements
 
-- Supported OS: Windows 10 Version 2004 (Build 19041) or later
-- Supported Platforms: x64 and ARM64
+- Supported Operating Systems:
+  - Windows 10, version 2004 (Build 19041) or later
+  - Windows Server 2022 (Build 20348) or later
+- Supported Platforms:
+  - x86 (64-bit)
+  - ARM (64-bit)
+
+In general, NanaZip follows the 2025 baseline defined by Kenji Mouri's document,
+read [MD23: The baselines of Windows targets for all my open-source projects]
+for more information.
+
+[MD23: The baselines of Windows targets for all my open-source projects]: https://github.com/MouriNaruto/MouriDocs/tree/main/docs/23
 
 ## Known issues
 
