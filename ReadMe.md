@@ -85,7 +85,7 @@ If you'd like me to add features or improvements ahead of time, please use
   - x86 (64-bit)
   - ARM (64-bit)
 
-In general, NanaZip follows the 2025 baseline defined by Kenji Mouri's document,
+In general, NanaBox follows the 2025 baseline defined by Kenji Mouri's document,
 read [MD23: The baselines of Windows targets for all my open-source projects]
 for more information.
 
