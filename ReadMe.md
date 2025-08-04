@@ -142,3 +142,4 @@ Machine Platform feature only.
 - [Versioning](Documents/Versioning.md)
 - [NanaBox Configuration File Reference](Documents/ConfigurationReference.md)
 - [NanaBox Sponsor Edition](Documents/SponsorEdition.md)
+- [My Digital Life Forums](https://forums.mydigitallife.net/threads/88560)
