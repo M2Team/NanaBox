@@ -322,8 +322,8 @@ namespace winrt::NanaBox::implementation
                 return;
             }
 
-            STARTUPINFOEXW StartupInfoEx = { 0 };
-            PROCESS_INFORMATION ProcessInformation = { 0 };
+            STARTUPINFOEXW StartupInfoEx = {};
+            PROCESS_INFORMATION ProcessInformation = {};
             StartupInfoEx.StartupInfo.cb = sizeof(STARTUPINFOEXW);
             StartupInfoEx.lpAttributeList = AttributeList;
 

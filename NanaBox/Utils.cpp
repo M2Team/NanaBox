@@ -291,7 +291,7 @@ int ShowXamlWindow(
     int ScaledWidth = ::MulDiv(Width, DpiValue, USER_DEFAULT_SCREEN_DPI);
     int ScaledHeight = ::MulDiv(Height, DpiValue, USER_DEFAULT_SCREEN_DPI);
 
-    RECT ParentRect = { 0 };
+    RECT ParentRect = {};
     if (ParentWindowHandle)
     {
         ::GetWindowRect(ParentWindowHandle, &ParentRect);
@@ -820,7 +820,7 @@ winrt::handle ShowResizeVirtualHardDiskDialog(
 
 BOOL LaunchDocumentation()
 {
-    SHELLEXECUTEINFOW ExecInfo = { 0 };
+    SHELLEXECUTEINFOW ExecInfo = {};
     ExecInfo.cbSize = sizeof(SHELLEXECUTEINFOW);
     ExecInfo.lpVerb = L"open";
     ExecInfo.lpFile =

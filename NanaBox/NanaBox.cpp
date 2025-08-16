@@ -230,7 +230,7 @@ int WINAPI wWinMain(
                 ApplicationName = ::GetCurrentProcessModulePath();
             }
 
-            SHELLEXECUTEINFOW Information = { 0 };
+            SHELLEXECUTEINFOW Information = {};
             Information.cbSize = sizeof(SHELLEXECUTEINFOW);
             Information.fMask = SEE_MASK_NOCLOSEPROCESS;
             Information.lpVerb = L"runas";

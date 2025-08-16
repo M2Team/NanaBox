@@ -170,7 +170,7 @@ void NanaBox::MainWindow::OnCommand(
                 SettingsInstructionText.c_str(),
                 SettingsContentText.c_str());
 
-            OPENASINFO OpenAsInfo = { 0 };
+            OPENASINFO OpenAsInfo = {};
             OpenAsInfo.pcszFile = this->m_ConfigurationFilePath.c_str();
             OpenAsInfo.oaifInFlags = OAIF_EXEC;
             ::SHOpenWithDialog(this->m_hWnd, &OpenAsInfo);
@@ -324,7 +324,7 @@ void NanaBox::MainWindow::OnSize(
         DpiValue,
         USER_DEFAULT_SCREEN_DPI);
 
-    MARGINS Margins = { 0 };
+    MARGINS Margins = {};
     Margins.cyTopHeight = MainWindowControlScaledHeight;
     ::DwmExtendFrameIntoClientArea(this->m_hWnd, &Margins);
 

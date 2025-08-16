@@ -64,7 +64,7 @@ namespace winrt::NanaBox::implementation
         UNREFERENCED_PARAMETER(sender);
         UNREFERENCED_PARAMETER(e);
 
-        SHELLEXECUTEINFOW ExecInfo = { 0 };
+        SHELLEXECUTEINFOW ExecInfo = {};
         ExecInfo.cbSize = sizeof(SHELLEXECUTEINFOW);
         ExecInfo.lpVerb = L"open";
         ExecInfo.lpFile =
@@ -108,7 +108,7 @@ namespace winrt::NanaBox::implementation
         UNREFERENCED_PARAMETER(sender);
         UNREFERENCED_PARAMETER(e);
 
-        SHELLEXECUTEINFOW ExecInfo = { 0 };
+        SHELLEXECUTEINFOW ExecInfo = {};
         ExecInfo.cbSize = sizeof(SHELLEXECUTEINFOW);
         ExecInfo.lpVerb = L"open";
         ExecInfo.lpFile =
