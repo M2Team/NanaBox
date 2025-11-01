@@ -1,4 +1,4 @@
-﻿{
+{
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "NanaBox configuration file",
   "description": "Schema for NanaBox configuration files (*.7b)",
