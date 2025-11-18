@@ -29,7 +29,7 @@ Run `BuildAllTargets.bat` in the root of the repository.
 
 #### How to modify or debugging NanaBox
 
-Open `NanaBox.sln` in the root of the repository.
+Open `NanaBox.slnx` in the root of the repository.
 
 #### Code style and conventions
 

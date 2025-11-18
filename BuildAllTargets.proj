@@ -4,10 +4,10 @@
   xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Target Name="Restore">
     <ItemGroup>
-      <ProjectReference Include="$(MSBuildThisFileDirectory)NanaBox.sln">
+      <ProjectReference Include="$(MSBuildThisFileDirectory)NanaBox.slnx">
         <AdditionalProperties>Configuration=Debug;Platform=x64</AdditionalProperties>   
       </ProjectReference>
-      <ProjectReference Include="$(MSBuildThisFileDirectory)NanaBox.sln">
+      <ProjectReference Include="$(MSBuildThisFileDirectory)NanaBox.slnx">
         <AdditionalProperties>Configuration=Release;Platform=x64</AdditionalProperties>   
       </ProjectReference>
     </ItemGroup>
