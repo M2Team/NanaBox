@@ -17,6 +17,8 @@ namespace NanaBox.ProjectAssetsGenerator
 
                 ConcurrentDictionary<int, MagickImage> StandardSources =
                     new ConcurrentDictionary<int, MagickImage>();
+                ConcurrentDictionary<int, MagickImage> StandardIconSources =
+                    new ConcurrentDictionary<int, MagickImage>();
                 ConcurrentDictionary<int, MagickImage> ContrastBlackSources =
                     new ConcurrentDictionary<int, MagickImage>();
                 ConcurrentDictionary<int, MagickImage> ContrastWhiteSources =
@@ -30,6 +32,11 @@ namespace NanaBox.ProjectAssetsGenerator
                     StandardSources[AssetSize] = new MagickImage(string.Format(
                         @"{0}\{1}\{1}_{2}.png",
                         SourcePath,
+                        "Standard",
+                        AssetSize));
+                    StandardIconSources[AssetSize] = new MagickImage(string.Format(
+                        @"{0}\{1}\{1}_{2}.png",
+                        SourcePath.Replace("OriginalAssets", "OriginalAssetsOptimized"),
                         "Standard",
                         AssetSize));
                     ContrastBlackSources[AssetSize] = new MagickImage(string.Format(
@@ -62,7 +69,7 @@ namespace NanaBox.ProjectAssetsGenerator
                     @"ConfigurationFile");
 
                 ProjectAssetsUtilities.GenerateIconFile(
-                    StandardSources,
+                    StandardIconSources,
                     OutputPath + @"\..\NanaBox.ico");
 
                 StandardSources[64].Write(
@@ -76,6 +83,8 @@ namespace NanaBox.ProjectAssetsGenerator
 
                 ConcurrentDictionary<int, MagickImage> StandardSources =
                     new ConcurrentDictionary<int, MagickImage>();
+                ConcurrentDictionary<int, MagickImage> StandardIconSources =
+                    new ConcurrentDictionary<int, MagickImage>();
                 ConcurrentDictionary<int, MagickImage> ContrastBlackSources =
                     new ConcurrentDictionary<int, MagickImage>();
                 ConcurrentDictionary<int, MagickImage> ContrastWhiteSources =
@@ -89,6 +98,11 @@ namespace NanaBox.ProjectAssetsGenerator
                     StandardSources[AssetSize] = new MagickImage(string.Format(
                         @"{0}\{1}\{1}_{2}.png",
                         SourcePath,
+                        "Standard",
+                        AssetSize));
+                    StandardIconSources[AssetSize] = new MagickImage(string.Format(
+                        @"{0}\{1}\{1}_{2}.png",
+                        SourcePath.Replace("OriginalAssets", "OriginalAssetsOptimized"),
                         "Standard",
                         AssetSize));
                     ContrastBlackSources[AssetSize] = new MagickImage(string.Format(
@@ -121,7 +135,7 @@ namespace NanaBox.ProjectAssetsGenerator
                     @"ConfigurationFile");
 
                 ProjectAssetsUtilities.GenerateIconFile(
-                    StandardSources,
+                    StandardIconSources,
                     OutputPath + @"\..\NanaBoxPreview.ico");
 
                 StandardSources[64].Write(
