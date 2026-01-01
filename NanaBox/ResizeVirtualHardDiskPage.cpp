@@ -177,7 +177,8 @@ namespace winrt::NanaBox::implementation
 
         winrt::handle(Mile::CreateThread([=]()
         {
-            HWND WaitingHandle = ::ShowOperationWaitingWindow(this->m_WindowHandle);
+            HWND WaitingHandle = ::ShowOperationWaitingWindow(
+                this->m_WindowHandle);
 
             DWORD Error = ::SimpleResizeVirtualDisk(
                 Path.c_str(),

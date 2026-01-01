@@ -416,11 +416,12 @@ void ShowMessageDialog(
             return;
         }
 
-        winrt::NanaBox::MessagePage Window =
-            winrt::make<winrt::NanaBox::implementation::MessagePage>(
-                WindowHandle,
-                InstructionText,
-                ContentText);
+        using InstanceType = winrt::NanaBox::MessagePage;
+        using ImplementationType = winrt::NanaBox::implementation::MessagePage;
+        InstanceType Window = winrt::make<ImplementationType>(
+            WindowHandle,
+            InstructionText,
+            ContentText);
         ::ShowXamlDialog(
             WindowHandle,
             480,
@@ -653,9 +654,9 @@ winrt::handle ShowAboutDialog(
             return;
         }
 
-        winrt::NanaBox::AboutPage Window =
-            winrt::make<winrt::NanaBox::implementation::AboutPage>(
-                WindowHandle);
+        using InstanceType = winrt::NanaBox::AboutPage;
+        using ImplementationType = winrt::NanaBox::implementation::AboutPage;
+        InstanceType Window = winrt::make<ImplementationType>(WindowHandle);
         ::ShowXamlDialog(
             WindowHandle,
             480,
@@ -680,9 +681,11 @@ winrt::handle ShowNewVirtualHardDiskDialog(
             return;
         }
 
-        winrt::NanaBox::NewVirtualHardDiskPage Window =
-            winrt::make<winrt::NanaBox::implementation::NewVirtualHardDiskPage>(
-                WindowHandle);
+        using InstanceType =
+            winrt::NanaBox::NewVirtualHardDiskPage;
+        using ImplementationType =
+            winrt::NanaBox::implementation::NewVirtualHardDiskPage;
+        InstanceType Window = winrt::make<ImplementationType>(WindowHandle);
         ::ShowXamlDialog(
             WindowHandle,
             480,
@@ -757,9 +760,10 @@ winrt::handle ShowCompactVirtualHardDiskDialog(
 
             try
             {
-                HWND WaitingHandle = ::ShowOperationWaitingWindow(ParentWindowHandle);
+                HWND WaitingHandle = ::ShowOperationWaitingWindow(
+                    ParentWindowHandle);
 
-                DWORD Error = SimpleCompactVirtualDisk(FilePath.c_str());
+                DWORD Error = ::SimpleCompactVirtualDisk(FilePath.c_str());
 
                 if (ERROR_SUCCESS == Error)
                 {
@@ -804,9 +808,11 @@ winrt::handle ShowResizeVirtualHardDiskDialog(
             return;
         }
 
-        winrt::NanaBox::ResizeVirtualHardDiskPage Window =
-            winrt::make<winrt::NanaBox::implementation::ResizeVirtualHardDiskPage>(
-                WindowHandle);
+        using InstanceType =
+            winrt::NanaBox::ResizeVirtualHardDiskPage;
+        using ImplementationType =
+            winrt::NanaBox::implementation::ResizeVirtualHardDiskPage;
+        InstanceType Window = winrt::make<ImplementationType>(WindowHandle);
         ::ShowXamlDialog(
             WindowHandle,
             480,
