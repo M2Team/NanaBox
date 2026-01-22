@@ -419,7 +419,11 @@ std::string NanaBox::MakeHcsConfiguration(
                     : NanaBox::Plan9ShareFlags::None;
                 Plan9Shares.push_back(Current);
             }
-            Devices["Plan9"]["Shares"] = Plan9Shares;
+
+            if (!Plan9Shares.empty())
+            {
+                Devices["Plan9"]["Shares"] = Plan9Shares;
+            }
         }
     }
     Result["VirtualMachine"]["Devices"] = Devices;
