@@ -6,8 +6,6 @@
 
 #include "Utils.h"
 
-#include <regex>
-
 #include <ShObjIdl_core.h>
 
 namespace winrt
@@ -40,22 +38,21 @@ namespace winrt::NanaBox::implementation
         winrt::TextBox const& sender,
         winrt::TextBoxBeforeTextChangingEventArgs const& args)
     {
-        UNREFERENCED_PARAMETER(sender);
-        UNREFERENCED_PARAMETER(args);
-
         if (args.NewText().empty())
         {
             sender.Text(L"0");
+            sender.SelectionStart(1);
             return;
         }
 
-        if (!std::regex_match(
-            args.NewText().c_str(),
-            std::wregex(
-                L"(|[[:digit:]]+)",
-                std::regex_constants::icase)))
+        for (const wchar_t& WideCharacter : args.NewText())
         {
-            args.Cancel(true);
+            if (L'0' > WideCharacter || L'9' < WideCharacter)
+            {
+                // Don't allow non-digit characters.
+                args.Cancel(true);
+                return;
+            }
         }
     }
 
