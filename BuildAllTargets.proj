@@ -36,7 +36,7 @@
       <InputBinariesPath>$(MSBuildThisFileDirectory)Output\Binaries\Release\</InputBinariesPath>
       <OutputBinariesPath>$(MSBuildThisFileDirectory)Output\Binaries\Root\Binaries\</OutputBinariesPath>
       <OutputSymbolsPath>$(MSBuildThisFileDirectory)Output\Binaries\Root\Symbols\</OutputSymbolsPath>
-      <OutputFileNamePrefix>NanaBox_1.5.$([System.DateTime]::Today.Subtract($([System.DateTime]::Parse('2022-04-01'))).TotalDays).0</OutputFileNamePrefix>
+      <OutputFileNamePrefix>NanaBox_1.6.$([System.DateTime]::Today.Subtract($([System.DateTime]::Parse('2022-04-01'))).TotalDays).0</OutputFileNamePrefix>
     </PropertyGroup>
 
     <MakeDir Directories="$(OutputBinariesPath)arm64" />

@@ -1,5 +1,16 @@
 ﻿# NanaBox Release Notes
 
+**NanaBox 1.6 (1.6.1395.0)**
+
+- Fix unable to suspend virtual machine issue even without defining Plan 9
+  shares.
+- Reduce the binary size by optimizing icon assets and using system builtin ATL
+  runtime ActiveX control hosting infrastructure.
+- Update Mile.Project.Configurations to 1.0.1827.
+- Update Mile.Windows.Helpers to 1.0.1171.
+- Build with Visual Studio 2026.
+- Improve several implementations.
+
 **NanaBox 1.5 Update 3 (1.5.1197.0)**
 
 - Improve and extend the implementation of the EnableHostDriverStore option for
