@@ -64,7 +64,7 @@ void SplitCommandLineEx(
 
             for (auto& OptionPrefix : OptionPrefixes)
             {
-                if (0 == _wcsnicmp(
+                if (0 == ::_wcsnicmp(
                     SplitArgument.c_str(),
                     OptionPrefix.c_str(),
                     OptionPrefix.size()))
@@ -88,7 +88,7 @@ void SplitCommandLineEx(
                 for (auto& OptionParameterSeparator
                     : OptionParameterSeparators)
                 {
-                    wchar_t* Result = wcsstr(
+                    wchar_t* Result = std::wcsstr(
                         OptionStart,
                         OptionParameterSeparator.c_str());
                     if (nullptr == Result)
@@ -117,7 +117,7 @@ void SplitCommandLineEx(
                 // Get the unresolved command line. Search for the beginning of
                 // the first parameter delimiter called space and exclude the
                 // first space by adding 1 to the result.
-                wchar_t* command = wcsstr(search_start, L" ") + 1;
+                wchar_t* command = std::wcsstr(search_start, L" ") + 1;
 
                 // Omit the space. (Thanks to wzzw.)
                 while (command && *command == L' ')

@@ -718,7 +718,7 @@ void NanaBox::MainWindow::TryReloadVirtualMachine()
         }
     }
 
-    if (0 != _stricmp(
+    if (0 != ::_stricmp(
         this->m_Configuration.ComPorts.ComPort1.c_str(),
         Configuration.ComPorts.ComPort1.c_str()))
     {
@@ -755,7 +755,7 @@ void NanaBox::MainWindow::TryReloadVirtualMachine()
         }
     }
 
-    if (0 != _stricmp(
+    if (0 != ::_stricmp(
         this->m_Configuration.ComPorts.ComPort2.c_str(),
         Configuration.ComPorts.ComPort2.c_str()))
     {
@@ -840,7 +840,7 @@ void NanaBox::MainWindow::TryReloadVirtualMachine()
             else
             {
                 if (Previous.Connected != Current->second.Connected ||
-                    0 != _stricmp(
+                    0 != ::_stricmp(
                         Previous.MacAddress.c_str(),
                         Current->second.MacAddress.c_str()))
                 {
@@ -928,7 +928,7 @@ void NanaBox::MainWindow::TryReloadVirtualMachine()
 
                     if (Previous.Type == Current.Type)
                     {
-                        if (0 != _stricmp(
+                        if (0 != ::_stricmp(
                             Previous.Path.c_str(),
                             Current.Path.c_str()))
                         {

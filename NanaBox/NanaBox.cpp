@@ -117,7 +117,7 @@ int WINAPI wWinMain(
 
     for (auto& Current : OptionsAndParameters)
     {
-        if (0 == _wcsicmp(Current.first.c_str(), L"AcquireSponsorEdition"))
+        if (0 == ::_wcsicmp(Current.first.c_str(), L"AcquireSponsorEdition"))
         {
             AcquireSponsorEdition = true;
         }
