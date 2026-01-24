@@ -326,7 +326,7 @@ int WINAPI wWinMain(
 
     WTL::CMessageLoop MessageLoop;
 
-    ATL::AtlAxWinInit();
+    ::SystemAtlAxWinInit();
 
     g_Module.Init(nullptr, hInstance);
     g_Module.AddMessageLoop(&MessageLoop);

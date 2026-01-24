@@ -2,7 +2,6 @@
 
 #define _ATL_NO_AUTOMATIC_NAMESPACE
 #include <atlbase.h>
-#include <atlhost.h>
 #include <atltypes.h>
 
 #define _WTL_NO_AUTOMATIC_NAMESPACE
@@ -91,7 +90,7 @@ namespace NanaBox
     public:
 
         winrt::com_ptr<NanaBox::RdpClient> m_RdpClient;
-        ATL::CAxWindow m_RdpClientWindow;
+        ATL::CWindow m_RdpClientWindow;
 
         void RdpClientOnDisconnected(
             _In_ LONG DisconnectReason);

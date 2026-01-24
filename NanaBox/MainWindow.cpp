@@ -1262,13 +1262,15 @@ void NanaBox::MainWindow::RdpClientInitialize()
     this->m_RdpClient->EnableEventsDispatcher();
 
     winrt::check_pointer(this->m_RdpClientWindow.Create(
+        _T(SYSTEM_ATL_AX_WINDOW_CLASS_NAME),
         this->m_hWnd,
         this->m_RdpClientWindow.rcDefault,
         nullptr,
         WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN));
 
-    winrt::check_hresult(this->m_RdpClientWindow.AttachControl(
+    winrt::check_hresult(::SystemAtlAxAttachControl(
         this->m_RdpClient->RawControl().get(),
+        this->m_RdpClientWindow.m_hWnd,
         nullptr));
 
     this->m_RdpClient->ConnectionBarText(this->m_WindowTitle.c_str());
