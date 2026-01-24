@@ -495,7 +495,7 @@ void NanaBox::MainWindow::OnClose()
 void NanaBox::MainWindow::OnDestroy()
 {
     // Just kill the process directly for reducing the Windows error reports.
-    ::ExitProcess(0);
+    ::TerminateProcess(::GetCurrentProcess(), 0);
 }
 
 BOOL NanaBox::MainWindow::OnQueryEndSession(
