@@ -83,11 +83,7 @@ nlohmann::json NanaBox::MakeHcsScsiDeviceConfiguration(
         Result["Type"] = "";
         break;
     }
-    Result["Path"] = Mile::ToString(
-        CP_UTF8,
-        ::GetAbsolutePath(Mile::ToWideString(
-            CP_UTF8,
-            Configuration.Path)));
+    Result["Path"] = ::GetAbsoluteUtf8Path(Configuration.Path);
 
     return Result;
 }
@@ -410,11 +406,7 @@ std::string NanaBox::MakeHcsConfiguration(
                 nlohmann::json Current;
                 Current["Name"] = Plan9Share.Name;
                 Current["AccessName"] = Plan9Share.Name;
-                Current["Path"] = Mile::ToString(
-                    CP_UTF8,
-                    ::GetAbsolutePath(Mile::ToWideString(
-                        CP_UTF8,
-                        Plan9Share.Path)));
+                Current["Path"] = ::GetAbsoluteUtf8Path(Plan9Share.Path);
                 Current["Port"] = Plan9Share.Port;
                 Current["Flags"] = Plan9Share.ReadOnly
                     ? NanaBox::Plan9ShareFlags::ReadOnly
@@ -441,31 +433,19 @@ std::string NanaBox::MakeHcsConfiguration(
     if (!Configuration.GuestStateFile.empty())
     {
         VirtualMachine["GuestState"]["GuestStateFilePath"] =
-            Mile::ToString(
-                CP_UTF8,
-                ::GetAbsolutePath(Mile::ToWideString(
-                    CP_UTF8,
-                    Configuration.GuestStateFile)));
+            ::GetAbsoluteUtf8Path(Configuration.GuestStateFile);
     }
 
     if (!Configuration.RuntimeStateFile.empty())
     {
         VirtualMachine["GuestState"]["RuntimeStateFilePath"] =
-            Mile::ToString(
-                CP_UTF8,
-                ::GetAbsolutePath(Mile::ToWideString(
-                    CP_UTF8,
-                    Configuration.RuntimeStateFile)));
+            ::GetAbsoluteUtf8Path(Configuration.RuntimeStateFile);
     }
 
     if (!Configuration.SaveStateFile.empty())
     {
         VirtualMachine["RestoreState"]["SaveStateFilePath"] =
-            Mile::ToString(
-                CP_UTF8,
-                ::GetAbsolutePath(Mile::ToWideString(
-                    CP_UTF8,
-                    Configuration.SaveStateFile)));
+            ::GetAbsoluteUtf8Path(Configuration.SaveStateFile);
     }
 
     Result["VirtualMachine"] = VirtualMachine;
