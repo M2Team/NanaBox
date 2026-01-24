@@ -100,4 +100,13 @@ EXTERN_C HRESULT WINAPI RDPBASE_CreateInstance(
     _In_ REFIID riid,
     _Out_ LPVOID* ppvObject);
 
+#define SYSTEM_ATL_AX_WINDOW_CLASS_NAME "AtlAxWin"
+
+EXTERN_C BOOL WINAPI SystemAtlAxWinInit();
+
+EXTERN_C HRESULT WINAPI SystemAtlAxAttachControl(
+    _Inout_ IUnknown* pControl,
+    _In_ HWND hWnd,
+    _Out_opt_ IUnknown** ppUnkContainer);
+
 #endif // !RDPBASE_H
