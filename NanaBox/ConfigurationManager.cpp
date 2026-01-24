@@ -104,6 +104,8 @@ std::string NanaBox::MakeHcsConfiguration(
 
     Result["ShouldTerminateOnLastHandleClosed"] = true;
 
+    nlohmann::json VirtualMachine;
+
     nlohmann::json Chipset;
     {
         nlohmann::json Uefi;
@@ -192,7 +194,7 @@ std::string NanaBox::MakeHcsConfiguration(
             Chipset["SystemInformation"] = SystemInformation;
         }
     }
-    Result["VirtualMachine"]["Chipset"] = Chipset;
+    VirtualMachine["Chipset"] = Chipset;
 
     nlohmann::json ComputeTopology;
     {
@@ -269,7 +271,7 @@ std::string NanaBox::MakeHcsConfiguration(
                 GuestFeatureSet;
         }
     }
-    Result["VirtualMachine"]["ComputeTopology"] = ComputeTopology;
+    VirtualMachine["ComputeTopology"] = ComputeTopology;
 
     // Note: Skip Configuration.Gpu because it need to add at runtime.
 
@@ -426,19 +428,19 @@ std::string NanaBox::MakeHcsConfiguration(
             }
         }
     }
-    Result["VirtualMachine"]["Devices"] = Devices;
+    VirtualMachine["Devices"] = Devices;
 
     if (Configuration.Tpm)
     {
         nlohmann::json SecuritySettings;
         SecuritySettings["EnableTpm"] = true;
         SecuritySettings["Isolation"]["IsolationType"] = "GuestStateOnly";
-        Result["VirtualMachine"]["SecuritySettings"] = SecuritySettings;
+        VirtualMachine["SecuritySettings"] = SecuritySettings;
     }
 
     if (!Configuration.GuestStateFile.empty())
     {
-        Result["VirtualMachine"]["GuestState"]["GuestStateFilePath"] =
+        VirtualMachine["GuestState"]["GuestStateFilePath"] =
             Mile::ToString(
                 CP_UTF8,
                 ::GetAbsolutePath(Mile::ToWideString(
@@ -448,7 +450,7 @@ std::string NanaBox::MakeHcsConfiguration(
 
     if (!Configuration.RuntimeStateFile.empty())
     {
-        Result["VirtualMachine"]["GuestState"]["RuntimeStateFilePath"] =
+        VirtualMachine["GuestState"]["RuntimeStateFilePath"] =
             Mile::ToString(
                 CP_UTF8,
                 ::GetAbsolutePath(Mile::ToWideString(
@@ -458,13 +460,15 @@ std::string NanaBox::MakeHcsConfiguration(
 
     if (!Configuration.SaveStateFile.empty())
     {
-        Result["VirtualMachine"]["RestoreState"]["SaveStateFilePath"] =
+        VirtualMachine["RestoreState"]["SaveStateFilePath"] =
             Mile::ToString(
                 CP_UTF8,
                 ::GetAbsolutePath(Mile::ToWideString(
                     CP_UTF8,
                     Configuration.SaveStateFile)));
     }
+
+    Result["VirtualMachine"] = VirtualMachine;
 
     return Result.dump(2);
 }
@@ -692,30 +696,34 @@ void NanaBox::ComputeSystemUpdateGpu(
     Result["ResourcePath"] = "VirtualMachine/ComputeTopology/Gpu";
     Result["RequestType"] = "Update";
 
-    Result["Settings"]["AssignmentMode"] = "Disabled";
+    nlohmann::json Settings;
+
+    Settings["AssignmentMode"] = "Disabled";
     if (NanaBox::GpuAssignmentMode::Default == Configuration.AssignmentMode)
     {
-        Result["Settings"]["AssignmentMode"] = "Default";
+        Settings["AssignmentMode"] = "Default";
     }
     else if (NanaBox::GpuAssignmentMode::Mirror == Configuration.AssignmentMode)
     {
-        Result["Settings"]["AssignmentMode"] = "Mirror";
+        Settings["AssignmentMode"] = "Mirror";
     }
     else if (NanaBox::GpuAssignmentMode::List == Configuration.AssignmentMode)
     {
         if (!Configuration.SelectedDevices.empty())
         {
-            Result["Settings"]["AssignmentMode"] = "List";
+            Settings["AssignmentMode"] = "List";
             nlohmann::json Devices;
             for (std::pair<std::string, std::uint16_t> const& Device
                 : Configuration.SelectedDevices)
             {
                 Devices[Device.first] = Device.second;
             }
-            Result["Settings"]["AssignmentRequest"] = Devices;
+            Settings["AssignmentRequest"] = Devices;
         }
     }
-    Result["Settings"]["AllowVendorExtension"] = true;
+    Settings["AllowVendorExtension"] = true;
+
+    Result["Settings"] = Settings;
 
     Instance->Modify(winrt::to_hstring(Result.dump()));
 }
