@@ -27,6 +27,9 @@ void WriteAllTextToUtf8TextFile(
 std::wstring GetAbsolutePath(
     std::wstring const& FileName);
 
+std::string GetAbsoluteUtf8Path(
+    std::string const& FileName);
+
 HWND CreateXamlDialog(
     _In_opt_ HWND ParentWindowHandle);
 

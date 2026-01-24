@@ -249,6 +249,14 @@ std::wstring GetAbsolutePath(
     return Path;
 }
 
+std::string GetAbsoluteUtf8Path(
+    std::string const& FileName)
+{
+    return Mile::ToString(
+        CP_UTF8,
+        ::GetAbsolutePath(Mile::ToWideString(CP_UTF8, FileName)));
+}
+
 HWND CreateXamlDialog(
     _In_opt_ HWND ParentWindowHandle)
 {
