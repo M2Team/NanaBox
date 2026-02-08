@@ -28,8 +28,7 @@
   </Dependencies>
 
   <Resources>
-    <Resource Language="en" />
-    <Resource Language="zh-Hans" />
+    <Resource Language="x-generate"/>
     <Resource uap:Scale="100" />
     <Resource uap:Scale="125" />
     <Resource uap:Scale="150" />
