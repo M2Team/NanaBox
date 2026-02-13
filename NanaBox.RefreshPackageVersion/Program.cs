@@ -141,15 +141,7 @@ namespace NanaBox.RefreshPackageVersion
 
             string NewContent = string.Empty;
             {
-                DirectoryInfo Folder = new DirectoryInfo(string.Format(
-                    @"{0}\NanaBox\Strings",
-                    RepositoryRoot));
-                foreach (var item in Folder.GetDirectories())
-                {
-                    NewContent += string.Format(
-                        "    <Resource Language=\"{0}\" />\r\n",
-                        item.Name);
-                }
+                NewContent += "    <Resource Language=\"x-generate\"/>\r\n";
 
                 int[] Scales = [ 100, 125, 150, 200, 400 ];
                 foreach (var Scale in Scales)
