@@ -360,6 +360,71 @@ std::string NanaBox::MakeHcsConfiguration(
         }
 
         {
+            nlohmann::json VirtualSmbShares;
+
+            if (Configuration.Gpu.EnableHostDriverStore)
+            {
+                const struct { LPCSTR Name; LPCWSTR Path; } VirtualSmbShareItems[] =
+                {
+                    { "HostDriverStore", L"\\DriverStore" },
+                    { "NanaBox.HostDrivers", L"\\DriverStore\\FileRepository" },
+                    { "NanaBox.HostLxssLib", L"\\lxss\\lib" }
+                };
+                const size_t VirtualSmbShareItemsCount =
+                    sizeof(VirtualSmbShareItems) / sizeof(*VirtualSmbShareItems);
+
+                std::wstring SystemDirectoryPath(MAX_PATH, L'\0');
+                SystemDirectoryPath.resize(::GetSystemDirectoryW(
+                    SystemDirectoryPath.data(),
+                    static_cast<UINT>(SystemDirectoryPath.size())));
+
+                for (size_t i = 0; i < VirtualSmbShareItemsCount; ++i)
+                {
+                    std::wstring SharePath(
+                        SystemDirectoryPath + VirtualSmbShareItems[i].Path);
+
+                    if (!::PathFileExistsW(SharePath.c_str()))
+                    {
+                        continue;
+                    }
+
+                    nlohmann::json Current;
+                    Current["Name"] = VirtualSmbShareItems[i].Name;
+                    Current["Path"] = Mile::ToString(CP_UTF8, SharePath);
+                    Current["Options"]["ReadOnly"] = true;
+                    Current["Options"]["PseudoOplocks"] = true;
+                    Current["Options"]["PseudoDirnotify"] = true;
+                    Current["Options"]["SupportCloudFiles"] = true;
+                    VirtualSmbShares.push_back(Current);
+                }
+            }
+
+            for (NanaBox::VirtualSmbShareConfiguration const& VirtualSmbShare
+                : Configuration.VirtualSmbShares)
+            {
+                nlohmann::json Current;
+                Current["Name"] = VirtualSmbShare.Name;
+                Current["Path"] = ::GetAbsoluteUtf8Path(
+                    VirtualSmbShare.Path);
+                Current["Options"]["TakeBackupPrivilege"] = true;
+                if (VirtualSmbShare.ReadOnly)
+                {
+                    Current["Options"]["ReadOnly"] = true;
+                    Current["Options"]["ShareRead"] = true;
+                    Current["Options"]["CacheIo"] = true;
+                    Current["Options"]["PseudoOplocks"] = true;
+                }
+                VirtualSmbShares.push_back(Current);
+            }
+
+            if (!VirtualSmbShares.empty())
+            {
+                Devices["VirtualSmb"]["DirectFileMappingInMB"] = 1024;
+                Devices["VirtualSmb"]["Shares"] = VirtualSmbShares;
+            }
+        }
+
+        {
             nlohmann::json Plan9Shares;
 
             if (Configuration.Gpu.EnableHostDriverStore)

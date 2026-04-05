@@ -148,6 +148,13 @@ namespace NanaBox
         std::string Name;
     };
 
+    struct VirtualSmbShareConfiguration
+    {
+        bool ReadOnly = false;
+        std::string Path;
+        std::string Name;
+    };
+
     struct VirtualMachineConfiguration
     {
         std::uint32_t Version = 1;
@@ -171,6 +178,7 @@ namespace NanaBox
         VideoMonitorConfiguration VideoMonitor;
         std::vector<std::string> Policies;
         std::vector<Plan9ShareConfiguration> Plan9Shares;
+        std::vector<VirtualSmbShareConfiguration> VirtualSmbShares;
     };
 }
 
