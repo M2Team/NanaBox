@@ -912,8 +912,8 @@ void NanaBox::MainWindow::TryReloadVirtualMachine()
     }
 
     {
-        size_t PreviousCount = this->m_Configuration.ScsiDevices.size();
-        size_t NewCount = Configuration.ScsiDevices.size();
+        std::size_t PreviousCount = this->m_Configuration.ScsiDevices.size();
+        std::size_t NewCount = Configuration.ScsiDevices.size();
         if (PreviousCount <= NewCount)
         {
             for (std::uint32_t i = 0; i < NewCount; ++i)

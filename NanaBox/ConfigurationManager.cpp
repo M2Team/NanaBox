@@ -380,7 +380,7 @@ std::string NanaBox::MakeHcsConfiguration(
                     { "NanaBox.HostDrivers", L"\\DriverStore\\FileRepository" },
                     { "NanaBox.HostLxssLib", L"\\lxss\\lib" }
                 };
-                const size_t Plan9ShareItemsCount =
+                const std::size_t Plan9ShareItemsCount =
                     sizeof(Plan9ShareItems) / sizeof(*Plan9ShareItems);
 
                 const ShareItem VirtualSmbShareItems[] =
@@ -388,7 +388,7 @@ std::string NanaBox::MakeHcsConfiguration(
                     { "NanaBox.HostDrivers", L"\\DriverStore\\FileRepository" },
                     { "NanaBox.HostLxssLib", L"\\lxss\\lib" }
                 };
-                const size_t VirtualSmbShareItemsCount =
+                const std::size_t VirtualSmbShareItemsCount =
                     sizeof(VirtualSmbShareItems) / sizeof(*VirtualSmbShareItems);
 
                 for (size_t i = 0; i < Plan9ShareItemsCount; ++i)
