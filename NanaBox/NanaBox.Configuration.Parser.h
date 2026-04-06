@@ -95,6 +95,12 @@ namespace NanaBox
     Plan9ShareConfiguration ToPlan9ShareConfiguration(
         nlohmann::json const& Value);
 
+    nlohmann::json FromVirtualSmbShareConfiguration(
+        VirtualSmbShareConfiguration const& Value);
+
+    VirtualSmbShareConfiguration ToVirtualSmbShareConfiguration(
+        nlohmann::json const& Value);
+
     nlohmann::json FromVirtualMachineConfiguration(
         VirtualMachineConfiguration const& Value);
 

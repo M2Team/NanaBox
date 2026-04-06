@@ -132,6 +132,10 @@
     - Port (Number)
     - Path (String)
     - Name (String)
+  - VirtualSmbShares (Object Array)
+    - ReadOnly (Boolean)
+    - Path (String)
+    - Name (String)
 
 ### NanaBox
 
@@ -228,8 +232,8 @@ Available values: "Disabled", "Default", "List" and "Mirror"
 
 #### EnableHostDriverStore
 
-(Optional) Set it true if you want to enable readonly Plan 9 shares for several
-GPU-PV (paravirtualization) related folders from the Host OS.
+(Optional) Set it true if you want to enable readonly Plan 9 and Virtual SMB
+shares for several GPU-PV (paravirtualization) related folders from the Host OS.
 
 Note: You cannot suspend the virtual machine properly if this option is enabled.
 
@@ -237,27 +241,30 @@ Note: All these shares are transported with Hyper-V Socket.
 
 Note: Available starting with NanaBox 1.2.
 
-Here are the exposed readonly Plan 9 shares:
+Here are the exposed readonly Plan 9 and Virtual SMB shares:
 
 - Access Name: HostDriverStore
   - Available starting with NanaBox 1.2.
   - Deprecated, reserved for compatibility with virtual machines hosted with
     previous NanaBox versions.
   - Host Path: %SystemRoot%\System32\DriverStore
-  - Hyper-V Socket Port: 50001
+  - Hyper-V Socket Port for Plan 9 share: 50001
+  - Virtual SMB share support: N/A
   - Suggested Guest Paths:
     - Windows: %SystemRoot%\System32\HostDriverStore
 - Access Name: NanaBox.HostDrivers
   - Available starting with NanaBox 1.5 Update 3.
   - Host Path: %SystemRoot%\System32\DriverStore\FileRepository
-  - Hyper-V Socket Port: 50001
+  - Hyper-V Socket Port for Plan 9 share: 50001
+  - Virtual SMB share support: Available starting with NanaBox 1.6 Update 1.
   - Suggested Guest Paths:
     - Windows: %SystemRoot%\System32\HostDriverStore\FileRepository
     - Linux: /usr/lib/wsl/drivers
 - Access Name: NanaBox.HostLxssLib
   - Available starting with NanaBox 1.5 Update 3.
   - Host Path: %SystemRoot%\System32\lxss\lib
-  - Hyper-V Socket Port: 50001
+  - Hyper-V Socket Port for Plan 9 share: 50001
+  - Virtual SMB share support: Available starting with NanaBox 1.6 Update 1.
   - Suggested Guest Paths:
     - Linux: /usr/lib/wsl/lib
 
@@ -876,6 +883,42 @@ names mentioned in "EnableHostDriverStore" related document for the current Plan
 9 share.
 
 Note: Available starting with NanaBox 1.5 Update 2.
+
+### VirtualSmbShares
+
+The Virtual SMB shares setting object array of virtual machine.
+
+Note: You cannot suspend the virtual machine properly if this option is enabled.
+
+Note: Available starting with NanaBox 1.6 Update 1.
+
+#### ReadOnly
+
+(Optional) Set it true if you want to make the current Virtual SMB share read-only.
+
+Note: Available starting with NanaBox 1.6 Update 1.
+
+#### Path
+
+The host path of the current Virtual SMB share.
+
+Note: The relative path is supported.
+
+Example value: "D:\\Projects"
+
+Note: Available starting with NanaBox 1.6 Update 1.
+
+#### Name
+
+The guest access name of the current Virtual SMB share.
+
+Example value: "HostProjects"
+
+Note: If you have set the "EnableHostDriverStore" true, you should not use the
+names mentioned in "EnableHostDriverStore" related document for the current
+Virtual SMB share.
+
+Note: Available starting with NanaBox 1.6 Update 1.
 
 ## Samples
 

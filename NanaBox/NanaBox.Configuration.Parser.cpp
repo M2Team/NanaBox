@@ -840,6 +840,49 @@ NanaBox::Plan9ShareConfiguration NanaBox::ToPlan9ShareConfiguration(
     return Result;
 }
 
+nlohmann::json NanaBox::FromVirtualSmbShareConfiguration(
+    VirtualSmbShareConfiguration const& Value)
+{
+    nlohmann::json Result;
+
+    if (Value.ReadOnly)
+    {
+        Result["ReadOnly"] = true;
+    }
+
+    if (!Value.Path.empty())
+    {
+        Result["Path"] = Value.Path;
+    }
+
+    if (!Value.Name.empty())
+    {
+        Result["Name"] = Value.Name;
+    }
+
+    return Result;
+}
+
+NanaBox::VirtualSmbShareConfiguration NanaBox::ToVirtualSmbShareConfiguration(
+    nlohmann::json const& Value)
+{
+    NanaBox::VirtualSmbShareConfiguration Result;
+
+    Result.ReadOnly = Mile::Json::ToBoolean(
+        Mile::Json::GetSubKey(Value, "ReadOnly"),
+        Result.ReadOnly);
+
+    Result.Path = Mile::Json::ToString(
+        Mile::Json::GetSubKey(Value, "Path"),
+        Result.Path);
+
+    Result.Name = Mile::Json::ToString(
+        Mile::Json::GetSubKey(Value, "Name"),
+        Result.Name);
+
+    return Result;
+}
+
 nlohmann::json NanaBox::FromVirtualMachineConfiguration(
     NanaBox::VirtualMachineConfiguration const& Value)
 {
@@ -983,6 +1026,23 @@ nlohmann::json NanaBox::FromVirtualMachineConfiguration(
         Result["Plan9Shares"] = Plan9Shares;
     }
 
+    if (!Value.VirtualSmbShares.empty())
+    {
+        nlohmann::json VirtualSmbShares;
+        for (NanaBox::VirtualSmbShareConfiguration const& VirtualSmbShare
+            : Value.VirtualSmbShares)
+        {
+            if (VirtualSmbShare.Path.empty() || VirtualSmbShare.Name.empty())
+            {
+                continue;
+            }
+
+            VirtualSmbShares.push_back(
+                NanaBox::FromVirtualSmbShareConfiguration(VirtualSmbShare));
+        }
+        Result["VirtualSmbShares"] = VirtualSmbShares;
+    }
+
     return Result;
 }
 
@@ -1098,6 +1158,20 @@ NanaBox::VirtualMachineConfiguration NanaBox::ToVirtualMachineConfiguration(
         }
 
         Result.Plan9Shares.push_back(Current);
+    }
+
+    for (nlohmann::json const& VirtualSmbShare : Mile::Json::ToArray(
+        Mile::Json::GetSubKey(Value, "VirtualSmbShares")))
+    {
+        NanaBox::VirtualSmbShareConfiguration Current =
+            NanaBox::ToVirtualSmbShareConfiguration(VirtualSmbShare);
+
+        if (Current.Path.empty() || Current.Name.empty())
+        {
+            continue;
+        }
+
+        Result.VirtualSmbShares.push_back(Current);
     }
 
     return Result;

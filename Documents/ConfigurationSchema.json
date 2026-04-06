@@ -136,7 +136,7 @@
             },
             "EnableHostDriverStore": {
               "type": "boolean",
-              "description": "Set it true if you want to enable readonly Plan 9 shares for several GPU-PV (paravirtualization) related folders from the Host OS. You cannot suspend the virtual machine properly if this option is enabled. All these shares are transported with Hyper-V Socket. Available starting with NanaBox 1.2. Read NanaBox Configuration File Reference for more information."
+              "description": "Set it true if you want to enable readonly Plan 9 and Virtual SMB shares for several GPU-PV (paravirtualization) related folders from the Host OS. You cannot suspend the virtual machine properly if this option is enabled. All these shares are transported with Hyper-V Socket. Available starting with NanaBox 1.2. Read NanaBox Configuration File Reference for more information."
             },
             "SelectedDevices": {
               "type": "array",
@@ -397,6 +397,30 @@
                 "Name": {
                   "type": "string",
                   "description": "The guest access name of the current Plan 9 share. If you have set the \"EnableHostDriverStore\" true, you should not use the names mentioned in \"EnableHostDriverStore\" related document for the current Plan 9 share. Available starting with NanaBox 1.5 Update 2.",
+                  "examples": [ "HostProjects" ]
+                }
+              }
+            }
+          },
+          "VirtualSmbShares": {
+            "type": "array",
+            "description": "The Virtual SMB shares setting object array of virtual machine. You cannot suspend the virtual machine properly if this option is enabled. Available starting with NanaBox 1.6 Update 1.",
+            "items": {
+              "type": "object",
+              "required": [ "Path", "Name" ],
+              "properties": {
+                "ReadOnly": {
+                  "type": "boolean",
+                  "description": "Set it true if you want to make the current Virtual SMB share read-only. Available starting with NanaBox 1.6 Update 1."
+                },
+                "Path": {
+                  "type": "string",
+                  "description": "The host path of the current Virtual SMB share. The relative path is supported. Available starting with NanaBox 1.6 Update 1.",
+                  "examples": [ "D:\\Projects" ]
+                },
+                "Name": {
+                  "type": "string",
+                  "description": "The guest access name of the current Virtual SMB share. If you have set the \"EnableHostDriverStore\" true, you should not use the names mentioned in \"EnableHostDriverStore\" related document for the current Virtual SMB share. Available starting with NanaBox 1.6 Update 1.",
                   "examples": [ "HostProjects" ]
                 }
               }

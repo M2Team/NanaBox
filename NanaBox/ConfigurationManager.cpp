@@ -361,12 +361,20 @@ std::string NanaBox::MakeHcsConfiguration(
 
         {
             nlohmann::json Plan9Shares;
+            nlohmann::json VirtualSmbShares;
 
             if (Configuration.Gpu.EnableHostDriverStore)
             {
+                std::wstring SystemDirectoryPath(MAX_PATH, L'\0');
+                SystemDirectoryPath.resize(::GetSystemDirectoryW(
+                    SystemDirectoryPath.data(),
+                    static_cast<UINT>(SystemDirectoryPath.size())));
+
                 const std::uint32_t Plan9SharePort = 50001;
 
-                const struct { LPCSTR Name; LPCWSTR Path; } Plan9ShareItems[] =
+                typedef struct { LPCSTR Name; LPCWSTR Path; } ShareItem;
+
+                const ShareItem Plan9ShareItems[] =
                 {
                     { "HostDriverStore", L"\\DriverStore" },
                     { "NanaBox.HostDrivers", L"\\DriverStore\\FileRepository" },
@@ -375,10 +383,13 @@ std::string NanaBox::MakeHcsConfiguration(
                 const size_t Plan9ShareItemsCount =
                     sizeof(Plan9ShareItems) / sizeof(*Plan9ShareItems);
 
-                std::wstring SystemDirectoryPath(MAX_PATH, L'\0');
-                SystemDirectoryPath.resize(::GetSystemDirectoryW(
-                    SystemDirectoryPath.data(),
-                    static_cast<UINT>(SystemDirectoryPath.size())));
+                const ShareItem VirtualSmbShareItems[] =
+                {
+                    { "NanaBox.HostDrivers", L"\\DriverStore\\FileRepository" },
+                    { "NanaBox.HostLxssLib", L"\\lxss\\lib" }
+                };
+                const size_t VirtualSmbShareItemsCount =
+                    sizeof(VirtualSmbShareItems) / sizeof(*VirtualSmbShareItems);
 
                 for (size_t i = 0; i < Plan9ShareItemsCount; ++i)
                 {
@@ -398,6 +409,27 @@ std::string NanaBox::MakeHcsConfiguration(
                     Current["Flags"] = NanaBox::Plan9ShareFlags::ReadOnly;
                     Plan9Shares.push_back(Current);
                 }
+
+                for (size_t i = 0; i < VirtualSmbShareItemsCount; ++i)
+                {
+                    std::wstring SharePath(
+                        SystemDirectoryPath + VirtualSmbShareItems[i].Path);
+
+                    if (!::PathFileExistsW(SharePath.c_str()))
+                    {
+                        continue;
+                    }
+
+                    nlohmann::json Current;
+                    Current["Name"] = VirtualSmbShareItems[i].Name;
+                    Current["Path"] = Mile::ToString(CP_UTF8, SharePath);
+                    Current["Options"]["ReadOnly"] = true;
+                    Current["Options"]["ShareRead"] = true;
+                    Current["Options"]["CacheIo"] = true;
+                    Current["Options"]["PseudoOplocks"] = true;
+                    Current["Options"]["SupportCloudFiles"] = true;
+                    VirtualSmbShares.push_back(Current);
+                }
             }
 
             for (NanaBox::Plan9ShareConfiguration const& Plan9Share
@@ -413,10 +445,30 @@ std::string NanaBox::MakeHcsConfiguration(
                     : NanaBox::Plan9ShareFlags::None;
                 Plan9Shares.push_back(Current);
             }
-
             if (!Plan9Shares.empty())
             {
                 Devices["Plan9"]["Shares"] = Plan9Shares;
+            }
+
+            for (NanaBox::VirtualSmbShareConfiguration const& VirtualSmbShare
+                : Configuration.VirtualSmbShares)
+            {
+                nlohmann::json Current;
+                Current["Name"] = VirtualSmbShare.Name;
+                Current["Path"] = ::GetAbsoluteUtf8Path(VirtualSmbShare.Path);
+                if (VirtualSmbShare.ReadOnly)
+                {
+                    Current["Options"]["ReadOnly"] = true;
+                    Current["Options"]["ShareRead"] = true;
+                    Current["Options"]["CacheIo"] = true;
+                    Current["Options"]["PseudoOplocks"] = true;
+                }
+                Current["Options"]["SupportCloudFiles"] = true;
+                VirtualSmbShares.push_back(Current);
+            }
+            if (!VirtualSmbShares.empty())
+            {
+                Devices["VirtualSmb"]["Shares"] = VirtualSmbShares;
             }
         }
     }
