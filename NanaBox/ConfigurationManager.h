@@ -20,6 +20,10 @@
 
 namespace NanaBox
 {
+    void ValidateScsiDeviceConfiguration(
+        winrt::hstring const& HcsVmId,
+        ScsiDeviceConfiguration const& Configuration);
+
     nlohmann::json MakeHcsComPortConfiguration(
         std::string const& NamedPipe);
 

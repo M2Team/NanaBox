@@ -32,6 +32,22 @@ namespace NanaBox
     }
 }
 
+void NanaBox::ValidateScsiDeviceConfiguration(
+    winrt::hstring const& HcsVmId,
+    NanaBox::ScsiDeviceConfiguration const& Configuration)
+{
+    std::wstring Path = Mile::ToWideString(CP_UTF8, Configuration.Path);
+    if (NanaBox::ScsiDeviceType::PhysicalDevice != Configuration.Type)
+    {
+        Path = ::GetAbsolutePath(Path);
+        if (!::PathFileExistsW(Path.c_str()))
+        {
+            return;
+        }
+    }
+    winrt::check_hresult(::HcsGrantVmAccess(HcsVmId.c_str(), Path.c_str()));
+}
+
 nlohmann::json NanaBox::MakeHcsComPortConfiguration(
     std::string const& NamedPipe)
 {

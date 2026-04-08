@@ -545,19 +545,7 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
     for (NanaBox::ScsiDeviceConfiguration& ScsiDevice
         : this->m_Configuration.ScsiDevices)
     {
-        if (ScsiDevice.Type == NanaBox::ScsiDeviceType::PhysicalDevice)
-        {
-            break;
-        }
-
-        std::wstring Path = ::GetAbsolutePath(Mile::ToWideString(
-            CP_UTF8, ScsiDevice.Path));
-        if (::PathFileExistsW(Path.c_str()))
-        {
-            winrt::check_hresult(::HcsGrantVmAccess(
-                HcsVmId.c_str(),
-                Path.c_str()));
-        }
+        NanaBox::ValidateScsiDeviceConfiguration(HcsVmId, ScsiDevice);
     }
 
     if (this->m_Configuration.GuestStateFile.empty())
@@ -952,20 +940,9 @@ void NanaBox::MainWindow::TryReloadVirtualMachine()
                 {
                     try
                     {
-                        if (Current.Type !=
-                            NanaBox::ScsiDeviceType::PhysicalDevice)
-                        {
-                            std::wstring Path = ::GetAbsolutePath(
-                                Mile::ToWideString(CP_UTF8, Current.Path));
-                            if (!::PathFileExistsW(Path.c_str()))
-                            {
-                                continue;
-                            }
-                            winrt::check_hresult(::HcsGrantVmAccess(
-                                winrt::to_hstring(
-                                    this->m_Configuration.Name).c_str(),
-                                Path.c_str()));
-                        }
+                        NanaBox::ValidateScsiDeviceConfiguration(
+                            winrt::to_hstring(this->m_Configuration.Name),
+                            Current);
 
                         NanaBox::ComputeSystemAddScsiDevice(
                             this->m_VirtualMachine,
