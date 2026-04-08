@@ -523,13 +523,13 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
     this->m_Configuration = NanaBox::DeserializeConfiguration(
         ConfigurationFileContent);
 
+    winrt::hstring HcsVmId = winrt::to_hstring(this->m_Configuration.Name);
+
     {
         bool VirtualMachineExisted = true;
         try
         {
-            winrt::make_self<NanaBox::ComputeSystem>(
-                winrt::to_hstring(
-                    this->m_Configuration.Name));
+            winrt::make_self<NanaBox::ComputeSystem>(HcsVmId);
         }
         catch (...)
         {
@@ -555,7 +555,7 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
         if (::PathFileExistsW(Path.c_str()))
         {
             winrt::check_hresult(::HcsGrantVmAccess(
-                winrt::to_hstring(this->m_Configuration.Name).c_str(),
+                HcsVmId.c_str(),
                 Path.c_str()));
         }
     }
@@ -575,7 +575,7 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
         }
 
         winrt::check_hresult(::HcsGrantVmAccess(
-            winrt::to_hstring(this->m_Configuration.Name).c_str(),
+            HcsVmId.c_str(),
             GuestStateFile.c_str()));
     }
 
@@ -594,7 +594,7 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
         }
 
         winrt::check_hresult(::HcsGrantVmAccess(
-            winrt::to_hstring(this->m_Configuration.Name).c_str(),
+            HcsVmId.c_str(),
             RuntimeStateFile.c_str()));
     }
 
@@ -605,7 +605,7 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
         if (::PathFileExistsW(SaveStateFile.c_str()))
         {
             winrt::check_hresult(::HcsGrantVmAccess(
-                winrt::to_hstring(this->m_Configuration.Name).c_str(),
+                HcsVmId.c_str(),
                 SaveStateFile.c_str()));
         }
     }
@@ -633,8 +633,7 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
     }
 
     this->m_VirtualMachine = winrt::make_self<NanaBox::ComputeSystem>(
-        winrt::to_hstring(
-            this->m_Configuration.Name),
+        HcsVmId,
         winrt::to_hstring(
             NanaBox::MakeHcsConfiguration(this->m_Configuration)));
 
@@ -688,9 +687,11 @@ void NanaBox::MainWindow::InitializeVirtualMachine()
         winrt::to_string(this->m_VirtualMachine->GetProperties()));
     this->m_VirtualMachineGuid = Properties["RuntimeId"];
 
-    this->m_WindowTitle = Mile::FormatWideString(
-        L"%s - NanaBox",
-        Mile::ToWideString(CP_UTF8, this->m_Configuration.Name).c_str());
+    this->m_WindowTitle = Mile::ToWideString(
+        CP_UTF8,
+        Mile::FormatString(
+            "%s - NanaBox",
+            this->m_Configuration.Name.c_str()));
     this->SetWindowTextW(this->m_WindowTitle.c_str());
 }
 
