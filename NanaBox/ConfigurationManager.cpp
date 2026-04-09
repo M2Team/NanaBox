@@ -521,21 +521,61 @@ std::string NanaBox::MakeHcsConfiguration(
     return Result.dump(2);
 }
 
-NanaBox::HcnNetwork NanaBox::ComputeNetworkGetAvailableNetwork(
+NanaBox::HcnNetwork NanaBox::ComputeNetworkGetSuggestedNetwork(
     NanaBox::NetworkAdapterConfiguration& Configuration)
 {
     winrt::guid SwitchId = Configuration.SwitchId.empty()
         ? NanaBox::NanaBoxSwitchId
         : winrt::guid(Configuration.SwitchId);
 
+    std::string SwitchName = Configuration.Suggestions.SwitchName;
+    if (SwitchName.empty())
+    {
+        SwitchName = SwitchId == NanaBox::NanaBoxSwitchId
+            ? "NanaBox"
+            : Configuration.SwitchId;
+    }
+
     nlohmann::json Settings;
-    Settings["Name"] = "NanaBox";
+    Settings["Name"] = SwitchName;
     Settings["Type"] = "ICS";
     Settings["IsolateSwitch"] = true;
     Settings["Flags"] =
         NanaBox::HcnNetworkFlags::EnableDns |
         NanaBox::HcnNetworkFlags::EnableDhcp |
         NanaBox::HcnNetworkFlags::EnableNonPersistent;
+
+    std::string SwitchSubnet = Configuration.Suggestions.SwitchSubnet;
+    if (!SwitchSubnet.empty())
+    {
+        std::uint8_t Octets[4];
+        std::uint8_t PrefixLength;
+        if (5 == ::sscanf_s(SwitchSubnet.c_str(),
+            "%hhu.%hhu.%hhu.%hhu/%hhu",
+            &Octets[0],
+            &Octets[1],
+            &Octets[2],
+            &Octets[3],
+            &PrefixLength))
+        {
+            char GatewayAddress[16];
+            ::sprintf_s(GatewayAddress, "%u.%u.%u.1",
+                Octets[0], Octets[1], Octets[2]);
+
+            nlohmann::json Subnet;
+            Subnet["AddressPrefix"] = SwitchSubnet;
+            Subnet["GatewayAddress"] = GatewayAddress;
+
+            nlohmann::json IpSubnet;
+            IpSubnet["IpAddressPrefix"] = SwitchSubnet;
+            IpSubnet["Flags"] = 3; // EnableDns | EnableDhcp
+            IpSubnet["ObjectType"] = 6; // IpSubnet
+            Subnet["IpSubnets"].push_back(IpSubnet);
+
+            Subnet["ObjectType"] = 5; // Subnet
+            Settings["Subnets"].push_back(Subnet);
+        }
+    }
 
     NanaBox::HcnNetwork NetworkHandle;
     try
@@ -556,11 +596,40 @@ NanaBox::HcnNetwork NanaBox::ComputeNetworkGetAvailableNetwork(
         }
     }
 
-    if (Configuration.SwitchId.empty())
-    {
-        Configuration.SwitchId = winrt::to_string(::FromGuid(SwitchId));
-    }
+    Configuration.SwitchId = winrt::to_string(::FromGuid(SwitchId));
 
+    return NetworkHandle;
+}
+
+NanaBox::HcnNetwork NanaBox::ComputeNetworkGetAvailableNetwork()
+{
+    nlohmann::json Settings;
+    Settings["Name"] = "NanaBox";
+    Settings["Type"] = "ICS";
+    Settings["IsolateSwitch"] = true;
+    Settings["Flags"] =
+        NanaBox::HcnNetworkFlags::EnableDns |
+        NanaBox::HcnNetworkFlags::EnableDhcp |
+        NanaBox::HcnNetworkFlags::EnableNonPersistent;
+    NanaBox::HcnNetwork NetworkHandle;
+    try
+    {
+        NetworkHandle = NanaBox::HcnCreateNetwork(
+            NanaBox::NanaBoxSwitchId,
+            winrt::to_hstring(Settings.dump()));
+    }
+    catch (winrt::hresult_error const& ex)
+    {
+        if (HCN_E_NETWORK_ALREADY_EXISTS == ex.code())
+        {
+            NetworkHandle = NanaBox::HcnOpenNetwork(
+                NanaBox::NanaBoxSwitchId);
+        }
+        else
+        {
+            throw;
+        }
+    }
     return NetworkHandle;
 }
 
@@ -579,8 +648,16 @@ void NanaBox::ComputeNetworkCreateEndpoint(
         EndpointId = winrt::guid(Configuration.EndpointId);
     }
 
-    NanaBox::HcnNetwork NetworkHandle =
-        NanaBox::ComputeNetworkGetAvailableNetwork(Configuration);
+    NanaBox::HcnNetwork NetworkHandle;
+    try {
+        NetworkHandle = NanaBox::ComputeNetworkGetSuggestedNetwork(Configuration);
+    }
+    catch (...)
+    {
+        NetworkHandle = NanaBox::ComputeNetworkGetAvailableNetwork();
+        Configuration.SwitchId = winrt::to_string(
+            ::FromGuid(NanaBox::NanaBoxSwitchId));
+    }
 
     NanaBox::HcnEndpoint EndpointHandle;
     nlohmann::json Settings;

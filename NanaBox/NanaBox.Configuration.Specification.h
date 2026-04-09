@@ -71,12 +71,19 @@ namespace NanaBox
         std::map<std::string, std::uint16_t> SelectedDevices;
     };
 
+    struct NetworkAdapterSuggestions
+    {
+        std::string SwitchName;
+        std::string SwitchSubnet;
+    };
+
     struct NetworkAdapterConfiguration
     {
         bool Connected = false;
         std::string MacAddress;
         std::string EndpointId;
         std::string SwitchId;
+        NetworkAdapterSuggestions Suggestions;
     };
 
     struct ScsiDeviceConfiguration

@@ -32,7 +32,11 @@
                 "Connected": true,
                 "MacAddress": "00-15-5D-64-2F-AB",
                 "EndpointId": "f2288275-6c30-47d4-bc24-293fa9c9cb12",
-                "SwitchId": "85c8668e-36fe-447f-aae0-ba159a0142a7"
+                "SwitchId": "85c8668e-36fe-447f-aae0-ba159a0142a7",
+                "Suggestions": {
+                    "SwitchName": "NanaBox",
+                    "SwitchSubnet": "172.22.78.0/24"
+                }
             }
         ],
         "ScsiDevices": [
@@ -79,6 +83,9 @@
     - MacAddress (String)
     - EndpointId (String)
     - SwitchId (String)
+    - Suggestions (Object)
+      - SwitchName (String)
+      - SwitchSubnet (String)
   - ScsiDevices (Object Array)
     - Type (String)
     - Path (String)
@@ -336,10 +343,36 @@ Note: If value not set, NanaBox will use its default ICS network (GUID:
 85c8668e-36fe-447f-aae0-ba159a0142a7), and fill it to the configuration file.
 
 Note: If the specified network does not exist, NanaBox will create a new ICS
-network with this GUID.
+network with this GUID. If creation fails, NanaBox will fall back to its default ICS network.
 
 Example value: "c08cb7b8-9b3c-408e-8e30-5e16a3aeb444" (Default Switch's GUID),
 "790e58b4-7939-4434-9358-89ae7ddbe87e" (WSL's GUID)
+
+#### Suggestions
+
+(Optional) Suggested parameters for creating the HCN network when SwitchId does
+not exist. Ignored if the network already exists.
+
+Note: Available starting with NanaBox 1.6 Update 1.
+
+##### SwitchName
+
+(Optional) The name for the HCN network.
+
+Note: Available starting with NanaBox 1.6 Update 1.
+
+Note: If value not set, defaults to "NanaBox" for the default network, or the
+SwitchId GUID string for custom networks.
+
+##### SwitchSubnet
+
+(Optional) The subnet in CIDR notation for the HCN network.
+
+Note: Available starting with NanaBox 1.6 Update 1.
+
+Note: If value not set, the system assigns a random subnet.
+
+Example value: "172.22.78.0/24"
 
 ### ScsiDevices
 

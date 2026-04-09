@@ -184,6 +184,23 @@
                   "description": "The HCN network GUID to connect this adapter to. If not set, NanaBox will use its default ICS network. If the specified network does not exist, NanaBox will create a new ICS network with this GUID.",
                   "pattern": "^[a-fA-F0-9]{8}(-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}$",
                   "examples": [ "85c8668e-36fe-447f-aae0-ba159a0142a7", "c08cb7b8-9b3c-408e-8e30-5e16a3aeb444" ]
+                },
+                "Suggestions": {
+                  "type": "object",
+                  "description": "Suggested parameters for creating the HCN network when SwitchId does not exist. Ignored if the network already exists.",
+                  "properties": {
+                    "SwitchName": {
+                      "type": "string",
+                      "description": "The name for the HCN network. Defaults to \"NanaBox\" for the default network, or the SwitchId GUID string for custom networks.",
+                      "examples": [ "NanaBox", "MySwitch" ]
+                    },
+                    "SwitchSubnet": {
+                      "type": "string",
+                      "description": "The subnet in CIDR notation for the HCN network. If not set, the system assigns a random subnet.",
+                      "pattern": "^\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}/\\d{1,2}$",
+                      "examples": [ "172.22.78.0/24" ]
+                    }
+                  }
                 }
               }
             }
