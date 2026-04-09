@@ -36,7 +36,8 @@ namespace NanaBox
     std::string MakeHcsConfiguration(
         VirtualMachineConfiguration const& Configuration);
 
-    HcnNetwork ComputeNetworkGetAvailableNetwork();
+    HcnNetwork ComputeNetworkGetAvailableNetwork(
+        NetworkAdapterConfiguration& Configuration);
 
     void ComputeNetworkCreateEndpoint(
         std::string const& Owner,

@@ -31,7 +31,8 @@
             {
                 "Connected": true,
                 "MacAddress": "00-15-5D-64-2F-AB",
-                "EndpointId": "f2288275-6c30-47d4-bc24-293fa9c9cb12"
+                "EndpointId": "f2288275-6c30-47d4-bc24-293fa9c9cb12",
+                "SwitchId": "85c8668e-36fe-447f-aae0-ba159a0142a7"
             }
         ],
         "ScsiDevices": [
@@ -77,6 +78,7 @@
     - Connected (Boolean)
     - MacAddress (String)
     - EndpointId (String)
+    - SwitchId (String)
   - ScsiDevices (Object Array)
     - Type (String)
     - Path (String)
@@ -323,6 +325,21 @@ Note: If value not set, NanaBox will generate a new one for it.
 Note: This option is used for internal implementation.
 
 Example value: "f2288275-6c30-47d4-bc24-293fa9c9cb12"
+
+#### SwitchId
+
+(Optional) The HCN network GUID to connect this adapter to.
+
+Note: Available starting with NanaBox 1.6 Update 1.
+
+Note: If value not set, NanaBox will use its default ICS network (GUID:
+85c8668e-36fe-447f-aae0-ba159a0142a7), and fill it to the configuration file.
+
+Note: If the specified network does not exist, NanaBox will create a new ICS
+network with this GUID.
+
+Example value: "c08cb7b8-9b3c-408e-8e30-5e16a3aeb444" (Default Switch's GUID),
+"790e58b4-7939-4434-9358-89ae7ddbe87e" (WSL's GUID)
 
 ### ScsiDevices
 

@@ -303,6 +303,11 @@ nlohmann::json NanaBox::FromNetworkAdapterConfiguration(
         Result["EndpointId"] = Value.EndpointId;
     }
 
+    if (!Value.SwitchId.empty())
+    {
+        Result["SwitchId"] = Value.SwitchId;
+    }
+
     return Result;
 }
 
@@ -322,6 +327,10 @@ NanaBox::NetworkAdapterConfiguration NanaBox::ToNetworkAdapterConfiguration(
     Result.EndpointId = Mile::Json::ToString(
         Mile::Json::GetSubKey(Value, "EndpointId"),
         Result.EndpointId);
+
+    Result.SwitchId = Mile::Json::ToString(
+        Mile::Json::GetSubKey(Value, "SwitchId"),
+        Result.SwitchId);
 
     return Result;
 }

@@ -178,6 +178,12 @@
                   "description": "The Endpoint GUID of the current network adapter. If value not set, NanaBox will generate a new one for it. This option is used for internal implementation.",
                   "pattern": "^[a-fA-F0-9]{8}(-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}$",
                   "examples": [ "f2288275-6c30-47d4-bc24-293fa9c9cb12" ]
+                },
+                "SwitchId": {
+                  "type": "string",
+                  "description": "The HCN network GUID to connect this adapter to. If not set, NanaBox will use its default ICS network. If the specified network does not exist, NanaBox will create a new ICS network with this GUID.",
+                  "pattern": "^[a-fA-F0-9]{8}(-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}$",
+                  "examples": [ "85c8668e-36fe-447f-aae0-ba159a0142a7", "c08cb7b8-9b3c-408e-8e30-5e16a3aeb444" ]
                 }
               }
             }

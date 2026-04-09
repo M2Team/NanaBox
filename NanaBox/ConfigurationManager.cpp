@@ -521,8 +521,13 @@ std::string NanaBox::MakeHcsConfiguration(
     return Result.dump(2);
 }
 
-NanaBox::HcnNetwork NanaBox::ComputeNetworkGetAvailableNetwork()
+NanaBox::HcnNetwork NanaBox::ComputeNetworkGetAvailableNetwork(
+    NanaBox::NetworkAdapterConfiguration& Configuration)
 {
+    winrt::guid SwitchId = Configuration.SwitchId.empty()
+        ? NanaBox::NanaBoxSwitchId
+        : winrt::guid(Configuration.SwitchId);
+
     nlohmann::json Settings;
     Settings["Name"] = "NanaBox";
     Settings["Type"] = "ICS";
@@ -531,25 +536,31 @@ NanaBox::HcnNetwork NanaBox::ComputeNetworkGetAvailableNetwork()
         NanaBox::HcnNetworkFlags::EnableDns |
         NanaBox::HcnNetworkFlags::EnableDhcp |
         NanaBox::HcnNetworkFlags::EnableNonPersistent;
+
     NanaBox::HcnNetwork NetworkHandle;
     try
     {
         NetworkHandle = NanaBox::HcnCreateNetwork(
-            NanaBox::NanaBoxSwitchId,
+            SwitchId,
             winrt::to_hstring(Settings.dump()));
     }
     catch (winrt::hresult_error const& ex)
     {
         if (HCN_E_NETWORK_ALREADY_EXISTS == ex.code())
         {
-            NetworkHandle = NanaBox::HcnOpenNetwork(
-                NanaBox::NanaBoxSwitchId);
+            NetworkHandle = NanaBox::HcnOpenNetwork(SwitchId);
         }
         else
         {
             throw;
         }
     }
+
+    if (Configuration.SwitchId.empty())
+    {
+        Configuration.SwitchId = winrt::to_string(::FromGuid(SwitchId));
+    }
+
     return NetworkHandle;
 }
 
@@ -569,15 +580,14 @@ void NanaBox::ComputeNetworkCreateEndpoint(
     }
 
     NanaBox::HcnNetwork NetworkHandle =
-        NanaBox::ComputeNetworkGetAvailableNetwork();
+        NanaBox::ComputeNetworkGetAvailableNetwork(Configuration);
 
     NanaBox::HcnEndpoint EndpointHandle;
     nlohmann::json Settings;
     Settings["SchemaVersion"]["Major"] = 2;
     Settings["SchemaVersion"]["Minor"] = 0;
     Settings["Owner"] = Owner;
-    Settings["HostComputeNetwork"] = winrt::to_string(
-        ::FromGuid(NanaBox::NanaBoxSwitchId));
+    Settings["HostComputeNetwork"] = Configuration.SwitchId;
     if (!Configuration.MacAddress.empty())
     {
         Settings["MacAddress"] = Configuration.MacAddress;
