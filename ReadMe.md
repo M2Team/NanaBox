@@ -1,4 +1,4 @@
-# ![NanaBox](Assets/NanaBox.png) NanaBox
+﻿# ![NanaBox](Assets/NanaBox.png) NanaBox
 
 [![GitHub Actions Build Status](https://github.com/M2Team/NanaBox/actions/workflows/BuildBinaries.yml/badge.svg?branch=main&event=push)](https://github.com/M2Team/NanaBox/actions/workflows/BuildBinaries.yml?query=event%3Apush+branch%3Amain)
 [![Total Downloads](https://img.shields.io/github/downloads/M2Team/NanaBox/total)](https://github.com/M2Team/NanaBox/releases)
@@ -63,7 +63,8 @@ If you'd like me to add features or improvements ahead of time, please use
 - Enables the relative mouse mode in Windows 11 Version 24H2 or later Host OS.
 - Supports the Trusted Platform Module (TPM) 2.0 for virtual machines in Windows
   11 Version 24H2 or later Host OS. (Although Windows Server 2022 introduced
-  the related Host Compute System API interfaces, it seems they are not implemented.)
+  the related Host Compute System API interfaces, it seems they are not
+  implemented.)
 - Supports customizing partial System Management BIOS (SMBIOS) information for
   virtual machines.
 - Supports cursor confinement with Ctrl+Alt+Left/Right shortcut key to improve
@@ -71,6 +72,11 @@ If you'd like me to add features or improvements ahead of time, please use
   cursor confinement.)
 - Supports Plan 9 protocol over Hyper-V Socket for both read-only and read/write
   file sharing between host and guest.
+- Supports Virtual SMB (SMB over VMBus) for both read-only and read/write file
+  sharing between host and guest.
+- Supports virtual switch customization suggestions (use customized virtual
+  switch, customize name and subnet for the first time to create the virtual
+  switch) for each virtual network adapter.
 
 ## System Requirements
 
