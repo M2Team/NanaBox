@@ -77,6 +77,9 @@
     - Connected (Boolean)
     - MacAddress (String)
     - EndpointId (String)
+    - SuggestedSwitchId (String)
+    - SuggestedSwitchName (String)
+    - SuggestedSwitchSubnet (String)
   - ScsiDevices (Object Array)
     - Type (String)
     - Path (String)
@@ -302,6 +305,11 @@ The network adapters setting object array of virtual machine.
 Note: You can add, remove and update network adapters at runtime starting with
 NanaBox 1.1.
 
+Note: Starting with NanaBox 1.5 Update 1, NanaBox will use the switch with the
+name "NanaBox" and the GUID "85C8668E-36FE-447F-AAE0-BA159A0142A7" created by
+NanaBox itself as the default switch, instead of Hyper-V Default Switch to
+improve the stability.
+
 #### Connected
 
 Make the current network adapter connected if set it true.
@@ -323,6 +331,48 @@ Note: If value not set, NanaBox will generate a new one for it.
 Note: This option is used for internal implementation.
 
 Example value: "f2288275-6c30-47d4-bc24-293fa9c9cb12"
+
+#### SuggestedSwitchId (String)
+
+(Optional) The switch GUID suggested for the current network adapter.
+
+Note: Available starting with NanaBox 1.6 Update 1.
+
+Note: This value will not be used if this value is empty, invalid or have the
+same GUID as the default switch created by NanaBox itself.
+
+Note: Default behavior is use the default switch.
+
+Example value: "85c8668e-36fe-447f-aae0-ba159a0142a7"
+
+#### SuggestedSwitchName (String)
+
+(Optional) The switch name suggested for the current network adapter.
+
+Note: Available starting with NanaBox 1.6 Update 1.
+
+Note: This value will not be used if this value is invalid or SuggestedSwitchId
+is not be used for the current network adapter.
+
+Note: If SuggestedSwitchId is used but this value is empty, NanaBox will use the
+"NanaBox_[SuggestedSwitchId]" as the switch name.
+
+Note: Default behavior is use the default switch.
+
+Example value: "Custom Switch"
+
+#### SuggestedSwitchSubnet (String)
+
+(Optional) The switch subnet suggested for the current network adapter.
+
+Note: Available starting with NanaBox 1.6 Update 1.
+
+Note: This value will not be used if this value is empty, invalid, or the
+switch used for the current network adapter has been created before.
+
+Note: Default behavior is use the default subnet setting of the switch.
+
+Example value: "172.22.78.0/24"
 
 ### ScsiDevices
 

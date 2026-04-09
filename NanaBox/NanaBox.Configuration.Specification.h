@@ -76,6 +76,9 @@ namespace NanaBox
         bool Connected = false;
         std::string MacAddress;
         std::string EndpointId;
+        std::string SuggestedSwitchId;
+        std::string SuggestedSwitchName;
+        std::string SuggestedSwitchSubnet;
     };
 
     struct ScsiDeviceConfiguration

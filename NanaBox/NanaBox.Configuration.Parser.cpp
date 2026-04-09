@@ -303,6 +303,21 @@ nlohmann::json NanaBox::FromNetworkAdapterConfiguration(
         Result["EndpointId"] = Value.EndpointId;
     }
 
+    if (!Value.SuggestedSwitchId.empty())
+    {
+        Result["SuggestedSwitchId"] = Value.SuggestedSwitchId;
+    }
+
+    if  (!Value.SuggestedSwitchName.empty())
+    {
+        Result["SuggestedSwitchName"] = Value.SuggestedSwitchName;
+    }
+
+    if (!Value.SuggestedSwitchSubnet.empty())
+    {
+        Result["SuggestedSwitchSubnet"] = Value.SuggestedSwitchSubnet;
+    }
+
     return Result;
 }
 
@@ -322,6 +337,18 @@ NanaBox::NetworkAdapterConfiguration NanaBox::ToNetworkAdapterConfiguration(
     Result.EndpointId = Mile::Json::ToString(
         Mile::Json::GetSubKey(Value, "EndpointId"),
         Result.EndpointId);
+
+    Result.SuggestedSwitchId = Mile::Json::ToString(
+        Mile::Json::GetSubKey(Value, "SuggestedSwitchId"),
+        Result.SuggestedSwitchId);
+
+    Result.SuggestedSwitchName = Mile::Json::ToString(
+        Mile::Json::GetSubKey(Value, "SuggestedSwitchName"),
+        Result.SuggestedSwitchName);
+
+    Result.SuggestedSwitchSubnet = Mile::Json::ToString(
+        Mile::Json::GetSubKey(Value, "SuggestedSwitchSubnet"),
+        Result.SuggestedSwitchSubnet);
 
     return Result;
 }
