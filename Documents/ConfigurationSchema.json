@@ -248,35 +248,35 @@
               },
               "CtrlEscHotkey": {
                 "type": "number",
-                "description": "Specifies the virtual-key code to add to ALT to determine the hotkey replacement for CTRL+ESC. \nNote: You need to use the decimal value of the virtual-key code. \nNote: For more information about virtual-key code, please read https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes."
+                "description": "Specifies the virtual-key code to add to ALT to determine the hotkey replacement for CTRL+ESC. You need to use the decimal value of the virtual-key code. For more information about virtual-key code, please read https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes."
               },
               "AltEscHotkey": {
                 "type": "number",
-                "description": "Specifies the virtual-key code to add to ALT to determine the hotkey replacement for ALT+ESC. \nNote: You need to use the decimal value of the virtual-key code. \nNote: For more information about virtual-key code, please read https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes."
+                "description": "Specifies the virtual-key code to add to ALT to determine the hotkey replacement for ALT+ESC. You need to use the decimal value of the virtual-key code. For more information about virtual-key code, please read https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes."
               },
               "AltTabHotkey": {
                 "type": "number",
-                "description": "Specifies the virtual-key code to add to ALT to determine the hotkey replacement for ALT+TAB.  \nNote: You need to use the decimal value of the virtual-key code. \nNote: For more information about virtual-key code, please read https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes."
+                "description": "Specifies the virtual-key code to add to ALT to determine the hotkey replacement for ALT+TAB. You need to use the decimal value of the virtual-key code. For more information about virtual-key code, please read https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes."
               },
               "AltShiftTabHotkey": {
                 "type": "number",
-                "description": "Specifies the virtual-key code to add to ALT to determine the hotkey replacement for ALT+SHIFT+TAB.  \nNote: You need to use the decimal value of the virtual-key code. \nNote: For more information about virtual-key code, please read https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes."
+                "description": "Specifies the virtual-key code to add to ALT to determine the hotkey replacement for ALT+SHIFT+TAB. You need to use the decimal value of the virtual-key code. For more information about virtual-key code, please read https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes."
               },
               "AltSpaceHotkey": {
                 "type": "number",
-                "description": "Specifies the virtual-key code to add to ALT to determine the hotkey replacement for ALT+SPACE.  \nNote: You need to use the decimal value of the virtual-key code. \nNote: For more information about virtual-key code, please read https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes."
+                "description": "Specifies the virtual-key code to add to ALT to determine the hotkey replacement for ALT+SPACE. You need to use the decimal value of the virtual-key code. For more information about virtual-key code, please read https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes."
               },
               "CtrlAltDelHotkey": {
                 "type": "number",
-                "description": "Specifies the virtual-key code to add to CTRL+ALT to determine the hotkey replacement for CTRL+ALT+DELETE, also called the secure attention sequence (SAS).  \nNote: You need to use the decimal value of the virtual-key code. \nNote: For more information about virtual-key code, please read https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes."
+                "description": "Specifies the virtual-key code to add to CTRL+ALT to determine the hotkey replacement for CTRL+ALT+DELETE, also called the secure attention sequence (SAS). You need to use the decimal value of the virtual-key code. For more information about virtual-key code, please read https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes."
               },
               "FocusReleaseLeftHotkey": {
                 "type": "number",
-                "description": "Specifies the virtual-key code to add to Ctrl+Alt to determine the hotkey replacement for Ctrl+Alt+Left Arrow.  \nNote: You need to use the decimal value of the virtual-key code. \nNote: For more information about virtual-key code, please read https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes."
+                "description": "Specifies the virtual-key code to add to Ctrl+Alt to determine the hotkey replacement for Ctrl+Alt+Left Arrow. You need to use the decimal value of the virtual-key code. For more information about virtual-key code, please read https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes."
               },
               "FocusReleaseRightHotkey": {
                 "type": "number",
-                "description": "Specifies the virtual-key code to add to Ctrl+Alt to determine the hotkey replacement for Ctrl+Alt+Right Arrow.  \nNote: You need to use the decimal value of the virtual-key code. \nNote: For more information about virtual-key code, please read https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes."
+                "description": "Specifies the virtual-key code to add to Ctrl+Alt to determine the hotkey replacement for Ctrl+Alt+Right Arrow. You need to use the decimal value of the virtual-key code. For more information about virtual-key code, please read https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes."
               }
             }
           },
