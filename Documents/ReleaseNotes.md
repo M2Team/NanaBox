@@ -1,5 +1,23 @@
 ﻿# NanaBox Release Notes
 
+**NanaBox 1.6 Update 1 (1.6.1470.0)**
+
+- Add Virtual SMB shares configuration support. (Contributed by Vigilans.)
+- Add virtual switch customization suggestion support (use customized virtual
+  switch, customize name and subnet for the first time to create the virtual
+  switch) for each virtual network adapter. (Contributed by Vigilans.)
+- Fix the "Access Denied (0x80070005)" error when passthrough for physical
+  storage devices as virtual SCSI devices to virtual machines. (Fix
+  https://github.com/M2Team/NanaBox/issues/40.) (Contributed by Vigilans.)
+- Improve the initialize virtual machine logic to optimize binary size.
+- Use x-generate to define language resources in AppX manifest to solve the
+  Windows AppX language default fallback issue. (Suggested by
+  dongle-the-gadget.)
+- Update Mile.Project.Configurations to 1.0.1917.
+- Update Mile.Xaml to 2.5.1616.
+- Update WTL to 10.1.0.
+- Several documents and implementation improvements.
+
 **NanaBox 1.6 (1.6.1395.0)**
 
 - Fix unable to suspend virtual machine issue even without defining Plan 9
