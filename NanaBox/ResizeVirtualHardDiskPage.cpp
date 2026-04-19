@@ -79,17 +79,14 @@ namespace winrt::NanaBox::implementation
 
                 COMDLG_FILTERSPEC SupportedFileTypes[] =
                 {
-                    { L"VHDX (*.vhdx)", L"*.vhdx" },
-                    { L"VHD (*.vhd)", L"*.vhd" }
+                    {
+                        L"Virtual Hard Disk Files (*.vhd;*.vhdx)",
+                        L"*.vhd;*.vhdx"
+                    }
                 };
-
                 winrt::check_hresult(FileDialog->SetFileTypes(
-                    ARRAYSIZE(SupportedFileTypes), SupportedFileTypes));
-
-                // Note: The array is 1-indexed
-                winrt::check_hresult(FileDialog->SetFileTypeIndex(1));
-
-                winrt::check_hresult(FileDialog->SetDefaultExtension(L"vhdx"));
+                    ARRAYSIZE(SupportedFileTypes),
+                    SupportedFileTypes));
 
                 winrt::check_hresult(FileDialog->Show(this->m_WindowHandle));
 

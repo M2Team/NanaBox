@@ -103,8 +103,6 @@ namespace winrt::NanaBox::implementation
                 winrt::check_hresult(FileDialog->SetFileTypes(
                     ARRAYSIZE(SupportedFileTypes),
                     SupportedFileTypes));
-                winrt::check_hresult(FileDialog->SetFileTypeIndex(1));
-                winrt::check_hresult(FileDialog->SetDefaultExtension(L"7b"));
 
                 winrt::check_hresult(FileDialog->Show(this->m_WindowHandle));
 
@@ -149,9 +147,9 @@ namespace winrt::NanaBox::implementation
                 {
                     { L"ISO (*.iso)", L"*.iso" }
                 };
-
                 winrt::check_hresult(FileDialog->SetFileTypes(
-                    ARRAYSIZE(SupportedFileTypes), SupportedFileTypes));
+                    ARRAYSIZE(SupportedFileTypes),
+                    SupportedFileTypes));
 
                 winrt::check_hresult(FileDialog->SetTitle(
                     Mile::WinRT::GetLocalizedString(
@@ -159,11 +157,6 @@ namespace winrt::NanaBox::implementation
                         L"[Please select a bootable ISO image for installing "
                         L"the OS on your virtual machine, or close this dialog "
                         L"to skip the setting]").c_str()));
-
-                // Note: The array is 1-indexed
-                winrt::check_hresult(FileDialog->SetFileTypeIndex(1));
-
-                winrt::check_hresult(FileDialog->SetDefaultExtension(L"iso"));
 
                 winrt::check_hresult(FileDialog->Show(this->m_WindowHandle));
 
@@ -191,12 +184,14 @@ namespace winrt::NanaBox::implementation
 
                 COMDLG_FILTERSPEC SupportedFileTypes[] =
                 {
-                    { L"VHDX (*.vhdx)", L"*.vhdx" },
-                    { L"VHD (*.vhd)", L"*.vhd" }
+                    {
+                        L"Virtual Hard Disk Files (*.vhd;*.vhdx)",
+                        L"*.vhd;*.vhdx"
+                    }
                 };
-
                 winrt::check_hresult(FileDialog->SetFileTypes(
-                    ARRAYSIZE(SupportedFileTypes), SupportedFileTypes));
+                    ARRAYSIZE(SupportedFileTypes),
+                    SupportedFileTypes));
 
                 winrt::check_hresult(FileDialog->SetTitle(
                     Mile::WinRT::GetLocalizedString(
@@ -204,11 +199,6 @@ namespace winrt::NanaBox::implementation
                         L"[Please select a VHD or VHDX virtual hard disk for "
                         L"the storage of your virtual machine, or close this "
                         L"dialog to skip the setting]").c_str()));
-
-                // Note: The array is 1-indexed
-                winrt::check_hresult(FileDialog->SetFileTypeIndex(1));
-
-                winrt::check_hresult(FileDialog->SetDefaultExtension(L"vhdx"));
 
                 winrt::check_hresult(FileDialog->Show(this->m_WindowHandle));
 
@@ -250,7 +240,8 @@ namespace winrt::NanaBox::implementation
                 };
 
                 winrt::check_hresult(FileDialog->SetFileTypes(
-                    ARRAYSIZE(SupportedFileTypes), SupportedFileTypes));
+                    ARRAYSIZE(SupportedFileTypes),
+                    SupportedFileTypes));
 
                 winrt::check_hresult(FileDialog->SetTitle(
                     Mile::WinRT::GetLocalizedString(

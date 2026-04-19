@@ -736,21 +736,18 @@ winrt::handle ShowCompactVirtualHardDiskDialog(
 
             COMDLG_FILTERSPEC SupportedFileTypes[] =
             {
-                { L"VHDX (*.vhdx)", L"*.vhdx" },
-                { L"VHD (*.vhd)", L"*.vhd" }
+                {
+                    L"Virtual Hard Disk Files (*.vhd;*.vhdx)",
+                    L"*.vhd;*.vhdx"
+                }
             };
-
             winrt::check_hresult(FileDialog->SetFileTypes(
-                ARRAYSIZE(SupportedFileTypes), SupportedFileTypes));
+                ARRAYSIZE(SupportedFileTypes),
+                SupportedFileTypes));
 
             winrt::check_hresult(FileDialog->SetTitle(
                 Mile::WinRT::GetLocalizedString(
                     L"CompactVirtualHardDiskWizard/PathTip").c_str()));
-
-            // Note: The array is 1-indexed
-            winrt::check_hresult(FileDialog->SetFileTypeIndex(1));
-
-            winrt::check_hresult(FileDialog->SetDefaultExtension(L"vhdx"));
 
             winrt::check_hresult(FileDialog->Show(ParentWindowHandle));
 

@@ -84,7 +84,8 @@ namespace winrt::NanaBox::implementation
                 };
 
                 winrt::check_hresult(FileDialog->SetFileTypes(
-                    ARRAYSIZE(SupportedFileTypes), SupportedFileTypes));
+                    ARRAYSIZE(SupportedFileTypes),
+                    SupportedFileTypes));
 
                 // Note: The array is 1-indexed
                 winrt::check_hresult(FileDialog->SetFileTypeIndex(1));
