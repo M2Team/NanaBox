@@ -93,21 +93,8 @@ namespace winrt::NanaBox::implementation
 
                 winrt::check_hresult(FileDialog->Show(this->m_WindowHandle));
 
-                winrt::hstring FilePath;
-                {
-                    winrt::com_ptr<IShellItem> Result;
-                    winrt::check_hresult(FileDialog->GetResult(Result.put()));
-
-                    LPWSTR RawFilePath = nullptr;
-                    winrt::check_hresult(Result->GetDisplayName(
-                        SIGDN_FILESYSPATH,
-                        &RawFilePath));
-                    if (RawFilePath)
-                    {
-                        FilePath = winrt::to_hstring(RawFilePath);
-                        ::CoTaskMemFree(RawFilePath);
-                    }
-                }
+                std::wstring FilePath = ::GetFileSystemPathFromFileDialog(
+                    FileDialog.get());
                 if (FilePath.empty())
                 {
                     return;

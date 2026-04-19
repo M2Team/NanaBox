@@ -2,6 +2,8 @@
 
 #include "pch.h"
 
+#include <ShlObj.h>
+
 #include <vector>
 #include <string>
 #include <winrt/base.h>
@@ -29,6 +31,13 @@ std::wstring GetAbsolutePath(
 
 std::string GetAbsoluteUtf8Path(
     std::string const& FileName);
+
+std::wstring GetDisplayNameFromShellItem(
+    _In_ IShellItem* Object,
+    _In_ SIGDN Type);
+
+std::wstring GetFileSystemPathFromFileDialog(
+    _In_ IFileDialog* Object);
 
 HWND CreateXamlDialog(
     _In_opt_ HWND ParentWindowHandle);

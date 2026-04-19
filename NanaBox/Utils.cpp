@@ -3,8 +3,6 @@
 #include <Mile.Helpers.h>
 #include <Mile.Xaml.h>
 
-#include <ShlObj.h>
-
 #include <initguid.h>
 #include <virtdisk.h>
 #pragma comment(lib,"virtdisk.lib")
@@ -255,6 +253,39 @@ std::string GetAbsoluteUtf8Path(
     return Mile::ToString(
         CP_UTF8,
         ::GetAbsolutePath(Mile::ToWideString(CP_UTF8, FileName)));
+}
+
+std::wstring GetDisplayNameFromShellItem(
+    _In_ IShellItem* Object,
+    _In_ SIGDN Type)
+{
+    std::wstring Name;
+    if (Object)
+    {
+        LPWSTR RawName = nullptr;
+        if (SUCCEEDED(Object->GetDisplayName(Type, &RawName)))
+        {
+            Name = std::wstring(RawName);
+            ::CoTaskMemFree(RawName);
+        }
+    }
+    return Name;
+}
+
+std::wstring GetFileSystemPathFromFileDialog(
+    _In_ IFileDialog* Object)
+{
+    std::wstring Path;
+    if (Object)
+    {
+        IShellItem* ShellItem = nullptr;
+        if (SUCCEEDED(Object->GetResult(&ShellItem)))
+        {
+            Path = GetDisplayNameFromShellItem(ShellItem, SIGDN_FILESYSPATH);
+            ShellItem->Release();
+        }
+    }
+    return Path;
 }
 
 HWND CreateXamlDialog(
@@ -723,20 +754,11 @@ winrt::handle ShowCompactVirtualHardDiskDialog(
 
             winrt::check_hresult(FileDialog->Show(ParentWindowHandle));
 
-            winrt::hstring FilePath;
+            std::wstring FilePath = ::GetFileSystemPathFromFileDialog(
+                FileDialog.get());
+            if (FilePath.empty())
             {
-                winrt::com_ptr<IShellItem> Result;
-                winrt::check_hresult(FileDialog->GetResult(Result.put()));
-
-                LPWSTR RawFilePath = nullptr;
-                winrt::check_hresult(Result->GetDisplayName(
-                    SIGDN_FILESYSPATH,
-                    &RawFilePath));
-                if (RawFilePath)
-                {
-                    FilePath = winrt::to_hstring(RawFilePath);
-                    ::CoTaskMemFree(RawFilePath);
-                }
+                return;
             }
 
             winrt::hstring SuccessInstructionText =

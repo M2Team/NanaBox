@@ -108,19 +108,8 @@ namespace winrt::NanaBox::implementation
 
                 winrt::check_hresult(FileDialog->Show(this->m_WindowHandle));
 
-                winrt::com_ptr<IShellItem> Result;
-                winrt::check_hresult(FileDialog->GetResult(Result.put()));
-
-                PWSTR FilePath = nullptr;
-                winrt::check_hresult(Result->GetDisplayName(
-                    SIGDN_FILESYSPATH,
-                    &FilePath));
-                if (FilePath)
-                {
-                    *this->m_ConfigurationFilePath = std::wstring(FilePath);
-                    ::CoTaskMemFree(FilePath);
-                }
-
+                *this->m_ConfigurationFilePath = ::GetFileSystemPathFromFileDialog(
+                    FileDialog.get());
                 if (!this->m_ConfigurationFilePath->empty())
                 {
                     ::PostMessageW(this->m_WindowHandle, WM_CLOSE, 0, 0);
@@ -178,18 +167,8 @@ namespace winrt::NanaBox::implementation
 
                 winrt::check_hresult(FileDialog->Show(this->m_WindowHandle));
 
-                winrt::com_ptr<IShellItem> Result;
-                winrt::check_hresult(FileDialog->GetResult(Result.put()));
-
-                LPWSTR RawFilePath = nullptr;
-                winrt::check_hresult(Result->GetDisplayName(
-                    SIGDN_FILESYSPATH,
-                    &RawFilePath));
-                if (RawFilePath)
-                {
-                    VirtualImageFilePath = std::wstring(RawFilePath);
-                    ::CoTaskMemFree(RawFilePath);
-                }
+                VirtualImageFilePath = ::GetFileSystemPathFromFileDialog(
+                    FileDialog.get());
             }
             catch (...)
             {
@@ -233,18 +212,8 @@ namespace winrt::NanaBox::implementation
 
                 winrt::check_hresult(FileDialog->Show(this->m_WindowHandle));
 
-                winrt::com_ptr<IShellItem> Result;
-                winrt::check_hresult(FileDialog->GetResult(Result.put()));
-
-                LPWSTR RawFilePath = nullptr;
-                winrt::check_hresult(Result->GetDisplayName(
-                    SIGDN_FILESYSPATH,
-                    &RawFilePath));
-                if (RawFilePath)
-                {
-                    VirtualDiskFilePath = std::wstring(RawFilePath);
-                    ::CoTaskMemFree(RawFilePath);
-                }
+                VirtualDiskFilePath = ::GetFileSystemPathFromFileDialog(
+                    FileDialog.get());
             }
             catch (...)
             {
@@ -299,29 +268,13 @@ namespace winrt::NanaBox::implementation
                 winrt::com_ptr<IShellItem> Result;
                 winrt::check_hresult(FileDialog->GetResult(Result.put()));
 
-                {
-                    LPWSTR RawFileName = nullptr;
-                    winrt::check_hresult(Result->GetDisplayName(
-                        SIGDN_NORMALDISPLAY,
-                        &RawFileName));
-                    if (RawFileName)
-                    {
-                        ConfigurationName = std::wstring(RawFileName);
-                        ::CoTaskMemFree(RawFileName);
-                    }
-                }
+                ConfigurationName = ::GetDisplayNameFromShellItem(
+                    Result.get(),
+                    SIGDN_NORMALDISPLAY);
 
-                {
-                    LPWSTR RawFilePath = nullptr;
-                    winrt::check_hresult(Result->GetDisplayName(
-                        SIGDN_FILESYSPATH,
-                        &RawFilePath));
-                    if (RawFilePath)
-                    {
-                        ConfigurationFilePath = std::wstring(RawFilePath);
-                        ::CoTaskMemFree(RawFilePath);
-                    }
-                }
+                ConfigurationFilePath = ::GetDisplayNameFromShellItem(
+                    Result.get(),
+                    SIGDN_FILESYSPATH);
             }
             catch (...)
             {
