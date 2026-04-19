@@ -13,6 +13,9 @@
 #include <dwmapi.h>
 #pragma comment(lib, "dwmapi.lib")
 
+#include <CommCtrl.h>
+#pragma comment(lib, "comctl32.lib")
+
 #include <sddl.h>
 
 #include <winrt/Windows.UI.Xaml.Controls.h>
@@ -288,14 +291,16 @@ std::wstring GetFileSystemPathFromFileDialog(
     return Path;
 }
 
-HWND CreateXamlDialog(
-    _In_opt_ HWND ParentWindowHandle)
+HWND CreateXamlWindow(
+    _In_opt_ HWND ParentWindowHandle,
+    _In_ DWORD ExtendedWindowStyle,
+    _In_ DWORD WindowStyle)
 {
-    return ::CreateWindowExW(
-        WS_EX_STATICEDGE | WS_EX_DLGMODALFRAME,
+    HWND WindowHandle = ::CreateWindowExW(
+        ExtendedWindowStyle,
         L"Mile.Xaml.ContentWindow",
         nullptr,
-        WS_CAPTION | WS_SYSMENU,
+        WindowStyle,
         CW_USEDEFAULT,
         0,
         CW_USEDEFAULT,
@@ -304,23 +309,65 @@ HWND CreateXamlDialog(
         nullptr,
         nullptr,
         nullptr);
+    if (!::SetWindowSubclass(
+        WindowHandle,
+        [](
+            _In_ HWND hWnd,
+            _In_ UINT uMsg,
+            _In_ WPARAM wParam,
+            _In_ LPARAM lParam,
+            _In_ UINT_PTR uIdSubclass,
+            _In_ DWORD_PTR dwRefData) -> LRESULT
+    {
+        UNREFERENCED_PARAMETER(uIdSubclass);
+        UNREFERENCED_PARAMETER(dwRefData);
+
+        switch (uMsg)
+        {
+        case WM_CLOSE:
+        {
+            HWND ParentWindow = ::GetWindow(hWnd, GW_OWNER);
+            if (ParentWindow)
+            {
+                ::EnableWindow(ParentWindow, TRUE);
+            }
+            break;
+        }
+        default:
+            break;
+        }
+
+        return ::DefSubclassProc(
+            hWnd,
+            uMsg,
+            wParam,
+            lParam);
+    },
+        0,
+        0))
+    {
+        ::DestroyWindow(WindowHandle);
+        return nullptr;
+    }
+    return WindowHandle;
+}
+
+HWND CreateXamlDialog(
+    _In_opt_ HWND ParentWindowHandle)
+{
+    return ::CreateXamlWindow(
+        ParentWindowHandle,
+        WS_EX_STATICEDGE | WS_EX_DLGMODALFRAME,
+        WS_CAPTION | WS_SYSMENU);
 }
 
 int ShowXamlWindow(
     _In_opt_ HWND WindowHandle,
     _In_ int Width,
     _In_ int Height,
-    _In_ LPVOID Content,
     _In_ HWND ParentWindowHandle)
 {
     if (!WindowHandle)
-    {
-        return -1;
-    }
-
-    if (FAILED(::MileXamlSetXamlContentForContentWindow(
-        WindowHandle,
-        Content)))
     {
         return -1;
     }
@@ -381,12 +428,7 @@ int ShowXamlDialog(
         return -1;
     }
 
-    if (FAILED(::MileAllowNonClientDefaultDrawingForWindow(
-        WindowHandle,
-        FALSE)))
-    {
-        return -1;
-    }
+    ::MileAllowNonClientDefaultDrawingForWindow(WindowHandle, FALSE);
 
     HMENU MenuHandle = ::GetSystemMenu(WindowHandle, FALSE);
     if (MenuHandle)
@@ -403,19 +445,19 @@ int ShowXamlDialog(
         ::EnableWindow(ParentWindowHandle, FALSE);
     }
 
+    if (FAILED(::MileXamlSetXamlContentForContentWindow(
+        WindowHandle,
+        Content)))
+    {
+        ::DestroyWindow(WindowHandle);
+        return -1;
+    }
+
     int Result = ::ShowXamlWindow(
         WindowHandle,
         Width,
         Height,
-        Content,
         ParentWindowHandle);
-
-    if (ParentWindowHandle)
-    {
-        ::EnableWindow(ParentWindowHandle, TRUE);
-        ::SetForegroundWindow(ParentWindowHandle);
-        ::SetActiveWindow(ParentWindowHandle);
-    }
 
     return Result;
 }
@@ -919,19 +961,10 @@ HWND ShowOperationWaitingWindow(
     {
         winrt::check_hresult(::MileXamlThreadInitialize());
 
-        HWND WindowHandle = ::CreateWindowExW(
-            0,
-            L"Mile.Xaml.ContentWindow",
-            nullptr,
-            WS_POPUP,
-            CW_USEDEFAULT,
-            0,
-            CW_USEDEFAULT,
-            0,
+        HWND WindowHandle = ::CreateXamlWindow(
             ParentWindowHandle,
-            nullptr,
-            nullptr,
-            nullptr);
+            0,
+            WS_POPUP);
         if (!WindowHandle)
         {
             return;

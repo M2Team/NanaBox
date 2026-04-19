@@ -125,19 +125,10 @@ int WINAPI wWinMain(
 
     if (AcquireSponsorEdition)
     {
-        HWND WindowHandle = ::CreateWindowExW(
+        HWND WindowHandle = ::CreateXamlWindow(
+            nullptr,
             WS_EX_STATICEDGE | WS_EX_DLGMODALFRAME,
-            L"Mile.Xaml.ContentWindow",
-            nullptr,
-            WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX,
-            CW_USEDEFAULT,
-            0,
-            CW_USEDEFAULT,
-            0,
-            nullptr,
-            nullptr,
-            nullptr,
-            nullptr);
+            WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX);
         if (!WindowHandle)
         {
             return -1;
@@ -153,14 +144,15 @@ int WINAPI wWinMain(
         winrt::NanaBox::SponsorPage Window =
             winrt::make<winrt::NanaBox::implementation::SponsorPage>(
                 WindowHandle);
-        ::ShowXamlWindow(
+        if (FAILED(::MileXamlSetXamlContentForContentWindow(
             WindowHandle,
-            460,
-            320,
-            winrt::get_abi(Window),
-            nullptr);
+            winrt::get_abi(Window))))
+        {
+            ::DestroyWindow(WindowHandle);
+            return -1;
+        }
 
-        ::ExitProcess(0);
+        ::ExitProcess(::ShowXamlWindow(WindowHandle, 460, 320, nullptr));
     }
 
     bool PackagedMode = Mile::WinRT::IsPackagedMode();
@@ -276,19 +268,10 @@ int WINAPI wWinMain(
     }
     else
     {
-        HWND WindowHandle = ::CreateWindowExW(
+        HWND WindowHandle = ::CreateXamlWindow(
+            nullptr,
             WS_EX_STATICEDGE | WS_EX_DLGMODALFRAME,
-            L"Mile.Xaml.ContentWindow",
-            nullptr,
-            WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX,
-            CW_USEDEFAULT,
-            0,
-            CW_USEDEFAULT,
-            0,
-            nullptr,
-            nullptr,
-            nullptr,
-            nullptr);
+            WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX);
         if (!WindowHandle)
         {
             return -1;
@@ -305,12 +288,15 @@ int WINAPI wWinMain(
             winrt::make<winrt::NanaBox::implementation::QuickStartPage>(
                 WindowHandle,
                 &ConfigurationFilePath);
-        ::ShowXamlWindow(
+        if (FAILED(::MileXamlSetXamlContentForContentWindow(
             WindowHandle,
-            460,
-            460,
-            winrt::get_abi(Window),
-            nullptr);
+            winrt::get_abi(Window))))
+        {
+            ::DestroyWindow(WindowHandle);
+            return -1;
+        }
+
+        ::ShowXamlWindow(WindowHandle, 460, 460, nullptr);
         if (ConfigurationFilePath.empty())
         {
             return 0;
