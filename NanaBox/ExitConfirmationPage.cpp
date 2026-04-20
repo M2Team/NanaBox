@@ -32,7 +32,7 @@ namespace winrt::NanaBox::implementation
         UNREFERENCED_PARAMETER(e);
 
         this->m_Status = NanaBox::ExitConfirmationStatus::Suspend;
-        ::DestroyWindow(this->m_WindowHandle);
+        ::PostMessageW(this->m_WindowHandle, WM_CLOSE, 0, 0);
     }
 
     void ExitConfirmationPage::PowerOffButtonClick(
@@ -43,7 +43,7 @@ namespace winrt::NanaBox::implementation
         UNREFERENCED_PARAMETER(e);
 
         this->m_Status = NanaBox::ExitConfirmationStatus::PowerOff;
-        ::DestroyWindow(this->m_WindowHandle);
+        ::PostMessageW(this->m_WindowHandle, WM_CLOSE, 0, 0);
     }
 
     void ExitConfirmationPage::CancelButtonClick(
@@ -53,7 +53,7 @@ namespace winrt::NanaBox::implementation
         UNREFERENCED_PARAMETER(sender);
         UNREFERENCED_PARAMETER(e);
 
-        ::DestroyWindow(this->m_WindowHandle);
+        ::PostMessageW(this->m_WindowHandle, WM_CLOSE, 0, 0);
     }
 
     NanaBox::ExitConfirmationStatus ExitConfirmationPage::Status()

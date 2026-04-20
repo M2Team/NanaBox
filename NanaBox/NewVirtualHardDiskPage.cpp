@@ -197,6 +197,6 @@ namespace winrt::NanaBox::implementation
         UNREFERENCED_PARAMETER(sender);
         UNREFERENCED_PARAMETER(e);
 
-        ::DestroyWindow(this->m_WindowHandle);
+        ::PostMessageW(this->m_WindowHandle, WM_CLOSE, 0, 0);
     }
 }

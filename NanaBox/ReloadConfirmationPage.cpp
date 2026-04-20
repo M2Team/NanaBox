@@ -32,7 +32,7 @@ namespace winrt::NanaBox::implementation
         UNREFERENCED_PARAMETER(e);
 
         this->m_Status = NanaBox::ReloadConfirmationStatus::Reload;
-        ::DestroyWindow(this->m_WindowHandle);
+        ::PostMessageW(this->m_WindowHandle, WM_CLOSE, 0, 0);
     }
 
     void ReloadConfirmationPage::CancelButtonClick(
@@ -42,7 +42,7 @@ namespace winrt::NanaBox::implementation
         UNREFERENCED_PARAMETER(sender);
         UNREFERENCED_PARAMETER(e);
 
-        ::DestroyWindow(this->m_WindowHandle);
+        ::PostMessageW(this->m_WindowHandle, WM_CLOSE, 0, 0);
     }
 
     NanaBox::ReloadConfirmationStatus ReloadConfirmationPage::Status()
