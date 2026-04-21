@@ -1,5 +1,17 @@
 ﻿# NanaBox Release Notes
 
+**NanaBox 1.6 Update 2 (1.6.1481.0)**
+
+- Improve the user experience of selecting virtual hard disk files from the
+  related file browse dialogs.
+- Fix the issue that dialogs cannot bring to foreground in some Windows
+  releases.
+- Add workaround for reduce the crash issues after closing the XAML dialogs in
+  some Windows releases.
+- Fix several issues that window will be frozen after closing the XAML dialogs.
+- Improve and simplify several implementations for better stability and user
+  experience.
+
 **NanaBox 1.6 Update 1 (1.6.1470.0)**
 
 - Add Virtual SMB shares configuration support. (Contributed by Vigilans.)
