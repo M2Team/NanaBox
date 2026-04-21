@@ -39,6 +39,9 @@ std::wstring GetDisplayNameFromShellItem(
 std::wstring GetFileSystemPathFromFileDialog(
     _In_ IFileDialog* Object);
 
+void SetForegroundWindowSimple(
+    _In_ HWND WindowHandle);
+
 HWND CreateXamlWindow(
     _In_opt_ HWND ParentWindowHandle,
     _In_ DWORD ExtendedWindowStyle,

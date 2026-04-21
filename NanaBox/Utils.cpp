@@ -291,6 +291,36 @@ std::wstring GetFileSystemPathFromFileDialog(
     return Path;
 }
 
+void SetForegroundWindowSimple(
+    _In_ HWND WindowHandle)
+{
+    DWORD ForegroundThreadId = ::GetWindowThreadProcessId(
+        ::GetForegroundWindow(),
+        nullptr);
+    DWORD CurrentThreadId = ::GetCurrentThreadId();
+    ::AttachThreadInput(ForegroundThreadId, CurrentThreadId, TRUE);
+    ::SetWindowPos(
+        WindowHandle,
+        HWND_TOPMOST,
+        0,
+        0,
+        0,
+        0,
+        SWP_NOSIZE | SWP_NOMOVE);
+    ::SetWindowPos(
+        WindowHandle,
+        HWND_NOTOPMOST,
+        0,
+        0,
+        0,
+        0,
+        SWP_SHOWWINDOW | SWP_NOSIZE | SWP_NOMOVE);
+    ::SetForegroundWindow(WindowHandle);
+    ::SetFocus(WindowHandle);
+    ::SetActiveWindow(WindowHandle);
+    ::AttachThreadInput(ForegroundThreadId, CurrentThreadId, FALSE);
+}
+
 HWND CreateXamlWindow(
     _In_opt_ HWND ParentWindowHandle,
     _In_ DWORD ExtendedWindowStyle,
@@ -333,6 +363,7 @@ HWND CreateXamlWindow(
             HWND ParentWindow = ::GetWindow(hWnd, GW_OWNER);
             if (ParentWindow)
             {
+                ::SetForegroundWindowSimple(ParentWindow);
                 ::EnableWindow(ParentWindow, TRUE);
             }
             break;
