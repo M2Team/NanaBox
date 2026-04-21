@@ -490,7 +490,13 @@ void ShowMessageDialog(
             winrt::get_abi(Window),
             ParentWindowHandle);
 
-        winrt::check_hresult(::MileXamlThreadUninitialize());
+        // Do not call MileXamlThreadUninitialize instead, because it will cause
+        // second time uninitialization in some Windows releases, which will
+        // lead to a crash.
+        {
+            ::SendMessageW(WindowHandle, WM_CLOSE, 0, 0);
+            ::TerminateThread(::GetCurrentThread(), 0);
+        }
     }));
     ::WaitForSingleObject(Thread.get(), INFINITE);
 }
@@ -725,7 +731,13 @@ winrt::handle ShowAboutDialog(
             winrt::get_abi(Window),
             ParentWindowHandle);
 
-        winrt::check_hresult(::MileXamlThreadUninitialize());
+        // Do not call MileXamlThreadUninitialize instead, because it will cause
+        // second time uninitialization in some Windows releases, which will
+        // lead to a crash.
+        {
+            ::SendMessageW(WindowHandle, WM_CLOSE, 0, 0);
+            ::TerminateThread(::GetCurrentThread(), 0);
+        }
     }));
 }
 
@@ -754,7 +766,13 @@ winrt::handle ShowNewVirtualHardDiskDialog(
             winrt::get_abi(Window),
             ParentWindowHandle);
 
-        winrt::check_hresult(::MileXamlThreadUninitialize());
+        // Do not call MileXamlThreadUninitialize instead, because it will cause
+        // second time uninitialization in some Windows releases, which will
+        // lead to a crash.
+        {
+            ::SendMessageW(WindowHandle, WM_CLOSE, 0, 0);
+            ::TerminateThread(::GetCurrentThread(), 0);
+        }
     }));
 }
 
@@ -869,7 +887,13 @@ winrt::handle ShowResizeVirtualHardDiskDialog(
             winrt::get_abi(Window),
             ParentWindowHandle);
 
-        winrt::check_hresult(::MileXamlThreadUninitialize());
+        // Do not call MileXamlThreadUninitialize instead, because it will cause
+        // second time uninitialization in some Windows releases, which will
+        // lead to a crash.
+        {
+            ::SendMessageW(WindowHandle, WM_CLOSE, 0, 0);
+            ::TerminateThread(::GetCurrentThread(), 0);
+        }
     }));
 }
 
@@ -993,7 +1017,13 @@ HWND ShowOperationWaitingWindow(
             winrt::get_abi(Content),
             ParentWindowHandle);
 
-        winrt::check_hresult(::MileXamlThreadUninitialize());
+        // Do not call MileXamlThreadUninitialize instead, because it will cause
+        // second time uninitialization in some Windows releases, which will
+        // lead to a crash.
+        {
+            ::SendMessageW(WindowHandle, WM_CLOSE, 0, 0);
+            ::TerminateThread(::GetCurrentThread(), 0);
+        }
     }));
 
     ::WaitForSingleObjectEx(ReturnEvent, INFINITE, FALSE);
