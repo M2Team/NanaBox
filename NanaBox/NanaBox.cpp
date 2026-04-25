@@ -87,6 +87,8 @@ int WINAPI wWinMain(
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
+    ::SetDefaultDllDirectories(LOAD_LIBRARY_SEARCH_SYSTEM32);
+
     winrt::init_apartment(winrt::apartment_type::single_threaded);
 
     winrt::check_hresult(::SetCurrentProcessExplicitAppUserModelID(
