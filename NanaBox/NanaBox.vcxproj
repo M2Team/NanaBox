@@ -45,8 +45,8 @@
       <RuntimeLibrary Condition="'$(Configuration)' == 'Debug'">MultiThreadedDebug</RuntimeLibrary>
       <RuntimeLibrary Condition="'$(Configuration)' == 'Release'">MultiThreaded</RuntimeLibrary>
     </ClCompile>
-    <Link Condition="'$(Configuration)' == 'Release'">
-      <AdditionalOptions>%(AdditionalOptions) /DEPENDENTLOADFLAG:0x800</AdditionalOptions>
+    <Link>
+      <AdditionalOptions Condition="'$(Configuration)' == 'Release'">%(AdditionalOptions) /DEPENDENTLOADFLAG:0x800</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
