@@ -57,3 +57,9 @@ indent_style = space
 indent_size = 4
 insert_final_newline = true
 trim_trailing_whitespace = true
+
+[*.json]
+charset = utf-8
+
+[COMMIT_EDITMSG]
+charset = utf-8
