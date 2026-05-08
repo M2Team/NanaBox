@@ -1,5 +1,12 @@
 ﻿# NanaBox Release Notes
 
+**NanaBox 1.6 Update 3 (1.6.1498.0)**
+
+- Add mitigation for DLL sideloading. (Contributed by dinhngtu.)
+- Use UTF-8 without BOM to save NanaBox Configuration File Reference JSON Schema
+  for Visual Studio Code workaround. (Contributed by dinhngtu.)
+- Use UTF-8 without BOM to save COMMIT_EDITMSG. (Contributed by dinhngtu.)
+
 **NanaBox 1.6 Update 2 (1.6.1481.0)**
 
 - Improve the user experience of selecting virtual hard disk files from the
