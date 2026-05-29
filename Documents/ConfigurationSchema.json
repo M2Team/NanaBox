@@ -188,7 +188,6 @@
                 "SuggestedSwitchName": {
                   "type": "string",
                   "description": "The switch name suggested for the current network adapter. Available starting with NanaBox 1.6 Update 1. This value will not be used if this value is invalid or SuggestedSwitchId is not be used for the current network adapter. If SuggestedSwitchId is used but this value is empty, NanaBox will use the \"NanaBox_[SuggestedSwitchId]\" as the switch name. Default behavior is use the default switch.",
-                  "pattern": "^[a-fA-F0-9]{8}(-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}$",
                   "examples": [ "Custom Switch" ]
                 },
                 "SuggestedSwitchSubnet": {
