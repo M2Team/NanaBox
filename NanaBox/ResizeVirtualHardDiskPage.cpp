@@ -25,7 +25,6 @@ namespace winrt::NanaBox::implementation
                 L"ResizeVirtualHardDiskPage/GridTitleTextBlock/Text").c_str());
     }
 
-
     void ResizeVirtualHardDiskPage::InitializeComponent()
     {
         ResizeVirtualHardDiskPageT::InitializeComponent();

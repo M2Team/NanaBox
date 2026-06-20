@@ -713,7 +713,6 @@ DWORD SimpleResizeVirtualDisk(
     return Error;
 }
 
-
 DWORD SimpleCompactVirtualDisk(
     _In_ PCWSTR Path)
 {

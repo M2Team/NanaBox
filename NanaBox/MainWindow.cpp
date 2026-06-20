@@ -418,7 +418,6 @@ void NanaBox::MainWindow::OnClose()
         winrt::get_abi(Window),
         this->m_hWnd);
 
-
     switch (Window.Status())
     {
     case winrt::NanaBox::ExitConfirmationStatus::Suspend:

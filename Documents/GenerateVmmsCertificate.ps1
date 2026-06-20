@@ -1,4 +1,4 @@
-#
+﻿#
 # PROJECT:    Mouri Internal Library Essentials
 # FILE:       GenerateVmmsCertificate.ps1
 # PURPOSE:    The script for generating a self-signed certificate for VMMS
@@ -80,7 +80,6 @@ $Cert = [Security.Cryptography.X509Certificates.X509Certificate2][Convert]::From
 # Install certificate to user store
 $Request.InstallResponse(0x2,$endCert,0x1,"")
 $Cert = dir cert:\localmachine\my | ?{$_.Thumbprint -eq $Cert.Thumbprint}
-
 
 #
 # Configure private key access permissions

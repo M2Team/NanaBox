@@ -1007,7 +1007,6 @@ void NanaBox::RemoteDesktopUpdateEnhancedSessionConfiguration(
             (Instance->AudioRedirectionMode() == 0);
     }
 
-
     try
     {
         Instance->AudioCaptureRedirectionMode(
