@@ -138,8 +138,8 @@
     <comment>Hyper-V is not enabled.</comment>
   </data>
   <data name="VirtualMachineConnectionFailedContentText" xml:space="preserve">
-    <value>This is most likely due to not having a valid certificate installed for the Virtual Machine Management Service, please read the NanaZip Project's ReadMe documentation at https://github.com/M2Team/NanaBox for a solution.</value>
-    <comment>This is most likely due to not having a valid certificate installed for the Virtual Machine Management Service, please read the NanaZip Project's ReadMe documentation at https://github.com/M2Team/NanaBox for a solution.</comment>
+    <value>This is most likely due to not having a valid certificate installed for the Virtual Machine Management Service, please read the NanaBox Project's ReadMe documentation at https://github.com/M2Team/NanaBox for a solution.</value>
+    <comment>This is most likely due to not having a valid certificate installed for the Virtual Machine Management Service, please read the NanaBox Project's ReadMe documentation at https://github.com/M2Team/NanaBox for a solution.</comment>
   </data>
   <data name="VirtualMachineConnectionFailedInstructionText" xml:space="preserve">
     <value>Unable to connect to virtual machine</value>
