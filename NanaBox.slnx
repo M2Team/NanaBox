@@ -3,6 +3,7 @@
     <Platform Name="ARM64" />
     <Platform Name="x64" />
   </Configurations>
+  <Project Path="NanaBox.Core/NanaBox.Core.vcxproj" Id="a8a93e36-d894-484f-86a1-1d61dc0236fe" />
   <Project Path="NanaBox/NanaBox.vcxproj" Id="bf54e51d-d562-4f07-8fe0-ef538b0a1628" />
   <Project Path="NanaBoxPackage/NanaBoxPackage.wapproj" Type="c7167f0d-bc9f-4e6e-afe1-012c56b48db5">
     <Deploy />

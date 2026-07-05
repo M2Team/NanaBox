@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{A8A93E36-D894-484F-86A1-1D61DC0236FE}</ProjectGuid>
+    <RootNamespace>NanaBox.Core</RootNamespace>
+    <MileProjectType>StaticLibrary</MileProjectType>
+  </PropertyGroup>
+  <Import Project="..\NanaBox.Project\NanaBox.Project.props" />
+  <Import Sdk="Mile.Project.Configurations" Version="1.0.1917" Project="Mile.Project.Platform.x64.props" />
+  <Import Sdk="Mile.Project.Configurations" Version="1.0.1917" Project="Mile.Project.Platform.ARM64.props" />
+  <Import Sdk="Mile.Project.Configurations" Version="1.0.1917" Project="Mile.Project.Cpp.Default.props" />
+  <Import Sdk="Mile.Project.Configurations" Version="1.0.1917" Project="Mile.Project.Cpp.props" />
+  <Import Project="..\NanaBox.Project\NanaBox.Project.Runtime.props" />
+  <ItemGroup />
+  <Import Sdk="Mile.Project.Configurations" Version="1.0.1917" Project="Mile.Project.Cpp.targets" />
+</Project>
