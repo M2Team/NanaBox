@@ -2,6 +2,7 @@
 <Project 
   DefaultTargets="Restore;Build;Packaging"
   xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="NanaBox.Project\NanaBox.Project.props" />
   <Target Name="Restore">
     <ItemGroup>
       <ProjectReference Include="$(MSBuildThisFileDirectory)NanaBox.slnx">
@@ -36,7 +37,8 @@
       <InputBinariesPath>$(MSBuildThisFileDirectory)Output\Binaries\Release\</InputBinariesPath>
       <OutputBinariesPath>$(MSBuildThisFileDirectory)Output\Binaries\Root\Binaries\</OutputBinariesPath>
       <OutputSymbolsPath>$(MSBuildThisFileDirectory)Output\Binaries\Root\Symbols\</OutputSymbolsPath>
-      <OutputFileNamePrefix>NanaBox_1.7.$([System.DateTime]::Today.Subtract($([System.DateTime]::Parse('2022-04-01'))).TotalDays).0</OutputFileNamePrefix>
+      <OutputFileNamePrefix Condition="'$(NanaBoxBuildPreviewRelease)' != 'true'">NanaBox_$(MileProjectVersion)</OutputFileNamePrefix>
+      <OutputFileNamePrefix Condition="'$(NanaBoxBuildPreviewRelease)' == 'true'">NanaBoxPreview_$(MileProjectVersion)</OutputFileNamePrefix>
     </PropertyGroup>
 
     <MakeDir Directories="$(OutputBinariesPath)arm64" />
