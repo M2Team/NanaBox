@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  PROJECT:    NanaBox
+  FILE:       NanaBox.Project.props
+  PURPOSE:    MSBuild Properties for NanaBox Common Properties
+
+  LICENSE:    The MIT License
+
+  MAINTAINER: MouriNaruto (Kenji.Mouri@outlook.com)
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildThisFileDirectory)NanaBox.Project.Version.props" />
+  <PropertyGroup>
+    <NanaBoxBuildNumberDate Condition="'$(NanaBoxBuildNumberDate)' == ''">$([System.DateTime]::Today.ToString('yyyy-MM-dd'))</NanaBoxBuildNumberDate>
+    <NanaBoxProjectCreationDate>2022-04-01</NanaBoxProjectCreationDate>
+    <MileProjectVersion>$(NanaBoxMajorVersion).$(NanaBoxMinorVersion).$([System.DateTime]::Parse('$(NanaBoxBuildNumberDate)').Subtract($([System.DateTime]::Parse('$(NanaBoxProjectCreationDate)'))).TotalDays).0</MileProjectVersion>
+    <MileProjectVersionTag>$(NanaBoxVersionTag)</MileProjectVersionTag>
+    <NanaBoxBuildPreviewRelease Condition="'$(NanaBoxBuildPreviewRelease)' == '' And $([System.String]::Copy('$(NanaBoxVersionTag)').Contains('Preview'))">true</NanaBoxBuildPreviewRelease>
+    <NanaBoxBuildPreviewRelease Condition="'$(NanaBoxBuildPreviewRelease)' == '' And $([System.String]::Copy('$(NanaBoxVersionTag)').Contains('Final'))">true</NanaBoxBuildPreviewRelease>
+    <NanaBoxBuildPreviewRelease Condition="'$(NanaBoxBuildPreviewRelease)' == ''">false</NanaBoxBuildPreviewRelease>
+  </PropertyGroup>
+</Project>
