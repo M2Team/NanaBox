@@ -41,7 +41,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup>
     <Link>
-      <AdditionalOptions Condition="'$(Configuration)' == 'Release'">%(AdditionalOptions) /DEPENDENTLOADFLAG:0x800</AdditionalOptions>
+      <AdditionalOptions Condition="'$(UseDebugLibraries)' != 'true'">%(AdditionalOptions) /DEPENDENTLOADFLAG:0x800</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
