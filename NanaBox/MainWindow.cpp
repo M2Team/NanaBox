@@ -481,7 +481,14 @@ void NanaBox::MainWindow::OnClose()
     }
     case winrt::NanaBox::ExitConfirmationStatus::PowerOff:
     {
-        this->m_VirtualMachine->Pause();
+        try
+        {
+            this->m_VirtualMachine->Pause();
+        }
+        catch (...)
+        {
+
+        }
         this->m_VirtualMachine->Terminate();
 
         break;
