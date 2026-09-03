@@ -967,22 +967,36 @@ void NanaBox::MainWindow::TryReloadVirtualMachine()
 
     try
     {
-        NanaBox::RemoteDesktopUpdateKeyboardConfiguration(
-            this->m_RdpClient,
-            Configuration.Keyboard);
-        this->m_Configuration.Keyboard = Configuration.Keyboard;
-    }
-    catch (...)
-    {
+        // Validate changes with a temporary client; the connected client cannot
+        // apply them until reinitialized after disconnection.
+        winrt::com_ptr<NanaBox::RdpClient> TemporaryRdpClient =
+            winrt::make_self<NanaBox::RdpClient>();
 
-    }
+        try
+        {
+            NanaBox::RemoteDesktopUpdateKeyboardConfiguration(
+                TemporaryRdpClient,
+                Configuration.Keyboard);
+            this->m_Configuration.Keyboard =
+                Configuration.Keyboard;
+        }
+        catch (...)
+        {
 
-    try
-    {
-        NanaBox::RemoteDesktopUpdateEnhancedSessionConfiguration(
-            this->m_RdpClient,
-            Configuration.EnhancedSession);
-        this->m_Configuration.EnhancedSession = Configuration.EnhancedSession;
+        }
+
+        try
+        {
+            NanaBox::RemoteDesktopUpdateEnhancedSessionConfiguration(
+                TemporaryRdpClient,
+                Configuration.EnhancedSession);
+            this->m_Configuration.EnhancedSession =
+                Configuration.EnhancedSession;
+        }
+        catch (...)
+        {
+
+        }
     }
     catch (...)
     {
