@@ -1,5 +1,19 @@
 ﻿# NanaBox Release Notes
 
+**NanaBox 1.6 Update 5 (1.6.1617.0)**
+
+- Prevent crashes by handling pause operation failures from the Host Compute
+  System API when powering off virtual machines in the UEFI stage.
+- Reduce failures of applying user interaction settings when using the reload
+  the virtual machine settings button.
+- Fix the SuggestedSwitchName definition in JSON Schema.
+- Fix the string resource typos.
+- Use global.json to simplify the MSBuild Project SDK version resolving.
+- Update Mile.Project.Configurations to 1.1.2116.
+- Implement NanaBox.Project based on NanaZip.Project to decouple more project
+  configurations from specific configuration profiles for all projects.
+- Remove unnecessary empty line for source code.
+
 **NanaBox 1.6 Update 3 (1.6.1498.0)**
 
 - Add mitigation for DLL sideloading. (Contributed by dinhngtu.)
