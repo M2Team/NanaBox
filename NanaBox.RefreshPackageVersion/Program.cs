@@ -1,4 +1,4 @@
-﻿using Mile.Project.Helpers;
+﻿using Mile.DotNet.Helpers;
 using System.Text;
 using System.Xml;
 
@@ -18,7 +18,7 @@ namespace NanaBox.RefreshPackageVersion
                 DateTime.Today.Subtract(DateTime.Parse(BuildStartDay)).TotalDays);
         }
 
-        static string RepositoryRoot = GitRepository.GetRootPath();
+        static string RepositoryRoot = Git.GetRootPath();
 
         static void RefreshAppxManifestVersion()
         {
@@ -40,7 +40,7 @@ namespace NanaBox.RefreshPackageVersion
                         IdentityNode.Attributes["Version"];
                     if (VersionAttribute != null)
                     {
-                        FileUtilities.SaveTextToFileAsUtf8Bom(
+                        Text.SaveTextToFileAsUtf8WithBom(
                             FilePath,
                             File.ReadAllText(FilePath).Replace(
                                 VersionAttribute.Value,
@@ -73,7 +73,7 @@ namespace NanaBox.RefreshPackageVersion
             }
             else
             {
-                FileUtilities.SaveTextToFileAsUtf8Bom(FilePath, Content);
+                Text.SaveTextToFileAsUtf8WithBom(FilePath, Content);
             }
         }
 
@@ -152,7 +152,7 @@ namespace NanaBox.RefreshPackageVersion
                 }
             }
 
-            FileUtilities.SaveTextToFileAsUtf8Bom(
+            Text.SaveTextToFileAsUtf8WithBom(
                 FilePath,
                 File.ReadAllText(FilePath).Replace(
                     PreviousContent,
