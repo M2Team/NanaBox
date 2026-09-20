@@ -138,8 +138,8 @@
     <comment>Hyper-V is not enabled.</comment>
   </data>
   <data name="VirtualMachineConnectionFailedContentText" xml:space="preserve">
-    <value>This is most likely due to not having a valid certificate installed for the Virtual Machine Management Service, please read the NanaBox Project's ReadMe documentation at https://github.com/M2Team/NanaBox for a solution.</value>
-    <comment>This is most likely due to not having a valid certificate installed for the Virtual Machine Management Service, please read the NanaBox Project's ReadMe documentation at https://github.com/M2Team/NanaBox for a solution.</comment>
+    <value>NanaBox could not establish a basic session connection because the certificate normally configured by the Virtual Machine Management Service could not be configured. If the problem persists after trying again, please report it at https://github.com/M2Team/NanaBox.</value>
+    <comment>NanaBox could not establish a basic session connection because the certificate normally configured by the Virtual Machine Management Service could not be configured. If the problem persists after trying again, please report it at https://github.com/M2Team/NanaBox.</comment>
   </data>
   <data name="VirtualMachineConnectionFailedInstructionText" xml:space="preserve">
     <value>Unable to connect to virtual machine</value>

@@ -87,7 +87,7 @@ namespace
                 CERT_SYSTEM_STORE_LOCAL_MACHINE |
                 CERT_STORE_OPEN_EXISTING_FLAG |
                 CERT_STORE_READONLY_FLAG,
-                L"ROOT");
+                L"MY");
             if (StoreHandle)
             {
                 PCCERT_CONTEXT Context = nullptr;
@@ -496,7 +496,7 @@ namespace
                         0,
                         CERT_SYSTEM_STORE_LOCAL_MACHINE |
                         CERT_STORE_OPEN_EXISTING_FLAG,
-                        L"ROOT");
+                        L"MY");
                     if (StoreHandle)
                     {
                         if (::CertAddCertificateContextToStore(

@@ -118,9 +118,13 @@ Reference documents for known issues:
 
 ## Tips for users who want to only enable Virtual Machine Platform feature
 
-You need to execute the [GenerateVmmsCertificate.ps1](Documents/GenerateVmmsCertificate.ps1)
-script (or from your binary packages) when using NanaBox for the first time or after
-modifying your computer name.
+Starting with NanaBox 1.7, NanaBox automatically configures the certificate that
+would normally be configured by the Virtual Machine Management Service but is
+not configured when only the Virtual Machine Platform feature is enabled. If
+you are using an earlier version, or if automatic configuration fails, execute
+the [GenerateVmmsCertificate.ps1](Documents/GenerateVmmsCertificate.ps1) script
+(or the copy included in your binary package) when using NanaBox for the first
+time or after modifying your computer name.
 
 > PowerShell -NoLogo -NoProfile -NonInteractive -InputFormat None -ExecutionPolicy Bypass "The path of the GenerateVmmsCertificate.ps1"
 

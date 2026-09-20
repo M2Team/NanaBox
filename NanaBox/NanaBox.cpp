@@ -27,6 +27,8 @@
 #include <Mile.Helpers.h>
 #include <Mile.Xaml.h>
 
+#include "VmmsCertificate.h"
+
 namespace
 {
     const std::wstring_view g_AppUserModelID =
@@ -311,6 +313,8 @@ int WINAPI wWinMain(
         CurrentPath.resize(std::wcslen(CurrentPath.c_str()));
         ::SetCurrentDirectoryW(CurrentPath.c_str());
     }
+
+    ::EnsureVmmsCertificateAvailable();
 
     WTL::CMessageLoop MessageLoop;
 
