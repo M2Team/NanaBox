@@ -121,6 +121,7 @@ namespace NanaBox
         std::wstring m_WindowTitle;
         bool m_MouseCaptureMode = false;
         bool m_VirtualMachineNeverConnected = false;
+        bool m_VmmsCertificateCreationAttempted = false;
 
         void InitializeVirtualMachine();
 

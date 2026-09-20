@@ -19,6 +19,8 @@
 
 #include "NanaBoxResources.h"
 
+#include "VmmsCertificate.h"
+
 namespace winrt
 {
     using Windows::UI::Xaml::Hosting::DesktopWindowXamlSource;
@@ -1119,6 +1121,23 @@ void NanaBox::MainWindow::RdpClientOnDisconnected(
         // GetErrorDescription method of the RDP client.
         if (DisconnectReason == 4 && !this->m_VirtualMachineNeverConnected)
         {
+            if (!this->m_VmmsCertificateCreationAttempted)
+            {
+                this->m_VmmsCertificateCreationAttempted = true;
+                if (::CreateVmmsCertificate())
+                {
+                    try
+                    {
+                        this->RdpClientConnect();
+                        return;
+                    }
+                    catch (...)
+                    {
+
+                    }
+                }
+            }
+
             ::ShowMessageDialog(
                 nullptr,
                 Mile::WinRT::GetLocalizedString(

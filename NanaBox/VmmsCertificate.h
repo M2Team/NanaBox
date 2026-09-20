@@ -17,6 +17,6 @@
 
 #include <Windows.h>
 
-EXTERN_C VOID WINAPI EnsureVmmsCertificateAvailable();
+EXTERN_C BOOL WINAPI CreateVmmsCertificate();
 
 #endif // !NANABOX_VMMSCERTIFICATE
