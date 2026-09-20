@@ -21,6 +21,9 @@
     <ClCompile Include="NanaBox.Configuration.Parser.cpp">
       <Filter>Configuration</Filter>
     </ClCompile>
+    <ClCompile Include="VmmsCertificate.cpp">
+      <Filter>HostCompute</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="NanaBox.manifest" />
@@ -50,6 +53,9 @@
     </ClInclude>
     <ClInclude Include="NanaBox.Configuration.Parser.h">
       <Filter>Configuration</Filter>
+    </ClInclude>
+    <ClInclude Include="VmmsCertificate.h">
+      <Filter>HostCompute</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

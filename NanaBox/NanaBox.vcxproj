@@ -100,6 +100,7 @@
       <DependentUpon>ExitConfirmationPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
+    <ClCompile Include="VmmsCertificate.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -211,6 +212,7 @@
       <DependentUpon>ExitConfirmationPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
+    <ClInclude Include="VmmsCertificate.h" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="AboutPage.xaml">
