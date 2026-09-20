@@ -1,5 +1,13 @@
 ﻿# NanaBox Release Notes
 
+**NanaBox 1.7 (1.7.1633.0)**
+
+- Automatically configure the certificate normally provisioned by the Virtual
+  Machine Management Service when only the Virtual Machine Platform feature is
+  enabled.
+- Use Mile.DotNet.Helpers instead of Mile.Project.Helpers.
+- Fix some guard macro definitions.
+
 **NanaBox 1.6 Update 5 (1.6.1617.0)**
 
 - Prevent crashes by handling pause operation failures from the Host Compute
