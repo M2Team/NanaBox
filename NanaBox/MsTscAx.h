@@ -8,8 +8,8 @@
  * MAINTAINER: MouriNaruto (Kenji.Mouri@outlook.com)
  */
 
-#ifndef MSTSCAX_H
-#define MSTSCAX_H
+#ifndef NANABOX_MSTSCAX
+#define NANABOX_MSTSCAX
 
 #ifndef __cplusplus
 #error "[MsTscAx] You should use a C++ compiler."
@@ -1941,4 +1941,4 @@ EXTERN_GUID(
     IID_IRemoteDesktopClient,
     0x57d25668, 0x625a, 0x4905, 0xbe, 0x4e, 0x30, 0x4c, 0xaa, 0x13, 0xf8, 0x9c);
 
-#endif // !MSTSCAX_H
+#endif // !NANABOX_MSTSCAX

@@ -8,8 +8,8 @@
  * MAINTAINER: MouriNaruto (Kenji.Mouri@outlook.com)
  */
 
-#ifndef RDPBASE_H
-#define RDPBASE_H
+#ifndef NANABOX_RDPBASE
+#define NANABOX_RDPBASE
 
 #ifndef __cplusplus
 #error "[RdpBase] You should use a C++ compiler."
@@ -109,4 +109,4 @@ EXTERN_C HRESULT WINAPI SystemAtlAxAttachControl(
     _In_ HWND hWnd,
     _Out_opt_ IUnknown** ppUnkContainer);
 
-#endif // !RDPBASE_H
+#endif // !NANABOX_RDPBASE
