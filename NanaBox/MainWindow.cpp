@@ -1097,6 +1097,10 @@ void NanaBox::MainWindow::RdpClientOnLoginComplete()
         this->m_RdpClientMode = RdpClientMode::EnhancedVideoSyncedSession;
         this->m_DisplayResolution = CSize();
     }
+
+    winrt::get_self<winrt::NanaBox::implementation::MainWindowControl>(
+        this->m_MainWindowControl)->EnhancedSessionButton().IsChecked(
+            this->m_RdpClientMode != RdpClientMode::BasicSession);
 }
 
 void NanaBox::MainWindow::RdpClientOnDisconnected(

@@ -28,6 +28,7 @@
       IsDynamicOverflowEnabled="False"
       IsOpen="False">
       <AppBarToggleButton
+        x:Name="EnhancedSessionButton"
         x:Uid="/MainWindow/EnhancedSessionButton"
         Width="48"
         AutomationProperties.Name="[Enhanced Session]"
