@@ -65,6 +65,11 @@ int NanaBox::MainWindow::OnCreate(
 
     try
     {
+        ::ShutdownBlockReasonCreate(
+            this->m_hWnd,
+            Mile::WinRT::GetLocalizedString(
+                L"ExitConfirmationPage/GridTitleTextBlock/Text").c_str());
+
         this->InitializeVirtualMachine();
 
         winrt::check_hresult(::RDPBASE_CreateInstance(
@@ -512,11 +517,6 @@ BOOL NanaBox::MainWindow::OnQueryEndSession(
 {
     UNREFERENCED_PARAMETER(nSource);
     UNREFERENCED_PARAMETER(uLogOff);
-
-    ::ShutdownBlockReasonCreate(
-        this->m_hWnd,
-        Mile::WinRT::GetLocalizedString(
-            L"ExitConfirmationPage/GridTitleTextBlock/Text").c_str());
 
     // Notify the OS to prevent shut down because shut down automatically
     // without exiting NanaBox may corrupt the user's virtual machine.
