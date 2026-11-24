@@ -30,10 +30,12 @@ namespace NanaBox
             ResumeVirtualMachine = 0x1005,
             RestartVirtualMachine = 0x1006,
             VirtualMachineSettings = 0x1007,
-            CreateVirtualHardDisk = 0x1008,
-            ResizeVirtualHardDisk = 0x1009,
-            CompactVirtualHardDisk = 0x100A,
-            About = 0x100B,
+            RedirectKeyboardNavigation = 0x1008,
+            ReleaseKeyboardNavigation = 0x1009,
+            CreateVirtualHardDisk = 0x100A,
+            ResizeVirtualHardDisk = 0x100B,
+            CompactVirtualHardDisk = 0x100C,
+            About = 0x100D,
         };
     }
 }
@@ -75,6 +77,10 @@ namespace winrt::NanaBox::implementation
             winrt::RoutedEventArgs const& e);
 
         void VirtualMachineSettingsButtonClick(
+            winrt::IInspectable const& sender,
+            winrt::RoutedEventArgs const& e);
+
+        void RedirectKeyboardNavigationButtonClick(
             winrt::IInspectable const& sender,
             winrt::RoutedEventArgs const& e);
 

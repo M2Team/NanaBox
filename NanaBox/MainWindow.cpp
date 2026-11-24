@@ -73,6 +73,8 @@ int NanaBox::MainWindow::OnCreate(
                 L"ExitConfirmationPage/GridTitleTextBlock/Text").c_str());
 
         this->InitializeVirtualMachine();
+        this->m_RedirectKeyboardNavigation =
+            this->m_Configuration.Keyboard.RedirectKeyCombinations;
 
         winrt::check_hresult(::RDPBASE_CreateInstance(
             nullptr,
@@ -170,6 +172,17 @@ void NanaBox::MainWindow::OnCommand(
             this->m_ConfigurationFilePath,
             Mile::ToWideString(CP_UTF8, this->m_Configuration.Name),
             this);
+
+        break;
+    }
+    case NanaBox::MainWindowCommands::RedirectKeyboardNavigation:
+    case NanaBox::MainWindowCommands::ReleaseKeyboardNavigation:
+    {
+        this->m_RedirectKeyboardNavigation =
+            nID == NanaBox::MainWindowCommands::RedirectKeyboardNavigation;
+        this->m_NeedRdpClientModeChange = true;
+
+        this->m_RdpClient->Disconnect();
 
         break;
     }
@@ -948,6 +961,8 @@ void NanaBox::MainWindow::TryReloadVirtualMachine()
                 Configuration.Keyboard);
             this->m_Configuration.Keyboard =
                 Configuration.Keyboard;
+            this->m_RedirectKeyboardNavigation =
+                Configuration.Keyboard.RedirectKeyCombinations;
         }
         catch (...)
         {
@@ -1065,9 +1080,15 @@ void NanaBox::MainWindow::RdpClientOnLoginComplete()
         this->m_DisplayResolution = CSize();
     }
 
-    winrt::get_self<winrt::NanaBox::implementation::MainWindowControl>(
-        this->m_MainWindowControl)->EnhancedSessionButton().IsChecked(
-            this->m_RdpClientMode != RdpClientMode::BasicSession);
+    using MainWindowControlImplementation =
+        winrt::NanaBox::implementation::MainWindowControl;
+    MainWindowControlImplementation* Control =
+        winrt::get_self<MainWindowControlImplementation>(
+            this->m_MainWindowControl);
+    Control->EnhancedSessionButton().IsChecked(
+        this->m_RdpClientMode != RdpClientMode::BasicSession);
+    Control->RedirectKeyboardNavigationButton().IsChecked(
+        this->m_RedirectKeyboardNavigation);
 }
 
 void NanaBox::MainWindow::RdpClientOnDisconnected(
@@ -1273,6 +1294,17 @@ void NanaBox::MainWindow::RdpClientInitialize()
     NanaBox::RemoteDesktopUpdateKeyboardConfiguration(
         this->m_RdpClient,
         this->m_Configuration.Keyboard);
+
+    try
+    {
+        this->m_RdpClient->KeyboardHookMode(
+            this->m_RedirectKeyboardNavigation ? 1 : 2);
+    }
+    catch (...)
+    {
+        this->m_RedirectKeyboardNavigation =
+            (this->m_RdpClient->KeyboardHookMode() == 1);
+    }
 
     NanaBox::RemoteDesktopUpdateEnhancedSessionConfiguration(
         this->m_RdpClient,

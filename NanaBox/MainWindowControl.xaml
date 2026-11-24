@@ -70,15 +70,17 @@
         Icon="Setting"
         LabelPosition="Collapsed"
         ToolTipService.ToolTip="[Virtual Machine Settings]" />
-      <AppBarSeparator />
-      <!--<AppBarToggleButton
+      <AppBarToggleButton
+        x:Name="RedirectKeyboardNavigationButton"
         x:Uid="/MainWindow/RedirectKeyboardNavigationButton"
         Width="48"
         AutomationProperties.Name="[Redirect Keyboard Navigation]"
+        Click="RedirectKeyboardNavigationButtonClick"
         Icon="Keyboard"
         LabelPosition="Collapsed"
         ToolTipService.ToolTip="[Redirect Keyboard Navigation]" />
-      <AppBarButton
+      <AppBarSeparator />
+      <!--<AppBarButton
         x:Uid="/MainWindow/RestoreVirtualMachineWindowSizeButton"
         Width="48"
         AutomationProperties.Name="[Restore Virtual Machine Window Size]"

@@ -157,6 +157,26 @@ namespace winrt::NanaBox::implementation
             0);
     }
 
+    void MainWindowControl::RedirectKeyboardNavigationButtonClick(
+        winrt::IInspectable const& sender,
+        winrt::RoutedEventArgs const& e)
+    {
+        UNREFERENCED_PARAMETER(e);
+
+        ::PostMessageW(
+            this->m_WindowHandle,
+            WM_COMMAND,
+            (winrt::unbox_value<bool>(
+                sender.as<winrt::AppBarToggleButton>().IsChecked())
+                ? MAKEWPARAM(
+                    NanaBox::MainWindowCommands::RedirectKeyboardNavigation,
+                    BN_CLICKED)
+                : MAKEWPARAM(
+                    NanaBox::MainWindowCommands::ReleaseKeyboardNavigation,
+                    BN_CLICKED)),
+            0);
+    }
+
     void MainWindowControl::CreateVirtualHardDiskButtonClick(
         winrt::IInspectable const& sender,
         winrt::RoutedEventArgs const& e)
