@@ -134,7 +134,6 @@ Machine Platform feature only.
 ## Development Roadmap
 
 - Future Series (T.B.D.)
-  - [ ] Add friendly virtual machine creation UI and settings UI.
   - [ ] Provide tool for Hyper-V vmcx migration. (Suggested by Belleve.)
   - [ ] Add support for setting RDP options with .rdp file. (Suggested by 
         awakecoding.)
