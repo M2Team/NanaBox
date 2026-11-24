@@ -148,7 +148,7 @@ namespace
         return winrt::to_hstring(Result);
     }
 
-    void AddSettingRow(
+    winrt::Grid AddSettingRow(
         winrt::StackPanel const& Panel,
         winrt::FrameworkElement const& Input,
         _In_ LPCWSTR LabelResource,
@@ -178,6 +178,7 @@ namespace
         winrt::Grid::SetColumn(Input, 1);
         Row.Children().Append(Input);
         Panel.Children().Append(Row);
+        return Row;
     }
 
     winrt::TextBox AddSettingTextBox(
@@ -1556,12 +1557,15 @@ namespace winrt::NanaBox::implementation
             L"ScsiDeviceTypeLabel",
             L"ScsiDeviceTypeHelp",
             !(this->m_MainWindow && Existing));
-        Row.Path = ::AddSettingTextBox(
+        Row.Path = winrt::TextBox();
+        Row.Path.Text(winrt::to_hstring(Configuration.Path));
+        Row.Path.HorizontalAlignment(winrt::HorizontalAlignment::Stretch);
+        winrt::Grid PathRow = ::AddSettingRow(
             Row.Container,
+            Row.Path,
             L"ScsiDevicePathLabel",
             L"ScsiDevicePathHelp",
-            winrt::to_hstring(Configuration.Path),
-            false);
+            true);
 
         winrt::Windows::UI::Xaml::Controls::Button BrowseButton;
         BrowseButton.Content(winrt::box_value(L"..."));
@@ -1572,7 +1576,6 @@ namespace winrt::NanaBox::implementation
         winrt::AutomationProperties::SetName(
             BrowseButton,
             ::GetSettingsString(L"BrowseScsiDevicePath"));
-        auto PathRow = Row.Path.Parent().as<winrt::Grid>();
         winrt::ColumnDefinition BrowseColumn;
         BrowseColumn.Width(winrt::GridLengthHelper::Auto());
         PathRow.ColumnDefinitions().Append(BrowseColumn);
