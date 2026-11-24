@@ -117,61 +117,89 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ConfigurationFileTypeName" xml:space="preserve">
-    <value>NanaBox 虚拟机配置</value>
-    <comment>NanaBox Virtual Machine Configuration</comment>
+  <data name="AddGpuDeviceButton.Content" xml:space="preserve">
+    <value>添加</value>
+    <comment>Add</comment>
   </data>
-  <data name="ConfigurationNameTip" xml:space="preserve">
-    <value>请指定虚拟机配置文件的保存位置</value>
-    <comment>Please specify the save location for the configuration file of your virtual machine</comment>
+  <data name="AddNetworkAdapterButton.Content" xml:space="preserve">
+    <value>添加</value>
+    <comment>Add</comment>
   </data>
-  <data name="SuccessContentText" xml:space="preserve">
-    <value>位于 %s 的虚拟机已成功创建。</value>
-    <comment>The virtual machine at %s has been successfully created.</comment>
+  <data name="AddPlan9ShareButton.Content" xml:space="preserve">
+    <value>添加</value>
+    <comment>Add</comment>
   </data>
-  <data name="SuccessInstructionText" xml:space="preserve">
-    <value>创建虚拟机配置已完成</value>
-    <comment>Create Virtual Machine Configuration Completed</comment>
+  <data name="AddScsiDeviceButton.Content" xml:space="preserve">
+    <value>添加</value>
+    <comment>Add</comment>
   </data>
-  <data name="VirtualDiskPathTip" xml:space="preserve">
-    <value>请为虚拟机的存储选择 VHD 或 VHDX 虚拟硬盘，或关闭此对话框跳过设置</value>
-    <comment>Please select a VHD or VHDX virtual hard disk for the storage of your virtual machine, or close this dialog to skip the setting</comment>
+  <data name="AddVirtualSmbShareButton.Content" xml:space="preserve">
+    <value>添加</value>
+    <comment>Add</comment>
   </data>
-  <data name="VirtualImagePathTip" xml:space="preserve">
-    <value>请选择用于在虚拟机上安装操作系统的可启动 ISO 映像，或关闭此对话框以跳过设置</value>
-    <comment>Please select a bootable ISO image for installing the OS on your virtual machine, or close this dialog to skip the setting</comment>
+  <data name="AltEscHotkeyLabel.Text" xml:space="preserve">
+    <value>ALT+ESC 替代热键</value>
+    <comment>AltEscHotkey</comment>
   </data>
-  <data name="SettingsInstructionText" xml:space="preserve">
-    <value>虚拟机设置提示</value>
-    <comment>Virtual Machine Settings Notice</comment>
+  <data name="AltEscHotkeyTextBox.AutomationProperties.HelpText" xml:space="preserve">
+    <value>指定与 ALT 组合的虚拟键码，用于替代 ALT+ESC（可选）。</value>
+    <comment>(Optional) Specifies the virtual-key code to add to ALT to determine the hotkey replacement for ALT+ESC.</comment>
   </data>
-  <data name="SettingsContentText" xml:space="preserve">
-    <value>点击确定后会弹出打开方式对话框，你可以选择你喜爱的编辑器去按照配置文件参考文档编辑你的虚拟机配置文件。</value>
-    <comment>The "Open With" dialog will pop up after you clicking "Confirm", you can choose your favorite editor to follow the "Configuration File Reference Documentation" to edit your virtual machine configuration file.</comment>
+  <data name="AltEscHotkeyTextBox.AutomationProperties.Name" xml:space="preserve">
+    <value>ALT+ESC 替代热键</value>
+    <comment>AltEscHotkey</comment>
   </data>
-  <data name="ReloadButton.AutomationProperties.Name" xml:space="preserve">
-    <value>重新读取配置</value>
-    <comment>Reload Configuration</comment>
+  <data name="AltEscHotkeyTextBox.ToolTipService.ToolTip" xml:space="preserve">
+    <value>指定与 ALT 组合的虚拟键码，用于替代 ALT+ESC（可选）。</value>
+    <comment>(Optional) Specifies the virtual-key code to add to ALT to determine the hotkey replacement for ALT+ESC.</comment>
   </data>
-  <data name="ReloadButtonTextBlock.Text" xml:space="preserve">
-    <value>重新读取配置</value>
-    <comment>Reload Configuration</comment>
+  <data name="AltShiftTabHotkeyLabel.Text" xml:space="preserve">
+    <value>ALT+SHIFT+TAB 替代热键</value>
+    <comment>AltShiftTabHotkey</comment>
   </data>
-  <data name="OpenButton.AutomationProperties.Name" xml:space="preserve">
-    <value>打开虚拟机配置文件</value>
-    <comment>Open Virtual Machine Configuration File</comment>
+  <data name="AltShiftTabHotkeyTextBox.AutomationProperties.HelpText" xml:space="preserve">
+    <value>指定与 ALT 组合的虚拟键码，用于替代 ALT+SHIFT+TAB（可选）。</value>
+    <comment>(Optional) Specifies the virtual-key code to add to ALT to determine the hotkey replacement for ALT+SHIFT+TAB.</comment>
   </data>
-  <data name="OpenButtonTextBlock.Text" xml:space="preserve">
-    <value>打开虚拟机配置文件</value>
-    <comment>Open Virtual Machine Configuration File</comment>
+  <data name="AltShiftTabHotkeyTextBox.AutomationProperties.Name" xml:space="preserve">
+    <value>ALT+SHIFT+TAB 替代热键</value>
+    <comment>AltShiftTabHotkey</comment>
   </data>
-  <data name="ReferenceButton.AutomationProperties.Name" xml:space="preserve">
-    <value>配置文件参考文档</value>
-    <comment>Configuration File Reference Documentation</comment>
+  <data name="AltShiftTabHotkeyTextBox.ToolTipService.ToolTip" xml:space="preserve">
+    <value>指定与 ALT 组合的虚拟键码，用于替代 ALT+SHIFT+TAB（可选）。</value>
+    <comment>(Optional) Specifies the virtual-key code to add to ALT to determine the hotkey replacement for ALT+SHIFT+TAB.</comment>
   </data>
-  <data name="ReferenceButtonTextBlock.Text" xml:space="preserve">
-    <value>配置文件参考文档</value>
-    <comment>Configuration File Reference Documentation</comment>
+  <data name="AltSpaceHotkeyLabel.Text" xml:space="preserve">
+    <value>ALT+SPACE 替代热键</value>
+    <comment>AltSpaceHotkey</comment>
+  </data>
+  <data name="AltSpaceHotkeyTextBox.AutomationProperties.HelpText" xml:space="preserve">
+    <value>指定与 ALT 组合的虚拟键码，用于替代 ALT+SPACE（可选）。</value>
+    <comment>(Optional) Specifies the virtual-key code to add to ALT to determine the hotkey replacement for ALT+SPACE.</comment>
+  </data>
+  <data name="AltSpaceHotkeyTextBox.AutomationProperties.Name" xml:space="preserve">
+    <value>ALT+SPACE 替代热键</value>
+    <comment>AltSpaceHotkey</comment>
+  </data>
+  <data name="AltSpaceHotkeyTextBox.ToolTipService.ToolTip" xml:space="preserve">
+    <value>指定与 ALT 组合的虚拟键码，用于替代 ALT+SPACE（可选）。</value>
+    <comment>(Optional) Specifies the virtual-key code to add to ALT to determine the hotkey replacement for ALT+SPACE.</comment>
+  </data>
+  <data name="AltTabHotkeyLabel.Text" xml:space="preserve">
+    <value>ALT+TAB 替代热键</value>
+    <comment>AltTabHotkey</comment>
+  </data>
+  <data name="AltTabHotkeyTextBox.AutomationProperties.HelpText" xml:space="preserve">
+    <value>指定与 ALT 组合的虚拟键码，用于替代 ALT+TAB（可选）。</value>
+    <comment>(Optional) Specifies the virtual-key code to add to ALT to determine the hotkey replacement for ALT+TAB.</comment>
+  </data>
+  <data name="AltTabHotkeyTextBox.AutomationProperties.Name" xml:space="preserve">
+    <value>ALT+TAB 替代热键</value>
+    <comment>AltTabHotkey</comment>
+  </data>
+  <data name="AltTabHotkeyTextBox.ToolTipService.ToolTip" xml:space="preserve">
+    <value>指定与 ALT 组合的虚拟键码，用于替代 ALT+TAB（可选）。</value>
+    <comment>(Optional) Specifies the virtual-key code to add to ALT to determine the hotkey replacement for ALT+TAB.</comment>
   </data>
   <data name="ApplyButton.AutomationProperties.Name" xml:space="preserve">
     <value>应用更改</value>
@@ -181,21 +209,1131 @@
     <value>应用更改</value>
     <comment>Apply Changes</comment>
   </data>
-  <data name="CreateButton.AutomationProperties.Name" xml:space="preserve">
-    <value>创建虚拟机</value>
-    <comment>Create Virtual Machine</comment>
+  <data name="AssignmentModeComboBox.AutomationProperties.HelpText" xml:space="preserve">
+    <value>虚拟机的 GPU 分配模式设置。</value>
+    <comment>The GPU assignment mode setting of virtual machine.</comment>
   </data>
-  <data name="CreateButtonTextBlock.Text" xml:space="preserve">
-    <value>创建虚拟机</value>
-    <comment>Create Virtual Machine</comment>
+  <data name="AssignmentModeComboBox.AutomationProperties.Name" xml:space="preserve">
+    <value>GPU 分配模式</value>
+    <comment>AssignmentMode</comment>
+  </data>
+  <data name="AssignmentModeComboBox.ToolTipService.ToolTip" xml:space="preserve">
+    <value>虚拟机的 GPU 分配模式设置。</value>
+    <comment>The GPU assignment mode setting of virtual machine.</comment>
+  </data>
+  <data name="AssignmentModeLabel.Text" xml:space="preserve">
+    <value>GPU 分配模式</value>
+    <comment>AssignmentMode</comment>
+  </data>
+  <data name="BaseBoardSerialNumberLabel.Text" xml:space="preserve">
+    <value>主板序列号</value>
+    <comment>BaseBoardSerialNumber</comment>
+  </data>
+  <data name="BaseBoardSerialNumberTextBox.AutomationProperties.HelpText" xml:space="preserve">
+    <value>虚拟机主板的序列号。</value>
+    <comment>The serial number of the baseboard of virtual machine.</comment>
+  </data>
+  <data name="BaseBoardSerialNumberTextBox.AutomationProperties.Name" xml:space="preserve">
+    <value>主板序列号</value>
+    <comment>BaseBoardSerialNumber</comment>
+  </data>
+  <data name="BaseBoardSerialNumberTextBox.ToolTipService.ToolTip" xml:space="preserve">
+    <value>虚拟机主板的序列号。</value>
+    <comment>The serial number of the baseboard of virtual machine.</comment>
+  </data>
+  <data name="ChassisAssetTagLabel.Text" xml:space="preserve">
+    <value>机箱资产标签</value>
+    <comment>ChassisAssetTag</comment>
+  </data>
+  <data name="ChassisAssetTagTextBox.AutomationProperties.HelpText" xml:space="preserve">
+    <value>虚拟机机箱的资产标签。</value>
+    <comment>The asset tag of the chassis of virtual machine.</comment>
+  </data>
+  <data name="ChassisAssetTagTextBox.AutomationProperties.Name" xml:space="preserve">
+    <value>机箱资产标签</value>
+    <comment>ChassisAssetTag</comment>
+  </data>
+  <data name="ChassisAssetTagTextBox.ToolTipService.ToolTip" xml:space="preserve">
+    <value>虚拟机机箱的资产标签。</value>
+    <comment>The asset tag of the chassis of virtual machine.</comment>
+  </data>
+  <data name="ChassisSerialNumberLabel.Text" xml:space="preserve">
+    <value>机箱序列号</value>
+    <comment>ChassisSerialNumber</comment>
+  </data>
+  <data name="ChassisSerialNumberTextBox.AutomationProperties.HelpText" xml:space="preserve">
+    <value>虚拟机机箱的序列号。</value>
+    <comment>The serial number of the chassis of virtual machine.</comment>
+  </data>
+  <data name="ChassisSerialNumberTextBox.AutomationProperties.Name" xml:space="preserve">
+    <value>机箱序列号</value>
+    <comment>ChassisSerialNumber</comment>
+  </data>
+  <data name="ChassisSerialNumberTextBox.ToolTipService.ToolTip" xml:space="preserve">
+    <value>虚拟机机箱的序列号。</value>
+    <comment>The serial number of the chassis of virtual machine.</comment>
+  </data>
+  <data name="ChipsetInformationTitle.Text" xml:space="preserve">
+    <value>芯片组信息</value>
+    <comment>ChipsetInformation</comment>
+  </data>
+  <data name="ChipsetNote.Text" xml:space="preserve">
+    <value>注意：部分系统信息字段需要 Windows Server 2022 或更新的宿主操作系统。</value>
+    <comment>Note: You need Windows Server 2022 or later Host OS.</comment>
+  </data>
+  <data name="ChipsetVersionLabel.Text" xml:space="preserve">
+    <value>版本</value>
+    <comment>Version</comment>
+  </data>
+  <data name="ChipsetVersionTextBox.AutomationProperties.HelpText" xml:space="preserve">
+    <value>虚拟机的版本。</value>
+    <comment>The version of virtual machine.</comment>
+  </data>
+  <data name="ChipsetVersionTextBox.AutomationProperties.Name" xml:space="preserve">
+    <value>版本</value>
+    <comment>Version</comment>
+  </data>
+  <data name="ChipsetVersionTextBox.ToolTipService.ToolTip" xml:space="preserve">
+    <value>虚拟机的版本。</value>
+    <comment>The version of virtual machine.</comment>
+  </data>
+  <data name="ChoiceComPort1Item.Content" xml:space="preserve">
+    <value>COM1</value>
+    <comment>ComPort1</comment>
+  </data>
+  <data name="ChoiceComPort2Item.Content" xml:space="preserve">
+    <value>COM2</value>
+    <comment>ComPort2</comment>
+  </data>
+  <data name="ChoiceDefaultItem.Content" xml:space="preserve">
+    <value>默认</value>
+    <comment>Default</comment>
+  </data>
+  <data name="ChoiceDefaultItem2.Content" xml:space="preserve">
+    <value>默认</value>
+    <comment>Default</comment>
+  </data>
+  <data name="ChoiceDisabledItem.Content" xml:space="preserve">
+    <value>禁用</value>
+    <comment>Disabled</comment>
+  </data>
+  <data name="ChoiceDisabledItem2.Content" xml:space="preserve">
+    <value>禁用</value>
+    <comment>Disabled</comment>
+  </data>
+  <data name="ChoiceListItem.Content" xml:space="preserve">
+    <value>指定列表</value>
+    <comment>List</comment>
+  </data>
+  <data name="ChoiceMirrorItem.Content" xml:space="preserve">
+    <value>镜像所有 GPU</value>
+    <comment>Mirror</comment>
+  </data>
+  <data name="ChoicePhysicalDevice" xml:space="preserve">
+    <value>物理设备</value>
+    <comment>PhysicalDevice</comment>
+  </data>
+  <data name="ChoiceVirtualDisk" xml:space="preserve">
+    <value>虚拟磁盘</value>
+    <comment>VirtualDisk</comment>
+  </data>
+  <data name="ChoiceVirtualImage" xml:space="preserve">
+    <value>虚拟光盘</value>
+    <comment>VirtualImage</comment>
+  </data>
+  <data name="ComPort1Label.Text" xml:space="preserve">
+    <value>COM1 命名管道</value>
+    <comment>ComPort1</comment>
+  </data>
+  <data name="ComPort1TextBox.AutomationProperties.HelpText" xml:space="preserve">
+    <value>虚拟机来宾 COM1 的命名管道路径（可选）。</value>
+    <comment>(Optional) The named pipe path of guest COM1 of virtual machine.</comment>
+  </data>
+  <data name="ComPort1TextBox.AutomationProperties.Name" xml:space="preserve">
+    <value>COM1 命名管道</value>
+    <comment>ComPort1</comment>
+  </data>
+  <data name="ComPort1TextBox.ToolTipService.ToolTip" xml:space="preserve">
+    <value>虚拟机来宾 COM1 的命名管道路径（可选）。</value>
+    <comment>(Optional) The named pipe path of guest COM1 of virtual machine.</comment>
+  </data>
+  <data name="ComPort2Label.Text" xml:space="preserve">
+    <value>COM2 命名管道</value>
+    <comment>ComPort2</comment>
+  </data>
+  <data name="ComPort2TextBox.AutomationProperties.HelpText" xml:space="preserve">
+    <value>虚拟机来宾 COM2 的命名管道路径（可选）。</value>
+    <comment>(Optional) The named pipe path of guest COM2 of virtual machine.</comment>
+  </data>
+  <data name="ComPort2TextBox.AutomationProperties.Name" xml:space="preserve">
+    <value>COM2 命名管道</value>
+    <comment>ComPort2</comment>
+  </data>
+  <data name="ComPort2TextBox.ToolTipService.ToolTip" xml:space="preserve">
+    <value>虚拟机来宾 COM2 的命名管道路径（可选）。</value>
+    <comment>(Optional) The named pipe path of guest COM2 of virtual machine.</comment>
+  </data>
+  <data name="ComPortsTitle.Text" xml:space="preserve">
+    <value>串口</value>
+    <comment>ComPorts</comment>
+  </data>
+  <data name="CtrlAltDelHotkeyLabel.Text" xml:space="preserve">
+    <value>CTRL+ALT+DELETE 替代热键</value>
+    <comment>CtrlAltDelHotkey</comment>
+  </data>
+  <data name="CtrlAltDelHotkeyTextBox.AutomationProperties.HelpText" xml:space="preserve">
+    <value>指定与 CTRL+ALT 组合的虚拟键码，用于替代安全注意序列 CTRL+ALT+DELETE（可选）。</value>
+    <comment>(Optional) Specifies the virtual-key code to add to CTRL+ALT to determine the hotkey replacement for CTRL+ALT+DELETE, also called the secure attention sequence (SAS).</comment>
+  </data>
+  <data name="CtrlAltDelHotkeyTextBox.AutomationProperties.Name" xml:space="preserve">
+    <value>CTRL+ALT+DELETE 替代热键</value>
+    <comment>CtrlAltDelHotkey</comment>
+  </data>
+  <data name="CtrlAltDelHotkeyTextBox.ToolTipService.ToolTip" xml:space="preserve">
+    <value>指定与 CTRL+ALT 组合的虚拟键码，用于替代安全注意序列 CTRL+ALT+DELETE（可选）。</value>
+    <comment>(Optional) Specifies the virtual-key code to add to CTRL+ALT to determine the hotkey replacement for CTRL+ALT+DELETE, also called the secure attention sequence (SAS).</comment>
+  </data>
+  <data name="CtrlEscHotkeyLabel.Text" xml:space="preserve">
+    <value>CTRL+ESC 替代热键</value>
+    <comment>CtrlEscHotkey</comment>
+  </data>
+  <data name="CtrlEscHotkeyTextBox.AutomationProperties.HelpText" xml:space="preserve">
+    <value>指定与 ALT 组合的虚拟键码，用于替代 CTRL+ESC（可选）。</value>
+    <comment>(Optional) Specifies the virtual-key code to add to ALT to determine the hotkey replacement for CTRL+ESC.</comment>
+  </data>
+  <data name="CtrlEscHotkeyTextBox.AutomationProperties.Name" xml:space="preserve">
+    <value>CTRL+ESC 替代热键</value>
+    <comment>CtrlEscHotkey</comment>
+  </data>
+  <data name="CtrlEscHotkeyTextBox.ToolTipService.ToolTip" xml:space="preserve">
+    <value>指定与 ALT 组合的虚拟键码，用于替代 CTRL+ESC（可选）。</value>
+    <comment>(Optional) Specifies the virtual-key code to add to ALT to determine the hotkey replacement for CTRL+ESC.</comment>
+  </data>
+  <data name="DeviceDescription.Text" xml:space="preserve">
+    <value>从宿主重定向到虚拟机的选定设备字符串数组（可选）。</value>
+    <comment>(Optional) The string array of selected devices used for redirection from the host to the virtual machine.</comment>
+  </data>
+  <data name="DeviceTitleTextBlock.Text" xml:space="preserve">
+    <value>设备</value>
+    <comment>Devices</comment>
+  </data>
+  <data name="DisableDpiScalingCheckBox.AutomationProperties.HelpText" xml:space="preserve">
+    <value>设为 true 时，禁用虚拟机基本会话模式的 DPI 缩放（可选）。</value>
+    <comment>(Optional) Disable the DPI scaling for the Basic Session Mode of virtual machine if set it true.</comment>
+  </data>
+  <data name="DisableDpiScalingCheckBox.AutomationProperties.Name" xml:space="preserve">
+    <value>禁用基本会话 DPI 缩放</value>
+    <comment>DisableBasicSessionDpiScaling</comment>
+  </data>
+  <data name="DisableDpiScalingCheckBox.ToolTipService.ToolTip" xml:space="preserve">
+    <value>设为 true 时，禁用虚拟机基本会话模式的 DPI 缩放（可选）。</value>
+    <comment>(Optional) Disable the DPI scaling for the Basic Session Mode of virtual machine if set it true.</comment>
+  </data>
+  <data name="DisableDpiScalingLabel.Text" xml:space="preserve">
+    <value>禁用基本会话 DPI 缩放</value>
+    <comment>DisableBasicSessionDpiScaling</comment>
+  </data>
+  <data name="DriveDescription.Text" xml:space="preserve">
+    <value>从宿主重定向到虚拟机的选定磁盘驱动器字符串数组（可选）。</value>
+    <comment>(Optional) The string array of selected disk drives used for redirection from the host to the virtual machine.</comment>
+  </data>
+  <data name="DriveTitleTextBlock.Text" xml:space="preserve">
+    <value>驱动器</value>
+    <comment>Drives</comment>
+  </data>
+  <data name="EnableHostDriverStoreCheckBox.AutomationProperties.HelpText" xml:space="preserve">
+    <value>设为 true 时，通过只读 Plan 9 和 Virtual SMB 共享公开宿主操作系统中与 GPU-PV 相关的若干目录（可选）。</value>
+    <comment>(Optional) Set it true if you want to enable readonly Plan 9 and Virtual SMB shares for several GPU-PV (paravirtualization) related folders from the Host OS.</comment>
+  </data>
+  <data name="EnableHostDriverStoreCheckBox.AutomationProperties.Name" xml:space="preserve">
+    <value>启用宿主驱动存储共享</value>
+    <comment>EnableHostDriverStore</comment>
+  </data>
+  <data name="EnableHostDriverStoreCheckBox.ToolTipService.ToolTip" xml:space="preserve">
+    <value>设为 true 时，通过只读 Plan 9 和 Virtual SMB 共享公开宿主操作系统中与 GPU-PV 相关的若干目录（可选）。</value>
+    <comment>(Optional) Set it true if you want to enable readonly Plan 9 and Virtual SMB shares for several GPU-PV (paravirtualization) related folders from the Host OS.</comment>
+  </data>
+  <data name="EnableHostDriverStoreLabel.Text" xml:space="preserve">
+    <value>启用宿主驱动存储共享</value>
+    <comment>EnableHostDriverStore</comment>
+  </data>
+  <data name="EnhancedSessionTitle.Text" xml:space="preserve">
+    <value>增强会话</value>
+    <comment>EnhancedSession</comment>
+  </data>
+  <data name="EnumerationFailed" xml:space="preserve">
+    <value>无法刷新重定向列表。</value>
+    <comment>Unable to refresh the redirection list.</comment>
+  </data>
+  <data name="FamilyLabel.Text" xml:space="preserve">
+    <value>系列</value>
+    <comment>Family</comment>
+  </data>
+  <data name="FamilyTextBox.AutomationProperties.HelpText" xml:space="preserve">
+    <value>虚拟机的系列。</value>
+    <comment>The family of virtual machine.</comment>
+  </data>
+  <data name="FamilyTextBox.AutomationProperties.Name" xml:space="preserve">
+    <value>系列</value>
+    <comment>Family</comment>
+  </data>
+  <data name="FamilyTextBox.ToolTipService.ToolTip" xml:space="preserve">
+    <value>虚拟机的系列。</value>
+    <comment>The family of virtual machine.</comment>
+  </data>
+  <data name="FocusReleaseLeftHotkeyLabel.Text" xml:space="preserve">
+    <value>向左释放焦点热键</value>
+    <comment>FocusReleaseLeftHotkey</comment>
+  </data>
+  <data name="FocusReleaseLeftHotkeyTextBox.AutomationProperties.HelpText" xml:space="preserve">
+    <value>指定与 Ctrl+Alt 组合的虚拟键码，用于替代 Ctrl+Alt+向左键（可选）。</value>
+    <comment>(Optional) Specifies the virtual-key code to add to Ctrl+Alt to determine the hotkey replacement for Ctrl+Alt+Left Arrow.</comment>
+  </data>
+  <data name="FocusReleaseLeftHotkeyTextBox.AutomationProperties.Name" xml:space="preserve">
+    <value>向左释放焦点热键</value>
+    <comment>FocusReleaseLeftHotkey</comment>
+  </data>
+  <data name="FocusReleaseLeftHotkeyTextBox.ToolTipService.ToolTip" xml:space="preserve">
+    <value>指定与 Ctrl+Alt 组合的虚拟键码，用于替代 Ctrl+Alt+向左键（可选）。</value>
+    <comment>(Optional) Specifies the virtual-key code to add to Ctrl+Alt to determine the hotkey replacement for Ctrl+Alt+Left Arrow.</comment>
+  </data>
+  <data name="FocusReleaseRightHotkeyLabel.Text" xml:space="preserve">
+    <value>向右释放焦点热键</value>
+    <comment>FocusReleaseRightHotkey</comment>
+  </data>
+  <data name="FocusReleaseRightHotkeyTextBox.AutomationProperties.HelpText" xml:space="preserve">
+    <value>指定与 Ctrl+Alt 组合的虚拟键码，用于替代 Ctrl+Alt+向右键（可选）。</value>
+    <comment>(Optional) Specifies the virtual-key code to add to Ctrl+Alt to determine the hotkey replacement for Ctrl+Alt+Right Arrow.</comment>
+  </data>
+  <data name="FocusReleaseRightHotkeyTextBox.AutomationProperties.Name" xml:space="preserve">
+    <value>向右释放焦点热键</value>
+    <comment>FocusReleaseRightHotkey</comment>
+  </data>
+  <data name="FocusReleaseRightHotkeyTextBox.ToolTipService.ToolTip" xml:space="preserve">
+    <value>指定与 Ctrl+Alt 组合的虚拟键码，用于替代 Ctrl+Alt+向右键（可选）。</value>
+    <comment>(Optional) Specifies the virtual-key code to add to Ctrl+Alt to determine the hotkey replacement for Ctrl+Alt+Right Arrow.</comment>
+  </data>
+  <data name="FullScreenHotkeyLabel.Text" xml:space="preserve">
+    <value>全屏切换热键</value>
+    <comment>FullScreenHotkey</comment>
+  </data>
+  <data name="FullScreenHotkeyTextBox.AutomationProperties.HelpText" xml:space="preserve">
+    <value>指定与 CTRL+ALT 组合的虚拟键码，用于切换全屏模式（可选）。</value>
+    <comment>(Optional) Specifies the virtual-key code to add to CTRL+ALT to determine the hotkey replacement for switching to full-screen mode.</comment>
+  </data>
+  <data name="FullScreenHotkeyTextBox.AutomationProperties.Name" xml:space="preserve">
+    <value>全屏切换热键</value>
+    <comment>FullScreenHotkey</comment>
+  </data>
+  <data name="FullScreenHotkeyTextBox.ToolTipService.ToolTip" xml:space="preserve">
+    <value>指定与 CTRL+ALT 组合的虚拟键码，用于切换全屏模式（可选）。</value>
+    <comment>(Optional) Specifies the virtual-key code to add to CTRL+ALT to determine the hotkey replacement for switching to full-screen mode.</comment>
+  </data>
+  <data name="GeneralTitle.Text" xml:space="preserve">
+    <value>基础设置</value>
+    <comment>General</comment>
+  </data>
+  <data name="GpuDeviceDescription.Text" xml:space="preserve">
+    <value>虚拟机使用的选定 GPU 字符串或对象数组（可选）。GPU-P 使用设备接口和分区 ID 对象，GPU-PV 使用设备接口字符串。</value>
+    <comment>(Optional) The string or object array of selected GPUs used for virtual machine. Set as the object with &quot;DeviceInterface&quot; and &quot;PartitionId&quot; for the specific GPU instance if you want to use GPU-P (partitioning) mode, or set as the string which contains &quot;DeviceInterface&quot; for using GPU-PV (paravirtualization) mode.</comment>
+  </data>
+  <data name="GpuDeviceDeviceInterfaceHelp" xml:space="preserve">
+    <value>虚拟机使用的 GPU 设备接口路径。</value>
+    <comment>The device interface path of the selected GPU used for paravirtualization of virtual machine.</comment>
+  </data>
+  <data name="GpuDeviceDeviceInterfaceLabel" xml:space="preserve">
+    <value>设备接口路径</value>
+    <comment>DeviceInterface</comment>
+  </data>
+  <data name="GpuDevicePartitionIdHelp" xml:space="preserve">
+    <value>GPU 分区的 ID，范围为 0 至 65535；65535 表示 GPU-PV。</value>
+    <comment>The partition ID of the selected GPU used for paravirtualization of virtual machine. It's actually an uint16 value. Set it 65535 for using GPU-PV  (paravirtualization) mode.</comment>
+  </data>
+  <data name="GpuDevicePartitionIdLabel" xml:space="preserve">
+    <value>分区 ID</value>
+    <comment>PartitionId</comment>
+  </data>
+  <data name="GpuDeviceTitle.Text" xml:space="preserve">
+    <value>选定 GPU</value>
+    <comment>SelectedDevices</comment>
+  </data>
+  <data name="GpuTitle.Text" xml:space="preserve">
+    <value>GPU</value>
+    <comment>Gpu</comment>
+  </data>
+  <data name="GuestStateFileLabel.Text" xml:space="preserve">
+    <value>来宾状态文件</value>
+    <comment>GuestStateFile</comment>
+  </data>
+  <data name="GuestStateFileTextBox.AutomationProperties.HelpText" xml:space="preserve">
+    <value>虚拟机的来宾状态文件路径（可选）。</value>
+    <comment>(Optional) The path of guest state file for virtual machine.</comment>
+  </data>
+  <data name="GuestStateFileTextBox.AutomationProperties.Name" xml:space="preserve">
+    <value>来宾状态文件</value>
+    <comment>GuestStateFile</comment>
+  </data>
+  <data name="GuestStateFileTextBox.ToolTipService.ToolTip" xml:space="preserve">
+    <value>虚拟机的来宾状态文件路径（可选）。</value>
+    <comment>(Optional) The path of guest state file for virtual machine.</comment>
+  </data>
+  <data name="HorizontalResolutionLabel.Text" xml:space="preserve">
+    <value>水平分辨率</value>
+    <comment>HorizontalResolution</comment>
+  </data>
+  <data name="HorizontalResolutionTextBox.AutomationProperties.HelpText" xml:space="preserve">
+    <value>虚拟机显示器的水平分辨率（可选）。</value>
+    <comment>(Optional) The horizontal resolution of the video monitor of virtual machine.</comment>
+  </data>
+  <data name="HorizontalResolutionTextBox.AutomationProperties.Name" xml:space="preserve">
+    <value>水平分辨率</value>
+    <comment>HorizontalResolution</comment>
+  </data>
+  <data name="HorizontalResolutionTextBox.ToolTipService.ToolTip" xml:space="preserve">
+    <value>虚拟机显示器的水平分辨率（可选）。</value>
+    <comment>(Optional) The horizontal resolution of the video monitor of virtual machine.</comment>
+  </data>
+  <data name="InvalidValue" xml:space="preserve">
+    <value>设置值无效：%s</value>
+    <comment>Invalid setting: %s</comment>
+  </data>
+  <data name="KeyboardNote.Text" xml:space="preserve">
+    <value>注意：需要使用虚拟键码的十进制值。</value>
+    <comment>Note: You need to use the decimal value of the virtual-key code.</comment>
+  </data>
+  <data name="KeyboardTitle.Text" xml:space="preserve">
+    <value>键盘</value>
+    <comment>Keyboard</comment>
+  </data>
+  <data name="ManufacturerLabel.Text" xml:space="preserve">
+    <value>制造商</value>
+    <comment>Manufacturer</comment>
+  </data>
+  <data name="ManufacturerTextBox.AutomationProperties.HelpText" xml:space="preserve">
+    <value>虚拟机的制造商。</value>
+    <comment>The manufacturer of virtual machine.</comment>
+  </data>
+  <data name="ManufacturerTextBox.AutomationProperties.Name" xml:space="preserve">
+    <value>制造商</value>
+    <comment>Manufacturer</comment>
+  </data>
+  <data name="ManufacturerTextBox.ToolTipService.ToolTip" xml:space="preserve">
+    <value>虚拟机的制造商。</value>
+    <comment>The manufacturer of virtual machine.</comment>
+  </data>
+  <data name="MemorySizeLabel.Text" xml:space="preserve">
+    <value>内存大小（MB）</value>
+    <comment>MemorySize (MB)</comment>
+  </data>
+  <data name="MemorySizeTextBox.AutomationProperties.HelpText" xml:space="preserve">
+    <value>虚拟机的内存大小，单位为 MB。</value>
+    <comment>The memory size of virtual machine, in MB.</comment>
+  </data>
+  <data name="MemorySizeTextBox.AutomationProperties.Name" xml:space="preserve">
+    <value>内存大小（MB）</value>
+    <comment>MemorySize (MB)</comment>
+  </data>
+  <data name="MemorySizeTextBox.ToolTipService.ToolTip" xml:space="preserve">
+    <value>虚拟机的内存大小，单位为 MB。</value>
+    <comment>The memory size of virtual machine, in MB.</comment>
+  </data>
+  <data name="NamedTitle" xml:space="preserve">
+    <value>%s 设置 - NanaBox</value>
+    <comment>%s Settings - NanaBox</comment>
+  </data>
+  <data name="NameLabel.Text" xml:space="preserve">
+    <value>名称</value>
+    <comment>Name</comment>
+  </data>
+  <data name="NameTextBox.AutomationProperties.HelpText" xml:space="preserve">
+    <value>虚拟机的唯一名称。</value>
+    <comment>The unique name of virtual machine.</comment>
+  </data>
+  <data name="NameTextBox.AutomationProperties.Name" xml:space="preserve">
+    <value>名称</value>
+    <comment>Name</comment>
+  </data>
+  <data name="NameTextBox.ToolTipService.ToolTip" xml:space="preserve">
+    <value>虚拟机的唯一名称。</value>
+    <comment>The unique name of virtual machine.</comment>
+  </data>
+  <data name="NetworkAdapterConnectedHelp" xml:space="preserve">
+    <value>设为 true 时连接此网络适配器。</value>
+    <comment>Make the current network adapter connected if set it true.</comment>
+  </data>
+  <data name="NetworkAdapterConnectedLabel" xml:space="preserve">
+    <value>已连接</value>
+    <comment>Connected</comment>
+  </data>
+  <data name="NetworkAdapterDescription.Text" xml:space="preserve">
+    <value>虚拟机网络适配器的设置对象数组。</value>
+    <comment>The network adapters setting object array of virtual machine.</comment>
+  </data>
+  <data name="NetworkAdapterMacAddressHelp" xml:space="preserve">
+    <value>此网络适配器的 MAC 地址（可选）。留空时由 NanaBox 生成。</value>
+    <comment>(Optional) The MAC address of the current network adapter.</comment>
+  </data>
+  <data name="NetworkAdapterMacAddressLabel" xml:space="preserve">
+    <value>MAC 地址</value>
+    <comment>MacAddress</comment>
+  </data>
+  <data name="NetworkAdapterSuggestedSwitchIdHelp" xml:space="preserve">
+    <value>为此网络适配器建议的交换机 GUID（可选）。</value>
+    <comment>(Optional) The switch GUID suggested for the current network adapter.</comment>
+  </data>
+  <data name="NetworkAdapterSuggestedSwitchIdLabel" xml:space="preserve">
+    <value>建议交换机 ID</value>
+    <comment>SuggestedSwitchId</comment>
+  </data>
+  <data name="NetworkAdapterSuggestedSwitchNameHelp" xml:space="preserve">
+    <value>为此网络适配器建议的交换机名称（可选）。</value>
+    <comment>(Optional) The switch name suggested for the current network adapter.</comment>
+  </data>
+  <data name="NetworkAdapterSuggestedSwitchNameLabel" xml:space="preserve">
+    <value>建议交换机名称</value>
+    <comment>SuggestedSwitchName</comment>
+  </data>
+  <data name="NetworkAdapterSuggestedSwitchSubnetHelp" xml:space="preserve">
+    <value>为此网络适配器建议的交换机子网（可选）。</value>
+    <comment>(Optional) The switch subnet suggested for the current network adapter.</comment>
+  </data>
+  <data name="NetworkAdapterSuggestedSwitchSubnetLabel" xml:space="preserve">
+    <value>建议交换机子网</value>
+    <comment>SuggestedSwitchSubnet</comment>
+  </data>
+  <data name="NetworkAdapterTitle.Text" xml:space="preserve">
+    <value>网络适配器</value>
+    <comment>NetworkAdapters</comment>
+  </data>
+  <data name="NetworkNote.Text" xml:space="preserve">
+    <value>注意：默认行为是使用默认交换机。</value>
+    <comment>Note: Default behavior is use the default switch.</comment>
+  </data>
+  <data name="OpenButton.AutomationProperties.Name" xml:space="preserve">
+    <value>打开虚拟机配置文件</value>
+    <comment>Open Virtual Machine Configuration File</comment>
+  </data>
+  <data name="OpenButtonTextBlock.Text" xml:space="preserve">
+    <value>打开虚拟机配置文件</value>
+    <comment>Open Virtual Machine Configuration File</comment>
+  </data>
+  <data name="Plan9ShareDescription.Text" xml:space="preserve">
+    <value>虚拟机 Plan 9 共享的设置对象数组。</value>
+    <comment>The Plan 9 shares setting object array of virtual machine.</comment>
+  </data>
+  <data name="Plan9ShareNameHelp" xml:space="preserve">
+    <value>此 Plan 9 共享的来宾访问名称。</value>
+    <comment>The guest access name of the current Plan 9 share.</comment>
+  </data>
+  <data name="Plan9ShareNameLabel" xml:space="preserve">
+    <value>来宾访问名称</value>
+    <comment>Name</comment>
+  </data>
+  <data name="Plan9SharePathHelp" xml:space="preserve">
+    <value>此 Plan 9 共享的宿主路径，支持相对路径。</value>
+    <comment>The host path of the current Plan 9 share.</comment>
+  </data>
+  <data name="Plan9SharePathLabel" xml:space="preserve">
+    <value>宿主路径</value>
+    <comment>Path</comment>
+  </data>
+  <data name="Plan9SharePortHelp" xml:space="preserve">
+    <value>此 Plan 9 共享的 Hyper-V Socket 端口号。</value>
+    <comment>The Hyper-V Socket port number of the current Plan 9 share.</comment>
+  </data>
+  <data name="Plan9SharePortLabel" xml:space="preserve">
+    <value>Hyper-V Socket 端口</value>
+    <comment>Port</comment>
+  </data>
+  <data name="Plan9ShareReadOnlyHelp" xml:space="preserve">
+    <value>设为 true 时，此 Plan 9 共享为只读（可选）。</value>
+    <comment>(Optional) Set it true if you want to make the current Plan 9 share read-only.</comment>
+  </data>
+  <data name="Plan9ShareReadOnlyLabel" xml:space="preserve">
+    <value>只读</value>
+    <comment>ReadOnly</comment>
+  </data>
+  <data name="Plan9ShareTitle.Text" xml:space="preserve">
+    <value>Plan 9 共享</value>
+    <comment>Plan9Shares</comment>
+  </data>
+  <data name="PoliciesLabel.Text" xml:space="preserve">
+    <value>策略（每行一项）</value>
+    <comment>Policies</comment>
+  </data>
+  <data name="PoliciesNote.Text" xml:space="preserve">
+    <value>注意：这些策略需要 Windows 11 24H2 或更新的宿主操作系统。</value>
+    <comment>Note: These policies need Windows 11 Version 24H2 or later Host OS.</comment>
+  </data>
+  <data name="PoliciesTextBox.AutomationProperties.HelpText" xml:space="preserve">
+    <value>虚拟机策略的字符串数组。</value>
+    <comment>The string array of policies of virtual machine.</comment>
+  </data>
+  <data name="PoliciesTextBox.AutomationProperties.Name" xml:space="preserve">
+    <value>策略（每行一项）</value>
+    <comment>Policies</comment>
+  </data>
+  <data name="PoliciesTextBox.ToolTipService.ToolTip" xml:space="preserve">
+    <value>虚拟机策略的字符串数组。</value>
+    <comment>The string array of policies of virtual machine.</comment>
+  </data>
+  <data name="PoliciesTitle.Text" xml:space="preserve">
+    <value>策略</value>
+    <comment>Policies</comment>
+  </data>
+  <data name="PolicyExamplesTextBox.AutomationProperties.Name" xml:space="preserve">
+    <value>策略标识符示例（只读）</value>
+    <comment>Policy identifier examples (read-only)</comment>
+  </data>
+  <data name="PolicyExamplesTextBox.Text" xml:space="preserve">
+    <value>LegacyPcrMeasurement
+DisableSha384Pcr
+LegacyRteWidth
+LegacyTrustedLaunchMemoryMap
+LegacyApicSelectionLogic
+LegacyApicManganeseOverride
+LegacyGpaLayout
+ForceLegacyHcl
+ForceCurrentHcl
+UseExtendedMaxVpPerSocketLimit</value>
+    <comment>LegacyPcrMeasurement
+DisableSha384Pcr
+LegacyRteWidth
+LegacyTrustedLaunchMemoryMap
+LegacyApicSelectionLogic
+LegacyApicManganeseOverride
+LegacyGpaLayout
+ForceLegacyHcl
+ForceCurrentHcl
+UseExtendedMaxVpPerSocketLimit</comment>
+  </data>
+  <data name="PolicyFormatNote.Text" xml:space="preserve">
+    <value>每行输入一项策略。</value>
+    <comment>Enter one policy per line.</comment>
+  </data>
+  <data name="ProcessorCountLabel.Text" xml:space="preserve">
+    <value>处理器数量</value>
+    <comment>ProcessorCount</comment>
+  </data>
+  <data name="ProcessorCountTextBox.AutomationProperties.HelpText" xml:space="preserve">
+    <value>虚拟机的处理器数量，单位为核心。</value>
+    <comment>The processor count of virtual machine, in cores.</comment>
+  </data>
+  <data name="ProcessorCountTextBox.AutomationProperties.Name" xml:space="preserve">
+    <value>处理器数量</value>
+    <comment>ProcessorCount</comment>
+  </data>
+  <data name="ProcessorCountTextBox.ToolTipService.ToolTip" xml:space="preserve">
+    <value>虚拟机的处理器数量，单位为核心。</value>
+    <comment>The processor count of virtual machine, in cores.</comment>
+  </data>
+  <data name="ProductNameLabel.Text" xml:space="preserve">
+    <value>产品名称</value>
+    <comment>ProductName</comment>
+  </data>
+  <data name="ProductNameTextBox.AutomationProperties.HelpText" xml:space="preserve">
+    <value>虚拟机的产品名称。</value>
+    <comment>The product name of virtual machine.</comment>
+  </data>
+  <data name="ProductNameTextBox.AutomationProperties.Name" xml:space="preserve">
+    <value>产品名称</value>
+    <comment>ProductName</comment>
+  </data>
+  <data name="ProductNameTextBox.ToolTipService.ToolTip" xml:space="preserve">
+    <value>虚拟机的产品名称。</value>
+    <comment>The product name of virtual machine.</comment>
+  </data>
+  <data name="RedirectAudioCaptureCheckBox.AutomationProperties.HelpText" xml:space="preserve">
+    <value>设为 true 时，将音频采集从宿主重定向到虚拟机（可选）。</value>
+    <comment>(Optional) Redirect audio capture from the host to the virtual machine if set it true.</comment>
+  </data>
+  <data name="RedirectAudioCaptureCheckBox.AutomationProperties.Name" xml:space="preserve">
+    <value>重定向音频采集</value>
+    <comment>RedirectAudioCapture</comment>
+  </data>
+  <data name="RedirectAudioCaptureCheckBox.ToolTipService.ToolTip" xml:space="preserve">
+    <value>设为 true 时，将音频采集从宿主重定向到虚拟机（可选）。</value>
+    <comment>(Optional) Redirect audio capture from the host to the virtual machine if set it true.</comment>
+  </data>
+  <data name="RedirectAudioCaptureLabel.Text" xml:space="preserve">
+    <value>重定向音频采集</value>
+    <comment>RedirectAudioCapture</comment>
+  </data>
+  <data name="RedirectAudioCheckBox.AutomationProperties.HelpText" xml:space="preserve">
+    <value>设为 true 时，将声音从虚拟机重定向到宿主（可选）。</value>
+    <comment>(Optional) Redirect sounds from the virtual machine to the host if set it true.</comment>
+  </data>
+  <data name="RedirectAudioCheckBox.AutomationProperties.Name" xml:space="preserve">
+    <value>重定向声音</value>
+    <comment>RedirectAudio</comment>
+  </data>
+  <data name="RedirectAudioCheckBox.ToolTipService.ToolTip" xml:space="preserve">
+    <value>设为 true 时，将声音从虚拟机重定向到宿主（可选）。</value>
+    <comment>(Optional) Redirect sounds from the virtual machine to the host if set it true.</comment>
+  </data>
+  <data name="RedirectAudioLabel.Text" xml:space="preserve">
+    <value>重定向声音</value>
+    <comment>RedirectAudio</comment>
+  </data>
+  <data name="RedirectClipboardCheckBox.AutomationProperties.HelpText" xml:space="preserve">
+    <value>设为 true 时，将宿主剪贴板重定向到虚拟机（可选）。</value>
+    <comment>(Optional) Redirect clipboard from the host to the virtual machine if set it true.</comment>
+  </data>
+  <data name="RedirectClipboardCheckBox.AutomationProperties.Name" xml:space="preserve">
+    <value>重定向剪贴板</value>
+    <comment>RedirectClipboard</comment>
+  </data>
+  <data name="RedirectClipboardCheckBox.ToolTipService.ToolTip" xml:space="preserve">
+    <value>设为 true 时，将宿主剪贴板重定向到虚拟机（可选）。</value>
+    <comment>(Optional) Redirect clipboard from the host to the virtual machine if set it true.</comment>
+  </data>
+  <data name="RedirectClipboardLabel.Text" xml:space="preserve">
+    <value>重定向剪贴板</value>
+    <comment>RedirectClipboard</comment>
+  </data>
+  <data name="RedirectDevicesCheckBox.AutomationProperties.HelpText" xml:space="preserve">
+    <value>设为 true 时，将宿主的所有设备重定向到虚拟机（可选）。</value>
+    <comment>(Optional) Redirect all devices from the host to the virtual machine if set it true.</comment>
+  </data>
+  <data name="RedirectDevicesCheckBox.AutomationProperties.Name" xml:space="preserve">
+    <value>重定向所有设备</value>
+    <comment>RedirectDevices</comment>
+  </data>
+  <data name="RedirectDevicesCheckBox.ToolTipService.ToolTip" xml:space="preserve">
+    <value>设为 true 时，将宿主的所有设备重定向到虚拟机（可选）。</value>
+    <comment>(Optional) Redirect all devices from the host to the virtual machine if set it true.</comment>
+  </data>
+  <data name="RedirectDevicesLabel.Text" xml:space="preserve">
+    <value>重定向所有设备</value>
+    <comment>RedirectDevices</comment>
+  </data>
+  <data name="RedirectDrivesCheckBox.AutomationProperties.HelpText" xml:space="preserve">
+    <value>设为 true 时，将宿主的所有磁盘驱动器重定向到虚拟机（可选）。</value>
+    <comment>(Optional) Redirect all disk drives from the host to the virtual machine if set it true.</comment>
+  </data>
+  <data name="RedirectDrivesCheckBox.AutomationProperties.Name" xml:space="preserve">
+    <value>重定向所有驱动器</value>
+    <comment>RedirectDrives</comment>
+  </data>
+  <data name="RedirectDrivesCheckBox.ToolTipService.ToolTip" xml:space="preserve">
+    <value>设为 true 时，将宿主的所有磁盘驱动器重定向到虚拟机（可选）。</value>
+    <comment>(Optional) Redirect all disk drives from the host to the virtual machine if set it true.</comment>
+  </data>
+  <data name="RedirectDrivesLabel.Text" xml:space="preserve">
+    <value>重定向所有驱动器</value>
+    <comment>RedirectDrives</comment>
+  </data>
+  <data name="RedirectDynamicDevicesCheckBox.AutomationProperties.HelpText" xml:space="preserve">
+    <value>设为 true 时，重定向虚拟机运行期间枚举到的、动态连接的即插即用设备（可选）。</value>
+    <comment>(Optional) Redirect all dynamically attached Plug and Play (PnP) devices that are enumerated while virtual machine running if set it true.</comment>
+  </data>
+  <data name="RedirectDynamicDevicesCheckBox.AutomationProperties.Name" xml:space="preserve">
+    <value>重定向动态连接的设备</value>
+    <comment>RedirectDynamicDevices</comment>
+  </data>
+  <data name="RedirectDynamicDevicesCheckBox.ToolTipService.ToolTip" xml:space="preserve">
+    <value>设为 true 时，重定向虚拟机运行期间枚举到的、动态连接的即插即用设备（可选）。</value>
+    <comment>(Optional) Redirect all dynamically attached Plug and Play (PnP) devices that are enumerated while virtual machine running if set it true.</comment>
+  </data>
+  <data name="RedirectDynamicDevicesLabel.Text" xml:space="preserve">
+    <value>重定向动态连接的设备</value>
+    <comment>RedirectDynamicDevices</comment>
+  </data>
+  <data name="RedirectDynamicDrivesCheckBox.AutomationProperties.HelpText" xml:space="preserve">
+    <value>设为 true 时，重定向虚拟机运行期间枚举到的、动态连接的即插即用驱动器（可选）。</value>
+    <comment>(Optional) Redirect all dynamically attached Plug and Play (PnP) drives that are enumerated while virtual machine running if set it true.</comment>
+  </data>
+  <data name="RedirectDynamicDrivesCheckBox.AutomationProperties.Name" xml:space="preserve">
+    <value>重定向动态连接的驱动器</value>
+    <comment>RedirectDynamicDrives</comment>
+  </data>
+  <data name="RedirectDynamicDrivesCheckBox.ToolTipService.ToolTip" xml:space="preserve">
+    <value>设为 true 时，重定向虚拟机运行期间枚举到的、动态连接的即插即用驱动器（可选）。</value>
+    <comment>(Optional) Redirect all dynamically attached Plug and Play (PnP) drives that are enumerated while virtual machine running if set it true.</comment>
+  </data>
+  <data name="RedirectDynamicDrivesLabel.Text" xml:space="preserve">
+    <value>重定向动态连接的驱动器</value>
+    <comment>RedirectDynamicDrives</comment>
+  </data>
+  <data name="RedirectKeyCombinationsCheckBox.AutomationProperties.HelpText" xml:space="preserve">
+    <value>设为 true 时，在虚拟机中应用组合键；否则仅在宿主全屏运行时应用于虚拟机（可选）。</value>
+    <comment>(Optional) Apply key combinations at the virtual machine if set it true, or apply key combinations to the virtual machine only when the host is running in full-screen mode.</comment>
+  </data>
+  <data name="RedirectKeyCombinationsCheckBox.AutomationProperties.Name" xml:space="preserve">
+    <value>重定向组合键</value>
+    <comment>RedirectKeyCombinations</comment>
+  </data>
+  <data name="RedirectKeyCombinationsCheckBox.ToolTipService.ToolTip" xml:space="preserve">
+    <value>设为 true 时，在虚拟机中应用组合键；否则仅在宿主全屏运行时应用于虚拟机（可选）。</value>
+    <comment>(Optional) Apply key combinations at the virtual machine if set it true, or apply key combinations to the virtual machine only when the host is running in full-screen mode.</comment>
+  </data>
+  <data name="RedirectKeyCombinationsLabel.Text" xml:space="preserve">
+    <value>重定向组合键</value>
+    <comment>RedirectKeyCombinations</comment>
+  </data>
+  <data name="RedirectPortsCheckBox.AutomationProperties.HelpText" xml:space="preserve">
+    <value>设为 true 时，将宿主的所有本地端口（例如 COM 和 LPT）重定向到虚拟机（可选）。</value>
+    <comment>(Optional) Redirect all local ports (for example, COM and LPT) from the host to the virtual machine if set it true.</comment>
+  </data>
+  <data name="RedirectPortsCheckBox.AutomationProperties.Name" xml:space="preserve">
+    <value>重定向端口</value>
+    <comment>RedirectPorts</comment>
+  </data>
+  <data name="RedirectPortsCheckBox.ToolTipService.ToolTip" xml:space="preserve">
+    <value>设为 true 时，将宿主的所有本地端口（例如 COM 和 LPT）重定向到虚拟机（可选）。</value>
+    <comment>(Optional) Redirect all local ports (for example, COM and LPT) from the host to the virtual machine if set it true.</comment>
+  </data>
+  <data name="RedirectPortsLabel.Text" xml:space="preserve">
+    <value>重定向端口</value>
+    <comment>RedirectPorts</comment>
+  </data>
+  <data name="RedirectPOSDevicesCheckBox.AutomationProperties.HelpText" xml:space="preserve">
+    <value>设为 true 时，将宿主的所有服务点设备重定向到虚拟机（可选）。</value>
+    <comment>(Optional) Redirect all Point of Service devices from the host to the virtual machine if set it true.</comment>
+  </data>
+  <data name="RedirectPOSDevicesCheckBox.AutomationProperties.Name" xml:space="preserve">
+    <value>重定向服务点设备</value>
+    <comment>RedirectPOSDevices</comment>
+  </data>
+  <data name="RedirectPOSDevicesCheckBox.ToolTipService.ToolTip" xml:space="preserve">
+    <value>设为 true 时，将宿主的所有服务点设备重定向到虚拟机（可选）。</value>
+    <comment>(Optional) Redirect all Point of Service devices from the host to the virtual machine if set it true.</comment>
+  </data>
+  <data name="RedirectPOSDevicesLabel.Text" xml:space="preserve">
+    <value>重定向服务点设备</value>
+    <comment>RedirectPOSDevices</comment>
+  </data>
+  <data name="RedirectPrintersCheckBox.AutomationProperties.HelpText" xml:space="preserve">
+    <value>设为 true 时，将宿主的所有打印机重定向到虚拟机（可选）。</value>
+    <comment>(Optional) Redirect all printers from the host to the virtual machine if set it true.</comment>
+  </data>
+  <data name="RedirectPrintersCheckBox.AutomationProperties.Name" xml:space="preserve">
+    <value>重定向打印机</value>
+    <comment>RedirectPrinters</comment>
+  </data>
+  <data name="RedirectPrintersCheckBox.ToolTipService.ToolTip" xml:space="preserve">
+    <value>设为 true 时，将宿主的所有打印机重定向到虚拟机（可选）。</value>
+    <comment>(Optional) Redirect all printers from the host to the virtual machine if set it true.</comment>
+  </data>
+  <data name="RedirectPrintersLabel.Text" xml:space="preserve">
+    <value>重定向打印机</value>
+    <comment>RedirectPrinters</comment>
+  </data>
+  <data name="RedirectSmartCardsCheckBox.AutomationProperties.HelpText" xml:space="preserve">
+    <value>设为 true 时，将宿主的所有智能卡重定向到虚拟机（可选）。</value>
+    <comment>(Optional) Redirect all smart cards from the host to the virtual machine if set it true.</comment>
+  </data>
+  <data name="RedirectSmartCardsCheckBox.AutomationProperties.Name" xml:space="preserve">
+    <value>重定向智能卡</value>
+    <comment>RedirectSmartCards</comment>
+  </data>
+  <data name="RedirectSmartCardsCheckBox.ToolTipService.ToolTip" xml:space="preserve">
+    <value>设为 true 时，将宿主的所有智能卡重定向到虚拟机（可选）。</value>
+    <comment>(Optional) Redirect all smart cards from the host to the virtual machine if set it true.</comment>
+  </data>
+  <data name="RedirectSmartCardsLabel.Text" xml:space="preserve">
+    <value>重定向智能卡</value>
+    <comment>RedirectSmartCards</comment>
+  </data>
+  <data name="ReferenceButton.AutomationProperties.Name" xml:space="preserve">
+    <value>配置文件参考文档</value>
+    <comment>Configuration File Reference Documentation</comment>
+  </data>
+  <data name="ReferenceButtonTextBlock.Text" xml:space="preserve">
+    <value>配置文件参考文档</value>
+    <comment>Configuration File Reference Documentation</comment>
+  </data>
+  <data name="RefreshDeviceButton.Content" xml:space="preserve">
+    <value>刷新</value>
+    <comment>Refresh</comment>
+  </data>
+  <data name="RefreshDriveButton.Content" xml:space="preserve">
+    <value>刷新</value>
+    <comment>Refresh</comment>
+  </data>
+  <data name="ReloadButton.AutomationProperties.Name" xml:space="preserve">
+    <value>重新读取配置</value>
+    <comment>Reload Configuration</comment>
+  </data>
+  <data name="ReloadButtonTextBlock.Text" xml:space="preserve">
+    <value>重新读取配置</value>
+    <comment>Reload Configuration</comment>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>删除</value>
+    <comment>Remove</comment>
+  </data>
+  <data name="ReservedShareNote.Text" xml:space="preserve">
+    <value>注意：启用 EnableHostDriverStore 时，不要使用相关文档中列出的保留共享名称。</value>
+    <comment>Note: If you have set the &quot;EnableHostDriverStore&quot; true, you should not use the names mentioned in &quot;EnableHostDriverStore&quot; related document for the current Plan 9 share.</comment>
+  </data>
+  <data name="ReservedVirtualSmbShareNote.Text" xml:space="preserve">
+    <value>注意：启用 EnableHostDriverStore 时，不要使用相关文档中列出的保留共享名称。</value>
+    <comment>Note: If you have set the &quot;EnableHostDriverStore&quot; true, you should not use the names mentioned in &quot;EnableHostDriverStore&quot; related document for the current Virtual SMB share.</comment>
+  </data>
+  <data name="ResolutionNote.Text" xml:space="preserve">
+    <value>注意：仅基本会话模式受此设置约束。</value>
+    <comment>Note: Only the Basic Session Mode is constrainted with this setting.</comment>
+  </data>
+  <data name="RuntimeNoticeText.Text" xml:space="preserve">
+    <value>仅显示可在运行期间修改的设置。</value>
+    <comment>Only settings that can be changed at runtime are shown.</comment>
+  </data>
+  <data name="RuntimeStateFileLabel.Text" xml:space="preserve">
+    <value>运行状态文件</value>
+    <comment>RuntimeStateFile</comment>
+  </data>
+  <data name="RuntimeStateFileTextBox.AutomationProperties.HelpText" xml:space="preserve">
+    <value>虚拟机的运行状态文件路径（可选）。</value>
+    <comment>(Optional) The path of runtime state file for virtual machine.</comment>
+  </data>
+  <data name="RuntimeStateFileTextBox.AutomationProperties.Name" xml:space="preserve">
+    <value>运行状态文件</value>
+    <comment>RuntimeStateFile</comment>
+  </data>
+  <data name="RuntimeStateFileTextBox.ToolTipService.ToolTip" xml:space="preserve">
+    <value>虚拟机的运行状态文件路径（可选）。</value>
+    <comment>(Optional) The path of runtime state file for virtual machine.</comment>
+  </data>
+  <data name="ScsiDeviceDescription.Text" xml:space="preserve">
+    <value>虚拟机 SCSI 设备的设置对象数组。</value>
+    <comment>The SCSI devices setting object array of virtual machine.</comment>
+  </data>
+  <data name="ScsiDevicePathHelp" xml:space="preserve">
+    <value>当前 SCSI 设备的路径。支持相对路径。</value>
+    <comment>The path of the current SCSI device.</comment>
+  </data>
+  <data name="ScsiDevicePathLabel" xml:space="preserve">
+    <value>路径</value>
+    <comment>Path</comment>
+  </data>
+  <data name="ScsiDeviceTitle.Text" xml:space="preserve">
+    <value>SCSI 设备</value>
+    <comment>ScsiDevices</comment>
+  </data>
+  <data name="ScsiDeviceTypeHelp" xml:space="preserve">
+    <value>当前 SCSI 设备的类型。</value>
+    <comment>The type of the current SCSI device.</comment>
+  </data>
+  <data name="ScsiDeviceTypeLabel" xml:space="preserve">
+    <value>类型</value>
+    <comment>Type</comment>
+  </data>
+  <data name="ScsiNote.Text" xml:space="preserve">
+    <value>类型为 VirtualImage 时，可使用 ISO 文件；留空表示弹出虚拟光驱介质。</value>
+    <comment>When type is &quot;VirtualImage&quot;, you can use iso files, and you can make it empty or not set if you want to make a ejected virtual optical drive.</comment>
+  </data>
+  <data name="SecureBootCheckBox.AutomationProperties.HelpText" xml:space="preserve">
+    <value>虚拟机的安全启动设置。</value>
+    <comment>(Optional) The Secure Boot setting of virtual machine.</comment>
+  </data>
+  <data name="SecureBootCheckBox.AutomationProperties.Name" xml:space="preserve">
+    <value>安全启动</value>
+    <comment>SecureBoot</comment>
+  </data>
+  <data name="SecureBootCheckBox.ToolTipService.ToolTip" xml:space="preserve">
+    <value>虚拟机的安全启动设置。</value>
+    <comment>(Optional) The Secure Boot setting of virtual machine.</comment>
+  </data>
+  <data name="SecureBootLabel.Text" xml:space="preserve">
+    <value>安全启动</value>
+    <comment>SecureBoot</comment>
+  </data>
+  <data name="SerialNumberLabel.Text" xml:space="preserve">
+    <value>序列号</value>
+    <comment>SerialNumber</comment>
+  </data>
+  <data name="SerialNumberTextBox.AutomationProperties.HelpText" xml:space="preserve">
+    <value>虚拟机的序列号。</value>
+    <comment>The serial number of virtual machine.</comment>
+  </data>
+  <data name="SerialNumberTextBox.AutomationProperties.Name" xml:space="preserve">
+    <value>序列号</value>
+    <comment>SerialNumber</comment>
+  </data>
+  <data name="SerialNumberTextBox.ToolTipService.ToolTip" xml:space="preserve">
+    <value>虚拟机的序列号。</value>
+    <comment>The serial number of virtual machine.</comment>
+  </data>
+  <data name="ShareNote.Text" xml:space="preserve">
+    <value>注意：启用此选项后，将无法正常挂起虚拟机。</value>
+    <comment>Note: You cannot suspend the virtual machine properly if this option is enabled.</comment>
+  </data>
+  <data name="ShareNote2.Text" xml:space="preserve">
+    <value>注意：启用此选项后，将无法正常挂起虚拟机。</value>
+    <comment>Note: You cannot suspend the virtual machine properly if this option is enabled.</comment>
+  </data>
+  <data name="ShareNote3.Text" xml:space="preserve">
+    <value>注意：启用此选项后，将无法正常挂起虚拟机。</value>
+    <comment>Note: You cannot suspend the virtual machine properly if this option is enabled.</comment>
+  </data>
+  <data name="SKUNumberLabel.Text" xml:space="preserve">
+    <value>SKU 编号</value>
+    <comment>SKUNumber</comment>
+  </data>
+  <data name="SKUNumberTextBox.AutomationProperties.HelpText" xml:space="preserve">
+    <value>虚拟机的 SKU 编号。</value>
+    <comment>The sku number of virtual machine.</comment>
+  </data>
+  <data name="SKUNumberTextBox.AutomationProperties.Name" xml:space="preserve">
+    <value>SKU 编号</value>
+    <comment>SKUNumber</comment>
+  </data>
+  <data name="SKUNumberTextBox.ToolTipService.ToolTip" xml:space="preserve">
+    <value>虚拟机的 SKU 编号。</value>
+    <comment>The sku number of virtual machine.</comment>
+  </data>
+  <data name="StateFilesTitle.Text" xml:space="preserve">
+    <value>状态文件</value>
+    <comment>State Files</comment>
+  </data>
+  <data name="StateNote.Text" xml:space="preserve">
+    <value>注意：支持相对路径。</value>
+    <comment>Note: The relative path is supported.</comment>
+  </data>
+  <data name="StateNote2.Text" xml:space="preserve">
+    <value>注意：支持相对路径。</value>
+    <comment>Note: The relative path is supported.</comment>
   </data>
   <data name="Title" xml:space="preserve">
     <value>虚拟机设置 - NanaBox</value>
     <comment>Virtual Machine Settings - NanaBox</comment>
   </data>
-  <data name="NamedTitle" xml:space="preserve">
-    <value>%s 设置 - NanaBox</value>
-    <comment>%s Settings - NanaBox</comment>
+  <data name="TpmCheckBox.AutomationProperties.HelpText" xml:space="preserve">
+    <value>虚拟机的受信任的平台模块（TPM）设置。</value>
+    <comment>(Optional) The Trusted Platform Module (TPM) setting of virtual machine.</comment>
+  </data>
+  <data name="TpmCheckBox.AutomationProperties.Name" xml:space="preserve">
+    <value>受信任的平台模块（TPM）</value>
+    <comment>Tpm</comment>
+  </data>
+  <data name="TpmCheckBox.ToolTipService.ToolTip" xml:space="preserve">
+    <value>虚拟机的受信任的平台模块（TPM）设置。</value>
+    <comment>(Optional) The Trusted Platform Module (TPM) setting of virtual machine.</comment>
+  </data>
+  <data name="TpmLabel.Text" xml:space="preserve">
+    <value>受信任的平台模块（TPM）</value>
+    <comment>Tpm</comment>
+  </data>
+  <data name="TpmNote.Text" xml:space="preserve">
+    <value>注意：宿主操作系统需要 Windows 11 24H2 或更新版本。</value>
+    <comment>Note: You need Windows 11 Version 24H2 or later Host OS.</comment>
+  </data>
+  <data name="UefiConsoleComboBox.AutomationProperties.HelpText" xml:space="preserve">
+    <value>虚拟机的 UEFI 串口控制台设置。</value>
+    <comment>The UEFI serial console setting of virtual machine.</comment>
+  </data>
+  <data name="UefiConsoleComboBox.AutomationProperties.Name" xml:space="preserve">
+    <value>UEFI 串口控制台</value>
+    <comment>UefiConsole</comment>
+  </data>
+  <data name="UefiConsoleComboBox.ToolTipService.ToolTip" xml:space="preserve">
+    <value>虚拟机的 UEFI 串口控制台设置。</value>
+    <comment>The UEFI serial console setting of virtual machine.</comment>
+  </data>
+  <data name="UefiConsoleLabel.Text" xml:space="preserve">
+    <value>UEFI 串口控制台</value>
+    <comment>UefiConsole</comment>
+  </data>
+  <data name="Unavailable" xml:space="preserve">
+    <value>%s（当前不可用）</value>
+    <comment>%s (not currently available)</comment>
+  </data>
+  <data name="UUIDLabel.Text" xml:space="preserve">
+    <value>UUID</value>
+    <comment>UUID</comment>
+  </data>
+  <data name="UUIDTextBox.AutomationProperties.HelpText" xml:space="preserve">
+    <value>虚拟机的通用唯一标识符。</value>
+    <comment>The universally unique identifier of virtual machine.</comment>
+  </data>
+  <data name="UUIDTextBox.AutomationProperties.Name" xml:space="preserve">
+    <value>UUID</value>
+    <comment>UUID</comment>
+  </data>
+  <data name="UUIDTextBox.ToolTipService.ToolTip" xml:space="preserve">
+    <value>虚拟机的通用唯一标识符。</value>
+    <comment>The universally unique identifier of virtual machine.</comment>
+  </data>
+  <data name="VerticalResolutionLabel.Text" xml:space="preserve">
+    <value>垂直分辨率</value>
+    <comment>VerticalResolution</comment>
+  </data>
+  <data name="VerticalResolutionTextBox.AutomationProperties.HelpText" xml:space="preserve">
+    <value>虚拟机显示器的垂直分辨率（可选）。</value>
+    <comment>(Optional) The vertical resolution of the video monitor of virtual machine.</comment>
+  </data>
+  <data name="VerticalResolutionTextBox.AutomationProperties.Name" xml:space="preserve">
+    <value>垂直分辨率</value>
+    <comment>VerticalResolution</comment>
+  </data>
+  <data name="VerticalResolutionTextBox.ToolTipService.ToolTip" xml:space="preserve">
+    <value>虚拟机显示器的垂直分辨率（可选）。</value>
+    <comment>(Optional) The vertical resolution of the video monitor of virtual machine.</comment>
+  </data>
+  <data name="VideoMonitorTitle.Text" xml:space="preserve">
+    <value>显示器</value>
+    <comment>VideoMonitor</comment>
+  </data>
+  <data name="VirtualizationExtensionsCheckBox.AutomationProperties.HelpText" xml:space="preserve">
+    <value>设为 true 时，向虚拟机公开虚拟化扩展。</value>
+    <comment>(Optional) Expose the virtualization extensions to the virtual machine if set it true.</comment>
+  </data>
+  <data name="VirtualizationExtensionsCheckBox.AutomationProperties.Name" xml:space="preserve">
+    <value>公开虚拟化扩展</value>
+    <comment>ExposeVirtualizationExtensions</comment>
+  </data>
+  <data name="VirtualizationExtensionsCheckBox.ToolTipService.ToolTip" xml:space="preserve">
+    <value>设为 true 时，向虚拟机公开虚拟化扩展。</value>
+    <comment>(Optional) Expose the virtualization extensions to the virtual machine if set it true.</comment>
+  </data>
+  <data name="VirtualizationExtensionsLabel.Text" xml:space="preserve">
+    <value>公开虚拟化扩展</value>
+    <comment>ExposeVirtualizationExtensions</comment>
+  </data>
+  <data name="VirtualSmbShareDescription.Text" xml:space="preserve">
+    <value>虚拟机 Virtual SMB 共享的设置对象数组。</value>
+    <comment>The Virtual SMB shares setting object array of virtual machine.</comment>
+  </data>
+  <data name="VirtualSmbShareNameHelp" xml:space="preserve">
+    <value>此 Virtual SMB 共享的来宾访问名称。</value>
+    <comment>The guest access name of the current Virtual SMB share.</comment>
+  </data>
+  <data name="VirtualSmbShareNameLabel" xml:space="preserve">
+    <value>来宾访问名称</value>
+    <comment>Name</comment>
+  </data>
+  <data name="VirtualSmbSharePathHelp" xml:space="preserve">
+    <value>此 Virtual SMB 共享的宿主路径，支持相对路径。</value>
+    <comment>The host path of the current Virtual SMB share.</comment>
+  </data>
+  <data name="VirtualSmbSharePathLabel" xml:space="preserve">
+    <value>宿主路径</value>
+    <comment>Path</comment>
+  </data>
+  <data name="VirtualSmbShareReadOnlyHelp" xml:space="preserve">
+    <value>设为 true 时，此 Virtual SMB 共享为只读（可选）。</value>
+    <comment>(Optional) Set it true if you want to make the current Virtual SMB share read-only.</comment>
+  </data>
+  <data name="VirtualSmbShareReadOnlyLabel" xml:space="preserve">
+    <value>只读</value>
+    <comment>ReadOnly</comment>
+  </data>
+  <data name="VirtualSmbShareTitle.Text" xml:space="preserve">
+    <value>Virtual SMB 共享</value>
+    <comment>VirtualSmbShares</comment>
+  </data>
+  <data name="ConfigurationFileTypeName" xml:space="preserve">
+    <value>NanaBox 虚拟机配置</value>
+    <comment>NanaBox Virtual Machine Configuration</comment>
+  </data>
+  <data name="SettingsInstructionText" xml:space="preserve">
+    <value>虚拟机设置提示</value>
+    <comment>Virtual Machine Settings Notice</comment>
+  </data>
+  <data name="SettingsContentText" xml:space="preserve">
+    <value>点击确定后会弹出打开方式对话框，你可以选择你喜爱的编辑器去按照配置文件参考文档编辑你的虚拟机配置文件。</value>
+    <comment>The "Open With" dialog will pop up after you clicking "Confirm", you can choose your favorite editor to follow the "Configuration File Reference Documentation" to edit your virtual machine configuration file.</comment>
   </data>
   <data name="CreateTitle" xml:space="preserve">
     <value>创建虚拟机 - NanaBox</value>
@@ -204,5 +1342,17 @@
   <data name="NamedCreateTitle" xml:space="preserve">
     <value>%s 创建虚拟机 - NanaBox</value>
     <comment>%s Create Virtual Machine - NanaBox</comment>
+  </data>
+  <data name="BrowseScsiDevicePath" xml:space="preserve">
+    <value>浏览磁盘或映像文件</value>
+    <comment>Browse for a disk or image file</comment>
+  </data>
+  <data name="VirtualDiskPathTip" xml:space="preserve">
+    <value>请选择 VHD 或 VHDX 虚拟硬盘</value>
+    <comment>Please select a VHD or VHDX virtual hard disk</comment>
+  </data>
+  <data name="VirtualImagePathTip" xml:space="preserve">
+    <value>请选择 ISO 映像</value>
+    <comment>Please select an ISO image</comment>
   </data>
 </root>

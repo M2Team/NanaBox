@@ -3,6 +3,7 @@
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:local="using:NanaBox"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   IsTextScaleFactorEnabled="False"
   mc:Ignorable="d">
@@ -11,21 +12,25 @@
       <RowDefinition Height="Auto" />
       <RowDefinition Height="*" />
     </Grid.RowDefinitions>
-    <Grid Padding="16">
+    <Grid Padding="16,8">
+      <Grid.Background>
+        <SolidColorBrush Opacity="0.2" Color="{ThemeResource SystemChromeHighColor}" />
+      </Grid.Background>
       <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="*" />
         <ColumnDefinition Width="*" />
         <ColumnDefinition Width="*" />
         <ColumnDefinition Width="*" />
         <ColumnDefinition Width="*" />
       </Grid.ColumnDefinitions>
       <Button
+        x:Name="ReloadButton"
         x:Uid="/VirtualMachineSettingsPage/ReloadButton"
+        Grid.Column="0"
         Margin="0,0,8,0"
         HorizontalAlignment="Stretch"
-        VerticalAlignment="Stretch"
+        HorizontalContentAlignment="Center"
         AutomationProperties.Name="[Reload Configuration]"
-        IsEnabled="False">
+        Click="ReloadButtonClick">
         <TextBlock
           x:Uid="/VirtualMachineSettingsPage/ReloadButtonTextBlock"
           Text="[Reload Configuration]"
@@ -37,7 +42,7 @@
         Grid.Column="1"
         Margin="0,0,8,0"
         HorizontalAlignment="Stretch"
-        VerticalAlignment="Stretch"
+        HorizontalContentAlignment="Center"
         AutomationProperties.Name="[Open Virtual Machine Configuration File]"
         Click="OpenButtonClick">
         <TextBlock
@@ -46,25 +51,26 @@
           TextWrapping="Wrap" />
       </Button>
       <Button
+        x:Name="ReferenceButton"
         x:Uid="/VirtualMachineSettingsPage/ReferenceButton"
         Grid.Column="2"
         Margin="0,0,8,0"
         HorizontalAlignment="Stretch"
-        VerticalAlignment="Stretch"
-        AutomationProperties.Name="[Configuration File Reference]"
+        HorizontalContentAlignment="Center"
+        AutomationProperties.Name="[Configuration File Reference Documentation]"
         Click="ReferenceButtonClick">
         <TextBlock
           x:Uid="/VirtualMachineSettingsPage/ReferenceButtonTextBlock"
-          Text="[Configuration File Reference]"
+          Text="[Configuration File Reference Documentation]"
           TextWrapping="Wrap" />
       </Button>
       <Button
         x:Name="ApplyButton"
         x:Uid="/VirtualMachineSettingsPage/ApplyButton"
         Grid.Column="3"
-        Margin="0,0,8,0"
+        Margin="0,0,0,0"
         HorizontalAlignment="Stretch"
-        VerticalAlignment="Stretch"
+        HorizontalContentAlignment="Center"
         AutomationProperties.Name="[Apply Changes]"
         Click="ApplyButtonClick">
         <TextBlock
@@ -72,19 +78,1302 @@
           Text="[Apply Changes]"
           TextWrapping="Wrap" />
       </Button>
-      <Button
-        x:Name="CreateButton"
-        x:Uid="/VirtualMachineSettingsPage/CreateButton"
-        Grid.Column="4"
-        HorizontalAlignment="Stretch"
-        VerticalAlignment="Stretch"
-        AutomationProperties.Name="[Create Virtual Machine]"
-        Click="CreateButtonClick">
-        <TextBlock
-          x:Uid="/VirtualMachineSettingsPage/CreateButtonTextBlock"
-          Text="[Create Virtual Machine]"
-          TextWrapping="Wrap" />
-      </Button>
     </Grid>
+    <ScrollViewer
+      Grid.Row="1"
+      HorizontalScrollBarVisibility="Disabled"
+      VerticalScrollBarVisibility="Auto">
+      <StackPanel Padding="16,4,16,16" Spacing="4">
+        <TextBlock
+          x:Name="RuntimeNotice"
+          x:Uid="/VirtualMachineSettingsPage/RuntimeNoticeText"
+          Text="[Only settings that can be changed at runtime are shown.]"
+          TextWrapping="Wrap" />
+        <TextBlock
+          x:Uid="/VirtualMachineSettingsPage/GeneralTitle"
+          Margin="0,8,0,0"
+          FontSize="16"
+          FontWeight="SemiBold"
+          Text="[General]" />
+        <StackPanel x:Name="NameRow" Spacing="4">
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="200" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+              x:Uid="/VirtualMachineSettingsPage/NameLabel"
+              Margin="0,0,12,0"
+              VerticalAlignment="Center"
+              Text="[Name]"
+              TextWrapping="Wrap" />
+            <TextBox
+              x:Name="NameTextBox"
+              x:Uid="/VirtualMachineSettingsPage/NameTextBox"
+              Grid.Column="1"
+              HorizontalAlignment="Stretch"
+              AutomationProperties.HelpText="[The unique name of virtual machine.]"
+              AutomationProperties.Name="[Name]"
+              ToolTipService.ToolTip="[The unique name of virtual machine.]" />
+          </Grid>
+        </StackPanel>
+        <StackPanel x:Name="ProcessorCountRow" Spacing="4">
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="200" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+              x:Uid="/VirtualMachineSettingsPage/ProcessorCountLabel"
+              Margin="0,0,12,0"
+              VerticalAlignment="Center"
+              Text="[ProcessorCount]"
+              TextWrapping="Wrap" />
+            <TextBox
+              x:Name="ProcessorCountTextBox"
+              x:Uid="/VirtualMachineSettingsPage/ProcessorCountTextBox"
+              Grid.Column="1"
+              Width="120"
+              HorizontalAlignment="Left"
+              AutomationProperties.HelpText="[The processor count of virtual machine, in cores.]"
+              AutomationProperties.Name="[ProcessorCount]"
+              ToolTipService.ToolTip="[The processor count of virtual machine, in cores.]" />
+          </Grid>
+        </StackPanel>
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <TextBlock
+            x:Uid="/VirtualMachineSettingsPage/MemorySizeLabel"
+            Margin="0,0,12,0"
+            VerticalAlignment="Center"
+            Text="[MemorySize (MB)]"
+            TextWrapping="Wrap" />
+          <TextBox
+            x:Name="MemorySizeTextBox"
+            x:Uid="/VirtualMachineSettingsPage/MemorySizeTextBox"
+            Grid.Column="1"
+            Width="120"
+            HorizontalAlignment="Left"
+            AutomationProperties.HelpText="[The memory size of virtual machine, in MB.]"
+            AutomationProperties.Name="[MemorySize (MB)]"
+            ToolTipService.ToolTip="[The memory size of virtual machine, in MB.]" />
+        </Grid>
+        <StackPanel x:Name="SecureBootRow" Spacing="4">
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="200" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+              x:Uid="/VirtualMachineSettingsPage/SecureBootLabel"
+              Margin="0,0,12,0"
+              VerticalAlignment="Center"
+              Text="[SecureBoot]"
+              TextWrapping="Wrap" />
+            <CheckBox
+              x:Name="SecureBootCheckBox"
+              x:Uid="/VirtualMachineSettingsPage/SecureBootCheckBox"
+              Grid.Column="1"
+              HorizontalAlignment="Left"
+              AutomationProperties.HelpText="[(Optional) The Secure Boot setting of virtual machine.]"
+              AutomationProperties.Name="[SecureBoot]"
+              ToolTipService.ToolTip="[(Optional) The Secure Boot setting of virtual machine.]" />
+          </Grid>
+        </StackPanel>
+        <StackPanel x:Name="TpmRow" Spacing="4">
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="200" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+              x:Uid="/VirtualMachineSettingsPage/TpmLabel"
+              Margin="0,0,12,0"
+              VerticalAlignment="Center"
+              Text="[Tpm]"
+              TextWrapping="Wrap" />
+            <CheckBox
+              x:Name="TpmCheckBox"
+              x:Uid="/VirtualMachineSettingsPage/TpmCheckBox"
+              Grid.Column="1"
+              HorizontalAlignment="Left"
+              AutomationProperties.HelpText="[(Optional) The Trusted Platform Module (TPM) setting of virtual machine.]"
+              AutomationProperties.Name="[Tpm]"
+              ToolTipService.ToolTip="[(Optional) The Trusted Platform Module (TPM) setting of virtual machine.]" />
+          </Grid>
+          <TextBlock
+            x:Uid="/VirtualMachineSettingsPage/TpmNote"
+            FontSize="12"
+            Opacity="0.75"
+            Text="[Note: You need Windows 11 Version 24H2 or later Host OS.]"
+            TextWrapping="Wrap" />
+        </StackPanel>
+        <StackPanel x:Name="VirtualizationExtensionsRow" Spacing="4">
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="200" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+              x:Uid="/VirtualMachineSettingsPage/VirtualizationExtensionsLabel"
+              Margin="0,0,12,0"
+              VerticalAlignment="Center"
+              Text="[ExposeVirtualizationExtensions]"
+              TextWrapping="Wrap" />
+            <CheckBox
+              x:Name="VirtualizationExtensionsCheckBox"
+              x:Uid="/VirtualMachineSettingsPage/VirtualizationExtensionsCheckBox"
+              Grid.Column="1"
+              HorizontalAlignment="Left"
+              AutomationProperties.HelpText="[(Optional) Expose the virtualization extensions to the virtual machine if set it true.]"
+              AutomationProperties.Name="[ExposeVirtualizationExtensions]"
+              ToolTipService.ToolTip="[(Optional) Expose the virtualization extensions to the virtual machine if set it true.]" />
+          </Grid>
+        </StackPanel>
+        <TextBlock
+          x:Uid="/VirtualMachineSettingsPage/ComPortsTitle"
+          Margin="0,8,0,0"
+          FontSize="16"
+          FontWeight="SemiBold"
+          Text="[ComPorts]" />
+        <StackPanel x:Name="UefiConsoleRow" Spacing="4">
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="200" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+              x:Uid="/VirtualMachineSettingsPage/UefiConsoleLabel"
+              Margin="0,0,12,0"
+              VerticalAlignment="Center"
+              Text="[UefiConsole]"
+              TextWrapping="Wrap" />
+            <ComboBox
+              x:Name="UefiConsoleComboBox"
+              x:Uid="/VirtualMachineSettingsPage/UefiConsoleComboBox"
+              Grid.Column="1"
+              MinWidth="120"
+              HorizontalAlignment="Left"
+              AutomationProperties.HelpText="[The UEFI serial console setting of virtual machine.]"
+              AutomationProperties.Name="[UefiConsole]"
+              ToolTipService.ToolTip="[The UEFI serial console setting of virtual machine.]">
+              <ComboBoxItem x:Uid="/VirtualMachineSettingsPage/ChoiceDisabledItem" Content="Disabled" />
+              <ComboBoxItem x:Uid="/VirtualMachineSettingsPage/ChoiceDefaultItem" Content="Default" />
+              <ComboBoxItem x:Uid="/VirtualMachineSettingsPage/ChoiceComPort1Item" Content="ComPort1" />
+              <ComboBoxItem x:Uid="/VirtualMachineSettingsPage/ChoiceComPort2Item" Content="ComPort2" />
+            </ComboBox>
+          </Grid>
+        </StackPanel>
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <TextBlock
+            x:Uid="/VirtualMachineSettingsPage/ComPort1Label"
+            Margin="0,0,12,0"
+            VerticalAlignment="Center"
+            Text="[ComPort1]"
+            TextWrapping="Wrap" />
+          <TextBox
+            x:Name="ComPort1TextBox"
+            x:Uid="/VirtualMachineSettingsPage/ComPort1TextBox"
+            Grid.Column="1"
+            HorizontalAlignment="Stretch"
+            AutomationProperties.HelpText="[(Optional) The named pipe path of guest COM1 of virtual machine.]"
+            AutomationProperties.Name="[ComPort1]"
+            ToolTipService.ToolTip="[(Optional) The named pipe path of guest COM1 of virtual machine.]" />
+        </Grid>
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <TextBlock
+            x:Uid="/VirtualMachineSettingsPage/ComPort2Label"
+            Margin="0,0,12,0"
+            VerticalAlignment="Center"
+            Text="[ComPort2]"
+            TextWrapping="Wrap" />
+          <TextBox
+            x:Name="ComPort2TextBox"
+            x:Uid="/VirtualMachineSettingsPage/ComPort2TextBox"
+            Grid.Column="1"
+            HorizontalAlignment="Stretch"
+            AutomationProperties.HelpText="[(Optional) The named pipe path of guest COM2 of virtual machine.]"
+            AutomationProperties.Name="[ComPort2]"
+            ToolTipService.ToolTip="[(Optional) The named pipe path of guest COM2 of virtual machine.]" />
+        </Grid>
+        <TextBlock
+          x:Uid="/VirtualMachineSettingsPage/StateNote"
+          FontSize="12"
+          Opacity="0.75"
+          Text="[Note: The relative path is supported.]"
+          TextWrapping="Wrap" />
+        <TextBlock
+          x:Uid="/VirtualMachineSettingsPage/GpuTitle"
+          Margin="0,8,0,0"
+          FontSize="16"
+          FontWeight="SemiBold"
+          Text="[Gpu]" />
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <TextBlock
+            x:Uid="/VirtualMachineSettingsPage/AssignmentModeLabel"
+            Margin="0,0,12,0"
+            VerticalAlignment="Center"
+            Text="[AssignmentMode]"
+            TextWrapping="Wrap" />
+          <ComboBox
+            x:Name="AssignmentModeComboBox"
+            x:Uid="/VirtualMachineSettingsPage/AssignmentModeComboBox"
+            Grid.Column="1"
+            MinWidth="120"
+            HorizontalAlignment="Left"
+            AutomationProperties.HelpText="[The GPU assignment mode setting of virtual machine.]"
+            AutomationProperties.Name="[AssignmentMode]"
+            ToolTipService.ToolTip="[The GPU assignment mode setting of virtual machine.]">
+            <ComboBoxItem x:Uid="/VirtualMachineSettingsPage/ChoiceDisabledItem2" Content="Disabled" />
+            <ComboBoxItem x:Uid="/VirtualMachineSettingsPage/ChoiceDefaultItem2" Content="Default" />
+            <ComboBoxItem x:Uid="/VirtualMachineSettingsPage/ChoiceListItem" Content="List" />
+            <ComboBoxItem x:Uid="/VirtualMachineSettingsPage/ChoiceMirrorItem" Content="Mirror" />
+          </ComboBox>
+        </Grid>
+        <StackPanel x:Name="EnableHostDriverStoreRow" Spacing="4">
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="200" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+              x:Uid="/VirtualMachineSettingsPage/EnableHostDriverStoreLabel"
+              Margin="0,0,12,0"
+              VerticalAlignment="Center"
+              Text="[EnableHostDriverStore]"
+              TextWrapping="Wrap" />
+            <CheckBox
+              x:Name="EnableHostDriverStoreCheckBox"
+              x:Uid="/VirtualMachineSettingsPage/EnableHostDriverStoreCheckBox"
+              Grid.Column="1"
+              HorizontalAlignment="Left"
+              AutomationProperties.HelpText="[(Optional) Set it true if you want to enable readonly Plan 9 and Virtual SMB shares for several GPU-PV (paravirtualization) related folders from the Host OS.]"
+              AutomationProperties.Name="[EnableHostDriverStore]"
+              ToolTipService.ToolTip="[(Optional) Set it true if you want to enable readonly Plan 9 and Virtual SMB shares for several GPU-PV (paravirtualization) related folders from the Host OS.]" />
+          </Grid>
+          <TextBlock
+            x:Uid="/VirtualMachineSettingsPage/ShareNote"
+            FontSize="12"
+            Opacity="0.75"
+            Text="[Note: You cannot suspend the virtual machine properly if this option is enabled.]"
+            TextWrapping="Wrap" />
+        </StackPanel>
+        <TextBlock
+          x:Uid="/VirtualMachineSettingsPage/GpuDeviceTitle"
+          Margin="0,8,0,0"
+          FontSize="16"
+          FontWeight="SemiBold"
+          Text="[SelectedDevices]" />
+        <TextBlock
+          x:Uid="/VirtualMachineSettingsPage/GpuDeviceDescription"
+          FontSize="12"
+          Opacity="0.75"
+          Text="[(Optional) The string or object array of selected GPUs used for virtual machine. Set as the object with &quot;DeviceInterface&quot; and &quot;PartitionId&quot; for the specific GPU instance if you want to use GPU-P (partitioning) mode, or set as the string which contains &quot;DeviceInterface&quot; for using GPU-PV (paravirtualization) mode.]"
+          TextWrapping="Wrap" />
+        <StackPanel x:Name="GpuDevicePanel" Spacing="4" />
+        <Button
+          x:Name="AddGpuDeviceButton"
+          x:Uid="/VirtualMachineSettingsPage/AddGpuDeviceButton"
+          Click="AddGpuDeviceButtonClick"
+          Content="[Add]" />
+        <TextBlock
+          x:Uid="/VirtualMachineSettingsPage/NetworkAdapterTitle"
+          Margin="0,8,0,0"
+          FontSize="16"
+          FontWeight="SemiBold"
+          Text="[NetworkAdapters]" />
+        <TextBlock
+          x:Uid="/VirtualMachineSettingsPage/NetworkAdapterDescription"
+          FontSize="12"
+          Opacity="0.75"
+          Text="[The network adapters setting object array of virtual machine.]"
+          TextWrapping="Wrap" />
+        <StackPanel x:Name="NetworkAdapterPanel" Spacing="4" />
+        <Button
+          x:Name="AddNetworkAdapterButton"
+          x:Uid="/VirtualMachineSettingsPage/AddNetworkAdapterButton"
+          Click="AddNetworkAdapterButtonClick"
+          Content="[Add]" />
+        <TextBlock
+          x:Uid="/VirtualMachineSettingsPage/NetworkNote"
+          FontSize="12"
+          Opacity="0.75"
+          Text="[Note: Default behavior is use the default switch.]"
+          TextWrapping="Wrap" />
+        <TextBlock
+          x:Uid="/VirtualMachineSettingsPage/ScsiDeviceTitle"
+          Margin="0,8,0,0"
+          FontSize="16"
+          FontWeight="SemiBold"
+          Text="[ScsiDevices]" />
+        <TextBlock
+          x:Uid="/VirtualMachineSettingsPage/ScsiDeviceDescription"
+          FontSize="12"
+          Opacity="0.75"
+          Text="[The SCSI devices setting object array of virtual machine.]"
+          TextWrapping="Wrap" />
+        <StackPanel x:Name="ScsiDevicePanel" Spacing="4" />
+        <Button
+          x:Name="AddScsiDeviceButton"
+          x:Uid="/VirtualMachineSettingsPage/AddScsiDeviceButton"
+          Click="AddScsiDeviceButtonClick"
+          Content="[Add]" />
+        <TextBlock
+          x:Uid="/VirtualMachineSettingsPage/ScsiNote"
+          FontSize="12"
+          Opacity="0.75"
+          Text="[When type is &quot;VirtualImage&quot;, you can use iso files, and you can make it empty or not set if you want to make a ejected virtual optical drive.]"
+          TextWrapping="Wrap" />
+        <StackPanel x:Name="StateFilesSection" Spacing="4">
+          <TextBlock
+            x:Uid="/VirtualMachineSettingsPage/StateFilesTitle"
+            Margin="0,8,0,0"
+            FontSize="16"
+            FontWeight="SemiBold"
+            Text="[State Files]" />
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="200" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+              x:Uid="/VirtualMachineSettingsPage/GuestStateFileLabel"
+              Margin="0,0,12,0"
+              VerticalAlignment="Center"
+              Text="[GuestStateFile]"
+              TextWrapping="Wrap" />
+            <TextBox
+              x:Name="GuestStateFileTextBox"
+              x:Uid="/VirtualMachineSettingsPage/GuestStateFileTextBox"
+              Grid.Column="1"
+              HorizontalAlignment="Stretch"
+              AutomationProperties.HelpText="[(Optional) The path of guest state file for virtual machine.]"
+              AutomationProperties.Name="[GuestStateFile]"
+              ToolTipService.ToolTip="[(Optional) The path of guest state file for virtual machine.]" />
+          </Grid>
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="200" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+              x:Uid="/VirtualMachineSettingsPage/RuntimeStateFileLabel"
+              Margin="0,0,12,0"
+              VerticalAlignment="Center"
+              Text="[RuntimeStateFile]"
+              TextWrapping="Wrap" />
+            <TextBox
+              x:Name="RuntimeStateFileTextBox"
+              x:Uid="/VirtualMachineSettingsPage/RuntimeStateFileTextBox"
+              Grid.Column="1"
+              HorizontalAlignment="Stretch"
+              AutomationProperties.HelpText="[(Optional) The path of runtime state file for virtual machine.]"
+              AutomationProperties.Name="[RuntimeStateFile]"
+              ToolTipService.ToolTip="[(Optional) The path of runtime state file for virtual machine.]" />
+          </Grid>
+          <TextBlock
+            x:Uid="/VirtualMachineSettingsPage/StateNote2"
+            FontSize="12"
+            Opacity="0.75"
+            Text="[Note: The relative path is supported.]"
+            TextWrapping="Wrap" />
+        </StackPanel>
+        <TextBlock
+          x:Uid="/VirtualMachineSettingsPage/KeyboardTitle"
+          Margin="0,8,0,0"
+          FontSize="16"
+          FontWeight="SemiBold"
+          Text="[Keyboard]" />
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <TextBlock
+            x:Uid="/VirtualMachineSettingsPage/RedirectKeyCombinationsLabel"
+            Margin="0,0,12,0"
+            VerticalAlignment="Center"
+            Text="[RedirectKeyCombinations]"
+            TextWrapping="Wrap" />
+          <CheckBox
+            x:Name="RedirectKeyCombinationsCheckBox"
+            x:Uid="/VirtualMachineSettingsPage/RedirectKeyCombinationsCheckBox"
+            Grid.Column="1"
+            HorizontalAlignment="Left"
+            AutomationProperties.HelpText="[(Optional) Apply key combinations at the virtual machine if set it true, or apply key combinations to the virtual machine only when the host is running in full-screen mode.]"
+            AutomationProperties.Name="[RedirectKeyCombinations]"
+            ToolTipService.ToolTip="[(Optional) Apply key combinations at the virtual machine if set it true, or apply key combinations to the virtual machine only when the host is running in full-screen mode.]" />
+        </Grid>
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <TextBlock
+            x:Uid="/VirtualMachineSettingsPage/FullScreenHotkeyLabel"
+            Margin="0,0,12,0"
+            VerticalAlignment="Center"
+            Text="[FullScreenHotkey]"
+            TextWrapping="Wrap" />
+          <TextBox
+            x:Name="FullScreenHotkeyTextBox"
+            x:Uid="/VirtualMachineSettingsPage/FullScreenHotkeyTextBox"
+            Grid.Column="1"
+            Width="120"
+            HorizontalAlignment="Left"
+            AutomationProperties.HelpText="[(Optional) Specifies the virtual-key code to add to CTRL+ALT to determine the hotkey replacement for switching to full-screen mode.]"
+            AutomationProperties.Name="[FullScreenHotkey]"
+            ToolTipService.ToolTip="[(Optional) Specifies the virtual-key code to add to CTRL+ALT to determine the hotkey replacement for switching to full-screen mode.]" />
+        </Grid>
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <TextBlock
+            x:Uid="/VirtualMachineSettingsPage/CtrlEscHotkeyLabel"
+            Margin="0,0,12,0"
+            VerticalAlignment="Center"
+            Text="[CtrlEscHotkey]"
+            TextWrapping="Wrap" />
+          <TextBox
+            x:Name="CtrlEscHotkeyTextBox"
+            x:Uid="/VirtualMachineSettingsPage/CtrlEscHotkeyTextBox"
+            Grid.Column="1"
+            Width="120"
+            HorizontalAlignment="Left"
+            AutomationProperties.HelpText="[(Optional) Specifies the virtual-key code to add to ALT to determine the hotkey replacement for CTRL+ESC.]"
+            AutomationProperties.Name="[CtrlEscHotkey]"
+            ToolTipService.ToolTip="[(Optional) Specifies the virtual-key code to add to ALT to determine the hotkey replacement for CTRL+ESC.]" />
+        </Grid>
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <TextBlock
+            x:Uid="/VirtualMachineSettingsPage/AltEscHotkeyLabel"
+            Margin="0,0,12,0"
+            VerticalAlignment="Center"
+            Text="[AltEscHotkey]"
+            TextWrapping="Wrap" />
+          <TextBox
+            x:Name="AltEscHotkeyTextBox"
+            x:Uid="/VirtualMachineSettingsPage/AltEscHotkeyTextBox"
+            Grid.Column="1"
+            Width="120"
+            HorizontalAlignment="Left"
+            AutomationProperties.HelpText="[(Optional) Specifies the virtual-key code to add to ALT to determine the hotkey replacement for ALT+ESC.]"
+            AutomationProperties.Name="[AltEscHotkey]"
+            ToolTipService.ToolTip="[(Optional) Specifies the virtual-key code to add to ALT to determine the hotkey replacement for ALT+ESC.]" />
+        </Grid>
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <TextBlock
+            x:Uid="/VirtualMachineSettingsPage/AltTabHotkeyLabel"
+            Margin="0,0,12,0"
+            VerticalAlignment="Center"
+            Text="[AltTabHotkey]"
+            TextWrapping="Wrap" />
+          <TextBox
+            x:Name="AltTabHotkeyTextBox"
+            x:Uid="/VirtualMachineSettingsPage/AltTabHotkeyTextBox"
+            Grid.Column="1"
+            Width="120"
+            HorizontalAlignment="Left"
+            AutomationProperties.HelpText="[(Optional) Specifies the virtual-key code to add to ALT to determine the hotkey replacement for ALT+TAB.]"
+            AutomationProperties.Name="[AltTabHotkey]"
+            ToolTipService.ToolTip="[(Optional) Specifies the virtual-key code to add to ALT to determine the hotkey replacement for ALT+TAB.]" />
+        </Grid>
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <TextBlock
+            x:Uid="/VirtualMachineSettingsPage/AltShiftTabHotkeyLabel"
+            Margin="0,0,12,0"
+            VerticalAlignment="Center"
+            Text="[AltShiftTabHotkey]"
+            TextWrapping="Wrap" />
+          <TextBox
+            x:Name="AltShiftTabHotkeyTextBox"
+            x:Uid="/VirtualMachineSettingsPage/AltShiftTabHotkeyTextBox"
+            Grid.Column="1"
+            Width="120"
+            HorizontalAlignment="Left"
+            AutomationProperties.HelpText="[(Optional) Specifies the virtual-key code to add to ALT to determine the hotkey replacement for ALT+SHIFT+TAB.]"
+            AutomationProperties.Name="[AltShiftTabHotkey]"
+            ToolTipService.ToolTip="[(Optional) Specifies the virtual-key code to add to ALT to determine the hotkey replacement for ALT+SHIFT+TAB.]" />
+        </Grid>
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <TextBlock
+            x:Uid="/VirtualMachineSettingsPage/AltSpaceHotkeyLabel"
+            Margin="0,0,12,0"
+            VerticalAlignment="Center"
+            Text="[AltSpaceHotkey]"
+            TextWrapping="Wrap" />
+          <TextBox
+            x:Name="AltSpaceHotkeyTextBox"
+            x:Uid="/VirtualMachineSettingsPage/AltSpaceHotkeyTextBox"
+            Grid.Column="1"
+            Width="120"
+            HorizontalAlignment="Left"
+            AutomationProperties.HelpText="[(Optional) Specifies the virtual-key code to add to ALT to determine the hotkey replacement for ALT+SPACE.]"
+            AutomationProperties.Name="[AltSpaceHotkey]"
+            ToolTipService.ToolTip="[(Optional) Specifies the virtual-key code to add to ALT to determine the hotkey replacement for ALT+SPACE.]" />
+        </Grid>
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <TextBlock
+            x:Uid="/VirtualMachineSettingsPage/CtrlAltDelHotkeyLabel"
+            Margin="0,0,12,0"
+            VerticalAlignment="Center"
+            Text="[CtrlAltDelHotkey]"
+            TextWrapping="Wrap" />
+          <TextBox
+            x:Name="CtrlAltDelHotkeyTextBox"
+            x:Uid="/VirtualMachineSettingsPage/CtrlAltDelHotkeyTextBox"
+            Grid.Column="1"
+            Width="120"
+            HorizontalAlignment="Left"
+            AutomationProperties.HelpText="[(Optional) Specifies the virtual-key code to add to CTRL+ALT to determine the hotkey replacement for CTRL+ALT+DELETE, also called the secure attention sequence (SAS).]"
+            AutomationProperties.Name="[CtrlAltDelHotkey]"
+            ToolTipService.ToolTip="[(Optional) Specifies the virtual-key code to add to CTRL+ALT to determine the hotkey replacement for CTRL+ALT+DELETE, also called the secure attention sequence (SAS).]" />
+        </Grid>
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <TextBlock
+            x:Uid="/VirtualMachineSettingsPage/FocusReleaseLeftHotkeyLabel"
+            Margin="0,0,12,0"
+            VerticalAlignment="Center"
+            Text="[FocusReleaseLeftHotkey]"
+            TextWrapping="Wrap" />
+          <TextBox
+            x:Name="FocusReleaseLeftHotkeyTextBox"
+            x:Uid="/VirtualMachineSettingsPage/FocusReleaseLeftHotkeyTextBox"
+            Grid.Column="1"
+            Width="120"
+            HorizontalAlignment="Left"
+            AutomationProperties.HelpText="[(Optional) Specifies the virtual-key code to add to Ctrl+Alt to determine the hotkey replacement for Ctrl+Alt+Left Arrow.]"
+            AutomationProperties.Name="[FocusReleaseLeftHotkey]"
+            ToolTipService.ToolTip="[(Optional) Specifies the virtual-key code to add to Ctrl+Alt to determine the hotkey replacement for Ctrl+Alt+Left Arrow.]" />
+        </Grid>
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <TextBlock
+            x:Uid="/VirtualMachineSettingsPage/FocusReleaseRightHotkeyLabel"
+            Margin="0,0,12,0"
+            VerticalAlignment="Center"
+            Text="[FocusReleaseRightHotkey]"
+            TextWrapping="Wrap" />
+          <TextBox
+            x:Name="FocusReleaseRightHotkeyTextBox"
+            x:Uid="/VirtualMachineSettingsPage/FocusReleaseRightHotkeyTextBox"
+            Grid.Column="1"
+            Width="120"
+            HorizontalAlignment="Left"
+            AutomationProperties.HelpText="[(Optional) Specifies the virtual-key code to add to Ctrl+Alt to determine the hotkey replacement for Ctrl+Alt+Right Arrow.]"
+            AutomationProperties.Name="[FocusReleaseRightHotkey]"
+            ToolTipService.ToolTip="[(Optional) Specifies the virtual-key code to add to Ctrl+Alt to determine the hotkey replacement for Ctrl+Alt+Right Arrow.]" />
+        </Grid>
+        <TextBlock
+          x:Uid="/VirtualMachineSettingsPage/KeyboardNote"
+          FontSize="12"
+          Opacity="0.75"
+          Text="[Note: You need to use the decimal value of the virtual-key code.]"
+          TextWrapping="Wrap" />
+        <TextBlock
+          x:Uid="/VirtualMachineSettingsPage/EnhancedSessionTitle"
+          Margin="0,8,0,0"
+          FontSize="16"
+          FontWeight="SemiBold"
+          Text="[EnhancedSession]" />
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <TextBlock
+            x:Uid="/VirtualMachineSettingsPage/RedirectAudioLabel"
+            Margin="0,0,12,0"
+            VerticalAlignment="Center"
+            Text="[RedirectAudio]"
+            TextWrapping="Wrap" />
+          <CheckBox
+            x:Name="RedirectAudioCheckBox"
+            x:Uid="/VirtualMachineSettingsPage/RedirectAudioCheckBox"
+            Grid.Column="1"
+            HorizontalAlignment="Left"
+            AutomationProperties.HelpText="[(Optional) Redirect sounds from the virtual machine to the host if set it true.]"
+            AutomationProperties.Name="[RedirectAudio]"
+            ToolTipService.ToolTip="[(Optional) Redirect sounds from the virtual machine to the host if set it true.]" />
+        </Grid>
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <TextBlock
+            x:Uid="/VirtualMachineSettingsPage/RedirectAudioCaptureLabel"
+            Margin="0,0,12,0"
+            VerticalAlignment="Center"
+            Text="[RedirectAudioCapture]"
+            TextWrapping="Wrap" />
+          <CheckBox
+            x:Name="RedirectAudioCaptureCheckBox"
+            x:Uid="/VirtualMachineSettingsPage/RedirectAudioCaptureCheckBox"
+            Grid.Column="1"
+            HorizontalAlignment="Left"
+            AutomationProperties.HelpText="[(Optional) Redirect audio capture from the host to the virtual machine if set it true.]"
+            AutomationProperties.Name="[RedirectAudioCapture]"
+            ToolTipService.ToolTip="[(Optional) Redirect audio capture from the host to the virtual machine if set it true.]" />
+        </Grid>
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <TextBlock
+            x:Uid="/VirtualMachineSettingsPage/RedirectDrivesLabel"
+            Margin="0,0,12,0"
+            VerticalAlignment="Center"
+            Text="[RedirectDrives]"
+            TextWrapping="Wrap" />
+          <CheckBox
+            x:Name="RedirectDrivesCheckBox"
+            x:Uid="/VirtualMachineSettingsPage/RedirectDrivesCheckBox"
+            Grid.Column="1"
+            HorizontalAlignment="Left"
+            AutomationProperties.HelpText="[(Optional) Redirect all disk drives from the host to the virtual machine if set it true.]"
+            AutomationProperties.Name="[RedirectDrives]"
+            ToolTipService.ToolTip="[(Optional) Redirect all disk drives from the host to the virtual machine if set it true.]" />
+        </Grid>
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <TextBlock
+            x:Uid="/VirtualMachineSettingsPage/RedirectPrintersLabel"
+            Margin="0,0,12,0"
+            VerticalAlignment="Center"
+            Text="[RedirectPrinters]"
+            TextWrapping="Wrap" />
+          <CheckBox
+            x:Name="RedirectPrintersCheckBox"
+            x:Uid="/VirtualMachineSettingsPage/RedirectPrintersCheckBox"
+            Grid.Column="1"
+            HorizontalAlignment="Left"
+            AutomationProperties.HelpText="[(Optional) Redirect all printers from the host to the virtual machine if set it true.]"
+            AutomationProperties.Name="[RedirectPrinters]"
+            ToolTipService.ToolTip="[(Optional) Redirect all printers from the host to the virtual machine if set it true.]" />
+        </Grid>
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <TextBlock
+            x:Uid="/VirtualMachineSettingsPage/RedirectPortsLabel"
+            Margin="0,0,12,0"
+            VerticalAlignment="Center"
+            Text="[RedirectPorts]"
+            TextWrapping="Wrap" />
+          <CheckBox
+            x:Name="RedirectPortsCheckBox"
+            x:Uid="/VirtualMachineSettingsPage/RedirectPortsCheckBox"
+            Grid.Column="1"
+            HorizontalAlignment="Left"
+            AutomationProperties.HelpText="[(Optional) Redirect all local ports (for example, COM and LPT) from the host to the virtual machine if set it true.]"
+            AutomationProperties.Name="[RedirectPorts]"
+            ToolTipService.ToolTip="[(Optional) Redirect all local ports (for example, COM and LPT) from the host to the virtual machine if set it true.]" />
+        </Grid>
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <TextBlock
+            x:Uid="/VirtualMachineSettingsPage/RedirectSmartCardsLabel"
+            Margin="0,0,12,0"
+            VerticalAlignment="Center"
+            Text="[RedirectSmartCards]"
+            TextWrapping="Wrap" />
+          <CheckBox
+            x:Name="RedirectSmartCardsCheckBox"
+            x:Uid="/VirtualMachineSettingsPage/RedirectSmartCardsCheckBox"
+            Grid.Column="1"
+            HorizontalAlignment="Left"
+            AutomationProperties.HelpText="[(Optional) Redirect all smart cards from the host to the virtual machine if set it true.]"
+            AutomationProperties.Name="[RedirectSmartCards]"
+            ToolTipService.ToolTip="[(Optional) Redirect all smart cards from the host to the virtual machine if set it true.]" />
+        </Grid>
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <TextBlock
+            x:Uid="/VirtualMachineSettingsPage/RedirectClipboardLabel"
+            Margin="0,0,12,0"
+            VerticalAlignment="Center"
+            Text="[RedirectClipboard]"
+            TextWrapping="Wrap" />
+          <CheckBox
+            x:Name="RedirectClipboardCheckBox"
+            x:Uid="/VirtualMachineSettingsPage/RedirectClipboardCheckBox"
+            Grid.Column="1"
+            HorizontalAlignment="Left"
+            AutomationProperties.HelpText="[(Optional) Redirect clipboard from the host to the virtual machine if set it true.]"
+            AutomationProperties.Name="[RedirectClipboard]"
+            ToolTipService.ToolTip="[(Optional) Redirect clipboard from the host to the virtual machine if set it true.]" />
+        </Grid>
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <TextBlock
+            x:Uid="/VirtualMachineSettingsPage/RedirectDevicesLabel"
+            Margin="0,0,12,0"
+            VerticalAlignment="Center"
+            Text="[RedirectDevices]"
+            TextWrapping="Wrap" />
+          <CheckBox
+            x:Name="RedirectDevicesCheckBox"
+            x:Uid="/VirtualMachineSettingsPage/RedirectDevicesCheckBox"
+            Grid.Column="1"
+            HorizontalAlignment="Left"
+            AutomationProperties.HelpText="[(Optional) Redirect all devices from the host to the virtual machine if set it true.]"
+            AutomationProperties.Name="[RedirectDevices]"
+            ToolTipService.ToolTip="[(Optional) Redirect all devices from the host to the virtual machine if set it true.]" />
+        </Grid>
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <TextBlock
+            x:Uid="/VirtualMachineSettingsPage/RedirectPOSDevicesLabel"
+            Margin="0,0,12,0"
+            VerticalAlignment="Center"
+            Text="[RedirectPOSDevices]"
+            TextWrapping="Wrap" />
+          <CheckBox
+            x:Name="RedirectPOSDevicesCheckBox"
+            x:Uid="/VirtualMachineSettingsPage/RedirectPOSDevicesCheckBox"
+            Grid.Column="1"
+            HorizontalAlignment="Left"
+            AutomationProperties.HelpText="[(Optional) Redirect all Point of Service devices from the host to the virtual machine if set it true.]"
+            AutomationProperties.Name="[RedirectPOSDevices]"
+            ToolTipService.ToolTip="[(Optional) Redirect all Point of Service devices from the host to the virtual machine if set it true.]" />
+        </Grid>
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <TextBlock
+            x:Uid="/VirtualMachineSettingsPage/RedirectDynamicDrivesLabel"
+            Margin="0,0,12,0"
+            VerticalAlignment="Center"
+            Text="[RedirectDynamicDrives]"
+            TextWrapping="Wrap" />
+          <CheckBox
+            x:Name="RedirectDynamicDrivesCheckBox"
+            x:Uid="/VirtualMachineSettingsPage/RedirectDynamicDrivesCheckBox"
+            Grid.Column="1"
+            HorizontalAlignment="Left"
+            AutomationProperties.HelpText="[(Optional) Redirect all dynamically attached Plug and Play (PnP) drives that are enumerated while virtual machine running if set it true.]"
+            AutomationProperties.Name="[RedirectDynamicDrives]"
+            ToolTipService.ToolTip="[(Optional) Redirect all dynamically attached Plug and Play (PnP) drives that are enumerated while virtual machine running if set it true.]" />
+        </Grid>
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <TextBlock
+            x:Uid="/VirtualMachineSettingsPage/RedirectDynamicDevicesLabel"
+            Margin="0,0,12,0"
+            VerticalAlignment="Center"
+            Text="[RedirectDynamicDevices]"
+            TextWrapping="Wrap" />
+          <CheckBox
+            x:Name="RedirectDynamicDevicesCheckBox"
+            x:Uid="/VirtualMachineSettingsPage/RedirectDynamicDevicesCheckBox"
+            Grid.Column="1"
+            HorizontalAlignment="Left"
+            AutomationProperties.HelpText="[(Optional) Redirect all dynamically attached Plug and Play (PnP) devices that are enumerated while virtual machine running if set it true.]"
+            AutomationProperties.Name="[RedirectDynamicDevices]"
+            ToolTipService.ToolTip="[(Optional) Redirect all dynamically attached Plug and Play (PnP) devices that are enumerated while virtual machine running if set it true.]" />
+        </Grid>
+        <TextBlock x:Uid="/VirtualMachineSettingsPage/DriveTitleTextBlock" Text="[Drives]" />
+        <TextBlock
+          x:Uid="/VirtualMachineSettingsPage/DriveDescription"
+          FontSize="12"
+          Opacity="0.75"
+          Text="[(Optional) The string array of selected disk drives used for redirection from the host to the virtual machine.]"
+          TextWrapping="Wrap" />
+        <Button
+          x:Uid="/VirtualMachineSettingsPage/RefreshDriveButton"
+          Click="RefreshDriveButtonClick"
+          Content="[Refresh]" />
+        <TextBlock x:Name="DriveRefreshError" TextWrapping="Wrap" />
+        <StackPanel x:Name="DrivePanel" />
+        <TextBlock x:Uid="/VirtualMachineSettingsPage/DeviceTitleTextBlock" Text="[Devices]" />
+        <TextBlock
+          x:Uid="/VirtualMachineSettingsPage/DeviceDescription"
+          FontSize="12"
+          Opacity="0.75"
+          Text="[(Optional) The string array of selected devices used for redirection from the host to the virtual machine.]"
+          TextWrapping="Wrap" />
+        <Button
+          x:Uid="/VirtualMachineSettingsPage/RefreshDeviceButton"
+          Click="RefreshDeviceButtonClick"
+          Content="[Refresh]" />
+        <TextBlock x:Name="DeviceRefreshError" TextWrapping="Wrap" />
+        <StackPanel x:Name="DevicePanel" />
+        <StackPanel x:Name="ChipsetInformationSection" Spacing="4">
+          <TextBlock
+            x:Uid="/VirtualMachineSettingsPage/ChipsetInformationTitle"
+            Margin="0,8,0,0"
+            FontSize="16"
+            FontWeight="SemiBold"
+            Text="[ChipsetInformation]" />
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="200" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+              x:Uid="/VirtualMachineSettingsPage/BaseBoardSerialNumberLabel"
+              Margin="0,0,12,0"
+              VerticalAlignment="Center"
+              Text="[BaseBoardSerialNumber]"
+              TextWrapping="Wrap" />
+            <TextBox
+              x:Name="BaseBoardSerialNumberTextBox"
+              x:Uid="/VirtualMachineSettingsPage/BaseBoardSerialNumberTextBox"
+              Grid.Column="1"
+              HorizontalAlignment="Stretch"
+              AutomationProperties.HelpText="[The serial number of the baseboard of virtual machine.]"
+              AutomationProperties.Name="[BaseBoardSerialNumber]"
+              ToolTipService.ToolTip="[The serial number of the baseboard of virtual machine.]" />
+          </Grid>
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="200" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+              x:Uid="/VirtualMachineSettingsPage/ChassisSerialNumberLabel"
+              Margin="0,0,12,0"
+              VerticalAlignment="Center"
+              Text="[ChassisSerialNumber]"
+              TextWrapping="Wrap" />
+            <TextBox
+              x:Name="ChassisSerialNumberTextBox"
+              x:Uid="/VirtualMachineSettingsPage/ChassisSerialNumberTextBox"
+              Grid.Column="1"
+              HorizontalAlignment="Stretch"
+              AutomationProperties.HelpText="[The serial number of the chassis of virtual machine.]"
+              AutomationProperties.Name="[ChassisSerialNumber]"
+              ToolTipService.ToolTip="[The serial number of the chassis of virtual machine.]" />
+          </Grid>
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="200" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+              x:Uid="/VirtualMachineSettingsPage/ChassisAssetTagLabel"
+              Margin="0,0,12,0"
+              VerticalAlignment="Center"
+              Text="[ChassisAssetTag]"
+              TextWrapping="Wrap" />
+            <TextBox
+              x:Name="ChassisAssetTagTextBox"
+              x:Uid="/VirtualMachineSettingsPage/ChassisAssetTagTextBox"
+              Grid.Column="1"
+              HorizontalAlignment="Stretch"
+              AutomationProperties.HelpText="[The asset tag of the chassis of virtual machine.]"
+              AutomationProperties.Name="[ChassisAssetTag]"
+              ToolTipService.ToolTip="[The asset tag of the chassis of virtual machine.]" />
+          </Grid>
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="200" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+              x:Uid="/VirtualMachineSettingsPage/ManufacturerLabel"
+              Margin="0,0,12,0"
+              VerticalAlignment="Center"
+              Text="[Manufacturer]"
+              TextWrapping="Wrap" />
+            <TextBox
+              x:Name="ManufacturerTextBox"
+              x:Uid="/VirtualMachineSettingsPage/ManufacturerTextBox"
+              Grid.Column="1"
+              HorizontalAlignment="Stretch"
+              AutomationProperties.HelpText="[The manufacturer of virtual machine.]"
+              AutomationProperties.Name="[Manufacturer]"
+              ToolTipService.ToolTip="[The manufacturer of virtual machine.]" />
+          </Grid>
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="200" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+              x:Uid="/VirtualMachineSettingsPage/ProductNameLabel"
+              Margin="0,0,12,0"
+              VerticalAlignment="Center"
+              Text="[ProductName]"
+              TextWrapping="Wrap" />
+            <TextBox
+              x:Name="ProductNameTextBox"
+              x:Uid="/VirtualMachineSettingsPage/ProductNameTextBox"
+              Grid.Column="1"
+              HorizontalAlignment="Stretch"
+              AutomationProperties.HelpText="[The product name of virtual machine.]"
+              AutomationProperties.Name="[ProductName]"
+              ToolTipService.ToolTip="[The product name of virtual machine.]" />
+          </Grid>
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="200" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+              x:Uid="/VirtualMachineSettingsPage/ChipsetVersionLabel"
+              Margin="0,0,12,0"
+              VerticalAlignment="Center"
+              Text="[Version]"
+              TextWrapping="Wrap" />
+            <TextBox
+              x:Name="ChipsetVersionTextBox"
+              x:Uid="/VirtualMachineSettingsPage/ChipsetVersionTextBox"
+              Grid.Column="1"
+              HorizontalAlignment="Stretch"
+              AutomationProperties.HelpText="[The version of virtual machine.]"
+              AutomationProperties.Name="[Version]"
+              ToolTipService.ToolTip="[The version of virtual machine.]" />
+          </Grid>
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="200" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+              x:Uid="/VirtualMachineSettingsPage/SerialNumberLabel"
+              Margin="0,0,12,0"
+              VerticalAlignment="Center"
+              Text="[SerialNumber]"
+              TextWrapping="Wrap" />
+            <TextBox
+              x:Name="SerialNumberTextBox"
+              x:Uid="/VirtualMachineSettingsPage/SerialNumberTextBox"
+              Grid.Column="1"
+              HorizontalAlignment="Stretch"
+              AutomationProperties.HelpText="[The serial number of virtual machine.]"
+              AutomationProperties.Name="[SerialNumber]"
+              ToolTipService.ToolTip="[The serial number of virtual machine.]" />
+          </Grid>
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="200" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+              x:Uid="/VirtualMachineSettingsPage/UUIDLabel"
+              Margin="0,0,12,0"
+              VerticalAlignment="Center"
+              Text="[UUID]"
+              TextWrapping="Wrap" />
+            <TextBox
+              x:Name="UUIDTextBox"
+              x:Uid="/VirtualMachineSettingsPage/UUIDTextBox"
+              Grid.Column="1"
+              HorizontalAlignment="Stretch"
+              AutomationProperties.HelpText="[The universally unique identifier of virtual machine.]"
+              AutomationProperties.Name="[UUID]"
+              ToolTipService.ToolTip="[The universally unique identifier of virtual machine.]" />
+          </Grid>
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="200" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+              x:Uid="/VirtualMachineSettingsPage/SKUNumberLabel"
+              Margin="0,0,12,0"
+              VerticalAlignment="Center"
+              Text="[SKUNumber]"
+              TextWrapping="Wrap" />
+            <TextBox
+              x:Name="SKUNumberTextBox"
+              x:Uid="/VirtualMachineSettingsPage/SKUNumberTextBox"
+              Grid.Column="1"
+              HorizontalAlignment="Stretch"
+              AutomationProperties.HelpText="[The sku number of virtual machine.]"
+              AutomationProperties.Name="[SKUNumber]"
+              ToolTipService.ToolTip="[The sku number of virtual machine.]" />
+          </Grid>
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="200" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+              x:Uid="/VirtualMachineSettingsPage/FamilyLabel"
+              Margin="0,0,12,0"
+              VerticalAlignment="Center"
+              Text="[Family]"
+              TextWrapping="Wrap" />
+            <TextBox
+              x:Name="FamilyTextBox"
+              x:Uid="/VirtualMachineSettingsPage/FamilyTextBox"
+              Grid.Column="1"
+              HorizontalAlignment="Stretch"
+              AutomationProperties.HelpText="[The family of virtual machine.]"
+              AutomationProperties.Name="[Family]"
+              ToolTipService.ToolTip="[The family of virtual machine.]" />
+          </Grid>
+          <TextBlock
+            x:Uid="/VirtualMachineSettingsPage/ChipsetNote"
+            FontSize="12"
+            Opacity="0.75"
+            Text="[Note: You need Windows Server 2022 or later Host OS.]"
+            TextWrapping="Wrap" />
+        </StackPanel>
+        <TextBlock
+          x:Uid="/VirtualMachineSettingsPage/VideoMonitorTitle"
+          Margin="0,8,0,0"
+          FontSize="16"
+          FontWeight="SemiBold"
+          Text="[VideoMonitor]" />
+        <StackPanel x:Name="HorizontalResolutionRow" Spacing="4">
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="200" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+              x:Uid="/VirtualMachineSettingsPage/HorizontalResolutionLabel"
+              Margin="0,0,12,0"
+              VerticalAlignment="Center"
+              Text="[HorizontalResolution]"
+              TextWrapping="Wrap" />
+            <TextBox
+              x:Name="HorizontalResolutionTextBox"
+              x:Uid="/VirtualMachineSettingsPage/HorizontalResolutionTextBox"
+              Grid.Column="1"
+              Width="120"
+              HorizontalAlignment="Left"
+              AutomationProperties.HelpText="[(Optional) The horizontal resolution of the video monitor of virtual machine.]"
+              AutomationProperties.Name="[HorizontalResolution]"
+              ToolTipService.ToolTip="[(Optional) The horizontal resolution of the video monitor of virtual machine.]" />
+          </Grid>
+        </StackPanel>
+        <StackPanel x:Name="VerticalResolutionRow" Spacing="4">
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="200" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+              x:Uid="/VirtualMachineSettingsPage/VerticalResolutionLabel"
+              Margin="0,0,12,0"
+              VerticalAlignment="Center"
+              Text="[VerticalResolution]"
+              TextWrapping="Wrap" />
+            <TextBox
+              x:Name="VerticalResolutionTextBox"
+              x:Uid="/VirtualMachineSettingsPage/VerticalResolutionTextBox"
+              Grid.Column="1"
+              Width="120"
+              HorizontalAlignment="Left"
+              AutomationProperties.HelpText="[(Optional) The vertical resolution of the video monitor of virtual machine.]"
+              AutomationProperties.Name="[VerticalResolution]"
+              ToolTipService.ToolTip="[(Optional) The vertical resolution of the video monitor of virtual machine.]" />
+          </Grid>
+          <TextBlock
+            x:Uid="/VirtualMachineSettingsPage/ResolutionNote"
+            FontSize="12"
+            Opacity="0.75"
+            Text="[Note: Only the Basic Session Mode is constrainted with this setting.]"
+            TextWrapping="Wrap" />
+        </StackPanel>
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <TextBlock
+            x:Uid="/VirtualMachineSettingsPage/DisableDpiScalingLabel"
+            Margin="0,0,12,0"
+            VerticalAlignment="Center"
+            Text="[DisableBasicSessionDpiScaling]"
+            TextWrapping="Wrap" />
+          <CheckBox
+            x:Name="DisableDpiScalingCheckBox"
+            x:Uid="/VirtualMachineSettingsPage/DisableDpiScalingCheckBox"
+            Grid.Column="1"
+            HorizontalAlignment="Left"
+            AutomationProperties.HelpText="[(Optional) Disable the DPI scaling for the Basic Session Mode of virtual machine if set it true.]"
+            AutomationProperties.Name="[DisableBasicSessionDpiScaling]"
+            ToolTipService.ToolTip="[(Optional) Disable the DPI scaling for the Basic Session Mode of virtual machine if set it true.]" />
+        </Grid>
+        <StackPanel x:Name="PoliciesSection" Spacing="4">
+          <TextBlock
+            x:Uid="/VirtualMachineSettingsPage/PoliciesTitle"
+            Margin="0,8,0,0"
+            FontSize="16"
+            FontWeight="SemiBold"
+            Text="[Policies]" />
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="200" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+              x:Uid="/VirtualMachineSettingsPage/PoliciesLabel"
+              Margin="0,0,12,0"
+              VerticalAlignment="Center"
+              Text="[Policies]"
+              TextWrapping="Wrap" />
+            <TextBox
+              x:Name="PoliciesTextBox"
+              x:Uid="/VirtualMachineSettingsPage/PoliciesTextBox"
+              Grid.Column="1"
+              MinHeight="72"
+              HorizontalAlignment="Stretch"
+              AcceptsReturn="True"
+              AutomationProperties.HelpText="[The string array of policies of virtual machine.]"
+              AutomationProperties.Name="[Policies]"
+              TextWrapping="Wrap"
+              ToolTipService.ToolTip="[The string array of policies of virtual machine.]" />
+          </Grid>
+          <TextBlock
+            x:Uid="/VirtualMachineSettingsPage/PolicyFormatNote"
+            FontSize="12"
+            Opacity="0.75"
+            Text="[Enter one policy per line.]"
+            TextWrapping="Wrap" />
+          <TextBlock
+            x:Uid="/VirtualMachineSettingsPage/PoliciesNote"
+            FontSize="12"
+            Opacity="0.75"
+            Text="[Note: These policies need Windows 11 Version 24H2 or later Host OS.]"
+            TextWrapping="Wrap" />
+          <TextBox
+            x:Uid="/VirtualMachineSettingsPage/PolicyExamplesTextBox"
+            HorizontalAlignment="Stretch"
+            AcceptsReturn="True"
+            AutomationProperties.Name="[Policy identifier examples (read-only)]"
+            IsReadOnly="True"
+            Text="LegacyPcrMeasurement&#x0A;DisableSha384Pcr&#x0A;LegacyRteWidth&#x0A;LegacyTrustedLaunchMemoryMap&#x0A;LegacyApicSelectionLogic&#x0A;LegacyApicManganeseOverride&#x0A;LegacyGpaLayout&#x0A;ForceLegacyHcl&#x0A;ForceCurrentHcl&#x0A;UseExtendedMaxVpPerSocketLimit"
+            TextWrapping="Wrap" />
+        </StackPanel>
+        <StackPanel x:Name="Plan9ShareSection" Spacing="4">
+          <TextBlock
+            x:Uid="/VirtualMachineSettingsPage/Plan9ShareTitle"
+            Margin="0,8,0,0"
+            FontSize="16"
+            FontWeight="SemiBold"
+            Text="[Plan9Shares]" />
+          <TextBlock
+            x:Uid="/VirtualMachineSettingsPage/Plan9ShareDescription"
+            FontSize="12"
+            Opacity="0.75"
+            Text="[The Plan 9 shares setting object array of virtual machine.]"
+            TextWrapping="Wrap" />
+          <StackPanel x:Name="Plan9SharePanel" Spacing="4" />
+          <Button
+            x:Name="AddPlan9ShareButton"
+            x:Uid="/VirtualMachineSettingsPage/AddPlan9ShareButton"
+            Click="AddPlan9ShareButtonClick"
+            Content="[Add]" />
+          <TextBlock
+            x:Uid="/VirtualMachineSettingsPage/ShareNote2"
+            FontSize="12"
+            Opacity="0.75"
+            Text="[Note: You cannot suspend the virtual machine properly if this option is enabled.]"
+            TextWrapping="Wrap" />
+          <TextBlock
+            x:Uid="/VirtualMachineSettingsPage/ReservedShareNote"
+            FontSize="12"
+            Opacity="0.75"
+            Text="[Note: If you have set the &quot;EnableHostDriverStore&quot; true, you should not use the names mentioned in &quot;EnableHostDriverStore&quot; related document for the current Plan 9 share.]"
+            TextWrapping="Wrap" />
+        </StackPanel>
+        <StackPanel x:Name="VirtualSmbShareSection" Spacing="4">
+          <TextBlock
+            x:Uid="/VirtualMachineSettingsPage/VirtualSmbShareTitle"
+            Margin="0,8,0,0"
+            FontSize="16"
+            FontWeight="SemiBold"
+            Text="[VirtualSmbShares]" />
+          <TextBlock
+            x:Uid="/VirtualMachineSettingsPage/VirtualSmbShareDescription"
+            FontSize="12"
+            Opacity="0.75"
+            Text="[The Virtual SMB shares setting object array of virtual machine.]"
+            TextWrapping="Wrap" />
+          <StackPanel x:Name="VirtualSmbSharePanel" Spacing="4" />
+          <Button
+            x:Name="AddVirtualSmbShareButton"
+            x:Uid="/VirtualMachineSettingsPage/AddVirtualSmbShareButton"
+            Click="AddVirtualSmbShareButtonClick"
+            Content="[Add]" />
+          <TextBlock
+            x:Uid="/VirtualMachineSettingsPage/ShareNote3"
+            FontSize="12"
+            Opacity="0.75"
+            Text="[Note: You cannot suspend the virtual machine properly if this option is enabled.]"
+            TextWrapping="Wrap" />
+          <TextBlock
+            x:Uid="/VirtualMachineSettingsPage/ReservedVirtualSmbShareNote"
+            FontSize="12"
+            Opacity="0.75"
+            Text="[Note: If you have set the &quot;EnableHostDriverStore&quot; true, you should not use the names mentioned in &quot;EnableHostDriverStore&quot; related document for the current Virtual SMB share.]"
+            TextWrapping="Wrap" />
+        </StackPanel>
+      </StackPanel>
+    </ScrollViewer>
   </Grid>
 </Page>

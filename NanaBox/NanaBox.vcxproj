@@ -274,7 +274,6 @@
     <PRIResource Include="Strings\en\CompactVirtualHardDiskWizard.resw" />
     <PRIResource Include="Strings\en\QuickStartPage.resw" />
     <PRIResource Include="Strings\en\VirtualMachineSettingsPage.resw" />
-    <PRIResource Include="Strings\en\ReloadConfirmationPage.resw" />
     <PRIResource Include="Strings\en\SponsorPage.resw" />
     <PRIResource Include="Strings\zh-Hans\AboutPage.resw" />
     <PRIResource Include="Strings\zh-Hans\MainWindow.resw" />
@@ -286,7 +285,6 @@
     <PRIResource Include="Strings\zh-Hans\CompactVirtualHardDiskWizard.resw" />
     <PRIResource Include="Strings\zh-Hans\QuickStartPage.resw" />
     <PRIResource Include="Strings\zh-Hans\VirtualMachineSettingsPage.resw" />
-    <PRIResource Include="Strings\zh-Hans\ReloadConfirmationPage.resw" />
     <PRIResource Include="Strings\zh-Hans\SponsorPage.resw" />
   </ItemGroup>
   <Import Sdk="Mile.Project.Configurations" Project="Mile.Project.Cpp.targets" />
