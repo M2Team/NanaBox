@@ -1,0 +1,8 @@
+﻿namespace NanaBox
+{
+    [default_interface]
+    runtimeclass VirtualMachineSettingsPage : Windows.UI.Xaml.Controls.Page
+    {
+        VirtualMachineSettingsPage();
+    }
+}

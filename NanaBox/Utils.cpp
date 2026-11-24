@@ -24,6 +24,7 @@
 #include "AboutPage.h"
 #include "NewVirtualHardDiskPage.h"
 #include "ResizeVirtualHardDiskPage.h"
+#include "VirtualMachineSettingsPage.h"
 
 namespace winrt
 {
@@ -763,6 +764,60 @@ winrt::handle ShowAboutDialog(
             480,
             320,
             winrt::get_abi(Window),
+            ParentWindowHandle);
+
+        // Do not call MileXamlThreadUninitialize instead, because it will cause
+        // second time uninitialization in some Windows releases, which will
+        // lead to a crash.
+        {
+            ::SendMessageW(WindowHandle, WM_CLOSE, 0, 0);
+            ::TerminateThread(::GetCurrentThread(), 0);
+        }
+    }));
+}
+
+winrt::handle ShowVirtualMachineSettingsWindow(
+    _In_ HWND ParentWindowHandle,
+    std::wstring const& ConfigurationFilePath,
+    std::wstring const& Name,
+    _In_opt_ NanaBox::MainWindow* MainWindow)
+{
+    return winrt::handle(Mile::CreateThread([=]()
+    {
+        winrt::check_hresult(::MileXamlThreadInitialize());
+
+        HWND WindowHandle = ::CreateXamlWindow(
+            ParentWindowHandle,
+            0,
+            WS_OVERLAPPEDWINDOW);
+        if (!WindowHandle)
+        {
+            return;
+        }
+
+        using InstanceType = winrt::NanaBox::VirtualMachineSettingsPage;
+        using ImplementationType =
+            winrt::NanaBox::implementation::VirtualMachineSettingsPage;
+        InstanceType Window = winrt::make<ImplementationType>(
+            WindowHandle,
+            ConfigurationFilePath,
+            Name,
+            MainWindow);
+        if (ParentWindowHandle)
+        {
+            ::EnableWindow(ParentWindowHandle, FALSE);
+        }
+        if (FAILED(::MileXamlSetXamlContentForContentWindow(
+            WindowHandle,
+            winrt::get_abi(Window))))
+        {
+            ::DestroyWindow(WindowHandle);
+            return;
+        }
+        ::ShowXamlWindow(
+            WindowHandle,
+            800,
+            600,
             ParentWindowHandle);
 
         // Do not call MileXamlThreadUninitialize instead, because it will cause

@@ -141,14 +141,6 @@
     <value>Create Virtual Hard Disk</value>
     <comment>Create Virtual Hard Disk</comment>
   </data>
-  <data name="DocumentationButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Configuration File Reference Documentation</value>
-    <comment>Configuration File Reference Documentation</comment>
-  </data>
-  <data name="DocumentationButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Configuration File Reference Documentation</value>
-    <comment>Configuration File Reference Documentation</comment>
-  </data>
   <data name="EnhancedSessionButton.AutomationProperties.Name" xml:space="preserve">
     <value>Enhanced Session</value>
     <comment>Enhanced Session</comment>
@@ -181,14 +173,6 @@
     <value>Redirect Keyboard Navigation</value>
     <comment>Redirect Keyboard Navigation</comment>
   </data>
-  <data name="ReloadVirtualMachineSettingsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Reload Virtual Machine Settings</value>
-    <comment>Reload Virtual Machine Settings</comment>
-  </data>
-  <data name="ReloadVirtualMachineSettingsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Reload Virtual Machine Settings</value>
-    <comment>Reload Virtual Machine Settings</comment>
-  </data>
   <data name="ResizeVirtualHardDiskButton.AutomationProperties.Name" xml:space="preserve">
     <value>Resize Virtual Hard Disk</value>
     <comment>Resize Virtual Hard Disk</comment>
@@ -212,14 +196,6 @@
   <data name="RestoreVirtualMachineWindowSizeButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Restore Virtual Machine Window Size</value>
     <comment>Restore Virtual Machine Window Size</comment>
-  </data>
-  <data name="SettingsContentText" xml:space="preserve">
-    <value>The "Open With" dialog will pop up after you clicking "Confirm", you can choose your favorite editor to follow the "Configuration File Reference Documentation" to edit your virtual machine configuration file.</value>
-    <comment>The "Open With" dialog will pop up after you clicking "Confirm", you can choose your favorite editor to follow the "Configuration File Reference Documentation" to edit your virtual machine configuration file.</comment>
-  </data>
-  <data name="SettingsInstructionText" xml:space="preserve">
-    <value>Virtual Machine Settings Notice</value>
-    <comment>Virtual Machine Settings Notice</comment>
   </data>
   <data name="SponsorButton.AcquireText" xml:space="preserve">
     <value>Sponsor NanaBox</value>

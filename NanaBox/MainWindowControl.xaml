@@ -70,14 +70,6 @@
         Icon="Setting"
         LabelPosition="Collapsed"
         ToolTipService.ToolTip="[Virtual Machine Settings]" />
-      <AppBarButton
-        x:Uid="/MainWindow/ReloadVirtualMachineSettingsButton"
-        Width="48"
-        AutomationProperties.Name="[Reload Virtual Machine Settings]"
-        Click="ReloadVirtualMachineSettingsButtonClick"
-        Icon="Sync"
-        LabelPosition="Collapsed"
-        ToolTipService.ToolTip="[Reload Virtual Machine Settings]" />
       <AppBarSeparator />
       <!--<AppBarToggleButton
         x:Uid="/MainWindow/RedirectKeyboardNavigationButton"
@@ -118,14 +110,6 @@
         Icon="BackToWindow"
         LabelPosition="Collapsed"
         ToolTipService.ToolTip="[Compact Virtual Hard Disk]" />
-      <AppBarButton
-        x:Uid="/MainWindow/DocumentationButton"
-        Width="48"
-        AutomationProperties.Name="[Configuration File Reference Documentation]"
-        Click="DocumentationButtonClick"
-        Icon="Link"
-        LabelPosition="Collapsed"
-        ToolTipService.ToolTip="[Configuration File Reference Documentation]" />
       <AppBarButton
         x:Uid="/MainWindow/AboutButton"
         Width="48"

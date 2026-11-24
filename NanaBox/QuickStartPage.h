@@ -32,6 +32,10 @@ namespace winrt::NanaBox::implementation
             winrt::IInspectable const& sender,
             winrt::RoutedEventArgs const& e);
 
+        void VirtualMachineSettingsButtonClick(
+            winrt::IInspectable const& sender,
+            winrt::RoutedEventArgs const& e);
+
         void CreateVirtualHardDiskButtonClick(
             winrt::IInspectable const& sender,
             winrt::RoutedEventArgs const& e);
@@ -41,10 +45,6 @@ namespace winrt::NanaBox::implementation
             winrt::RoutedEventArgs const& e);
 
         void CompactVirtualHardDiskButtonClick(
-            winrt::IInspectable const& sender,
-            winrt::RoutedEventArgs const& e);
-
-        void DocumentationButtonClick(
             winrt::IInspectable const& sender,
             winrt::RoutedEventArgs const& e);
 

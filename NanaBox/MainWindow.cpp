@@ -2,9 +2,10 @@
 
 #include "MainWindow.h"
 #include "ExitConfirmationPage.h"
-#include "ReloadConfirmationPage.h"
 
 #include <Mile.Xaml.h>
+
+#include <winrt/Windows.UI.Core.h>
 
 #include <ShlObj.h>
 
@@ -23,6 +24,7 @@
 
 namespace winrt
 {
+    using Windows::UI::Core::CoreDispatcherPriority;
     using Windows::UI::Xaml::Hosting::DesktopWindowXamlSource;
 }
 
@@ -163,57 +165,11 @@ void NanaBox::MainWindow::OnCommand(
     }
     case NanaBox::MainWindowCommands::VirtualMachineSettings:
     {
-        winrt::handle(Mile::CreateThread([=]()
-        {
-            winrt::hstring SettingsInstructionText =
-                Mile::WinRT::GetLocalizedString(
-                    L"MainWindow/SettingsInstructionText");
-            winrt::hstring SettingsContentText =
-                Mile::WinRT::GetLocalizedString(
-                    L"MainWindow/SettingsContentText");
-
-            ::ShowMessageDialog(
-                this->m_hWnd,
-                SettingsInstructionText.c_str(),
-                SettingsContentText.c_str());
-
-            OPENASINFO OpenAsInfo = {};
-            OpenAsInfo.pcszFile = this->m_ConfigurationFilePath.c_str();
-            OpenAsInfo.oaifInFlags = OAIF_EXEC;
-            ::SHOpenWithDialog(this->m_hWnd, &OpenAsInfo);
-        }));
-
-        break;
-    }
-    case NanaBox::MainWindowCommands::ReloadVirtualMachineSettings:
-    {
-        HWND WindowHandle = ::CreateXamlDialog(this->m_hWnd);
-        if (!WindowHandle)
-        {
-            return;
-        }
-
-        winrt::NanaBox::ReloadConfirmationPage Window =
-            winrt::make<winrt::NanaBox::implementation::ReloadConfirmationPage>(
-                WindowHandle);
-        ::ShowXamlDialog(
-            WindowHandle,
-            480,
-            320,
-            winrt::get_abi(Window),
-            this->m_hWnd);
-
-        if (winrt::NanaBox::ReloadConfirmationStatus::Reload == Window.Status())
-        {
-            try
-            {
-                this->TryReloadVirtualMachine();
-            }
-            catch (...)
-            {
-
-            }
-        }
+        ::ShowVirtualMachineSettingsWindow(
+            this->m_hWnd,
+            this->m_ConfigurationFilePath,
+            Mile::ToWideString(CP_UTF8, this->m_Configuration.Name),
+            this);
 
         break;
     }
@@ -235,12 +191,6 @@ void NanaBox::MainWindow::OnCommand(
 
         break;
     }
-    case NanaBox::MainWindowCommands::Documentation:
-    {
-        ::LaunchDocumentation();
-
-        break;
-    }
     case NanaBox::MainWindowCommands::About:
     {
         ::ShowAboutDialog(this->m_hWnd);
@@ -250,6 +200,23 @@ void NanaBox::MainWindow::OnCommand(
     default:
         break;
     }
+}
+
+void NanaBox::MainWindow::ReloadVirtualMachineSettings()
+{
+    this->m_MainWindowControl.Dispatcher().RunAsync(
+        winrt::CoreDispatcherPriority::Normal,
+        [=]()
+    {
+        try
+        {
+            this->TryReloadVirtualMachine();
+        }
+        catch (...)
+        {
+
+        }
+    });
 }
 
 void NanaBox::MainWindow::OnTimer(

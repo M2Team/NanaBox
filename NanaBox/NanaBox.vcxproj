@@ -74,6 +74,10 @@
       <DependentUpon>QuickStartPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
+    <ClCompile Include="VirtualMachineSettingsPage.cpp">
+      <DependentUpon>VirtualMachineSettingsPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
     <ClCompile Include="RdpBase.cpp" />
     <ClCompile Include="RdpClient.cpp" />
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
@@ -82,10 +86,6 @@
     </ClCompile>
     <ClCompile Include="App.cpp">
       <DependentUpon>App.xaml</DependentUpon>
-    </ClCompile>
-    <ClCompile Include="ReloadConfirmationPage.cpp">
-      <DependentUpon>ReloadConfirmationPage.xaml</DependentUpon>
-      <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="ResizeVirtualHardDiskPage.cpp">
       <DependentUpon>ResizeVirtualHardDiskPage.xaml</DependentUpon>
@@ -138,8 +138,8 @@
       <DependentUpon>QuickStartPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
-    <Midl Include="ReloadConfirmationPage.idl">
-      <DependentUpon>ReloadConfirmationPage.xaml</DependentUpon>
+    <Midl Include="VirtualMachineSettingsPage.idl">
+      <DependentUpon>VirtualMachineSettingsPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
     <Midl Include="ResizeVirtualHardDiskPage.idl">
@@ -189,16 +189,16 @@
       <DependentUpon>QuickStartPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
+    <ClInclude Include="VirtualMachineSettingsPage.h">
+      <DependentUpon>VirtualMachineSettingsPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="RdpBase.h" />
     <ClInclude Include="RdpClient.h" />
     <ClInclude Include="App.h">
       <DependentUpon>App.xaml</DependentUpon>
     </ClInclude>
     <ClInclude Include="NanaBoxResources.h" />
-    <ClInclude Include="ReloadConfirmationPage.h">
-      <DependentUpon>ReloadConfirmationPage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </ClInclude>
     <ClInclude Include="ResizeVirtualHardDiskPage.h">
       <DependentUpon>ResizeVirtualHardDiskPage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -233,7 +233,7 @@
     <Page Include="QuickStartPage.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="ReloadConfirmationPage.xaml">
+    <Page Include="VirtualMachineSettingsPage.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Include="ResizeVirtualHardDiskPage.xaml">
@@ -273,6 +273,7 @@
     <PRIResource Include="Strings\en\ResizeVirtualHardDiskPage.resw" />
     <PRIResource Include="Strings\en\CompactVirtualHardDiskWizard.resw" />
     <PRIResource Include="Strings\en\QuickStartPage.resw" />
+    <PRIResource Include="Strings\en\VirtualMachineSettingsPage.resw" />
     <PRIResource Include="Strings\en\ReloadConfirmationPage.resw" />
     <PRIResource Include="Strings\en\SponsorPage.resw" />
     <PRIResource Include="Strings\zh-Hans\AboutPage.resw" />
@@ -284,6 +285,7 @@
     <PRIResource Include="Strings\zh-Hans\ResizeVirtualHardDiskPage.resw" />
     <PRIResource Include="Strings\zh-Hans\CompactVirtualHardDiskWizard.resw" />
     <PRIResource Include="Strings\zh-Hans\QuickStartPage.resw" />
+    <PRIResource Include="Strings\zh-Hans\VirtualMachineSettingsPage.resw" />
     <PRIResource Include="Strings\zh-Hans\ReloadConfirmationPage.resw" />
     <PRIResource Include="Strings\zh-Hans\SponsorPage.resw" />
   </ItemGroup>

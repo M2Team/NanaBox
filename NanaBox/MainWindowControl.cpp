@@ -157,22 +157,6 @@ namespace winrt::NanaBox::implementation
             0);
     }
 
-    void MainWindowControl::ReloadVirtualMachineSettingsButtonClick(
-        winrt::IInspectable const& sender,
-        winrt::RoutedEventArgs const& e)
-    {
-        UNREFERENCED_PARAMETER(sender);
-        UNREFERENCED_PARAMETER(e);
-
-        ::PostMessageW(
-            this->m_WindowHandle,
-            WM_COMMAND,
-            MAKEWPARAM(
-                NanaBox::MainWindowCommands::ReloadVirtualMachineSettings,
-                BN_CLICKED),
-            0);
-    }
-
     void MainWindowControl::CreateVirtualHardDiskButtonClick(
         winrt::IInspectable const& sender,
         winrt::RoutedEventArgs const& e)
@@ -217,22 +201,6 @@ namespace winrt::NanaBox::implementation
             WM_COMMAND,
             MAKEWPARAM(
                 NanaBox::MainWindowCommands::CompactVirtualHardDisk,
-                BN_CLICKED),
-            0);
-    }
-
-    void MainWindowControl::DocumentationButtonClick(
-        winrt::IInspectable const& sender,
-        winrt::RoutedEventArgs const& e)
-    {
-        UNREFERENCED_PARAMETER(sender);
-        UNREFERENCED_PARAMETER(e);
-
-        ::PostMessageW(
-            this->m_WindowHandle,
-            WM_COMMAND,
-            MAKEWPARAM(
-                NanaBox::MainWindowCommands::Documentation,
                 BN_CLICKED),
             0);
     }

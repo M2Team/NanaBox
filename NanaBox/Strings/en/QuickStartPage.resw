@@ -129,10 +129,6 @@
     <value>NanaBox Virtual Machine Configuration</value>
     <comment>NanaBox Virtual Machine Configuration</comment>
   </data>
-  <data name="ConfigurationNameTip" xml:space="preserve">
-    <value>Please specify the save location for the configuration file of your VM</value>
-    <comment>Please specify the save location for the configuration file of your virtual machine</comment>
-  </data>
   <data name="CreateVirtualHardDiskButton.AutomationProperties.Name" xml:space="preserve">
     <value>Create Virtual Hard Disk</value>
     <comment>Create Virtual Hard Disk</comment>
@@ -157,13 +153,13 @@
     <value>Create Virtual Machine</value>
     <comment>Create Virtual Machine</comment>
   </data>
-  <data name="DocumentationButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Configuration File Reference Documentation</value>
-    <comment>Configuration File Reference Documentation</comment>
+  <data name="VirtualMachineSettingsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Virtual Machine Settings</value>
+    <comment>Virtual Machine Settings</comment>
   </data>
-  <data name="DocumentationButtonTextBlock.Text" xml:space="preserve">
-    <value>Configuration File Reference Documentation</value>
-    <comment>Configuration File Reference Documentation</comment>
+  <data name="VirtualMachineSettingsButtonTextBlock.Text" xml:space="preserve">
+    <value>Virtual Machine Settings</value>
+    <comment>Virtual Machine Settings</comment>
   </data>
   <data name="GridTitleTextBlock.Text" xml:space="preserve">
     <value>Welcome to NanaBox</value>
@@ -176,22 +172,6 @@
   <data name="LaunchVirtualMachineButtonTextBlock.Text" xml:space="preserve">
     <value>Launch Virtual Machine</value>
     <comment>Launch Virtual Machine</comment>
-  </data>
-  <data name="SuccessContentText" xml:space="preserve">
-    <value>The virtual machine at %s has been successfully created.</value>
-    <comment>The virtual machine at %s has been successfully created.</comment>
-  </data>
-  <data name="SuccessInstructionText" xml:space="preserve">
-    <value>Create Virtual Machine Configuration Completed</value>
-    <comment>Create Virtual Machine Configuration Completed</comment>
-  </data>
-  <data name="VirtualDiskPathTip" xml:space="preserve">
-    <value>Please select a VHD or VHDX virtual hard disk for the storage of your VM, or close this dialog to skip the setting</value>
-    <comment>Please select a VHD or VHDX virtual hard disk for the storage of your virtual machine, or close this dialog to skip the setting</comment>
-  </data>
-  <data name="VirtualImagePathTip" xml:space="preserve">
-    <value>Please select a bootable ISO image for installing the OS on your VM, or close this dialog to skip the setting</value>
-    <comment>Please select a bootable ISO image for installing the OS on your virtual machine, or close this dialog to skip the setting</comment>
   </data>
   <data name="CompactVirtualHardDiskButton.AutomationProperties.Name" xml:space="preserve">
     <value>Compact Virtual Hard Disk</value>

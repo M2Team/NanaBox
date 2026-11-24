@@ -8,6 +8,11 @@
 #include <string>
 #include <winrt/base.h>
 
+namespace NanaBox
+{
+    class MainWindow;
+}
+
 void SplitCommandLineEx(
     std::wstring const& CommandLine,
     std::vector<std::wstring> const& OptionPrefixes,
@@ -96,6 +101,12 @@ DWORD SimpleCompactVirtualDisk(
 
 winrt::handle ShowAboutDialog(
     _In_ HWND ParentWindowHandle);
+
+winrt::handle ShowVirtualMachineSettingsWindow(
+    _In_ HWND ParentWindowHandle,
+    std::wstring const& ConfigurationFilePath = std::wstring(),
+    std::wstring const& Name = std::wstring(),
+    _In_opt_ NanaBox::MainWindow* MainWindow = nullptr);
 
 winrt::handle ShowNewVirtualHardDiskDialog(
     _In_ HWND ParentWindowHandle);

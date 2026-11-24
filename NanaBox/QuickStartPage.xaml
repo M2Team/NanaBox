@@ -68,8 +68,21 @@
         </StackPanel>
       </Button>
       <Button
-        x:Uid="/QuickStartPage/CreateVirtualHardDiskButton"
+        x:Uid="/QuickStartPage/VirtualMachineSettingsButton"
         Grid.Row="4"
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch"
+        HorizontalContentAlignment="Stretch"
+        AutomationProperties.Name="[Virtual Machine Settings]"
+        Click="VirtualMachineSettingsButtonClick">
+        <StackPanel Margin="16,0" Orientation="Horizontal">
+          <SymbolIcon Margin="0,0,16,0" Symbol="Setting" />
+          <TextBlock x:Uid="/QuickStartPage/VirtualMachineSettingsButtonTextBlock" Text="[Virtual Machine Settings]" />
+        </StackPanel>
+      </Button>
+      <Button
+        x:Uid="/QuickStartPage/CreateVirtualHardDiskButton"
+        Grid.Row="6"
         HorizontalAlignment="Stretch"
         VerticalAlignment="Stretch"
         HorizontalContentAlignment="Stretch"
@@ -82,7 +95,7 @@
       </Button>
       <Button
         x:Uid="/QuickStartPage/ResizeVirtualHardDiskButton"
-        Grid.Row="6"
+        Grid.Row="8"
         HorizontalAlignment="Stretch"
         VerticalAlignment="Stretch"
         HorizontalContentAlignment="Stretch"
@@ -95,7 +108,7 @@
       </Button>
       <Button
         x:Uid="/QuickStartPage/CompactVirtualHardDiskButton"
-        Grid.Row="8"
+        Grid.Row="10"
         HorizontalAlignment="Stretch"
         VerticalAlignment="Stretch"
         HorizontalContentAlignment="Stretch"
@@ -104,19 +117,6 @@
         <StackPanel Margin="16,0" Orientation="Horizontal">
           <SymbolIcon Margin="0,0,16,0" Symbol="BackToWindow" />
           <TextBlock x:Uid="/QuickStartPage/CompactVirtualHardDiskButtonTextBlock" Text="[Compact Virtual Hard Disk]" />
-        </StackPanel>
-      </Button>
-      <Button
-        x:Uid="/QuickStartPage/DocumentationButton"
-        Grid.Row="10"
-        HorizontalAlignment="Stretch"
-        VerticalAlignment="Stretch"
-        HorizontalContentAlignment="Stretch"
-        AutomationProperties.Name="[Configuration File Reference Documentation]"
-        Click="DocumentationButtonClick">
-        <StackPanel Margin="16,0" Orientation="Horizontal">
-          <SymbolIcon Margin="0,0,16,0" Symbol="Link" />
-          <TextBlock x:Uid="/QuickStartPage/DocumentationButtonTextBlock" Text="[Configuration File Reference Documentation]" />
         </StackPanel>
       </Button>
       <Button

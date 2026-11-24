@@ -91,9 +91,9 @@
     <Page Include="NewVirtualHardDiskPage.xaml" />
     <Page Include="QuickStartPage.xaml" />
     <Page Include="AboutPage.xaml" />
-    <Page Include="ReloadConfirmationPage.xaml" />
     <Page Include="SponsorPage.xaml" />
     <Page Include="ResizeVirtualHardDiskPage.xaml" />
+    <Page Include="VirtualMachineSettingsPage.xaml" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="NanaBoxResources.rc" />
@@ -163,6 +163,12 @@
       <Filter>Strings\en</Filter>
     </PRIResource>
     <PRIResource Include="Strings\zh-Hans\SponsorPage.resw">
+      <Filter>Strings\zh-Hans</Filter>
+    </PRIResource>
+    <PRIResource Include="Strings\en\VirtualMachineSettingsPage.resw">
+      <Filter>Strings\en</Filter>
+    </PRIResource>
+    <PRIResource Include="Strings\zh-Hans\VirtualMachineSettingsPage.resw">
       <Filter>Strings\zh-Hans</Filter>
     </PRIResource>
   </ItemGroup>
