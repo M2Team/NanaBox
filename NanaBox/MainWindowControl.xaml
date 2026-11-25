@@ -79,15 +79,15 @@
         Icon="Keyboard"
         LabelPosition="Collapsed"
         ToolTipService.ToolTip="[Redirect Keyboard Navigation]" />
-      <AppBarSeparator />
-      <!--<AppBarButton
+      <AppBarButton
         x:Uid="/MainWindow/RestoreVirtualMachineWindowSizeButton"
         Width="48"
         AutomationProperties.Name="[Restore Virtual Machine Window Size]"
+        Click="RestoreVirtualMachineWindowSizeButtonClick"
         Icon="BackToWindow"
         LabelPosition="Collapsed"
         ToolTipService.ToolTip="[Restore Virtual Machine Window Size]" />
-      <AppBarSeparator />-->
+      <AppBarSeparator />
       <AppBarButton
         x:Uid="/MainWindow/CreateVirtualHardDiskButton"
         Width="48"

@@ -186,6 +186,39 @@ void NanaBox::MainWindow::OnCommand(
 
         break;
     }
+    case NanaBox::MainWindowCommands::RestoreVirtualMachineWindowSize:
+    {
+        this->ShowWindow(SW_RESTORE);
+
+        UINT DpiValue = ::GetDpiForWindow(this->m_hWnd);
+        UINT RdpDpiValue =
+            this->m_RdpClientMode == RdpClientMode::BasicSession &&
+            this->m_Configuration.VideoMonitor.DisableBasicSessionDpiScaling
+            ? USER_DEFAULT_SCREEN_DPI : DpiValue;
+
+        RECT WindowRect;
+        winrt::check_bool(this->GetWindowRect(&WindowRect));
+        RECT ClientRect;
+        winrt::check_bool(this->GetClientRect(&ClientRect));
+        WindowRect.right += ::MulDiv(
+            this->m_Configuration.VideoMonitor.HorizontalResolution,
+            RdpDpiValue,
+            USER_DEFAULT_SCREEN_DPI) - ClientRect.right;
+        WindowRect.bottom += ::MulDiv(
+            this->m_Configuration.VideoMonitor.VerticalResolution,
+            RdpDpiValue,
+            USER_DEFAULT_SCREEN_DPI) + ::MulDiv(
+                this->m_RecommendedMainWindowControlHeight,
+                DpiValue,
+                USER_DEFAULT_SCREEN_DPI) - ClientRect.bottom;
+
+        this->SetWindowPos(
+            nullptr,
+            &WindowRect,
+            SWP_NOZORDER | SWP_NOACTIVATE);
+
+        break;
+    }
     case NanaBox::MainWindowCommands::CreateVirtualHardDisk:
     {
         ::ShowNewVirtualHardDiskDialog(this->m_hWnd);
