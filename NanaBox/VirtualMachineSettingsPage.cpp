@@ -1551,12 +1551,13 @@ namespace winrt::NanaBox::implementation
             ::GetSettingsString(L"ChoicePhysicalDevice")));
         Row.Type.SelectedIndex(
             static_cast<std::int32_t>(Configuration.Type) - 1);
+        Row.Type.IsEnabled(!(this->m_MainWindow && Existing));
         ::AddSettingRow(
             Row.Container,
             Row.Type,
             L"ScsiDeviceTypeLabel",
             L"ScsiDeviceTypeHelp",
-            !(this->m_MainWindow && Existing));
+            true);
         Row.Path = winrt::TextBox();
         Row.Path.Text(winrt::to_hstring(Configuration.Path));
         Row.Path.HorizontalAlignment(winrt::HorizontalAlignment::Stretch);
