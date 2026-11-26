@@ -66,36 +66,26 @@ namespace winrt::NanaBox::implementation
         {
             try
             {
-                winrt::com_ptr<IFileDialog> FileDialog =
-                    winrt::create_instance<IFileDialog>(CLSID_FileSaveDialog);
-
-                DWORD Flags = 0;
-                winrt::check_hresult(FileDialog->GetOptions(&Flags));
-
-                Flags |= FOS_FORCEFILESYSTEM;
-                Flags |= FOS_NOCHANGEDIR;
-                Flags |= FOS_DONTADDTORECENT;
-                winrt::check_hresult(FileDialog->SetOptions(Flags));
-
                 COMDLG_FILTERSPEC SupportedFileTypes[] =
                 {
                     { L"VHDX (*.vhdx)", L"*.vhdx" },
                     { L"VHD (*.vhd)", L"*.vhd" }
                 };
-
-                winrt::check_hresult(FileDialog->SetFileTypes(
+                LPWSTR RawFilePath = nullptr;
+                winrt::check_hresult(::ShowFileDialog(
+                    this->m_WindowHandle,
+                    TRUE,
                     ARRAYSIZE(SupportedFileTypes),
-                    SupportedFileTypes));
-
-                // Note: The array is 1-indexed
-                winrt::check_hresult(FileDialog->SetFileTypeIndex(1));
-
-                winrt::check_hresult(FileDialog->SetDefaultExtension(L"vhdx"));
-
-                winrt::check_hresult(FileDialog->Show(this->m_WindowHandle));
-
-                std::wstring FilePath = ::GetFileSystemPathFromFileDialog(
-                    FileDialog.get());
+                    SupportedFileTypes,
+                    nullptr,
+                    L"vhdx",
+                    nullptr,
+                    &RawFilePath));
+                auto FreeFilePath = Mile::ScopeExitTaskHandler([RawFilePath]()
+                {
+                    ::CoTaskMemFree(RawFilePath);
+                });
+                std::wstring FilePath(RawFilePath);
                 if (FilePath.empty())
                 {
                     return;

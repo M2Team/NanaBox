@@ -259,37 +259,116 @@ std::string GetAbsoluteUtf8Path(
         ::GetAbsolutePath(Mile::ToWideString(CP_UTF8, FileName)));
 }
 
-std::wstring GetDisplayNameFromShellItem(
-    _In_ IShellItem* Object,
-    _In_ SIGDN Type)
+HRESULT ShowFileDialog(
+    _In_opt_ HWND ParentWindowHandle,
+    _In_ BOOL SaveMode,
+    _In_ UINT FileTypeCount,
+    _In_reads_(FileTypeCount) COMDLG_FILTERSPEC const* FileTypes,
+    _In_opt_ LPCWSTR Title,
+    _In_opt_ LPCWSTR DefaultExtension,
+    _In_opt_ LPCWSTR DefaultFileName,
+    _Outptr_result_nullonfailure_ LPWSTR* FilePath)
 {
-    std::wstring Name;
-    if (Object)
+    if (!FilePath)
     {
-        LPWSTR RawName = nullptr;
-        if (SUCCEEDED(Object->GetDisplayName(Type, &RawName)))
-        {
-            Name = std::wstring(RawName);
-            ::CoTaskMemFree(RawName);
-        }
+        return E_POINTER;
     }
-    return Name;
-}
+    *FilePath = nullptr;
+    if (!FileTypeCount || !FileTypes)
+    {
+        return E_INVALIDARG;
+    }
 
-std::wstring GetFileSystemPathFromFileDialog(
-    _In_ IFileDialog* Object)
-{
-    std::wstring Path;
-    if (Object)
+    HRESULT Result = S_OK;
+    IFileDialog* FileDialog = nullptr;
+    IShellItem* ShellItem = nullptr;
+
+    do
     {
-        IShellItem* ShellItem = nullptr;
-        if (SUCCEEDED(Object->GetResult(&ShellItem)))
+        Result = ::CoCreateInstance(
+            SaveMode ? CLSID_FileSaveDialog : CLSID_FileOpenDialog,
+            nullptr,
+            CLSCTX_INPROC_SERVER,
+            IID_PPV_ARGS(&FileDialog));
+        if (FAILED(Result))
         {
-            Path = GetDisplayNameFromShellItem(ShellItem, SIGDN_FILESYSPATH);
-            ShellItem->Release();
+            break;
         }
+
+        DWORD Options = 0;
+        Result = FileDialog->GetOptions(&Options);
+        if (FAILED(Result))
+        {
+            break;
+        }
+        Options |= FOS_FORCEFILESYSTEM | FOS_NOCHANGEDIR | FOS_DONTADDTORECENT;
+        if (SaveMode)
+        {
+            Options |= FOS_OVERWRITEPROMPT;
+        }
+        Result = FileDialog->SetOptions(Options);
+        if (FAILED(Result))
+        {
+            break;
+        }
+
+        Result = FileDialog->SetFileTypes(FileTypeCount, FileTypes);
+        if (FAILED(Result))
+        {
+            break;
+        }
+        Result = FileDialog->SetFileTypeIndex(1);
+        if (FAILED(Result))
+        {
+            break;
+        }
+        if (Title)
+        {
+            Result = FileDialog->SetTitle(Title);
+            if (FAILED(Result))
+            {
+                break;
+            }
+        }
+        if (DefaultExtension)
+        {
+            Result = FileDialog->SetDefaultExtension(DefaultExtension);
+            if (FAILED(Result))
+            {
+                break;
+            }
+        }
+        if (DefaultFileName)
+        {
+            Result = FileDialog->SetFileName(DefaultFileName);
+            if (FAILED(Result))
+            {
+                break;
+            }
+        }
+
+        Result = FileDialog->Show(ParentWindowHandle);
+        if (FAILED(Result))
+        {
+            break;
+        }
+        Result = FileDialog->GetResult(&ShellItem);
+        if (FAILED(Result))
+        {
+            break;
+        }
+        Result = ShellItem->GetDisplayName(SIGDN_FILESYSPATH, FilePath);
+    } while (false);
+
+    if (ShellItem)
+    {
+        ShellItem->Release();
     }
-    return Path;
+    if (FileDialog)
+    {
+        FileDialog->Release();
+    }
+    return Result;
 }
 
 void SetForegroundWindowSimple(
@@ -872,17 +951,6 @@ winrt::handle ShowCompactVirtualHardDiskDialog(
     {
         try
         {
-            winrt::com_ptr<IFileDialog> FileDialog =
-                winrt::create_instance<IFileDialog>(CLSID_FileOpenDialog);
-
-            DWORD Flags = 0;
-            winrt::check_hresult(FileDialog->GetOptions(&Flags));
-
-            Flags |= FOS_FORCEFILESYSTEM;
-            Flags |= FOS_NOCHANGEDIR;
-            Flags |= FOS_DONTADDTORECENT;
-            winrt::check_hresult(FileDialog->SetOptions(Flags));
-
             COMDLG_FILTERSPEC SupportedFileTypes[] =
             {
                 {
@@ -890,18 +958,22 @@ winrt::handle ShowCompactVirtualHardDiskDialog(
                     L"*.vhd;*.vhdx"
                 }
             };
-            winrt::check_hresult(FileDialog->SetFileTypes(
+            LPWSTR RawFilePath = nullptr;
+            winrt::check_hresult(::ShowFileDialog(
+                ParentWindowHandle,
+                FALSE,
                 ARRAYSIZE(SupportedFileTypes),
-                SupportedFileTypes));
-
-            winrt::check_hresult(FileDialog->SetTitle(
+                SupportedFileTypes,
                 Mile::WinRT::GetLocalizedString(
-                    L"CompactVirtualHardDiskWizard/PathTip").c_str()));
-
-            winrt::check_hresult(FileDialog->Show(ParentWindowHandle));
-
-            std::wstring FilePath = ::GetFileSystemPathFromFileDialog(
-                FileDialog.get());
+                    L"CompactVirtualHardDiskWizard/PathTip").c_str(),
+                nullptr,
+                nullptr,
+                &RawFilePath));
+            auto FreeFilePath = Mile::ScopeExitTaskHandler([RawFilePath]()
+            {
+                ::CoTaskMemFree(RawFilePath);
+            });
+            std::wstring FilePath(RawFilePath);
             if (FilePath.empty())
             {
                 return;

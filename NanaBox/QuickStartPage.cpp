@@ -73,16 +73,6 @@ namespace winrt::NanaBox::implementation
                     return;
                 }
 
-                winrt::com_ptr<IFileDialog> FileDialog =
-                    winrt::create_instance<IFileDialog>(CLSID_FileOpenDialog);
-
-                DWORD Flags = 0;
-                winrt::check_hresult(FileDialog->GetOptions(&Flags));
-                Flags |= FOS_FORCEFILESYSTEM;
-                Flags |= FOS_NOCHANGEDIR;
-                Flags |= FOS_DONTADDTORECENT;
-                winrt::check_hresult(FileDialog->SetOptions(Flags));
-
                 std::wstring FileTypeName = Mile::FormatWideString(
                     L"%s (*.7b)",
                     Mile::WinRT::GetLocalizedString(
@@ -96,14 +86,21 @@ namespace winrt::NanaBox::implementation
                         L"*.7b"
                     }
                 };
-                winrt::check_hresult(FileDialog->SetFileTypes(
+                LPWSTR RawFilePath = nullptr;
+                winrt::check_hresult(::ShowFileDialog(
+                    this->m_WindowHandle,
+                    FALSE,
                     ARRAYSIZE(SupportedFileTypes),
-                    SupportedFileTypes));
-
-                winrt::check_hresult(FileDialog->Show(this->m_WindowHandle));
-
-                *this->m_ConfigurationFilePath = ::GetFileSystemPathFromFileDialog(
-                    FileDialog.get());
+                    SupportedFileTypes,
+                    nullptr,
+                    nullptr,
+                    nullptr,
+                    &RawFilePath));
+                auto FreeFilePath = Mile::ScopeExitTaskHandler([RawFilePath]()
+                {
+                    ::CoTaskMemFree(RawFilePath);
+                });
+                *this->m_ConfigurationFilePath = RawFilePath;
                 if (!this->m_ConfigurationFilePath->empty())
                 {
                     ::PostMessageW(this->m_WindowHandle, WM_CLOSE, 0, 0);
@@ -137,16 +134,6 @@ namespace winrt::NanaBox::implementation
         {
             try
             {
-                winrt::com_ptr<IFileDialog> FileDialog =
-                    winrt::create_instance<IFileDialog>(CLSID_FileOpenDialog);
-
-                DWORD Flags = 0;
-                winrt::check_hresult(FileDialog->GetOptions(&Flags));
-                Flags |= FOS_FORCEFILESYSTEM;
-                Flags |= FOS_NOCHANGEDIR;
-                Flags |= FOS_DONTADDTORECENT;
-                winrt::check_hresult(FileDialog->SetOptions(Flags));
-
                 std::wstring FileTypeName = Mile::FormatWideString(
                     L"%s (*.7b)",
                     Mile::WinRT::GetLocalizedString(
@@ -160,14 +147,21 @@ namespace winrt::NanaBox::implementation
                         L"*.7b"
                     }
                 };
-                winrt::check_hresult(FileDialog->SetFileTypes(
+                LPWSTR RawFilePath = nullptr;
+                winrt::check_hresult(::ShowFileDialog(
+                    this->m_WindowHandle,
+                    FALSE,
                     ARRAYSIZE(SupportedFileTypes),
-                    SupportedFileTypes));
-
-                winrt::check_hresult(FileDialog->Show(this->m_WindowHandle));
-
-                std::wstring ConfigurationFilePath =
-                    ::GetFileSystemPathFromFileDialog(FileDialog.get());
+                    SupportedFileTypes,
+                    nullptr,
+                    nullptr,
+                    nullptr,
+                    &RawFilePath));
+                auto FreeFilePath = Mile::ScopeExitTaskHandler([RawFilePath]()
+                {
+                    ::CoTaskMemFree(RawFilePath);
+                });
+                std::wstring ConfigurationFilePath(RawFilePath);
                 if (!ConfigurationFilePath.empty())
                 {
                     NanaBox::VirtualMachineConfiguration Configuration =

@@ -65,17 +65,6 @@ namespace winrt::NanaBox::implementation
         {
             try
             {
-                winrt::com_ptr<IFileDialog> FileDialog =
-                    winrt::create_instance<IFileDialog>(CLSID_FileOpenDialog);
-
-                DWORD Flags = 0;
-                winrt::check_hresult(FileDialog->GetOptions(&Flags));
-
-                Flags |= FOS_FORCEFILESYSTEM;
-                Flags |= FOS_NOCHANGEDIR;
-                Flags |= FOS_DONTADDTORECENT;
-                winrt::check_hresult(FileDialog->SetOptions(Flags));
-
                 COMDLG_FILTERSPEC SupportedFileTypes[] =
                 {
                     {
@@ -83,14 +72,21 @@ namespace winrt::NanaBox::implementation
                         L"*.vhd;*.vhdx"
                     }
                 };
-                winrt::check_hresult(FileDialog->SetFileTypes(
+                LPWSTR RawFilePath = nullptr;
+                winrt::check_hresult(::ShowFileDialog(
+                    this->m_WindowHandle,
+                    FALSE,
                     ARRAYSIZE(SupportedFileTypes),
-                    SupportedFileTypes));
-
-                winrt::check_hresult(FileDialog->Show(this->m_WindowHandle));
-
-                std::wstring FilePath = ::GetFileSystemPathFromFileDialog(
-                    FileDialog.get());
+                    SupportedFileTypes,
+                    nullptr,
+                    nullptr,
+                    nullptr,
+                    &RawFilePath));
+                auto FreeFilePath = Mile::ScopeExitTaskHandler([RawFilePath]()
+                {
+                    ::CoTaskMemFree(RawFilePath);
+                });
+                std::wstring FilePath(RawFilePath);
                 if (FilePath.empty())
                 {
                     return;

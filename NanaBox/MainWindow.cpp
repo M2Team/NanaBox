@@ -303,22 +303,29 @@ void NanaBox::MainWindow::StartCapture(_In_ bool Recording)
         std::wstring FilePath;
         if (Recording)
         {
-            auto Dialog = winrt::create_instance<IFileDialog>(
-                CLSID_FileSaveDialog);
             COMDLG_FILTERSPEC Type = {};
             Type.pszName = L"MP4 (*.mp4)";
             Type.pszSpec = L"*.mp4";
-            winrt::check_hresult(Dialog->SetFileTypes(1, &Type));
-            winrt::check_hresult(Dialog->SetDefaultExtension(L"mp4"));
-            winrt::check_hresult(Dialog->SetOptions(
-                FOS_FORCEFILESYSTEM | FOS_OVERWRITEPROMPT | FOS_NOCHANGEDIR));
-            HRESULT Result = Dialog->Show(this->m_hWnd);
+            LPWSTR RawFilePath = nullptr;
+            HRESULT Result = ::ShowFileDialog(
+                this->m_hWnd,
+                TRUE,
+                1,
+                &Type,
+                nullptr,
+                L"mp4",
+                nullptr,
+                &RawFilePath);
             if (Result == HRESULT_FROM_WIN32(ERROR_CANCELLED))
             {
                 return;
             }
             winrt::check_hresult(Result);
-            FilePath = ::GetFileSystemPathFromFileDialog(Dialog.get());
+            auto FreeFilePath = Mile::ScopeExitTaskHandler([RawFilePath]()
+            {
+                ::CoTaskMemFree(RawFilePath);
+            });
+            FilePath = RawFilePath;
         }
         winrt::DesktopWindowXamlSource XamlSource = nullptr;
         winrt::copy_from_abi(XamlSource,

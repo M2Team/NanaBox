@@ -1062,36 +1062,32 @@ namespace winrt::NanaBox::implementation
                 std::wstring FilePath = this->m_ConfigurationFilePath;
                 if (FilePath.empty())
                 {
-                    winrt::com_ptr<IFileSaveDialog> FileDialog =
-                        winrt::create_instance<IFileSaveDialog>(
-                            CLSID_FileSaveDialog);
-                    DWORD Flags = 0;
-                    winrt::check_hresult(FileDialog->GetOptions(&Flags));
-                    Flags |= FOS_FORCEFILESYSTEM;
-                    Flags |= FOS_NOCHANGEDIR;
-                    Flags |= FOS_DONTADDTORECENT;
-                    Flags |= FOS_OVERWRITEPROMPT;
-                    winrt::check_hresult(FileDialog->SetOptions(Flags));
-
                     winrt::hstring FileTypeName =
                         ::GetSettingsString(L"ConfigurationFileTypeName");
                     COMDLG_FILTERSPEC FileType = {};
                     FileType.pszName = FileTypeName.c_str();
                     FileType.pszSpec = L"*.7b";
-                    winrt::check_hresult(FileDialog->SetFileTypes(
-                        1, &FileType));
-                    winrt::check_hresult(FileDialog->SetDefaultExtension(
-                        L"7b"));
-                    winrt::check_hresult(FileDialog->SetFileName(
-                        winrt::to_hstring(Configuration.Name + ".7b").c_str()));
-                    HRESULT Result = FileDialog->Show(this->m_WindowHandle);
+                    LPWSTR RawFilePath = nullptr;
+                    HRESULT Result = ::ShowFileDialog(
+                        this->m_WindowHandle,
+                        TRUE,
+                        1,
+                        &FileType,
+                        nullptr,
+                        L"7b",
+                        winrt::to_hstring(Configuration.Name + ".7b").c_str(),
+                        &RawFilePath);
                     if (HRESULT_FROM_WIN32(ERROR_CANCELLED) == Result)
                     {
                         return;
                     }
                     winrt::check_hresult(Result);
-                    FilePath = ::GetFileSystemPathFromFileDialog(
-                        FileDialog.get());
+                    auto FreeFilePath = Mile::ScopeExitTaskHandler(
+                        [RawFilePath]()
+                    {
+                        ::CoTaskMemFree(RawFilePath);
+                    });
+                    FilePath = RawFilePath;
                     if (FilePath.empty())
                     {
                         return;
@@ -1498,31 +1494,31 @@ namespace winrt::NanaBox::implementation
         {
             return;
         }
-        winrt::com_ptr<IFileDialog> FileDialog =
-            winrt::create_instance<IFileDialog>(CLSID_FileOpenDialog);
-        DWORD Flags = 0;
-        winrt::check_hresult(FileDialog->GetOptions(&Flags));
-        Flags |= FOS_FORCEFILESYSTEM;
-        Flags |= FOS_NOCHANGEDIR;
-        Flags |= FOS_DONTADDTORECENT;
-        winrt::check_hresult(FileDialog->SetOptions(Flags));
-
         COMDLG_FILTERSPEC FileType = {};
         FileType.pszName = Index == 0
             ? L"Virtual Hard Disk Files (*.vhd;*.vhdx)" : L"ISO (*.iso)";
         FileType.pszSpec = Index == 0 ? L"*.vhd;*.vhdx" : L"*.iso";
-        winrt::check_hresult(FileDialog->SetFileTypes(1, &FileType));
-        winrt::check_hresult(FileDialog->SetTitle(
+        LPWSTR RawFilePath = nullptr;
+        HRESULT Result = ::ShowFileDialog(
+            this->m_WindowHandle,
+            FALSE,
+            1,
+            &FileType,
             ::GetSettingsString(Index == 0
-                ? L"VirtualDiskPathTip" : L"VirtualImagePathTip").c_str()));
-        HRESULT Result = FileDialog->Show(this->m_WindowHandle);
+                ? L"VirtualDiskPathTip" : L"VirtualImagePathTip").c_str(),
+            nullptr,
+            nullptr,
+            &RawFilePath);
         if (HRESULT_FROM_WIN32(ERROR_CANCELLED) == Result)
         {
             return;
         }
         winrt::check_hresult(Result);
-        std::wstring FilePath = ::GetFileSystemPathFromFileDialog(
-            FileDialog.get());
+        auto FreeFilePath = Mile::ScopeExitTaskHandler([RawFilePath]()
+        {
+            ::CoTaskMemFree(RawFilePath);
+        });
+        std::wstring FilePath(RawFilePath);
         if (!FilePath.empty())
         {
             Path.Text(winrt::hstring(::GetRelativeFilePath(

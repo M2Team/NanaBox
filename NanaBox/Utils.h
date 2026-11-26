@@ -37,12 +37,31 @@ std::wstring GetAbsolutePath(
 std::string GetAbsoluteUtf8Path(
     std::string const& FileName);
 
-std::wstring GetDisplayNameFromShellItem(
-    _In_ IShellItem* Object,
-    _In_ SIGDN Type);
-
-std::wstring GetFileSystemPathFromFileDialog(
-    _In_ IFileDialog* Object);
+/**
+ * @brief Shows a single-file Open or Save dialog. COM must already be
+ *        initialized on the calling thread.
+ * @param ParentWindowHandle The optional owner window.
+ * @param SaveMode TRUE for Save mode; FALSE for Open mode.
+ * @param FileTypeCount The nonzero number of file type filters.
+ * @param FileTypes The file type filters. The first type is selected initially.
+ * @param Title The optional dialog title.
+ * @param DefaultExtension The optional default extension, without a period.
+ * @param DefaultFileName The optional initial file name.
+ * @param FilePath Receives the selected path allocated by the Shell.
+ *                 The caller must free it with CoTaskMemFree. Set to nullptr
+ *                 on failure, including cancellation.
+ * @return S_OK on success, HRESULT_FROM_WIN32(ERROR_CANCELLED) on cancellation,
+ *         or another HRESULT error code on failure.
+*/
+HRESULT ShowFileDialog(
+    _In_opt_ HWND ParentWindowHandle,
+    _In_ BOOL SaveMode,
+    _In_ UINT FileTypeCount,
+    _In_reads_(FileTypeCount) COMDLG_FILTERSPEC const* FileTypes,
+    _In_opt_ LPCWSTR Title,
+    _In_opt_ LPCWSTR DefaultExtension,
+    _In_opt_ LPCWSTR DefaultFileName,
+    _Outptr_result_nullonfailure_ LPWSTR* FilePath);
 
 void SetForegroundWindowSimple(
     _In_ HWND WindowHandle);
