@@ -52,7 +52,7 @@ std::string GetAbsoluteUtf8Path(
  *                 on failure, including cancellation.
  * @return S_OK on success, HRESULT_FROM_WIN32(ERROR_CANCELLED) on cancellation,
  *         or another HRESULT error code on failure.
-*/
+ */
 HRESULT ShowFileDialog(
     _In_opt_ HWND ParentWindowHandle,
     _In_ BOOL SaveMode,
