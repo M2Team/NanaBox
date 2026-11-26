@@ -458,7 +458,8 @@ namespace
                 [Instance, StopEvent, Epoch]()
             {
                 ::SetThreadDescription(
-                    ::GetCurrentThread(), L"NanaBox audio capture");
+                    ::GetCurrentThread(),
+                    L"NanaBox.Capture.Thread.Audio");
                 try
                 {
                     winrt::init_apartment();
