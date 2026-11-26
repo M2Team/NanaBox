@@ -28,6 +28,7 @@
         Grid.Column="0"
         Margin="0,0,8,0"
         HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch"
         HorizontalContentAlignment="Center"
         AutomationProperties.Name="[Reload Configuration]"
         Click="ReloadButtonClick">
@@ -42,6 +43,7 @@
         Grid.Column="1"
         Margin="0,0,8,0"
         HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch"
         HorizontalContentAlignment="Center"
         AutomationProperties.Name="[Open Virtual Machine Configuration File]"
         Click="OpenButtonClick">
@@ -56,6 +58,7 @@
         Grid.Column="2"
         Margin="0,0,8,0"
         HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch"
         HorizontalContentAlignment="Center"
         AutomationProperties.Name="[Configuration File Reference Documentation]"
         Click="ReferenceButtonClick">
@@ -70,6 +73,7 @@
         Grid.Column="3"
         Margin="0,0,0,0"
         HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch"
         HorizontalContentAlignment="Center"
         AutomationProperties.Name="[Apply Changes]"
         Click="ApplyButtonClick">
