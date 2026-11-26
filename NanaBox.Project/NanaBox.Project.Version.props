@@ -10,9 +10,9 @@
 -->
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <NanaBoxMajorVersion>1</NanaBoxMajorVersion>
-    <NanaBoxMinorVersion>7</NanaBoxMinorVersion>
-    <NanaBoxBuildNumberDate>2026-09-20</NanaBoxBuildNumberDate>
+    <NanaBoxMajorVersion>2</NanaBoxMajorVersion>
+    <NanaBoxMinorVersion>0</NanaBoxMinorVersion>
+    <NanaBoxBuildNumberDate>2026-11-26</NanaBoxBuildNumberDate>
     <!-- <NanaBoxVersionTag>Update 1</NanaBoxVersionTag> -->
   </PropertyGroup>
 </Project>

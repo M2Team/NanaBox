@@ -6,7 +6,7 @@ namespace NanaBox.RefreshPackageVersion
 {
     internal class Program
     {
-        static (int Major, int Minor) Version = (1, 7);
+        static (int Major, int Minor) Version = (2, 0);
         static string BuildStartDay = "2022-04-01";
 
         static string GenerateVersionString()

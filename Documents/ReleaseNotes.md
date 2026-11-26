@@ -1,5 +1,30 @@
 ﻿# NanaBox Release Notes
 
+**NanaBox 2.0 (2.0.1700.0)**
+
+- Introduce the virtual machine settings user experience based on XAML for
+  creating and editing virtual machine configurations, including supported
+  runtime settings. (Thanks to gpt-6.1-sol medium @ pi agent.)
+- Introduce support for copying virtual machine screenshots to the clipboard.
+  (Thanks to gpt-6.1-sol max @ pi agent.)
+- Introduce virtual machine video recording support with MP4 output. (Audio
+  recording requires Windows Server 2022 or later Host OS.) (Thanks to
+  gpt-6.1-sol max @ pi agent.)
+- Introduce support for switching keyboard navigation redirection at runtime.
+  (Thanks to gpt-6.1-sol medium @ pi agent.)
+- Introduce support for restoring the virtual machine window size to match the
+  configured display resolution. (Thanks to gpt-6.1-sol medium @ pi agent.)
+- Try to fix shutdown blocking not working properly via registering the shutdown
+  blocking reason during main window creation. (Thanks to gpt-6.1-sol medium @
+  pi agent.)
+- Fix a possible mismatch between the virtual machine window enhanced session
+  button state and the actual Hyper-V session mode in use. (Thanks to
+  gpt-6.1-sol medium @ pi agent.)
+- Refactor the file open and save dialog implementations. (Thanks to gpt-6.1-sol
+  max @ pi agent.)
+- Update Mile.Windows.Helpers to 1.0.1427.
+- Update documents.
+
 **NanaBox 1.7 (1.7.1633.0)**
 
 - Automatically configure the certificate normally provisioned by the Virtual
@@ -10,7 +35,7 @@
 
 **NanaBox 1.6 Update 5 (1.6.1617.0)**
 
-- Prevent crashes by handling pause operation failures from the Host Compute
+- Prevent crashes by handling pause operation failures from the Host Compute[ReadMe](../ReadMe.md)
   System API when powering off virtual machines in the UEFI stage.
 - Reduce failures of applying user interaction settings when using the reload
   the virtual machine settings button.

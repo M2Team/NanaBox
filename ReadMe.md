@@ -77,6 +77,12 @@ If you'd like me to add features or improvements ahead of time, please use
 - Supports virtual switch customization suggestions (use customized virtual
   switch, customize name and subnet for the first time to create the virtual
   switch) for each virtual network adapter.
+- Supports copying virtual machine screenshots to the clipboard.
+- Supports recording virtual machine video to MP4 files. (Audio recording
+  requires Windows Server 2022 or later Host OS.)
+- Supports switching keyboard navigation redirection at runtime.
+- Supports restoring the virtual machine window size to match the configured
+  display resolution.
 
 ## System Requirements
 
