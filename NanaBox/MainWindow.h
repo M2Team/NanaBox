@@ -14,6 +14,8 @@
 #include "ConfigurationManager.h"
 
 #include "MainWindowControl.h"
+#include "VirtualMachineCapture.h"
+#include <atomic>
 
 namespace NanaBox
 {
@@ -22,6 +24,14 @@ namespace NanaBox
         enum
         {
             SyncDisplaySettings = 1,
+        };
+    }
+
+    namespace MainWindowNotifications
+    {
+        enum
+        {
+            CaptureStateChanged = 1,
         };
     }
 
@@ -125,6 +135,15 @@ namespace NanaBox
         bool m_MouseCaptureMode = false;
         bool m_VirtualMachineNeverConnected = false;
         bool m_VmmsCertificateCreationAttempted = false;
+
+        winrt::handle m_RecordingThread;
+        winrt::handle m_ScreenshotThread;
+        winrt::handle m_RecordingStop;
+        std::atomic<bool> m_Recording = false;
+        winrt::handle m_ScreenshotStop;
+        winrt::IRandomAccessStream m_Screenshot = nullptr;
+
+        void StartCapture(_In_ bool Recording);
 
         void InitializeVirtualMachine();
 

@@ -193,6 +193,38 @@ namespace winrt::NanaBox::implementation
             0);
     }
 
+    void MainWindowControl::CopyScreenshotButtonClick(
+        winrt::IInspectable const& sender,
+        winrt::RoutedEventArgs const& e)
+    {
+        UNREFERENCED_PARAMETER(sender);
+        UNREFERENCED_PARAMETER(e);
+
+        ::PostMessageW(
+            this->m_WindowHandle,
+            WM_COMMAND,
+            MAKEWPARAM(
+                NanaBox::MainWindowCommands::CopyScreenshot,
+                BN_CLICKED),
+            0);
+    }
+
+    void MainWindowControl::RecordVideoButtonClick(
+        winrt::IInspectable const& sender,
+        winrt::RoutedEventArgs const& e)
+    {
+        UNREFERENCED_PARAMETER(sender);
+        UNREFERENCED_PARAMETER(e);
+
+        ::PostMessageW(
+            this->m_WindowHandle,
+            WM_COMMAND,
+            MAKEWPARAM(
+                NanaBox::MainWindowCommands::ToggleRecording,
+                BN_CLICKED),
+            0);
+    }
+
     void MainWindowControl::CreateVirtualHardDiskButtonClick(
         winrt::IInspectable const& sender,
         winrt::RoutedEventArgs const& e)

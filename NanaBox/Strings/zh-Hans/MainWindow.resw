@@ -133,6 +133,14 @@
     <value>压缩虚拟磁盘</value>
     <comment>Compact Virtual Hard Disk</comment>
   </data>
+  <data name="CopyScreenshotButton.AutomationProperties.Name" xml:space="preserve">
+    <value>复制屏幕截图</value>
+    <comment>Copy Screenshot</comment>
+  </data>
+  <data name="CopyScreenshotButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>复制屏幕截图</value>
+    <comment>Copy Screenshot</comment>
+  </data>
   <data name="CreateVirtualHardDiskButton.AutomationProperties.Name" xml:space="preserve">
     <value>创建虚拟磁盘</value>
     <comment>Create Virtual Hard Disk</comment>
@@ -164,6 +172,14 @@
   <data name="PauseVirtualMachineButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>暂停虚拟机</value>
     <comment>Pause Virtual Machine</comment>
+  </data>
+  <data name="RecordVideoButton.AutomationProperties.Name" xml:space="preserve">
+    <value>录制视频</value>
+    <comment>Record Video</comment>
+  </data>
+  <data name="RecordVideoButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>录制视频</value>
+    <comment>Record Video</comment>
   </data>
   <data name="RedirectKeyboardNavigationButton.AutomationProperties.Name" xml:space="preserve">
     <value>重定向键盘导航</value>

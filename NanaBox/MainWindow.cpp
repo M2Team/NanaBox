@@ -6,6 +6,7 @@
 #include <Mile.Xaml.h>
 
 #include <winrt/Windows.UI.Core.h>
+#include <winrt/Windows.ApplicationModel.DataTransfer.h>
 
 #include <ShlObj.h>
 
@@ -17,6 +18,7 @@
 #include "Utils.h"
 
 #include <map>
+#include <optional>
 
 #include "NanaBoxResources.h"
 
@@ -25,6 +27,9 @@
 namespace winrt
 {
     using Windows::UI::Core::CoreDispatcherPriority;
+    using Windows::ApplicationModel::DataTransfer::Clipboard;
+    using Windows::ApplicationModel::DataTransfer::DataPackage;
+    using Windows::Storage::Streams::RandomAccessStreamReference;
     using Windows::UI::Xaml::Hosting::DesktopWindowXamlSource;
 }
 
@@ -101,7 +106,6 @@ void NanaBox::MainWindow::OnCommand(
     int nID,
     ATL::CWindow wndCtl)
 {
-    UNREFERENCED_PARAMETER(uNotifyCode);
     UNREFERENCED_PARAMETER(wndCtl);
 
     switch (nID)
@@ -219,6 +223,38 @@ void NanaBox::MainWindow::OnCommand(
 
         break;
     }
+    case NanaBox::MainWindowCommands::CopyScreenshot:
+    case NanaBox::MainWindowCommands::ToggleRecording:
+    {
+        bool Recording = nID == NanaBox::MainWindowCommands::ToggleRecording;
+        auto Button = winrt::get_self<
+            winrt::NanaBox::implementation::MainWindowControl>(
+                this->m_MainWindowControl)->RecordVideoButton();
+        Button.IsChecked(this->m_Recording.load());
+        if (uNotifyCode == NanaBox::MainWindowNotifications::CaptureStateChanged)
+        {
+            if (!Recording && this->m_Screenshot)
+            {
+                winrt::DataPackage Data;
+                Data.SetBitmap(winrt::RandomAccessStreamReference::
+                    CreateFromStream(this->m_Screenshot));
+                winrt::Clipboard::SetContent(Data);
+                winrt::Clipboard::Flush();
+                this->m_Screenshot = nullptr;
+            }
+            if (!Recording || !this->m_Recording)
+            {
+                (Recording ? this->m_RecordingThread :
+                    this->m_ScreenshotThread).close();
+            }
+        }
+        else
+        {
+            this->StartCapture(Recording);
+        }
+        Button.IsEnabled(this->m_Recording || !this->m_RecordingThread);
+        break;
+    }
     case NanaBox::MainWindowCommands::CreateVirtualHardDisk:
     {
         ::ShowNewVirtualHardDiskDialog(this->m_hWnd);
@@ -245,6 +281,96 @@ void NanaBox::MainWindow::OnCommand(
     }
     default:
         break;
+    }
+}
+
+void NanaBox::MainWindow::StartCapture(_In_ bool Recording)
+{
+    winrt::handle& Thread = Recording ?
+        this->m_RecordingThread : this->m_ScreenshotThread;
+    winrt::handle& Stop = Recording ?
+        this->m_RecordingStop : this->m_ScreenshotStop;
+    if (Thread)
+    {
+        if (Recording)
+        {
+            ::SetEvent(Stop.get());
+        }
+        return;
+    }
+    try
+    {
+        std::wstring FilePath;
+        if (Recording)
+        {
+            auto Dialog = winrt::create_instance<IFileDialog>(
+                CLSID_FileSaveDialog);
+            COMDLG_FILTERSPEC Type = {};
+            Type.pszName = L"MP4 (*.mp4)";
+            Type.pszSpec = L"*.mp4";
+            winrt::check_hresult(Dialog->SetFileTypes(1, &Type));
+            winrt::check_hresult(Dialog->SetDefaultExtension(L"mp4"));
+            winrt::check_hresult(Dialog->SetOptions(
+                FOS_FORCEFILESYSTEM | FOS_OVERWRITEPROMPT | FOS_NOCHANGEDIR));
+            HRESULT Result = Dialog->Show(this->m_hWnd);
+            if (Result == HRESULT_FROM_WIN32(ERROR_CANCELLED))
+            {
+                return;
+            }
+            winrt::check_hresult(Result);
+            FilePath = ::GetFileSystemPathFromFileDialog(Dialog.get());
+        }
+        winrt::DesktopWindowXamlSource XamlSource = nullptr;
+        winrt::copy_from_abi(XamlSource,
+            ::GetPropW(this->m_hWnd, L"XamlWindowSource"));
+        HWND ToolbarHandle = nullptr;
+        winrt::check_hresult(XamlSource.as<
+            IDesktopWindowXamlSourceNative>()->get_WindowHandle(&ToolbarHandle));
+        Stop.attach(::CreateEventW(nullptr, TRUE, FALSE, nullptr));
+        winrt::check_bool(Stop.get());
+        Thread.attach(Mile::CreateThread([this, Recording, FilePath,
+            ToolbarHandle, WindowHandle = this->m_hWnd, StopEvent = Stop.get()]()
+        {
+            ::SetThreadDescription(::GetCurrentThread(), L"NanaBox capture");
+            std::optional<winrt::hresult_error> Error;
+            try
+            {
+                auto Stream = NanaBox::CaptureVirtualMachine(
+                    WindowHandle, ToolbarHandle, StopEvent, FilePath, [&]()
+                {
+                    this->m_Recording = true;
+                    ::PostMessageW(WindowHandle, WM_COMMAND, MAKEWPARAM(
+                        NanaBox::MainWindowCommands::ToggleRecording,
+                        NanaBox::MainWindowNotifications::CaptureStateChanged), 0);
+                });
+                if (!Recording)
+                {
+                    this->m_Screenshot = Stream;
+                }
+            }
+            catch (...)
+            {
+                Error = Mile::WinRT::ToHResultError();
+            }
+            if (Recording)
+            {
+                this->m_Recording = false;
+            }
+            ::PostMessageW(WindowHandle, WM_COMMAND, MAKEWPARAM(
+                Recording ? NanaBox::MainWindowCommands::ToggleRecording :
+                    NanaBox::MainWindowCommands::CopyScreenshot,
+                NanaBox::MainWindowNotifications::CaptureStateChanged), 0);
+            if (Error &&
+                Error->code() != HRESULT_FROM_WIN32(ERROR_CANCELLED))
+            {
+                ::ShowErrorMessageDialog(*Error);
+            }
+        }));
+        winrt::check_bool(Thread.get());
+    }
+    catch (...)
+    {
+        ::ShowErrorMessageDialog(Mile::WinRT::ToHResultError());
     }
 }
 
@@ -520,6 +646,23 @@ void NanaBox::MainWindow::OnClose()
 
 void NanaBox::MainWindow::OnDestroy()
 {
+    ::SetEvent(this->m_RecordingStop.get());
+    ::SetEvent(this->m_ScreenshotStop.get());
+    HANDLE Threads[2] = {};
+    Threads[0] = this->m_RecordingThread.get();
+    Threads[1] = this->m_ScreenshotThread.get();
+    for (HANDLE Thread : Threads)
+    {
+        if (Thread)
+        {
+            while (::MsgWaitForMultipleObjects(
+                1, &Thread, FALSE, INFINITE, QS_SENDMESSAGE) == WAIT_OBJECT_0 + 1)
+            {
+                MSG Message;
+                ::PeekMessageW(&Message, nullptr, 0, 0, PM_NOREMOVE);
+            }
+        }
+    }
     // Just kill the process directly for reducing the Windows error reports.
     ::TerminateProcess(::GetCurrentProcess(), 0);
 }

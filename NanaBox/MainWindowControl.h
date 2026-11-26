@@ -33,10 +33,12 @@ namespace NanaBox
             RedirectKeyboardNavigation = 0x1008,
             ReleaseKeyboardNavigation = 0x1009,
             RestoreVirtualMachineWindowSize = 0x100A,
-            CreateVirtualHardDisk = 0x100B,
-            ResizeVirtualHardDisk = 0x100C,
-            CompactVirtualHardDisk = 0x100D,
-            About = 0x100E,
+            CopyScreenshot = 0x100B,
+            ToggleRecording = 0x100C,
+            CreateVirtualHardDisk = 0x100D,
+            ResizeVirtualHardDisk = 0x100E,
+            CompactVirtualHardDisk = 0x100F,
+            About = 0x1010,
         };
     }
 }
@@ -86,6 +88,14 @@ namespace winrt::NanaBox::implementation
             winrt::RoutedEventArgs const& e);
 
         void RestoreVirtualMachineWindowSizeButtonClick(
+            winrt::IInspectable const& sender,
+            winrt::RoutedEventArgs const& e);
+
+        void CopyScreenshotButtonClick(
+            winrt::IInspectable const& sender,
+            winrt::RoutedEventArgs const& e);
+
+        void RecordVideoButtonClick(
             winrt::IInspectable const& sender,
             winrt::RoutedEventArgs const& e);
 

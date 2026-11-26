@@ -52,6 +52,7 @@
     <ClCompile Include="ConfigurationManager.cpp" />
     <ClCompile Include="HostCompute.cpp" />
     <ClCompile Include="MainWindow.cpp" />
+    <ClCompile Include="VirtualMachineCapture.cpp" />
     <ClCompile Include="MainWindowControl.cpp">
       <DependentUpon>MainWindowControl.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -167,6 +168,7 @@
     <ClInclude Include="NanaBox.Configuration.Specification.h" />
     <ClInclude Include="HostCompute.h" />
     <ClInclude Include="MainWindow.h" />
+    <ClInclude Include="VirtualMachineCapture.h" />
     <ClInclude Include="MainWindowControl.h">
       <DependentUpon>MainWindowControl.xaml</DependentUpon>
       <SubType>Code</SubType>

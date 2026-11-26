@@ -133,6 +133,14 @@
     <value>Compact Virtual Hard Disk</value>
     <comment>Compact Virtual Hard Disk</comment>
   </data>
+  <data name="CopyScreenshotButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Copy Screenshot</value>
+    <comment>Copy Screenshot</comment>
+  </data>
+  <data name="CopyScreenshotButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Copy Screenshot</value>
+    <comment>Copy Screenshot</comment>
+  </data>
   <data name="CreateVirtualHardDiskButton.AutomationProperties.Name" xml:space="preserve">
     <value>Create Virtual Hard Disk</value>
     <comment>Create Virtual Hard Disk</comment>
@@ -164,6 +172,14 @@
   <data name="PauseVirtualMachineButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Pause Virtual Machine</value>
     <comment>Pause Virtual Machine</comment>
+  </data>
+  <data name="RecordVideoButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Record Video</value>
+    <comment>Record Video</comment>
+  </data>
+  <data name="RecordVideoButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Record Video</value>
+    <comment>Record Video</comment>
   </data>
   <data name="RedirectKeyboardNavigationButton.AutomationProperties.Name" xml:space="preserve">
     <value>Redirect Keyboard Navigation</value>

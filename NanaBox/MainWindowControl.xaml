@@ -87,6 +87,23 @@
         Icon="BackToWindow"
         LabelPosition="Collapsed"
         ToolTipService.ToolTip="[Restore Virtual Machine Window Size]" />
+      <AppBarButton
+        x:Uid="/MainWindow/CopyScreenshotButton"
+        Width="48"
+        AutomationProperties.Name="[Copy Screenshot]"
+        Click="CopyScreenshotButtonClick"
+        Icon="Camera"
+        LabelPosition="Collapsed"
+        ToolTipService.ToolTip="[Copy Screenshot]" />
+      <AppBarToggleButton
+        x:Name="RecordVideoButton"
+        x:Uid="/MainWindow/RecordVideoButton"
+        Width="48"
+        AutomationProperties.Name="[Record Video]"
+        Click="RecordVideoButtonClick"
+        Icon="Video"
+        LabelPosition="Collapsed"
+        ToolTipService.ToolTip="[Record Video]" />
       <AppBarSeparator />
       <AppBarButton
         x:Uid="/MainWindow/CreateVirtualHardDiskButton"
