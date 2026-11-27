@@ -139,7 +139,7 @@
   </data>
   <data name="AltEscHotkeyLabel.Text" xml:space="preserve">
     <value>ALT+ESC 替代热键</value>
-    <comment>AltEscHotkey</comment>
+    <comment>Alt+Esc Hotkey</comment>
   </data>
   <data name="AltEscHotkeyTextBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>指定与 ALT 组合的虚拟键码，用于替代 ALT+ESC（可选）。</value>
@@ -147,7 +147,7 @@
   </data>
   <data name="AltEscHotkeyTextBox.AutomationProperties.Name" xml:space="preserve">
     <value>ALT+ESC 替代热键</value>
-    <comment>AltEscHotkey</comment>
+    <comment>Alt+Esc Hotkey</comment>
   </data>
   <data name="AltEscHotkeyTextBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>指定与 ALT 组合的虚拟键码，用于替代 ALT+ESC（可选）。</value>
@@ -155,7 +155,7 @@
   </data>
   <data name="AltShiftTabHotkeyLabel.Text" xml:space="preserve">
     <value>ALT+SHIFT+TAB 替代热键</value>
-    <comment>AltShiftTabHotkey</comment>
+    <comment>Alt+Shift+Tab Hotkey</comment>
   </data>
   <data name="AltShiftTabHotkeyTextBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>指定与 ALT 组合的虚拟键码，用于替代 ALT+SHIFT+TAB（可选）。</value>
@@ -163,7 +163,7 @@
   </data>
   <data name="AltShiftTabHotkeyTextBox.AutomationProperties.Name" xml:space="preserve">
     <value>ALT+SHIFT+TAB 替代热键</value>
-    <comment>AltShiftTabHotkey</comment>
+    <comment>Alt+Shift+Tab Hotkey</comment>
   </data>
   <data name="AltShiftTabHotkeyTextBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>指定与 ALT 组合的虚拟键码，用于替代 ALT+SHIFT+TAB（可选）。</value>
@@ -171,7 +171,7 @@
   </data>
   <data name="AltSpaceHotkeyLabel.Text" xml:space="preserve">
     <value>ALT+SPACE 替代热键</value>
-    <comment>AltSpaceHotkey</comment>
+    <comment>Alt+Space Hotkey</comment>
   </data>
   <data name="AltSpaceHotkeyTextBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>指定与 ALT 组合的虚拟键码，用于替代 ALT+SPACE（可选）。</value>
@@ -179,7 +179,7 @@
   </data>
   <data name="AltSpaceHotkeyTextBox.AutomationProperties.Name" xml:space="preserve">
     <value>ALT+SPACE 替代热键</value>
-    <comment>AltSpaceHotkey</comment>
+    <comment>Alt+Space Hotkey</comment>
   </data>
   <data name="AltSpaceHotkeyTextBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>指定与 ALT 组合的虚拟键码，用于替代 ALT+SPACE（可选）。</value>
@@ -187,7 +187,7 @@
   </data>
   <data name="AltTabHotkeyLabel.Text" xml:space="preserve">
     <value>ALT+TAB 替代热键</value>
-    <comment>AltTabHotkey</comment>
+    <comment>Alt+Tab Hotkey</comment>
   </data>
   <data name="AltTabHotkeyTextBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>指定与 ALT 组合的虚拟键码，用于替代 ALT+TAB（可选）。</value>
@@ -195,7 +195,7 @@
   </data>
   <data name="AltTabHotkeyTextBox.AutomationProperties.Name" xml:space="preserve">
     <value>ALT+TAB 替代热键</value>
-    <comment>AltTabHotkey</comment>
+    <comment>Alt+Tab Hotkey</comment>
   </data>
   <data name="AltTabHotkeyTextBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>指定与 ALT 组合的虚拟键码，用于替代 ALT+TAB（可选）。</value>
@@ -215,7 +215,7 @@
   </data>
   <data name="AssignmentModeComboBox.AutomationProperties.Name" xml:space="preserve">
     <value>GPU 分配模式</value>
-    <comment>AssignmentMode</comment>
+    <comment>GPU Assignment Mode</comment>
   </data>
   <data name="AssignmentModeComboBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>虚拟机的 GPU 分配模式设置。</value>
@@ -223,11 +223,11 @@
   </data>
   <data name="AssignmentModeLabel.Text" xml:space="preserve">
     <value>GPU 分配模式</value>
-    <comment>AssignmentMode</comment>
+    <comment>GPU Assignment Mode</comment>
   </data>
   <data name="BaseBoardSerialNumberLabel.Text" xml:space="preserve">
     <value>主板序列号</value>
-    <comment>BaseBoardSerialNumber</comment>
+    <comment>Baseboard Serial Number</comment>
   </data>
   <data name="BaseBoardSerialNumberTextBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>虚拟机主板的序列号。</value>
@@ -235,7 +235,7 @@
   </data>
   <data name="BaseBoardSerialNumberTextBox.AutomationProperties.Name" xml:space="preserve">
     <value>主板序列号</value>
-    <comment>BaseBoardSerialNumber</comment>
+    <comment>Baseboard Serial Number</comment>
   </data>
   <data name="BaseBoardSerialNumberTextBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>虚拟机主板的序列号。</value>
@@ -243,7 +243,7 @@
   </data>
   <data name="ChassisAssetTagLabel.Text" xml:space="preserve">
     <value>机箱资产标签</value>
-    <comment>ChassisAssetTag</comment>
+    <comment>Chassis Asset Tag</comment>
   </data>
   <data name="ChassisAssetTagTextBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>虚拟机机箱的资产标签。</value>
@@ -251,7 +251,7 @@
   </data>
   <data name="ChassisAssetTagTextBox.AutomationProperties.Name" xml:space="preserve">
     <value>机箱资产标签</value>
-    <comment>ChassisAssetTag</comment>
+    <comment>Chassis Asset Tag</comment>
   </data>
   <data name="ChassisAssetTagTextBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>虚拟机机箱的资产标签。</value>
@@ -259,7 +259,7 @@
   </data>
   <data name="ChassisSerialNumberLabel.Text" xml:space="preserve">
     <value>机箱序列号</value>
-    <comment>ChassisSerialNumber</comment>
+    <comment>Chassis Serial Number</comment>
   </data>
   <data name="ChassisSerialNumberTextBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>虚拟机机箱的序列号。</value>
@@ -267,7 +267,7 @@
   </data>
   <data name="ChassisSerialNumberTextBox.AutomationProperties.Name" xml:space="preserve">
     <value>机箱序列号</value>
-    <comment>ChassisSerialNumber</comment>
+    <comment>Chassis Serial Number</comment>
   </data>
   <data name="ChassisSerialNumberTextBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>虚拟机机箱的序列号。</value>
@@ -275,7 +275,7 @@
   </data>
   <data name="ChipsetInformationTitle.Text" xml:space="preserve">
     <value>芯片组信息</value>
-    <comment>ChipsetInformation</comment>
+    <comment>Chipset Information</comment>
   </data>
   <data name="ChipsetNote.Text" xml:space="preserve">
     <value>注意：部分系统信息字段需要 Windows Server 2022 或更新的宿主操作系统。</value>
@@ -299,11 +299,11 @@
   </data>
   <data name="ChoiceComPort1Item.Content" xml:space="preserve">
     <value>COM1</value>
-    <comment>ComPort1</comment>
+    <comment>COM1</comment>
   </data>
   <data name="ChoiceComPort2Item.Content" xml:space="preserve">
     <value>COM2</value>
-    <comment>ComPort2</comment>
+    <comment>COM2</comment>
   </data>
   <data name="ChoiceDefaultItem.Content" xml:space="preserve">
     <value>默认</value>
@@ -323,27 +323,27 @@
   </data>
   <data name="ChoiceListItem.Content" xml:space="preserve">
     <value>指定列表</value>
-    <comment>List</comment>
+    <comment>Selected GPUs</comment>
   </data>
   <data name="ChoiceMirrorItem.Content" xml:space="preserve">
     <value>镜像所有 GPU</value>
-    <comment>Mirror</comment>
+    <comment>Mirror All GPUs</comment>
   </data>
   <data name="ChoicePhysicalDevice" xml:space="preserve">
     <value>物理设备</value>
-    <comment>PhysicalDevice</comment>
+    <comment>Physical Device</comment>
   </data>
   <data name="ChoiceVirtualDisk" xml:space="preserve">
     <value>虚拟磁盘</value>
-    <comment>VirtualDisk</comment>
+    <comment>Virtual Hard Disk</comment>
   </data>
   <data name="ChoiceVirtualImage" xml:space="preserve">
     <value>虚拟光盘</value>
-    <comment>VirtualImage</comment>
+    <comment>ISO Image</comment>
   </data>
   <data name="ComPort1Label.Text" xml:space="preserve">
     <value>COM1 命名管道</value>
-    <comment>ComPort1</comment>
+    <comment>COM1 Named Pipe</comment>
   </data>
   <data name="ComPort1TextBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>虚拟机来宾 COM1 的命名管道路径（可选）。</value>
@@ -351,7 +351,7 @@
   </data>
   <data name="ComPort1TextBox.AutomationProperties.Name" xml:space="preserve">
     <value>COM1 命名管道</value>
-    <comment>ComPort1</comment>
+    <comment>COM1 Named Pipe</comment>
   </data>
   <data name="ComPort1TextBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>虚拟机来宾 COM1 的命名管道路径（可选）。</value>
@@ -359,7 +359,7 @@
   </data>
   <data name="ComPort2Label.Text" xml:space="preserve">
     <value>COM2 命名管道</value>
-    <comment>ComPort2</comment>
+    <comment>COM2 Named Pipe</comment>
   </data>
   <data name="ComPort2TextBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>虚拟机来宾 COM2 的命名管道路径（可选）。</value>
@@ -367,7 +367,7 @@
   </data>
   <data name="ComPort2TextBox.AutomationProperties.Name" xml:space="preserve">
     <value>COM2 命名管道</value>
-    <comment>ComPort2</comment>
+    <comment>COM2 Named Pipe</comment>
   </data>
   <data name="ComPort2TextBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>虚拟机来宾 COM2 的命名管道路径（可选）。</value>
@@ -375,11 +375,11 @@
   </data>
   <data name="ComPortsTitle.Text" xml:space="preserve">
     <value>串口</value>
-    <comment>ComPorts</comment>
+    <comment>Serial Ports</comment>
   </data>
   <data name="CtrlAltDelHotkeyLabel.Text" xml:space="preserve">
     <value>CTRL+ALT+DELETE 替代热键</value>
-    <comment>CtrlAltDelHotkey</comment>
+    <comment>Ctrl+Alt+Delete Hotkey</comment>
   </data>
   <data name="CtrlAltDelHotkeyTextBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>指定与 CTRL+ALT 组合的虚拟键码，用于替代安全注意序列 CTRL+ALT+DELETE（可选）。</value>
@@ -387,7 +387,7 @@
   </data>
   <data name="CtrlAltDelHotkeyTextBox.AutomationProperties.Name" xml:space="preserve">
     <value>CTRL+ALT+DELETE 替代热键</value>
-    <comment>CtrlAltDelHotkey</comment>
+    <comment>Ctrl+Alt+Delete Hotkey</comment>
   </data>
   <data name="CtrlAltDelHotkeyTextBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>指定与 CTRL+ALT 组合的虚拟键码，用于替代安全注意序列 CTRL+ALT+DELETE（可选）。</value>
@@ -395,7 +395,7 @@
   </data>
   <data name="CtrlEscHotkeyLabel.Text" xml:space="preserve">
     <value>CTRL+ESC 替代热键</value>
-    <comment>CtrlEscHotkey</comment>
+    <comment>Ctrl+Esc Hotkey</comment>
   </data>
   <data name="CtrlEscHotkeyTextBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>指定与 ALT 组合的虚拟键码，用于替代 CTRL+ESC（可选）。</value>
@@ -403,7 +403,7 @@
   </data>
   <data name="CtrlEscHotkeyTextBox.AutomationProperties.Name" xml:space="preserve">
     <value>CTRL+ESC 替代热键</value>
-    <comment>CtrlEscHotkey</comment>
+    <comment>Ctrl+Esc Hotkey</comment>
   </data>
   <data name="CtrlEscHotkeyTextBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>指定与 ALT 组合的虚拟键码，用于替代 CTRL+ESC（可选）。</value>
@@ -423,7 +423,7 @@
   </data>
   <data name="DisableDpiScalingCheckBox.AutomationProperties.Name" xml:space="preserve">
     <value>禁用基本会话 DPI 缩放</value>
-    <comment>DisableBasicSessionDpiScaling</comment>
+    <comment>Disable Basic Session DPI Scaling</comment>
   </data>
   <data name="DisableDpiScalingCheckBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>设为 true 时，禁用虚拟机基本会话模式的 DPI 缩放（可选）。</value>
@@ -431,7 +431,7 @@
   </data>
   <data name="DisableDpiScalingLabel.Text" xml:space="preserve">
     <value>禁用基本会话 DPI 缩放</value>
-    <comment>DisableBasicSessionDpiScaling</comment>
+    <comment>Disable Basic Session DPI Scaling</comment>
   </data>
   <data name="DriveDescription.Text" xml:space="preserve">
     <value>从宿主重定向到虚拟机的选定磁盘驱动器字符串数组（可选）。</value>
@@ -447,7 +447,7 @@
   </data>
   <data name="EnableHostDriverStoreCheckBox.AutomationProperties.Name" xml:space="preserve">
     <value>启用宿主驱动存储共享</value>
-    <comment>EnableHostDriverStore</comment>
+    <comment>Share Host Driver Store</comment>
   </data>
   <data name="EnableHostDriverStoreCheckBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>设为 true 时，通过只读 Plan 9 和 Virtual SMB 共享公开宿主操作系统中与 GPU-PV 相关的若干目录（可选）。</value>
@@ -455,11 +455,11 @@
   </data>
   <data name="EnableHostDriverStoreLabel.Text" xml:space="preserve">
     <value>启用宿主驱动存储共享</value>
-    <comment>EnableHostDriverStore</comment>
+    <comment>Share Host Driver Store</comment>
   </data>
   <data name="EnhancedSessionTitle.Text" xml:space="preserve">
     <value>增强会话</value>
-    <comment>EnhancedSession</comment>
+    <comment>Enhanced Session</comment>
   </data>
   <data name="EnumerationFailed" xml:space="preserve">
     <value>无法刷新重定向列表。</value>
@@ -483,7 +483,7 @@
   </data>
   <data name="FocusReleaseLeftHotkeyLabel.Text" xml:space="preserve">
     <value>向左释放焦点热键</value>
-    <comment>FocusReleaseLeftHotkey</comment>
+    <comment>Focus Release Hotkey (Left)</comment>
   </data>
   <data name="FocusReleaseLeftHotkeyTextBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>指定与 Ctrl+Alt 组合的虚拟键码，用于替代 Ctrl+Alt+向左键（可选）。</value>
@@ -491,7 +491,7 @@
   </data>
   <data name="FocusReleaseLeftHotkeyTextBox.AutomationProperties.Name" xml:space="preserve">
     <value>向左释放焦点热键</value>
-    <comment>FocusReleaseLeftHotkey</comment>
+    <comment>Focus Release Hotkey (Left)</comment>
   </data>
   <data name="FocusReleaseLeftHotkeyTextBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>指定与 Ctrl+Alt 组合的虚拟键码，用于替代 Ctrl+Alt+向左键（可选）。</value>
@@ -499,7 +499,7 @@
   </data>
   <data name="FocusReleaseRightHotkeyLabel.Text" xml:space="preserve">
     <value>向右释放焦点热键</value>
-    <comment>FocusReleaseRightHotkey</comment>
+    <comment>Focus Release Hotkey (Right)</comment>
   </data>
   <data name="FocusReleaseRightHotkeyTextBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>指定与 Ctrl+Alt 组合的虚拟键码，用于替代 Ctrl+Alt+向右键（可选）。</value>
@@ -507,7 +507,7 @@
   </data>
   <data name="FocusReleaseRightHotkeyTextBox.AutomationProperties.Name" xml:space="preserve">
     <value>向右释放焦点热键</value>
-    <comment>FocusReleaseRightHotkey</comment>
+    <comment>Focus Release Hotkey (Right)</comment>
   </data>
   <data name="FocusReleaseRightHotkeyTextBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>指定与 Ctrl+Alt 组合的虚拟键码，用于替代 Ctrl+Alt+向右键（可选）。</value>
@@ -515,7 +515,7 @@
   </data>
   <data name="FullScreenHotkeyLabel.Text" xml:space="preserve">
     <value>全屏切换热键</value>
-    <comment>FullScreenHotkey</comment>
+    <comment>Full Screen Hotkey</comment>
   </data>
   <data name="FullScreenHotkeyTextBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>指定与 CTRL+ALT 组合的虚拟键码，用于切换全屏模式（可选）。</value>
@@ -523,7 +523,7 @@
   </data>
   <data name="FullScreenHotkeyTextBox.AutomationProperties.Name" xml:space="preserve">
     <value>全屏切换热键</value>
-    <comment>FullScreenHotkey</comment>
+    <comment>Full Screen Hotkey</comment>
   </data>
   <data name="FullScreenHotkeyTextBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>指定与 CTRL+ALT 组合的虚拟键码，用于切换全屏模式（可选）。</value>
@@ -543,7 +543,7 @@
   </data>
   <data name="GpuDeviceDeviceInterfaceLabel" xml:space="preserve">
     <value>设备接口路径</value>
-    <comment>DeviceInterface</comment>
+    <comment>Device Interface Path</comment>
   </data>
   <data name="GpuDevicePartitionIdHelp" xml:space="preserve">
     <value>GPU 分区的 ID，范围为 0 至 65535；65535 表示 GPU-PV。</value>
@@ -551,19 +551,19 @@
   </data>
   <data name="GpuDevicePartitionIdLabel" xml:space="preserve">
     <value>分区 ID</value>
-    <comment>PartitionId</comment>
+    <comment>Partition ID</comment>
   </data>
   <data name="GpuDeviceTitle.Text" xml:space="preserve">
     <value>选定 GPU</value>
-    <comment>SelectedDevices</comment>
+    <comment>Selected GPUs</comment>
   </data>
   <data name="GpuTitle.Text" xml:space="preserve">
     <value>GPU</value>
-    <comment>Gpu</comment>
+    <comment>GPU</comment>
   </data>
   <data name="GuestStateFileLabel.Text" xml:space="preserve">
     <value>来宾状态文件</value>
-    <comment>GuestStateFile</comment>
+    <comment>Guest State File</comment>
   </data>
   <data name="GuestStateFileTextBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>虚拟机的来宾状态文件路径（可选）。</value>
@@ -571,7 +571,7 @@
   </data>
   <data name="GuestStateFileTextBox.AutomationProperties.Name" xml:space="preserve">
     <value>来宾状态文件</value>
-    <comment>GuestStateFile</comment>
+    <comment>Guest State File</comment>
   </data>
   <data name="GuestStateFileTextBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>虚拟机的来宾状态文件路径（可选）。</value>
@@ -579,7 +579,7 @@
   </data>
   <data name="HorizontalResolutionLabel.Text" xml:space="preserve">
     <value>水平分辨率</value>
-    <comment>HorizontalResolution</comment>
+    <comment>Horizontal Resolution</comment>
   </data>
   <data name="HorizontalResolutionTextBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>虚拟机显示器的水平分辨率（可选）。</value>
@@ -587,7 +587,7 @@
   </data>
   <data name="HorizontalResolutionTextBox.AutomationProperties.Name" xml:space="preserve">
     <value>水平分辨率</value>
-    <comment>HorizontalResolution</comment>
+    <comment>Horizontal Resolution</comment>
   </data>
   <data name="HorizontalResolutionTextBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>虚拟机显示器的水平分辨率（可选）。</value>
@@ -623,7 +623,7 @@
   </data>
   <data name="MemorySizeLabel.Text" xml:space="preserve">
     <value>内存大小（MB）</value>
-    <comment>MemorySize (MB)</comment>
+    <comment>Memory Size (MB)</comment>
   </data>
   <data name="MemorySizeTextBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>虚拟机的内存大小，单位为 MB。</value>
@@ -631,7 +631,7 @@
   </data>
   <data name="MemorySizeTextBox.AutomationProperties.Name" xml:space="preserve">
     <value>内存大小（MB）</value>
-    <comment>MemorySize (MB)</comment>
+    <comment>Memory Size (MB)</comment>
   </data>
   <data name="MemorySizeTextBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>虚拟机的内存大小，单位为 MB。</value>
@@ -675,7 +675,7 @@
   </data>
   <data name="NetworkAdapterMacAddressLabel" xml:space="preserve">
     <value>MAC 地址</value>
-    <comment>MacAddress</comment>
+    <comment>MAC Address</comment>
   </data>
   <data name="NetworkAdapterSuggestedSwitchIdHelp" xml:space="preserve">
     <value>为此网络适配器建议的交换机 GUID（可选）。</value>
@@ -683,7 +683,7 @@
   </data>
   <data name="NetworkAdapterSuggestedSwitchIdLabel" xml:space="preserve">
     <value>建议交换机 ID</value>
-    <comment>SuggestedSwitchId</comment>
+    <comment>Suggested Switch ID</comment>
   </data>
   <data name="NetworkAdapterSuggestedSwitchNameHelp" xml:space="preserve">
     <value>为此网络适配器建议的交换机名称（可选）。</value>
@@ -691,7 +691,7 @@
   </data>
   <data name="NetworkAdapterSuggestedSwitchNameLabel" xml:space="preserve">
     <value>建议交换机名称</value>
-    <comment>SuggestedSwitchName</comment>
+    <comment>Suggested Switch Name</comment>
   </data>
   <data name="NetworkAdapterSuggestedSwitchSubnetHelp" xml:space="preserve">
     <value>为此网络适配器建议的交换机子网（可选）。</value>
@@ -699,11 +699,11 @@
   </data>
   <data name="NetworkAdapterSuggestedSwitchSubnetLabel" xml:space="preserve">
     <value>建议交换机子网</value>
-    <comment>SuggestedSwitchSubnet</comment>
+    <comment>Suggested Switch Subnet</comment>
   </data>
   <data name="NetworkAdapterTitle.Text" xml:space="preserve">
     <value>网络适配器</value>
-    <comment>NetworkAdapters</comment>
+    <comment>Network Adapters</comment>
   </data>
   <data name="NetworkNote.Text" xml:space="preserve">
     <value>注意：默认行为是使用默认交换机。</value>
@@ -751,11 +751,11 @@
   </data>
   <data name="Plan9ShareReadOnlyLabel" xml:space="preserve">
     <value>只读</value>
-    <comment>ReadOnly</comment>
+    <comment>Read-Only</comment>
   </data>
   <data name="Plan9ShareTitle.Text" xml:space="preserve">
     <value>Plan 9 共享</value>
-    <comment>Plan9Shares</comment>
+    <comment>Plan 9 Shares</comment>
   </data>
   <data name="PoliciesLabel.Text" xml:space="preserve">
     <value>策略（每行一项）</value>
@@ -813,7 +813,7 @@ UseExtendedMaxVpPerSocketLimit</comment>
   </data>
   <data name="ProcessorCountLabel.Text" xml:space="preserve">
     <value>处理器数量</value>
-    <comment>ProcessorCount</comment>
+    <comment>Processor Count</comment>
   </data>
   <data name="ProcessorCountTextBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>虚拟机的处理器数量，单位为核心。</value>
@@ -821,7 +821,7 @@ UseExtendedMaxVpPerSocketLimit</comment>
   </data>
   <data name="ProcessorCountTextBox.AutomationProperties.Name" xml:space="preserve">
     <value>处理器数量</value>
-    <comment>ProcessorCount</comment>
+    <comment>Processor Count</comment>
   </data>
   <data name="ProcessorCountTextBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>虚拟机的处理器数量，单位为核心。</value>
@@ -829,7 +829,7 @@ UseExtendedMaxVpPerSocketLimit</comment>
   </data>
   <data name="ProductNameLabel.Text" xml:space="preserve">
     <value>产品名称</value>
-    <comment>ProductName</comment>
+    <comment>Product Name</comment>
   </data>
   <data name="ProductNameTextBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>虚拟机的产品名称。</value>
@@ -837,7 +837,7 @@ UseExtendedMaxVpPerSocketLimit</comment>
   </data>
   <data name="ProductNameTextBox.AutomationProperties.Name" xml:space="preserve">
     <value>产品名称</value>
-    <comment>ProductName</comment>
+    <comment>Product Name</comment>
   </data>
   <data name="ProductNameTextBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>虚拟机的产品名称。</value>
@@ -849,7 +849,7 @@ UseExtendedMaxVpPerSocketLimit</comment>
   </data>
   <data name="RedirectAudioCaptureCheckBox.AutomationProperties.Name" xml:space="preserve">
     <value>重定向音频采集</value>
-    <comment>RedirectAudioCapture</comment>
+    <comment>Redirect Audio Capture</comment>
   </data>
   <data name="RedirectAudioCaptureCheckBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>设为 true 时，将音频采集从宿主重定向到虚拟机（可选）。</value>
@@ -857,7 +857,7 @@ UseExtendedMaxVpPerSocketLimit</comment>
   </data>
   <data name="RedirectAudioCaptureLabel.Text" xml:space="preserve">
     <value>重定向音频采集</value>
-    <comment>RedirectAudioCapture</comment>
+    <comment>Redirect Audio Capture</comment>
   </data>
   <data name="RedirectAudioCheckBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>设为 true 时，将声音从虚拟机重定向到宿主（可选）。</value>
@@ -865,7 +865,7 @@ UseExtendedMaxVpPerSocketLimit</comment>
   </data>
   <data name="RedirectAudioCheckBox.AutomationProperties.Name" xml:space="preserve">
     <value>重定向声音</value>
-    <comment>RedirectAudio</comment>
+    <comment>Redirect Audio</comment>
   </data>
   <data name="RedirectAudioCheckBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>设为 true 时，将声音从虚拟机重定向到宿主（可选）。</value>
@@ -873,7 +873,7 @@ UseExtendedMaxVpPerSocketLimit</comment>
   </data>
   <data name="RedirectAudioLabel.Text" xml:space="preserve">
     <value>重定向声音</value>
-    <comment>RedirectAudio</comment>
+    <comment>Redirect Audio</comment>
   </data>
   <data name="RedirectClipboardCheckBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>设为 true 时，将宿主剪贴板重定向到虚拟机（可选）。</value>
@@ -881,7 +881,7 @@ UseExtendedMaxVpPerSocketLimit</comment>
   </data>
   <data name="RedirectClipboardCheckBox.AutomationProperties.Name" xml:space="preserve">
     <value>重定向剪贴板</value>
-    <comment>RedirectClipboard</comment>
+    <comment>Redirect Clipboard</comment>
   </data>
   <data name="RedirectClipboardCheckBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>设为 true 时，将宿主剪贴板重定向到虚拟机（可选）。</value>
@@ -889,7 +889,7 @@ UseExtendedMaxVpPerSocketLimit</comment>
   </data>
   <data name="RedirectClipboardLabel.Text" xml:space="preserve">
     <value>重定向剪贴板</value>
-    <comment>RedirectClipboard</comment>
+    <comment>Redirect Clipboard</comment>
   </data>
   <data name="RedirectDevicesCheckBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>设为 true 时，将宿主的所有设备重定向到虚拟机（可选）。</value>
@@ -897,7 +897,7 @@ UseExtendedMaxVpPerSocketLimit</comment>
   </data>
   <data name="RedirectDevicesCheckBox.AutomationProperties.Name" xml:space="preserve">
     <value>重定向所有设备</value>
-    <comment>RedirectDevices</comment>
+    <comment>Redirect All Devices</comment>
   </data>
   <data name="RedirectDevicesCheckBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>设为 true 时，将宿主的所有设备重定向到虚拟机（可选）。</value>
@@ -905,7 +905,7 @@ UseExtendedMaxVpPerSocketLimit</comment>
   </data>
   <data name="RedirectDevicesLabel.Text" xml:space="preserve">
     <value>重定向所有设备</value>
-    <comment>RedirectDevices</comment>
+    <comment>Redirect All Devices</comment>
   </data>
   <data name="RedirectDrivesCheckBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>设为 true 时，将宿主的所有磁盘驱动器重定向到虚拟机（可选）。</value>
@@ -913,7 +913,7 @@ UseExtendedMaxVpPerSocketLimit</comment>
   </data>
   <data name="RedirectDrivesCheckBox.AutomationProperties.Name" xml:space="preserve">
     <value>重定向所有驱动器</value>
-    <comment>RedirectDrives</comment>
+    <comment>Redirect All Drives</comment>
   </data>
   <data name="RedirectDrivesCheckBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>设为 true 时，将宿主的所有磁盘驱动器重定向到虚拟机（可选）。</value>
@@ -921,7 +921,7 @@ UseExtendedMaxVpPerSocketLimit</comment>
   </data>
   <data name="RedirectDrivesLabel.Text" xml:space="preserve">
     <value>重定向所有驱动器</value>
-    <comment>RedirectDrives</comment>
+    <comment>Redirect All Drives</comment>
   </data>
   <data name="RedirectDynamicDevicesCheckBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>设为 true 时，重定向虚拟机运行期间枚举到的、动态连接的即插即用设备（可选）。</value>
@@ -929,7 +929,7 @@ UseExtendedMaxVpPerSocketLimit</comment>
   </data>
   <data name="RedirectDynamicDevicesCheckBox.AutomationProperties.Name" xml:space="preserve">
     <value>重定向动态连接的设备</value>
-    <comment>RedirectDynamicDevices</comment>
+    <comment>Redirect Newly Connected Devices</comment>
   </data>
   <data name="RedirectDynamicDevicesCheckBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>设为 true 时，重定向虚拟机运行期间枚举到的、动态连接的即插即用设备（可选）。</value>
@@ -937,7 +937,7 @@ UseExtendedMaxVpPerSocketLimit</comment>
   </data>
   <data name="RedirectDynamicDevicesLabel.Text" xml:space="preserve">
     <value>重定向动态连接的设备</value>
-    <comment>RedirectDynamicDevices</comment>
+    <comment>Redirect Newly Connected Devices</comment>
   </data>
   <data name="RedirectDynamicDrivesCheckBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>设为 true 时，重定向虚拟机运行期间枚举到的、动态连接的即插即用驱动器（可选）。</value>
@@ -945,7 +945,7 @@ UseExtendedMaxVpPerSocketLimit</comment>
   </data>
   <data name="RedirectDynamicDrivesCheckBox.AutomationProperties.Name" xml:space="preserve">
     <value>重定向动态连接的驱动器</value>
-    <comment>RedirectDynamicDrives</comment>
+    <comment>Redirect Newly Connected Drives</comment>
   </data>
   <data name="RedirectDynamicDrivesCheckBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>设为 true 时，重定向虚拟机运行期间枚举到的、动态连接的即插即用驱动器（可选）。</value>
@@ -953,7 +953,7 @@ UseExtendedMaxVpPerSocketLimit</comment>
   </data>
   <data name="RedirectDynamicDrivesLabel.Text" xml:space="preserve">
     <value>重定向动态连接的驱动器</value>
-    <comment>RedirectDynamicDrives</comment>
+    <comment>Redirect Newly Connected Drives</comment>
   </data>
   <data name="RedirectKeyCombinationsCheckBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>设为 true 时，在虚拟机中应用组合键；否则仅在宿主全屏运行时应用于虚拟机（可选）。</value>
@@ -961,7 +961,7 @@ UseExtendedMaxVpPerSocketLimit</comment>
   </data>
   <data name="RedirectKeyCombinationsCheckBox.AutomationProperties.Name" xml:space="preserve">
     <value>重定向组合键</value>
-    <comment>RedirectKeyCombinations</comment>
+    <comment>Redirect Key Combinations</comment>
   </data>
   <data name="RedirectKeyCombinationsCheckBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>设为 true 时，在虚拟机中应用组合键；否则仅在宿主全屏运行时应用于虚拟机（可选）。</value>
@@ -969,7 +969,7 @@ UseExtendedMaxVpPerSocketLimit</comment>
   </data>
   <data name="RedirectKeyCombinationsLabel.Text" xml:space="preserve">
     <value>重定向组合键</value>
-    <comment>RedirectKeyCombinations</comment>
+    <comment>Redirect Key Combinations</comment>
   </data>
   <data name="RedirectPortsCheckBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>设为 true 时，将宿主的所有本地端口（例如 COM 和 LPT）重定向到虚拟机（可选）。</value>
@@ -977,7 +977,7 @@ UseExtendedMaxVpPerSocketLimit</comment>
   </data>
   <data name="RedirectPortsCheckBox.AutomationProperties.Name" xml:space="preserve">
     <value>重定向端口</value>
-    <comment>RedirectPorts</comment>
+    <comment>Redirect Ports</comment>
   </data>
   <data name="RedirectPortsCheckBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>设为 true 时，将宿主的所有本地端口（例如 COM 和 LPT）重定向到虚拟机（可选）。</value>
@@ -985,7 +985,7 @@ UseExtendedMaxVpPerSocketLimit</comment>
   </data>
   <data name="RedirectPortsLabel.Text" xml:space="preserve">
     <value>重定向端口</value>
-    <comment>RedirectPorts</comment>
+    <comment>Redirect Ports</comment>
   </data>
   <data name="RedirectPOSDevicesCheckBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>设为 true 时，将宿主的所有服务点设备重定向到虚拟机（可选）。</value>
@@ -993,7 +993,7 @@ UseExtendedMaxVpPerSocketLimit</comment>
   </data>
   <data name="RedirectPOSDevicesCheckBox.AutomationProperties.Name" xml:space="preserve">
     <value>重定向服务点设备</value>
-    <comment>RedirectPOSDevices</comment>
+    <comment>Redirect POS Devices</comment>
   </data>
   <data name="RedirectPOSDevicesCheckBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>设为 true 时，将宿主的所有服务点设备重定向到虚拟机（可选）。</value>
@@ -1001,7 +1001,7 @@ UseExtendedMaxVpPerSocketLimit</comment>
   </data>
   <data name="RedirectPOSDevicesLabel.Text" xml:space="preserve">
     <value>重定向服务点设备</value>
-    <comment>RedirectPOSDevices</comment>
+    <comment>Redirect POS Devices</comment>
   </data>
   <data name="RedirectPrintersCheckBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>设为 true 时，将宿主的所有打印机重定向到虚拟机（可选）。</value>
@@ -1009,7 +1009,7 @@ UseExtendedMaxVpPerSocketLimit</comment>
   </data>
   <data name="RedirectPrintersCheckBox.AutomationProperties.Name" xml:space="preserve">
     <value>重定向打印机</value>
-    <comment>RedirectPrinters</comment>
+    <comment>Redirect Printers</comment>
   </data>
   <data name="RedirectPrintersCheckBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>设为 true 时，将宿主的所有打印机重定向到虚拟机（可选）。</value>
@@ -1017,7 +1017,7 @@ UseExtendedMaxVpPerSocketLimit</comment>
   </data>
   <data name="RedirectPrintersLabel.Text" xml:space="preserve">
     <value>重定向打印机</value>
-    <comment>RedirectPrinters</comment>
+    <comment>Redirect Printers</comment>
   </data>
   <data name="RedirectSmartCardsCheckBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>设为 true 时，将宿主的所有智能卡重定向到虚拟机（可选）。</value>
@@ -1025,7 +1025,7 @@ UseExtendedMaxVpPerSocketLimit</comment>
   </data>
   <data name="RedirectSmartCardsCheckBox.AutomationProperties.Name" xml:space="preserve">
     <value>重定向智能卡</value>
-    <comment>RedirectSmartCards</comment>
+    <comment>Redirect Smart Cards</comment>
   </data>
   <data name="RedirectSmartCardsCheckBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>设为 true 时，将宿主的所有智能卡重定向到虚拟机（可选）。</value>
@@ -1033,7 +1033,7 @@ UseExtendedMaxVpPerSocketLimit</comment>
   </data>
   <data name="RedirectSmartCardsLabel.Text" xml:space="preserve">
     <value>重定向智能卡</value>
-    <comment>RedirectSmartCards</comment>
+    <comment>Redirect Smart Cards</comment>
   </data>
   <data name="ReferenceButton.AutomationProperties.Name" xml:space="preserve">
     <value>配置文件参考文档</value>
@@ -1081,7 +1081,7 @@ UseExtendedMaxVpPerSocketLimit</comment>
   </data>
   <data name="RuntimeStateFileLabel.Text" xml:space="preserve">
     <value>运行状态文件</value>
-    <comment>RuntimeStateFile</comment>
+    <comment>Runtime State File</comment>
   </data>
   <data name="RuntimeStateFileTextBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>虚拟机的运行状态文件路径（可选）。</value>
@@ -1089,7 +1089,7 @@ UseExtendedMaxVpPerSocketLimit</comment>
   </data>
   <data name="RuntimeStateFileTextBox.AutomationProperties.Name" xml:space="preserve">
     <value>运行状态文件</value>
-    <comment>RuntimeStateFile</comment>
+    <comment>Runtime State File</comment>
   </data>
   <data name="RuntimeStateFileTextBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>虚拟机的运行状态文件路径（可选）。</value>
@@ -1109,7 +1109,7 @@ UseExtendedMaxVpPerSocketLimit</comment>
   </data>
   <data name="ScsiDeviceTitle.Text" xml:space="preserve">
     <value>SCSI 设备</value>
-    <comment>ScsiDevices</comment>
+    <comment>SCSI Devices</comment>
   </data>
   <data name="ScsiDeviceTypeHelp" xml:space="preserve">
     <value>当前 SCSI 设备的类型。</value>
@@ -1129,7 +1129,7 @@ UseExtendedMaxVpPerSocketLimit</comment>
   </data>
   <data name="SecureBootCheckBox.AutomationProperties.Name" xml:space="preserve">
     <value>安全启动</value>
-    <comment>SecureBoot</comment>
+    <comment>Secure Boot</comment>
   </data>
   <data name="SecureBootCheckBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>虚拟机的安全启动设置。</value>
@@ -1137,11 +1137,11 @@ UseExtendedMaxVpPerSocketLimit</comment>
   </data>
   <data name="SecureBootLabel.Text" xml:space="preserve">
     <value>安全启动</value>
-    <comment>SecureBoot</comment>
+    <comment>Secure Boot</comment>
   </data>
   <data name="SerialNumberLabel.Text" xml:space="preserve">
     <value>序列号</value>
-    <comment>SerialNumber</comment>
+    <comment>Serial Number</comment>
   </data>
   <data name="SerialNumberTextBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>虚拟机的序列号。</value>
@@ -1149,7 +1149,7 @@ UseExtendedMaxVpPerSocketLimit</comment>
   </data>
   <data name="SerialNumberTextBox.AutomationProperties.Name" xml:space="preserve">
     <value>序列号</value>
-    <comment>SerialNumber</comment>
+    <comment>Serial Number</comment>
   </data>
   <data name="SerialNumberTextBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>虚拟机的序列号。</value>
@@ -1169,7 +1169,7 @@ UseExtendedMaxVpPerSocketLimit</comment>
   </data>
   <data name="SKUNumberLabel.Text" xml:space="preserve">
     <value>SKU 编号</value>
-    <comment>SKUNumber</comment>
+    <comment>SKU Number</comment>
   </data>
   <data name="SKUNumberTextBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>虚拟机的 SKU 编号。</value>
@@ -1177,7 +1177,7 @@ UseExtendedMaxVpPerSocketLimit</comment>
   </data>
   <data name="SKUNumberTextBox.AutomationProperties.Name" xml:space="preserve">
     <value>SKU 编号</value>
-    <comment>SKUNumber</comment>
+    <comment>SKU Number</comment>
   </data>
   <data name="SKUNumberTextBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>虚拟机的 SKU 编号。</value>
@@ -1205,7 +1205,7 @@ UseExtendedMaxVpPerSocketLimit</comment>
   </data>
   <data name="TpmCheckBox.AutomationProperties.Name" xml:space="preserve">
     <value>受信任的平台模块（TPM）</value>
-    <comment>Tpm</comment>
+    <comment>Trusted Platform Module (TPM)</comment>
   </data>
   <data name="TpmCheckBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>虚拟机的受信任的平台模块（TPM）设置。</value>
@@ -1213,7 +1213,7 @@ UseExtendedMaxVpPerSocketLimit</comment>
   </data>
   <data name="TpmLabel.Text" xml:space="preserve">
     <value>受信任的平台模块（TPM）</value>
-    <comment>Tpm</comment>
+    <comment>Trusted Platform Module (TPM)</comment>
   </data>
   <data name="TpmNote.Text" xml:space="preserve">
     <value>注意：宿主操作系统需要 Windows 11 24H2 或更新版本。</value>
@@ -1225,7 +1225,7 @@ UseExtendedMaxVpPerSocketLimit</comment>
   </data>
   <data name="UefiConsoleComboBox.AutomationProperties.Name" xml:space="preserve">
     <value>UEFI 串口控制台</value>
-    <comment>UefiConsole</comment>
+    <comment>UEFI Serial Console</comment>
   </data>
   <data name="UefiConsoleComboBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>虚拟机的 UEFI 串口控制台设置。</value>
@@ -1233,7 +1233,7 @@ UseExtendedMaxVpPerSocketLimit</comment>
   </data>
   <data name="UefiConsoleLabel.Text" xml:space="preserve">
     <value>UEFI 串口控制台</value>
-    <comment>UefiConsole</comment>
+    <comment>UEFI Serial Console</comment>
   </data>
   <data name="Unavailable" xml:space="preserve">
     <value>%s（当前不可用）</value>
@@ -1257,7 +1257,7 @@ UseExtendedMaxVpPerSocketLimit</comment>
   </data>
   <data name="VerticalResolutionLabel.Text" xml:space="preserve">
     <value>垂直分辨率</value>
-    <comment>VerticalResolution</comment>
+    <comment>Vertical Resolution</comment>
   </data>
   <data name="VerticalResolutionTextBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>虚拟机显示器的垂直分辨率（可选）。</value>
@@ -1265,7 +1265,7 @@ UseExtendedMaxVpPerSocketLimit</comment>
   </data>
   <data name="VerticalResolutionTextBox.AutomationProperties.Name" xml:space="preserve">
     <value>垂直分辨率</value>
-    <comment>VerticalResolution</comment>
+    <comment>Vertical Resolution</comment>
   </data>
   <data name="VerticalResolutionTextBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>虚拟机显示器的垂直分辨率（可选）。</value>
@@ -1273,7 +1273,7 @@ UseExtendedMaxVpPerSocketLimit</comment>
   </data>
   <data name="VideoMonitorTitle.Text" xml:space="preserve">
     <value>显示器</value>
-    <comment>VideoMonitor</comment>
+    <comment>Display</comment>
   </data>
   <data name="VirtualizationExtensionsCheckBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>设为 true 时，向虚拟机公开虚拟化扩展。</value>
@@ -1281,7 +1281,7 @@ UseExtendedMaxVpPerSocketLimit</comment>
   </data>
   <data name="VirtualizationExtensionsCheckBox.AutomationProperties.Name" xml:space="preserve">
     <value>公开虚拟化扩展</value>
-    <comment>ExposeVirtualizationExtensions</comment>
+    <comment>Expose Virtualization Extensions</comment>
   </data>
   <data name="VirtualizationExtensionsCheckBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>设为 true 时，向虚拟机公开虚拟化扩展。</value>
@@ -1289,7 +1289,7 @@ UseExtendedMaxVpPerSocketLimit</comment>
   </data>
   <data name="VirtualizationExtensionsLabel.Text" xml:space="preserve">
     <value>公开虚拟化扩展</value>
-    <comment>ExposeVirtualizationExtensions</comment>
+    <comment>Expose Virtualization Extensions</comment>
   </data>
   <data name="VirtualSmbShareDescription.Text" xml:space="preserve">
     <value>虚拟机 Virtual SMB 共享的设置对象数组。</value>
@@ -1317,11 +1317,11 @@ UseExtendedMaxVpPerSocketLimit</comment>
   </data>
   <data name="VirtualSmbShareReadOnlyLabel" xml:space="preserve">
     <value>只读</value>
-    <comment>ReadOnly</comment>
+    <comment>Read-Only</comment>
   </data>
   <data name="VirtualSmbShareTitle.Text" xml:space="preserve">
     <value>Virtual SMB 共享</value>
-    <comment>VirtualSmbShares</comment>
+    <comment>Virtual SMB Shares</comment>
   </data>
   <data name="ConfigurationFileTypeName" xml:space="preserve">
     <value>NanaBox 虚拟机配置</value>

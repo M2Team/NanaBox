@@ -138,64 +138,64 @@
     <comment>Add</comment>
   </data>
   <data name="AltEscHotkeyLabel.Text" xml:space="preserve">
-    <value>AltEscHotkey</value>
-    <comment>AltEscHotkey</comment>
+    <value>Alt+Esc Hotkey</value>
+    <comment>Alt+Esc Hotkey</comment>
   </data>
   <data name="AltEscHotkeyTextBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>(Optional) Specifies the virtual-key code to add to ALT to determine the hotkey replacement for ALT+ESC.</value>
     <comment>(Optional) Specifies the virtual-key code to add to ALT to determine the hotkey replacement for ALT+ESC.</comment>
   </data>
   <data name="AltEscHotkeyTextBox.AutomationProperties.Name" xml:space="preserve">
-    <value>AltEscHotkey</value>
-    <comment>AltEscHotkey</comment>
+    <value>Alt+Esc Hotkey</value>
+    <comment>Alt+Esc Hotkey</comment>
   </data>
   <data name="AltEscHotkeyTextBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>(Optional) Specifies the virtual-key code to add to ALT to determine the hotkey replacement for ALT+ESC.</value>
     <comment>(Optional) Specifies the virtual-key code to add to ALT to determine the hotkey replacement for ALT+ESC.</comment>
   </data>
   <data name="AltShiftTabHotkeyLabel.Text" xml:space="preserve">
-    <value>AltShiftTabHotkey</value>
-    <comment>AltShiftTabHotkey</comment>
+    <value>Alt+Shift+Tab Hotkey</value>
+    <comment>Alt+Shift+Tab Hotkey</comment>
   </data>
   <data name="AltShiftTabHotkeyTextBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>(Optional) Specifies the virtual-key code to add to ALT to determine the hotkey replacement for ALT+SHIFT+TAB.</value>
     <comment>(Optional) Specifies the virtual-key code to add to ALT to determine the hotkey replacement for ALT+SHIFT+TAB.</comment>
   </data>
   <data name="AltShiftTabHotkeyTextBox.AutomationProperties.Name" xml:space="preserve">
-    <value>AltShiftTabHotkey</value>
-    <comment>AltShiftTabHotkey</comment>
+    <value>Alt+Shift+Tab Hotkey</value>
+    <comment>Alt+Shift+Tab Hotkey</comment>
   </data>
   <data name="AltShiftTabHotkeyTextBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>(Optional) Specifies the virtual-key code to add to ALT to determine the hotkey replacement for ALT+SHIFT+TAB.</value>
     <comment>(Optional) Specifies the virtual-key code to add to ALT to determine the hotkey replacement for ALT+SHIFT+TAB.</comment>
   </data>
   <data name="AltSpaceHotkeyLabel.Text" xml:space="preserve">
-    <value>AltSpaceHotkey</value>
-    <comment>AltSpaceHotkey</comment>
+    <value>Alt+Space Hotkey</value>
+    <comment>Alt+Space Hotkey</comment>
   </data>
   <data name="AltSpaceHotkeyTextBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>(Optional) Specifies the virtual-key code to add to ALT to determine the hotkey replacement for ALT+SPACE.</value>
     <comment>(Optional) Specifies the virtual-key code to add to ALT to determine the hotkey replacement for ALT+SPACE.</comment>
   </data>
   <data name="AltSpaceHotkeyTextBox.AutomationProperties.Name" xml:space="preserve">
-    <value>AltSpaceHotkey</value>
-    <comment>AltSpaceHotkey</comment>
+    <value>Alt+Space Hotkey</value>
+    <comment>Alt+Space Hotkey</comment>
   </data>
   <data name="AltSpaceHotkeyTextBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>(Optional) Specifies the virtual-key code to add to ALT to determine the hotkey replacement for ALT+SPACE.</value>
     <comment>(Optional) Specifies the virtual-key code to add to ALT to determine the hotkey replacement for ALT+SPACE.</comment>
   </data>
   <data name="AltTabHotkeyLabel.Text" xml:space="preserve">
-    <value>AltTabHotkey</value>
-    <comment>AltTabHotkey</comment>
+    <value>Alt+Tab Hotkey</value>
+    <comment>Alt+Tab Hotkey</comment>
   </data>
   <data name="AltTabHotkeyTextBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>(Optional) Specifies the virtual-key code to add to ALT to determine the hotkey replacement for ALT+TAB.</value>
     <comment>(Optional) Specifies the virtual-key code to add to ALT to determine the hotkey replacement for ALT+TAB.</comment>
   </data>
   <data name="AltTabHotkeyTextBox.AutomationProperties.Name" xml:space="preserve">
-    <value>AltTabHotkey</value>
-    <comment>AltTabHotkey</comment>
+    <value>Alt+Tab Hotkey</value>
+    <comment>Alt+Tab Hotkey</comment>
   </data>
   <data name="AltTabHotkeyTextBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>(Optional) Specifies the virtual-key code to add to ALT to determine the hotkey replacement for ALT+TAB.</value>
@@ -214,68 +214,68 @@
     <comment>The GPU assignment mode setting of virtual machine.</comment>
   </data>
   <data name="AssignmentModeComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>AssignmentMode</value>
-    <comment>AssignmentMode</comment>
+    <value>GPU Assignment Mode</value>
+    <comment>GPU Assignment Mode</comment>
   </data>
   <data name="AssignmentModeComboBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>The GPU assignment mode setting of virtual machine.</value>
     <comment>The GPU assignment mode setting of virtual machine.</comment>
   </data>
   <data name="AssignmentModeLabel.Text" xml:space="preserve">
-    <value>AssignmentMode</value>
-    <comment>AssignmentMode</comment>
+    <value>GPU Assignment Mode</value>
+    <comment>GPU Assignment Mode</comment>
   </data>
   <data name="BaseBoardSerialNumberLabel.Text" xml:space="preserve">
-    <value>BaseBoardSerialNumber</value>
-    <comment>BaseBoardSerialNumber</comment>
+    <value>Baseboard Serial Number</value>
+    <comment>Baseboard Serial Number</comment>
   </data>
   <data name="BaseBoardSerialNumberTextBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>The serial number of the baseboard of virtual machine.</value>
     <comment>The serial number of the baseboard of virtual machine.</comment>
   </data>
   <data name="BaseBoardSerialNumberTextBox.AutomationProperties.Name" xml:space="preserve">
-    <value>BaseBoardSerialNumber</value>
-    <comment>BaseBoardSerialNumber</comment>
+    <value>Baseboard Serial Number</value>
+    <comment>Baseboard Serial Number</comment>
   </data>
   <data name="BaseBoardSerialNumberTextBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>The serial number of the baseboard of virtual machine.</value>
     <comment>The serial number of the baseboard of virtual machine.</comment>
   </data>
   <data name="ChassisAssetTagLabel.Text" xml:space="preserve">
-    <value>ChassisAssetTag</value>
-    <comment>ChassisAssetTag</comment>
+    <value>Chassis Asset Tag</value>
+    <comment>Chassis Asset Tag</comment>
   </data>
   <data name="ChassisAssetTagTextBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>The asset tag of the chassis of virtual machine.</value>
     <comment>The asset tag of the chassis of virtual machine.</comment>
   </data>
   <data name="ChassisAssetTagTextBox.AutomationProperties.Name" xml:space="preserve">
-    <value>ChassisAssetTag</value>
-    <comment>ChassisAssetTag</comment>
+    <value>Chassis Asset Tag</value>
+    <comment>Chassis Asset Tag</comment>
   </data>
   <data name="ChassisAssetTagTextBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>The asset tag of the chassis of virtual machine.</value>
     <comment>The asset tag of the chassis of virtual machine.</comment>
   </data>
   <data name="ChassisSerialNumberLabel.Text" xml:space="preserve">
-    <value>ChassisSerialNumber</value>
-    <comment>ChassisSerialNumber</comment>
+    <value>Chassis Serial Number</value>
+    <comment>Chassis Serial Number</comment>
   </data>
   <data name="ChassisSerialNumberTextBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>The serial number of the chassis of virtual machine.</value>
     <comment>The serial number of the chassis of virtual machine.</comment>
   </data>
   <data name="ChassisSerialNumberTextBox.AutomationProperties.Name" xml:space="preserve">
-    <value>ChassisSerialNumber</value>
-    <comment>ChassisSerialNumber</comment>
+    <value>Chassis Serial Number</value>
+    <comment>Chassis Serial Number</comment>
   </data>
   <data name="ChassisSerialNumberTextBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>The serial number of the chassis of virtual machine.</value>
     <comment>The serial number of the chassis of virtual machine.</comment>
   </data>
   <data name="ChipsetInformationTitle.Text" xml:space="preserve">
-    <value>ChipsetInformation</value>
-    <comment>ChipsetInformation</comment>
+    <value>Chipset Information</value>
+    <comment>Chipset Information</comment>
   </data>
   <data name="ChipsetNote.Text" xml:space="preserve">
     <value>Note: You need Windows Server 2022 or later Host OS.</value>
@@ -298,12 +298,12 @@
     <comment>The version of virtual machine.</comment>
   </data>
   <data name="ChoiceComPort1Item.Content" xml:space="preserve">
-    <value>ComPort1</value>
-    <comment>ComPort1</comment>
+    <value>COM1</value>
+    <comment>COM1</comment>
   </data>
   <data name="ChoiceComPort2Item.Content" xml:space="preserve">
-    <value>ComPort2</value>
-    <comment>ComPort2</comment>
+    <value>COM2</value>
+    <comment>COM2</comment>
   </data>
   <data name="ChoiceDefaultItem.Content" xml:space="preserve">
     <value>Default</value>
@@ -322,88 +322,88 @@
     <comment>Disabled</comment>
   </data>
   <data name="ChoiceListItem.Content" xml:space="preserve">
-    <value>List</value>
-    <comment>List</comment>
+    <value>Selected GPUs</value>
+    <comment>Selected GPUs</comment>
   </data>
   <data name="ChoiceMirrorItem.Content" xml:space="preserve">
-    <value>Mirror</value>
-    <comment>Mirror</comment>
+    <value>Mirror All GPUs</value>
+    <comment>Mirror All GPUs</comment>
   </data>
   <data name="ChoicePhysicalDevice" xml:space="preserve">
-    <value>PhysicalDevice</value>
-    <comment>PhysicalDevice</comment>
+    <value>Physical Device</value>
+    <comment>Physical Device</comment>
   </data>
   <data name="ChoiceVirtualDisk" xml:space="preserve">
-    <value>VirtualDisk</value>
-    <comment>VirtualDisk</comment>
+    <value>Virtual Hard Disk</value>
+    <comment>Virtual Hard Disk</comment>
   </data>
   <data name="ChoiceVirtualImage" xml:space="preserve">
-    <value>VirtualImage</value>
-    <comment>VirtualImage</comment>
+    <value>ISO Image</value>
+    <comment>ISO Image</comment>
   </data>
   <data name="ComPort1Label.Text" xml:space="preserve">
-    <value>ComPort1</value>
-    <comment>ComPort1</comment>
+    <value>COM1 Named Pipe</value>
+    <comment>COM1 Named Pipe</comment>
   </data>
   <data name="ComPort1TextBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>(Optional) The named pipe path of guest COM1 of virtual machine.</value>
     <comment>(Optional) The named pipe path of guest COM1 of virtual machine.</comment>
   </data>
   <data name="ComPort1TextBox.AutomationProperties.Name" xml:space="preserve">
-    <value>ComPort1</value>
-    <comment>ComPort1</comment>
+    <value>COM1 Named Pipe</value>
+    <comment>COM1 Named Pipe</comment>
   </data>
   <data name="ComPort1TextBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>(Optional) The named pipe path of guest COM1 of virtual machine.</value>
     <comment>(Optional) The named pipe path of guest COM1 of virtual machine.</comment>
   </data>
   <data name="ComPort2Label.Text" xml:space="preserve">
-    <value>ComPort2</value>
-    <comment>ComPort2</comment>
+    <value>COM2 Named Pipe</value>
+    <comment>COM2 Named Pipe</comment>
   </data>
   <data name="ComPort2TextBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>(Optional) The named pipe path of guest COM2 of virtual machine.</value>
     <comment>(Optional) The named pipe path of guest COM2 of virtual machine.</comment>
   </data>
   <data name="ComPort2TextBox.AutomationProperties.Name" xml:space="preserve">
-    <value>ComPort2</value>
-    <comment>ComPort2</comment>
+    <value>COM2 Named Pipe</value>
+    <comment>COM2 Named Pipe</comment>
   </data>
   <data name="ComPort2TextBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>(Optional) The named pipe path of guest COM2 of virtual machine.</value>
     <comment>(Optional) The named pipe path of guest COM2 of virtual machine.</comment>
   </data>
   <data name="ComPortsTitle.Text" xml:space="preserve">
-    <value>ComPorts</value>
-    <comment>ComPorts</comment>
+    <value>Serial Ports</value>
+    <comment>Serial Ports</comment>
   </data>
   <data name="CtrlAltDelHotkeyLabel.Text" xml:space="preserve">
-    <value>CtrlAltDelHotkey</value>
-    <comment>CtrlAltDelHotkey</comment>
+    <value>Ctrl+Alt+Delete Hotkey</value>
+    <comment>Ctrl+Alt+Delete Hotkey</comment>
   </data>
   <data name="CtrlAltDelHotkeyTextBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>(Optional) Specifies the virtual-key code to add to CTRL+ALT to determine the hotkey replacement for CTRL+ALT+DELETE, also called the secure attention sequence (SAS).</value>
     <comment>(Optional) Specifies the virtual-key code to add to CTRL+ALT to determine the hotkey replacement for CTRL+ALT+DELETE, also called the secure attention sequence (SAS).</comment>
   </data>
   <data name="CtrlAltDelHotkeyTextBox.AutomationProperties.Name" xml:space="preserve">
-    <value>CtrlAltDelHotkey</value>
-    <comment>CtrlAltDelHotkey</comment>
+    <value>Ctrl+Alt+Delete Hotkey</value>
+    <comment>Ctrl+Alt+Delete Hotkey</comment>
   </data>
   <data name="CtrlAltDelHotkeyTextBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>(Optional) Specifies the virtual-key code to add to CTRL+ALT to determine the hotkey replacement for CTRL+ALT+DELETE, also called the secure attention sequence (SAS).</value>
     <comment>(Optional) Specifies the virtual-key code to add to CTRL+ALT to determine the hotkey replacement for CTRL+ALT+DELETE, also called the secure attention sequence (SAS).</comment>
   </data>
   <data name="CtrlEscHotkeyLabel.Text" xml:space="preserve">
-    <value>CtrlEscHotkey</value>
-    <comment>CtrlEscHotkey</comment>
+    <value>Ctrl+Esc Hotkey</value>
+    <comment>Ctrl+Esc Hotkey</comment>
   </data>
   <data name="CtrlEscHotkeyTextBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>(Optional) Specifies the virtual-key code to add to ALT to determine the hotkey replacement for CTRL+ESC.</value>
     <comment>(Optional) Specifies the virtual-key code to add to ALT to determine the hotkey replacement for CTRL+ESC.</comment>
   </data>
   <data name="CtrlEscHotkeyTextBox.AutomationProperties.Name" xml:space="preserve">
-    <value>CtrlEscHotkey</value>
-    <comment>CtrlEscHotkey</comment>
+    <value>Ctrl+Esc Hotkey</value>
+    <comment>Ctrl+Esc Hotkey</comment>
   </data>
   <data name="CtrlEscHotkeyTextBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>(Optional) Specifies the virtual-key code to add to ALT to determine the hotkey replacement for CTRL+ESC.</value>
@@ -422,16 +422,16 @@
     <comment>(Optional) Disable the DPI scaling for the Basic Session Mode of virtual machine if set it true.</comment>
   </data>
   <data name="DisableDpiScalingCheckBox.AutomationProperties.Name" xml:space="preserve">
-    <value>DisableBasicSessionDpiScaling</value>
-    <comment>DisableBasicSessionDpiScaling</comment>
+    <value>Disable Basic Session DPI Scaling</value>
+    <comment>Disable Basic Session DPI Scaling</comment>
   </data>
   <data name="DisableDpiScalingCheckBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>(Optional) Disable the DPI scaling for the Basic Session Mode of virtual machine if set it true.</value>
     <comment>(Optional) Disable the DPI scaling for the Basic Session Mode of virtual machine if set it true.</comment>
   </data>
   <data name="DisableDpiScalingLabel.Text" xml:space="preserve">
-    <value>DisableBasicSessionDpiScaling</value>
-    <comment>DisableBasicSessionDpiScaling</comment>
+    <value>Disable Basic Session DPI Scaling</value>
+    <comment>Disable Basic Session DPI Scaling</comment>
   </data>
   <data name="DriveDescription.Text" xml:space="preserve">
     <value>(Optional) The string array of selected disk drives used for redirection from the host to the virtual machine.</value>
@@ -446,20 +446,20 @@
     <comment>(Optional) Set it true if you want to enable readonly Plan 9 and Virtual SMB shares for several GPU-PV (paravirtualization) related folders from the Host OS.</comment>
   </data>
   <data name="EnableHostDriverStoreCheckBox.AutomationProperties.Name" xml:space="preserve">
-    <value>EnableHostDriverStore</value>
-    <comment>EnableHostDriverStore</comment>
+    <value>Share Host Driver Store</value>
+    <comment>Share Host Driver Store</comment>
   </data>
   <data name="EnableHostDriverStoreCheckBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>(Optional) Set it true if you want to enable readonly Plan 9 and Virtual SMB shares for several GPU-PV (paravirtualization) related folders from the Host OS.</value>
     <comment>(Optional) Set it true if you want to enable readonly Plan 9 and Virtual SMB shares for several GPU-PV (paravirtualization) related folders from the Host OS.</comment>
   </data>
   <data name="EnableHostDriverStoreLabel.Text" xml:space="preserve">
-    <value>EnableHostDriverStore</value>
-    <comment>EnableHostDriverStore</comment>
+    <value>Share Host Driver Store</value>
+    <comment>Share Host Driver Store</comment>
   </data>
   <data name="EnhancedSessionTitle.Text" xml:space="preserve">
-    <value>EnhancedSession</value>
-    <comment>EnhancedSession</comment>
+    <value>Enhanced Session</value>
+    <comment>Enhanced Session</comment>
   </data>
   <data name="EnumerationFailed" xml:space="preserve">
     <value>Unable to refresh the redirection list.</value>
@@ -482,48 +482,48 @@
     <comment>The family of virtual machine.</comment>
   </data>
   <data name="FocusReleaseLeftHotkeyLabel.Text" xml:space="preserve">
-    <value>FocusReleaseLeftHotkey</value>
-    <comment>FocusReleaseLeftHotkey</comment>
+    <value>Focus Release Hotkey (Left)</value>
+    <comment>Focus Release Hotkey (Left)</comment>
   </data>
   <data name="FocusReleaseLeftHotkeyTextBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>(Optional) Specifies the virtual-key code to add to Ctrl+Alt to determine the hotkey replacement for Ctrl+Alt+Left Arrow.</value>
     <comment>(Optional) Specifies the virtual-key code to add to Ctrl+Alt to determine the hotkey replacement for Ctrl+Alt+Left Arrow.</comment>
   </data>
   <data name="FocusReleaseLeftHotkeyTextBox.AutomationProperties.Name" xml:space="preserve">
-    <value>FocusReleaseLeftHotkey</value>
-    <comment>FocusReleaseLeftHotkey</comment>
+    <value>Focus Release Hotkey (Left)</value>
+    <comment>Focus Release Hotkey (Left)</comment>
   </data>
   <data name="FocusReleaseLeftHotkeyTextBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>(Optional) Specifies the virtual-key code to add to Ctrl+Alt to determine the hotkey replacement for Ctrl+Alt+Left Arrow.</value>
     <comment>(Optional) Specifies the virtual-key code to add to Ctrl+Alt to determine the hotkey replacement for Ctrl+Alt+Left Arrow.</comment>
   </data>
   <data name="FocusReleaseRightHotkeyLabel.Text" xml:space="preserve">
-    <value>FocusReleaseRightHotkey</value>
-    <comment>FocusReleaseRightHotkey</comment>
+    <value>Focus Release Hotkey (Right)</value>
+    <comment>Focus Release Hotkey (Right)</comment>
   </data>
   <data name="FocusReleaseRightHotkeyTextBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>(Optional) Specifies the virtual-key code to add to Ctrl+Alt to determine the hotkey replacement for Ctrl+Alt+Right Arrow.</value>
     <comment>(Optional) Specifies the virtual-key code to add to Ctrl+Alt to determine the hotkey replacement for Ctrl+Alt+Right Arrow.</comment>
   </data>
   <data name="FocusReleaseRightHotkeyTextBox.AutomationProperties.Name" xml:space="preserve">
-    <value>FocusReleaseRightHotkey</value>
-    <comment>FocusReleaseRightHotkey</comment>
+    <value>Focus Release Hotkey (Right)</value>
+    <comment>Focus Release Hotkey (Right)</comment>
   </data>
   <data name="FocusReleaseRightHotkeyTextBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>(Optional) Specifies the virtual-key code to add to Ctrl+Alt to determine the hotkey replacement for Ctrl+Alt+Right Arrow.</value>
     <comment>(Optional) Specifies the virtual-key code to add to Ctrl+Alt to determine the hotkey replacement for Ctrl+Alt+Right Arrow.</comment>
   </data>
   <data name="FullScreenHotkeyLabel.Text" xml:space="preserve">
-    <value>FullScreenHotkey</value>
-    <comment>FullScreenHotkey</comment>
+    <value>Full Screen Hotkey</value>
+    <comment>Full Screen Hotkey</comment>
   </data>
   <data name="FullScreenHotkeyTextBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>(Optional) Specifies the virtual-key code to add to CTRL+ALT to determine the hotkey replacement for switching to full-screen mode.</value>
     <comment>(Optional) Specifies the virtual-key code to add to CTRL+ALT to determine the hotkey replacement for switching to full-screen mode.</comment>
   </data>
   <data name="FullScreenHotkeyTextBox.AutomationProperties.Name" xml:space="preserve">
-    <value>FullScreenHotkey</value>
-    <comment>FullScreenHotkey</comment>
+    <value>Full Screen Hotkey</value>
+    <comment>Full Screen Hotkey</comment>
   </data>
   <data name="FullScreenHotkeyTextBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>(Optional) Specifies the virtual-key code to add to CTRL+ALT to determine the hotkey replacement for switching to full-screen mode.</value>
@@ -542,52 +542,52 @@
     <comment>The device interface path of the selected GPU used for paravirtualization of virtual machine.</comment>
   </data>
   <data name="GpuDeviceDeviceInterfaceLabel" xml:space="preserve">
-    <value>DeviceInterface</value>
-    <comment>DeviceInterface</comment>
+    <value>Device Interface Path</value>
+    <comment>Device Interface Path</comment>
   </data>
   <data name="GpuDevicePartitionIdHelp" xml:space="preserve">
     <value>The partition ID of the selected GPU used for paravirtualization of virtual machine. It's actually an uint16 value. Set it 65535 for using GPU-PV  (paravirtualization) mode.</value>
     <comment>The partition ID of the selected GPU used for paravirtualization of virtual machine. It's actually an uint16 value. Set it 65535 for using GPU-PV  (paravirtualization) mode.</comment>
   </data>
   <data name="GpuDevicePartitionIdLabel" xml:space="preserve">
-    <value>PartitionId</value>
-    <comment>PartitionId</comment>
+    <value>Partition ID</value>
+    <comment>Partition ID</comment>
   </data>
   <data name="GpuDeviceTitle.Text" xml:space="preserve">
-    <value>SelectedDevices</value>
-    <comment>SelectedDevices</comment>
+    <value>Selected GPUs</value>
+    <comment>Selected GPUs</comment>
   </data>
   <data name="GpuTitle.Text" xml:space="preserve">
-    <value>Gpu</value>
-    <comment>Gpu</comment>
+    <value>GPU</value>
+    <comment>GPU</comment>
   </data>
   <data name="GuestStateFileLabel.Text" xml:space="preserve">
-    <value>GuestStateFile</value>
-    <comment>GuestStateFile</comment>
+    <value>Guest State File</value>
+    <comment>Guest State File</comment>
   </data>
   <data name="GuestStateFileTextBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>(Optional) The path of guest state file for virtual machine.</value>
     <comment>(Optional) The path of guest state file for virtual machine.</comment>
   </data>
   <data name="GuestStateFileTextBox.AutomationProperties.Name" xml:space="preserve">
-    <value>GuestStateFile</value>
-    <comment>GuestStateFile</comment>
+    <value>Guest State File</value>
+    <comment>Guest State File</comment>
   </data>
   <data name="GuestStateFileTextBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>(Optional) The path of guest state file for virtual machine.</value>
     <comment>(Optional) The path of guest state file for virtual machine.</comment>
   </data>
   <data name="HorizontalResolutionLabel.Text" xml:space="preserve">
-    <value>HorizontalResolution</value>
-    <comment>HorizontalResolution</comment>
+    <value>Horizontal Resolution</value>
+    <comment>Horizontal Resolution</comment>
   </data>
   <data name="HorizontalResolutionTextBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>(Optional) The horizontal resolution of the video monitor of virtual machine.</value>
     <comment>(Optional) The horizontal resolution of the video monitor of virtual machine.</comment>
   </data>
   <data name="HorizontalResolutionTextBox.AutomationProperties.Name" xml:space="preserve">
-    <value>HorizontalResolution</value>
-    <comment>HorizontalResolution</comment>
+    <value>Horizontal Resolution</value>
+    <comment>Horizontal Resolution</comment>
   </data>
   <data name="HorizontalResolutionTextBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>(Optional) The horizontal resolution of the video monitor of virtual machine.</value>
@@ -622,16 +622,16 @@
     <comment>The manufacturer of virtual machine.</comment>
   </data>
   <data name="MemorySizeLabel.Text" xml:space="preserve">
-    <value>MemorySize (MB)</value>
-    <comment>MemorySize (MB)</comment>
+    <value>Memory Size (MB)</value>
+    <comment>Memory Size (MB)</comment>
   </data>
   <data name="MemorySizeTextBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>The memory size of virtual machine, in MB.</value>
     <comment>The memory size of virtual machine, in MB.</comment>
   </data>
   <data name="MemorySizeTextBox.AutomationProperties.Name" xml:space="preserve">
-    <value>MemorySize (MB)</value>
-    <comment>MemorySize (MB)</comment>
+    <value>Memory Size (MB)</value>
+    <comment>Memory Size (MB)</comment>
   </data>
   <data name="MemorySizeTextBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>The memory size of virtual machine, in MB.</value>
@@ -674,36 +674,36 @@
     <comment>(Optional) The MAC address of the current network adapter.</comment>
   </data>
   <data name="NetworkAdapterMacAddressLabel" xml:space="preserve">
-    <value>MacAddress</value>
-    <comment>MacAddress</comment>
+    <value>MAC Address</value>
+    <comment>MAC Address</comment>
   </data>
   <data name="NetworkAdapterSuggestedSwitchIdHelp" xml:space="preserve">
     <value>(Optional) The switch GUID suggested for the current network adapter.</value>
     <comment>(Optional) The switch GUID suggested for the current network adapter.</comment>
   </data>
   <data name="NetworkAdapterSuggestedSwitchIdLabel" xml:space="preserve">
-    <value>SuggestedSwitchId</value>
-    <comment>SuggestedSwitchId</comment>
+    <value>Suggested Switch ID</value>
+    <comment>Suggested Switch ID</comment>
   </data>
   <data name="NetworkAdapterSuggestedSwitchNameHelp" xml:space="preserve">
     <value>(Optional) The switch name suggested for the current network adapter.</value>
     <comment>(Optional) The switch name suggested for the current network adapter.</comment>
   </data>
   <data name="NetworkAdapterSuggestedSwitchNameLabel" xml:space="preserve">
-    <value>SuggestedSwitchName</value>
-    <comment>SuggestedSwitchName</comment>
+    <value>Suggested Switch Name</value>
+    <comment>Suggested Switch Name</comment>
   </data>
   <data name="NetworkAdapterSuggestedSwitchSubnetHelp" xml:space="preserve">
     <value>(Optional) The switch subnet suggested for the current network adapter.</value>
     <comment>(Optional) The switch subnet suggested for the current network adapter.</comment>
   </data>
   <data name="NetworkAdapterSuggestedSwitchSubnetLabel" xml:space="preserve">
-    <value>SuggestedSwitchSubnet</value>
-    <comment>SuggestedSwitchSubnet</comment>
+    <value>Suggested Switch Subnet</value>
+    <comment>Suggested Switch Subnet</comment>
   </data>
   <data name="NetworkAdapterTitle.Text" xml:space="preserve">
-    <value>NetworkAdapters</value>
-    <comment>NetworkAdapters</comment>
+    <value>Network Adapters</value>
+    <comment>Network Adapters</comment>
   </data>
   <data name="NetworkNote.Text" xml:space="preserve">
     <value>Note: Default behavior is use the default switch.</value>
@@ -750,12 +750,12 @@
     <comment>(Optional) Set it true if you want to make the current Plan 9 share read-only.</comment>
   </data>
   <data name="Plan9ShareReadOnlyLabel" xml:space="preserve">
-    <value>ReadOnly</value>
-    <comment>ReadOnly</comment>
+    <value>Read-Only</value>
+    <comment>Read-Only</comment>
   </data>
   <data name="Plan9ShareTitle.Text" xml:space="preserve">
-    <value>Plan9Shares</value>
-    <comment>Plan9Shares</comment>
+    <value>Plan 9 Shares</value>
+    <comment>Plan 9 Shares</comment>
   </data>
   <data name="PoliciesLabel.Text" xml:space="preserve">
     <value>Policies</value>
@@ -812,32 +812,32 @@ UseExtendedMaxVpPerSocketLimit</comment>
     <comment>Enter one policy per line.</comment>
   </data>
   <data name="ProcessorCountLabel.Text" xml:space="preserve">
-    <value>ProcessorCount</value>
-    <comment>ProcessorCount</comment>
+    <value>Processor Count</value>
+    <comment>Processor Count</comment>
   </data>
   <data name="ProcessorCountTextBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>The processor count of virtual machine, in cores.</value>
     <comment>The processor count of virtual machine, in cores.</comment>
   </data>
   <data name="ProcessorCountTextBox.AutomationProperties.Name" xml:space="preserve">
-    <value>ProcessorCount</value>
-    <comment>ProcessorCount</comment>
+    <value>Processor Count</value>
+    <comment>Processor Count</comment>
   </data>
   <data name="ProcessorCountTextBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>The processor count of virtual machine, in cores.</value>
     <comment>The processor count of virtual machine, in cores.</comment>
   </data>
   <data name="ProductNameLabel.Text" xml:space="preserve">
-    <value>ProductName</value>
-    <comment>ProductName</comment>
+    <value>Product Name</value>
+    <comment>Product Name</comment>
   </data>
   <data name="ProductNameTextBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>The product name of virtual machine.</value>
     <comment>The product name of virtual machine.</comment>
   </data>
   <data name="ProductNameTextBox.AutomationProperties.Name" xml:space="preserve">
-    <value>ProductName</value>
-    <comment>ProductName</comment>
+    <value>Product Name</value>
+    <comment>Product Name</comment>
   </data>
   <data name="ProductNameTextBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>The product name of virtual machine.</value>
@@ -848,192 +848,192 @@ UseExtendedMaxVpPerSocketLimit</comment>
     <comment>(Optional) Redirect audio capture from the host to the virtual machine if set it true.</comment>
   </data>
   <data name="RedirectAudioCaptureCheckBox.AutomationProperties.Name" xml:space="preserve">
-    <value>RedirectAudioCapture</value>
-    <comment>RedirectAudioCapture</comment>
+    <value>Redirect Audio Capture</value>
+    <comment>Redirect Audio Capture</comment>
   </data>
   <data name="RedirectAudioCaptureCheckBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>(Optional) Redirect audio capture from the host to the virtual machine if set it true.</value>
     <comment>(Optional) Redirect audio capture from the host to the virtual machine if set it true.</comment>
   </data>
   <data name="RedirectAudioCaptureLabel.Text" xml:space="preserve">
-    <value>RedirectAudioCapture</value>
-    <comment>RedirectAudioCapture</comment>
+    <value>Redirect Audio Capture</value>
+    <comment>Redirect Audio Capture</comment>
   </data>
   <data name="RedirectAudioCheckBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>(Optional) Redirect sounds from the virtual machine to the host if set it true.</value>
     <comment>(Optional) Redirect sounds from the virtual machine to the host if set it true.</comment>
   </data>
   <data name="RedirectAudioCheckBox.AutomationProperties.Name" xml:space="preserve">
-    <value>RedirectAudio</value>
-    <comment>RedirectAudio</comment>
+    <value>Redirect Audio</value>
+    <comment>Redirect Audio</comment>
   </data>
   <data name="RedirectAudioCheckBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>(Optional) Redirect sounds from the virtual machine to the host if set it true.</value>
     <comment>(Optional) Redirect sounds from the virtual machine to the host if set it true.</comment>
   </data>
   <data name="RedirectAudioLabel.Text" xml:space="preserve">
-    <value>RedirectAudio</value>
-    <comment>RedirectAudio</comment>
+    <value>Redirect Audio</value>
+    <comment>Redirect Audio</comment>
   </data>
   <data name="RedirectClipboardCheckBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>(Optional) Redirect clipboard from the host to the virtual machine if set it true.</value>
     <comment>(Optional) Redirect clipboard from the host to the virtual machine if set it true.</comment>
   </data>
   <data name="RedirectClipboardCheckBox.AutomationProperties.Name" xml:space="preserve">
-    <value>RedirectClipboard</value>
-    <comment>RedirectClipboard</comment>
+    <value>Redirect Clipboard</value>
+    <comment>Redirect Clipboard</comment>
   </data>
   <data name="RedirectClipboardCheckBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>(Optional) Redirect clipboard from the host to the virtual machine if set it true.</value>
     <comment>(Optional) Redirect clipboard from the host to the virtual machine if set it true.</comment>
   </data>
   <data name="RedirectClipboardLabel.Text" xml:space="preserve">
-    <value>RedirectClipboard</value>
-    <comment>RedirectClipboard</comment>
+    <value>Redirect Clipboard</value>
+    <comment>Redirect Clipboard</comment>
   </data>
   <data name="RedirectDevicesCheckBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>(Optional) Redirect all devices from the host to the virtual machine if set it true.</value>
     <comment>(Optional) Redirect all devices from the host to the virtual machine if set it true.</comment>
   </data>
   <data name="RedirectDevicesCheckBox.AutomationProperties.Name" xml:space="preserve">
-    <value>RedirectDevices</value>
-    <comment>RedirectDevices</comment>
+    <value>Redirect All Devices</value>
+    <comment>Redirect All Devices</comment>
   </data>
   <data name="RedirectDevicesCheckBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>(Optional) Redirect all devices from the host to the virtual machine if set it true.</value>
     <comment>(Optional) Redirect all devices from the host to the virtual machine if set it true.</comment>
   </data>
   <data name="RedirectDevicesLabel.Text" xml:space="preserve">
-    <value>RedirectDevices</value>
-    <comment>RedirectDevices</comment>
+    <value>Redirect All Devices</value>
+    <comment>Redirect All Devices</comment>
   </data>
   <data name="RedirectDrivesCheckBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>(Optional) Redirect all disk drives from the host to the virtual machine if set it true.</value>
     <comment>(Optional) Redirect all disk drives from the host to the virtual machine if set it true.</comment>
   </data>
   <data name="RedirectDrivesCheckBox.AutomationProperties.Name" xml:space="preserve">
-    <value>RedirectDrives</value>
-    <comment>RedirectDrives</comment>
+    <value>Redirect All Drives</value>
+    <comment>Redirect All Drives</comment>
   </data>
   <data name="RedirectDrivesCheckBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>(Optional) Redirect all disk drives from the host to the virtual machine if set it true.</value>
     <comment>(Optional) Redirect all disk drives from the host to the virtual machine if set it true.</comment>
   </data>
   <data name="RedirectDrivesLabel.Text" xml:space="preserve">
-    <value>RedirectDrives</value>
-    <comment>RedirectDrives</comment>
+    <value>Redirect All Drives</value>
+    <comment>Redirect All Drives</comment>
   </data>
   <data name="RedirectDynamicDevicesCheckBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>(Optional) Redirect all dynamically attached Plug and Play (PnP) devices that are enumerated while virtual machine running if set it true.</value>
     <comment>(Optional) Redirect all dynamically attached Plug and Play (PnP) devices that are enumerated while virtual machine running if set it true.</comment>
   </data>
   <data name="RedirectDynamicDevicesCheckBox.AutomationProperties.Name" xml:space="preserve">
-    <value>RedirectDynamicDevices</value>
-    <comment>RedirectDynamicDevices</comment>
+    <value>Redirect Newly Connected Devices</value>
+    <comment>Redirect Newly Connected Devices</comment>
   </data>
   <data name="RedirectDynamicDevicesCheckBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>(Optional) Redirect all dynamically attached Plug and Play (PnP) devices that are enumerated while virtual machine running if set it true.</value>
     <comment>(Optional) Redirect all dynamically attached Plug and Play (PnP) devices that are enumerated while virtual machine running if set it true.</comment>
   </data>
   <data name="RedirectDynamicDevicesLabel.Text" xml:space="preserve">
-    <value>RedirectDynamicDevices</value>
-    <comment>RedirectDynamicDevices</comment>
+    <value>Redirect Newly Connected Devices</value>
+    <comment>Redirect Newly Connected Devices</comment>
   </data>
   <data name="RedirectDynamicDrivesCheckBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>(Optional) Redirect all dynamically attached Plug and Play (PnP) drives that are enumerated while virtual machine running if set it true.</value>
     <comment>(Optional) Redirect all dynamically attached Plug and Play (PnP) drives that are enumerated while virtual machine running if set it true.</comment>
   </data>
   <data name="RedirectDynamicDrivesCheckBox.AutomationProperties.Name" xml:space="preserve">
-    <value>RedirectDynamicDrives</value>
-    <comment>RedirectDynamicDrives</comment>
+    <value>Redirect Newly Connected Drives</value>
+    <comment>Redirect Newly Connected Drives</comment>
   </data>
   <data name="RedirectDynamicDrivesCheckBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>(Optional) Redirect all dynamically attached Plug and Play (PnP) drives that are enumerated while virtual machine running if set it true.</value>
     <comment>(Optional) Redirect all dynamically attached Plug and Play (PnP) drives that are enumerated while virtual machine running if set it true.</comment>
   </data>
   <data name="RedirectDynamicDrivesLabel.Text" xml:space="preserve">
-    <value>RedirectDynamicDrives</value>
-    <comment>RedirectDynamicDrives</comment>
+    <value>Redirect Newly Connected Drives</value>
+    <comment>Redirect Newly Connected Drives</comment>
   </data>
   <data name="RedirectKeyCombinationsCheckBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>(Optional) Apply key combinations at the virtual machine if set it true, or apply key combinations to the virtual machine only when the host is running in full-screen mode.</value>
     <comment>(Optional) Apply key combinations at the virtual machine if set it true, or apply key combinations to the virtual machine only when the host is running in full-screen mode.</comment>
   </data>
   <data name="RedirectKeyCombinationsCheckBox.AutomationProperties.Name" xml:space="preserve">
-    <value>RedirectKeyCombinations</value>
-    <comment>RedirectKeyCombinations</comment>
+    <value>Redirect Key Combinations</value>
+    <comment>Redirect Key Combinations</comment>
   </data>
   <data name="RedirectKeyCombinationsCheckBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>(Optional) Apply key combinations at the virtual machine if set it true, or apply key combinations to the virtual machine only when the host is running in full-screen mode.</value>
     <comment>(Optional) Apply key combinations at the virtual machine if set it true, or apply key combinations to the virtual machine only when the host is running in full-screen mode.</comment>
   </data>
   <data name="RedirectKeyCombinationsLabel.Text" xml:space="preserve">
-    <value>RedirectKeyCombinations</value>
-    <comment>RedirectKeyCombinations</comment>
+    <value>Redirect Key Combinations</value>
+    <comment>Redirect Key Combinations</comment>
   </data>
   <data name="RedirectPortsCheckBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>(Optional) Redirect all local ports (for example, COM and LPT) from the host to the virtual machine if set it true.</value>
     <comment>(Optional) Redirect all local ports (for example, COM and LPT) from the host to the virtual machine if set it true.</comment>
   </data>
   <data name="RedirectPortsCheckBox.AutomationProperties.Name" xml:space="preserve">
-    <value>RedirectPorts</value>
-    <comment>RedirectPorts</comment>
+    <value>Redirect Ports</value>
+    <comment>Redirect Ports</comment>
   </data>
   <data name="RedirectPortsCheckBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>(Optional) Redirect all local ports (for example, COM and LPT) from the host to the virtual machine if set it true.</value>
     <comment>(Optional) Redirect all local ports (for example, COM and LPT) from the host to the virtual machine if set it true.</comment>
   </data>
   <data name="RedirectPortsLabel.Text" xml:space="preserve">
-    <value>RedirectPorts</value>
-    <comment>RedirectPorts</comment>
+    <value>Redirect Ports</value>
+    <comment>Redirect Ports</comment>
   </data>
   <data name="RedirectPOSDevicesCheckBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>(Optional) Redirect all Point of Service devices from the host to the virtual machine if set it true.</value>
     <comment>(Optional) Redirect all Point of Service devices from the host to the virtual machine if set it true.</comment>
   </data>
   <data name="RedirectPOSDevicesCheckBox.AutomationProperties.Name" xml:space="preserve">
-    <value>RedirectPOSDevices</value>
-    <comment>RedirectPOSDevices</comment>
+    <value>Redirect POS Devices</value>
+    <comment>Redirect POS Devices</comment>
   </data>
   <data name="RedirectPOSDevicesCheckBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>(Optional) Redirect all Point of Service devices from the host to the virtual machine if set it true.</value>
     <comment>(Optional) Redirect all Point of Service devices from the host to the virtual machine if set it true.</comment>
   </data>
   <data name="RedirectPOSDevicesLabel.Text" xml:space="preserve">
-    <value>RedirectPOSDevices</value>
-    <comment>RedirectPOSDevices</comment>
+    <value>Redirect POS Devices</value>
+    <comment>Redirect POS Devices</comment>
   </data>
   <data name="RedirectPrintersCheckBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>(Optional) Redirect all printers from the host to the virtual machine if set it true.</value>
     <comment>(Optional) Redirect all printers from the host to the virtual machine if set it true.</comment>
   </data>
   <data name="RedirectPrintersCheckBox.AutomationProperties.Name" xml:space="preserve">
-    <value>RedirectPrinters</value>
-    <comment>RedirectPrinters</comment>
+    <value>Redirect Printers</value>
+    <comment>Redirect Printers</comment>
   </data>
   <data name="RedirectPrintersCheckBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>(Optional) Redirect all printers from the host to the virtual machine if set it true.</value>
     <comment>(Optional) Redirect all printers from the host to the virtual machine if set it true.</comment>
   </data>
   <data name="RedirectPrintersLabel.Text" xml:space="preserve">
-    <value>RedirectPrinters</value>
-    <comment>RedirectPrinters</comment>
+    <value>Redirect Printers</value>
+    <comment>Redirect Printers</comment>
   </data>
   <data name="RedirectSmartCardsCheckBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>(Optional) Redirect all smart cards from the host to the virtual machine if set it true.</value>
     <comment>(Optional) Redirect all smart cards from the host to the virtual machine if set it true.</comment>
   </data>
   <data name="RedirectSmartCardsCheckBox.AutomationProperties.Name" xml:space="preserve">
-    <value>RedirectSmartCards</value>
-    <comment>RedirectSmartCards</comment>
+    <value>Redirect Smart Cards</value>
+    <comment>Redirect Smart Cards</comment>
   </data>
   <data name="RedirectSmartCardsCheckBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>(Optional) Redirect all smart cards from the host to the virtual machine if set it true.</value>
     <comment>(Optional) Redirect all smart cards from the host to the virtual machine if set it true.</comment>
   </data>
   <data name="RedirectSmartCardsLabel.Text" xml:space="preserve">
-    <value>RedirectSmartCards</value>
-    <comment>RedirectSmartCards</comment>
+    <value>Redirect Smart Cards</value>
+    <comment>Redirect Smart Cards</comment>
   </data>
   <data name="ReferenceButton.AutomationProperties.Name" xml:space="preserve">
     <value>Configuration File Reference Documentation</value>
@@ -1080,16 +1080,16 @@ UseExtendedMaxVpPerSocketLimit</comment>
     <comment>Only settings that can be changed at runtime are shown.</comment>
   </data>
   <data name="RuntimeStateFileLabel.Text" xml:space="preserve">
-    <value>RuntimeStateFile</value>
-    <comment>RuntimeStateFile</comment>
+    <value>Runtime State File</value>
+    <comment>Runtime State File</comment>
   </data>
   <data name="RuntimeStateFileTextBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>(Optional) The path of runtime state file for virtual machine.</value>
     <comment>(Optional) The path of runtime state file for virtual machine.</comment>
   </data>
   <data name="RuntimeStateFileTextBox.AutomationProperties.Name" xml:space="preserve">
-    <value>RuntimeStateFile</value>
-    <comment>RuntimeStateFile</comment>
+    <value>Runtime State File</value>
+    <comment>Runtime State File</comment>
   </data>
   <data name="RuntimeStateFileTextBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>(Optional) The path of runtime state file for virtual machine.</value>
@@ -1108,8 +1108,8 @@ UseExtendedMaxVpPerSocketLimit</comment>
     <comment>Path</comment>
   </data>
   <data name="ScsiDeviceTitle.Text" xml:space="preserve">
-    <value>ScsiDevices</value>
-    <comment>ScsiDevices</comment>
+    <value>SCSI Devices</value>
+    <comment>SCSI Devices</comment>
   </data>
   <data name="ScsiDeviceTypeHelp" xml:space="preserve">
     <value>The type of the current SCSI device.</value>
@@ -1128,28 +1128,28 @@ UseExtendedMaxVpPerSocketLimit</comment>
     <comment>(Optional) The Secure Boot setting of virtual machine.</comment>
   </data>
   <data name="SecureBootCheckBox.AutomationProperties.Name" xml:space="preserve">
-    <value>SecureBoot</value>
-    <comment>SecureBoot</comment>
+    <value>Secure Boot</value>
+    <comment>Secure Boot</comment>
   </data>
   <data name="SecureBootCheckBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>(Optional) The Secure Boot setting of virtual machine.</value>
     <comment>(Optional) The Secure Boot setting of virtual machine.</comment>
   </data>
   <data name="SecureBootLabel.Text" xml:space="preserve">
-    <value>SecureBoot</value>
-    <comment>SecureBoot</comment>
+    <value>Secure Boot</value>
+    <comment>Secure Boot</comment>
   </data>
   <data name="SerialNumberLabel.Text" xml:space="preserve">
-    <value>SerialNumber</value>
-    <comment>SerialNumber</comment>
+    <value>Serial Number</value>
+    <comment>Serial Number</comment>
   </data>
   <data name="SerialNumberTextBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>The serial number of virtual machine.</value>
     <comment>The serial number of virtual machine.</comment>
   </data>
   <data name="SerialNumberTextBox.AutomationProperties.Name" xml:space="preserve">
-    <value>SerialNumber</value>
-    <comment>SerialNumber</comment>
+    <value>Serial Number</value>
+    <comment>Serial Number</comment>
   </data>
   <data name="SerialNumberTextBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>The serial number of virtual machine.</value>
@@ -1168,16 +1168,16 @@ UseExtendedMaxVpPerSocketLimit</comment>
     <comment>Note: You cannot suspend the virtual machine properly if this option is enabled.</comment>
   </data>
   <data name="SKUNumberLabel.Text" xml:space="preserve">
-    <value>SKUNumber</value>
-    <comment>SKUNumber</comment>
+    <value>SKU Number</value>
+    <comment>SKU Number</comment>
   </data>
   <data name="SKUNumberTextBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>The sku number of virtual machine.</value>
     <comment>The sku number of virtual machine.</comment>
   </data>
   <data name="SKUNumberTextBox.AutomationProperties.Name" xml:space="preserve">
-    <value>SKUNumber</value>
-    <comment>SKUNumber</comment>
+    <value>SKU Number</value>
+    <comment>SKU Number</comment>
   </data>
   <data name="SKUNumberTextBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>The sku number of virtual machine.</value>
@@ -1204,16 +1204,16 @@ UseExtendedMaxVpPerSocketLimit</comment>
     <comment>(Optional) The Trusted Platform Module (TPM) setting of virtual machine.</comment>
   </data>
   <data name="TpmCheckBox.AutomationProperties.Name" xml:space="preserve">
-    <value>Tpm</value>
-    <comment>Tpm</comment>
+    <value>Trusted Platform Module (TPM)</value>
+    <comment>Trusted Platform Module (TPM)</comment>
   </data>
   <data name="TpmCheckBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>(Optional) The Trusted Platform Module (TPM) setting of virtual machine.</value>
     <comment>(Optional) The Trusted Platform Module (TPM) setting of virtual machine.</comment>
   </data>
   <data name="TpmLabel.Text" xml:space="preserve">
-    <value>Tpm</value>
-    <comment>Tpm</comment>
+    <value>Trusted Platform Module (TPM)</value>
+    <comment>Trusted Platform Module (TPM)</comment>
   </data>
   <data name="TpmNote.Text" xml:space="preserve">
     <value>Note: You need Windows 11 Version 24H2 or later Host OS.</value>
@@ -1224,16 +1224,16 @@ UseExtendedMaxVpPerSocketLimit</comment>
     <comment>The UEFI serial console setting of virtual machine.</comment>
   </data>
   <data name="UefiConsoleComboBox.AutomationProperties.Name" xml:space="preserve">
-    <value>UefiConsole</value>
-    <comment>UefiConsole</comment>
+    <value>UEFI Serial Console</value>
+    <comment>UEFI Serial Console</comment>
   </data>
   <data name="UefiConsoleComboBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>The UEFI serial console setting of virtual machine.</value>
     <comment>The UEFI serial console setting of virtual machine.</comment>
   </data>
   <data name="UefiConsoleLabel.Text" xml:space="preserve">
-    <value>UefiConsole</value>
-    <comment>UefiConsole</comment>
+    <value>UEFI Serial Console</value>
+    <comment>UEFI Serial Console</comment>
   </data>
   <data name="Unavailable" xml:space="preserve">
     <value>%s (not currently available)</value>
@@ -1256,40 +1256,40 @@ UseExtendedMaxVpPerSocketLimit</comment>
     <comment>The universally unique identifier of virtual machine.</comment>
   </data>
   <data name="VerticalResolutionLabel.Text" xml:space="preserve">
-    <value>VerticalResolution</value>
-    <comment>VerticalResolution</comment>
+    <value>Vertical Resolution</value>
+    <comment>Vertical Resolution</comment>
   </data>
   <data name="VerticalResolutionTextBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>(Optional) The vertical resolution of the video monitor of virtual machine.</value>
     <comment>(Optional) The vertical resolution of the video monitor of virtual machine.</comment>
   </data>
   <data name="VerticalResolutionTextBox.AutomationProperties.Name" xml:space="preserve">
-    <value>VerticalResolution</value>
-    <comment>VerticalResolution</comment>
+    <value>Vertical Resolution</value>
+    <comment>Vertical Resolution</comment>
   </data>
   <data name="VerticalResolutionTextBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>(Optional) The vertical resolution of the video monitor of virtual machine.</value>
     <comment>(Optional) The vertical resolution of the video monitor of virtual machine.</comment>
   </data>
   <data name="VideoMonitorTitle.Text" xml:space="preserve">
-    <value>VideoMonitor</value>
-    <comment>VideoMonitor</comment>
+    <value>Display</value>
+    <comment>Display</comment>
   </data>
   <data name="VirtualizationExtensionsCheckBox.AutomationProperties.HelpText" xml:space="preserve">
     <value>(Optional) Expose the virtualization extensions to the virtual machine if set it true.</value>
     <comment>(Optional) Expose the virtualization extensions to the virtual machine if set it true.</comment>
   </data>
   <data name="VirtualizationExtensionsCheckBox.AutomationProperties.Name" xml:space="preserve">
-    <value>ExposeVirtualizationExtensions</value>
-    <comment>ExposeVirtualizationExtensions</comment>
+    <value>Expose Virtualization Extensions</value>
+    <comment>Expose Virtualization Extensions</comment>
   </data>
   <data name="VirtualizationExtensionsCheckBox.ToolTipService.ToolTip" xml:space="preserve">
     <value>(Optional) Expose the virtualization extensions to the virtual machine if set it true.</value>
     <comment>(Optional) Expose the virtualization extensions to the virtual machine if set it true.</comment>
   </data>
   <data name="VirtualizationExtensionsLabel.Text" xml:space="preserve">
-    <value>ExposeVirtualizationExtensions</value>
-    <comment>ExposeVirtualizationExtensions</comment>
+    <value>Expose Virtualization Extensions</value>
+    <comment>Expose Virtualization Extensions</comment>
   </data>
   <data name="VirtualSmbShareDescription.Text" xml:space="preserve">
     <value>The Virtual SMB shares setting object array of virtual machine.</value>
@@ -1316,12 +1316,12 @@ UseExtendedMaxVpPerSocketLimit</comment>
     <comment>(Optional) Set it true if you want to make the current Virtual SMB share read-only.</comment>
   </data>
   <data name="VirtualSmbShareReadOnlyLabel" xml:space="preserve">
-    <value>ReadOnly</value>
-    <comment>ReadOnly</comment>
+    <value>Read-Only</value>
+    <comment>Read-Only</comment>
   </data>
   <data name="VirtualSmbShareTitle.Text" xml:space="preserve">
-    <value>VirtualSmbShares</value>
-    <comment>VirtualSmbShares</comment>
+    <value>Virtual SMB Shares</value>
+    <comment>Virtual SMB Shares</comment>
   </data>
   <data name="ConfigurationFileTypeName" xml:space="preserve">
     <value>NanaBox Virtual Machine Configuration</value>
