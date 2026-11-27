@@ -1,5 +1,12 @@
 ﻿# NanaBox Release Notes
 
+**NanaBox 2.0 Update 1 (2.0.1701.0)**
+
+- Fix layout and GPU device selection issues in virtual machine settings window.
+  (Thanks to gpt-6.1-sol max @ pi agent.)
+- Improve English translations in virtual machine settings window. (Thanks to
+  gpt-6.1-sol max @ pi agent.)
+
 **NanaBox 2.0 (2.0.1700.0)**
 
 - Introduce the virtual machine settings user experience based on XAML for

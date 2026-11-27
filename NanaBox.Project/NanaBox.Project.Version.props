@@ -12,7 +12,7 @@
   <PropertyGroup>
     <NanaBoxMajorVersion>2</NanaBoxMajorVersion>
     <NanaBoxMinorVersion>0</NanaBoxMinorVersion>
-    <NanaBoxBuildNumberDate>2026-11-26</NanaBoxBuildNumberDate>
-    <!-- <NanaBoxVersionTag>Update 1</NanaBoxVersionTag> -->
+    <NanaBoxBuildNumberDate>2026-11-27</NanaBoxBuildNumberDate>
+    <NanaBoxVersionTag>Update 1</NanaBoxVersionTag>
   </PropertyGroup>
 </Project>
